@@ -1,0 +1,58 @@
+# Getting Started
+
+## Installation
+
+1. **Download** the latest `.dmg` from [GitHub Releases](https://github.com/gfazioli/netfox-website/releases/latest)
+2. **Open** the `.dmg` file
+3. **Drag** Netfox to your Applications folder
+4. **Launch** Netfox from Applications or Spotlight
+
+## First launch on macOS
+
+Netfox is signed with **Apple Developer ID** and **notarized by Apple**, so Gatekeeper accepts it on first open. Just double-click — no right-click trick, no System Settings detour.
+
+When you first launch any app downloaded from the internet, macOS shows a one-time confirmation dialog (*“Netfox” is an app downloaded from the Internet. Are you sure you want to open it?*). Click **Open** and you're done — every subsequent launch is silent.
+
+## First-launch tour
+
+When you open Netfox for the first time, the sidebar starts populating immediately:
+
+1. **This Mac** appears first, pinned at the top, with the current Wi-Fi/Ethernet badge.
+2. Within a few seconds, Bonjour services (HomePods, Apple TVs, AirPlay receivers, printers advertising mDNS) show up.
+3. ARP-only devices (anything that has talked on the LAN recently — your phone, NAS, IoT plugs) come in shortly after.
+4. The active-ping pass starts and gradually fills in IPv4 addresses for devices the system ARP cache holds but Bonjour didn't reach.
+
+On a typical home network you'll see most of the picture within 30 seconds.
+
+## Allowing notifications
+
+The first time Netfox detects a brand-new device, it tries to post a macOS notification banner. macOS will prompt you to grant notification permission — accept it once, and from then on every new-device alert pops up natively even when Netfox is in the background.
+
+If you ever miss the prompt, an in-app banner reappears with a one-click link to **System Settings → Notifications → Netfox** where you can flip the toggle. The bell in the toolbar still works without notifications enabled.
+
+## Interface
+
+Netfox has two main areas:
+
+### Sidebar (left)
+
+Lists every device Netfox currently knows about, sorted with This Mac first, then online devices alphabetically, then offline. The search box filters by hostname, IP, or MAC.
+
+The dot at the end of each row is green for online, gray for offline.
+
+### Detail panel (right)
+
+Shows the selected device:
+
+- **Identity** — MAC address, kind (computer, mobile, speaker, tablet, TV, printer, router, …), vendor
+- **Network** — IPv4, IPv6, connection type (for this Mac only — see the FAQ for why we can't tell for everyone else)
+- **Activity** — first seen, last seen, status
+- **Recent activity** — the last few transitions; click **View Full History…** for everything
+
+The **Probe** button in the top-right of the detail header sends an ICMP ping to the device's current IPv4 and refreshes its online state immediately, instead of waiting for the next discovery pass.
+
+## Tips
+
+- **⌘R** or the toolbar refresh button forces every discovery provider to emit immediately.
+- **⌘⇧A** opens **Alert History** — the persistent log of every new-device alert Netfox has ever raised.
+- The bell in the toolbar badges with the count of new alerts since you last opened the inbox. Tapping **Done** in the inbox clears the badge.

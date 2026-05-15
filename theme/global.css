@@ -1,0 +1,40 @@
+* {
+  --marquee-fade-edge-color: var(--mantine-color-gray-1);
+
+  @mixin dark {
+    --marquee-fade-edge-color: var(--mantine-color-dark-9);
+    --mantine-color-body: var(--mantine-color-dark-9);
+  }
+}
+
+body {
+  background-color: var(--mantine-color-gray-1);
+
+  @mixin dark {
+    background-color: var(--mantine-color-dark-9);
+  }
+}
+
+.mantine-Button-root {
+  transition: all 0.2s ease;
+  border-radius: 256px;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+/*
+ * Raise Nextra's desktop-nav cutoff from 768px (md) to 1200px (lg).
+ * Between 768 and 1200 the 5 top-level nav items + search + controls
+ * don't fit, so we force the hamburger menu to appear earlier.
+ */
+@media (max-width: 1199.98px) {
+  .nextra-navbar [class*='max-md:hidden'] {
+    display: none !important;
+  }
+
+  .nextra-hamburger {
+    display: inline-flex !important;
+  }
+}

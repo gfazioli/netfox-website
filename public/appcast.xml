@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"
+  xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"
+  xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Netfox</title>
+    <link>https://netfox-website.vercel.app/appcast.xml</link>
+    <description>Most recent Netfox updates.</description>
+    <language>en</language>
+    <!--
+      Sparkle update feed. Each <item> represents a release; the
+      release-pipeline script (scripts/release.sh in the app repo)
+      regenerates this file on every publish, prepending the new
+      version with its EdDSA signature and asset URL.
+
+      No items yet — the first public release will land here.
+    -->
+  </channel>
+</rss>
