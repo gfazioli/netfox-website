@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.1.1 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.1.1</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p>A polish release on top of 0.1.0 — three menu items and a settings tab that make the auto-update flow visible, plus a friendlier About panel now that the website is live.</p>
+<h2>Auto-updates are now real</h2>
+<ul>
+<li><strong>Check for Updates…</strong> A new menu item in the Netfox menu (next to <em>About Netfox</em>) opens the update prompt straight away. Useful when you want to confirm you're on the latest build without waiting.</li>
+<li><strong>Updates settings.</strong> Settings (⌘,) gains a new <strong>Updates</strong> tab with three controls: <em>Check for updates on launch</em> (a silent background check when Netfox starts; off by default), <em>Automatically check for updates</em> (the every-24-hours scheduled check; on by default), and a <em>Check for Updates Now…</em> button that mirrors the menu item.</li>
+<li><strong>Background updates.</strong> When a newer version of Netfox is published, the app surfaces a small prompt so you can update in place. Manual download from <a href="https://netfox.app">netfox.app</a> still works the same way it always has.</li>
+</ul>
+<h2>About panel, opened up</h2>
+<ul>
+<li>The About panel (<strong>Netfox → About Netfox</strong>) now links to the public site:
+<ul>
+<li><strong>Website</strong> opens <a href="https://netfox.app">netfox.app</a>.</li>
+<li><strong>Release Notes</strong> opens the changelog page at <a href="https://netfox.app/docs/release-notes">netfox.app/docs/release-notes</a>.</li>
+<li><strong>Report an Issue</strong> takes you to a pre-filled GitHub issue form.</li>
+</ul>
+</li>
+<li>The <strong>"Made with ❤️ by Undolog"</strong> credit now opens the Undolog studio page instead of a bare GitHub profile.</li>
+</ul>
+<h2>Help menu</h2>
+<ul>
+<li>The system Help menu is replaced with a single <strong>Netfox Help</strong> item bound to <strong>⌘?</strong> that opens the live documentation at <a href="https://netfox.app/docs">netfox.app/docs</a>. Always in sync with the version you're running.</li>
+</ul>
+<h2>Compatibility</h2>
+<ul>
+<li>macOS 15 (Sequoia) or newer.</li>
+<li>Universal binary — native on Apple Silicon and Intel Macs.</li>
+<li>Signed with Apple Developer ID and notarized by Apple.</li>
+</ul>
+<h2>Notes for testers on 0.1.0</h2>
+<ul>
+<li>0.1.0 didn't ship the auto-update channel, so the build won't pick this up automatically — grab the new DMG once and from 0.1.1 onward you'll be offered new versions in-app.</li>
+<li>Some routers and IoT devices may still show up as "Unknown" or with a generic vendor name. Right-click → <em>Edit tag…</em> to give them a friendlier name.</li>
+</ul>
+<hr>
+<p>Feedback welcome — open an issue at <a href="https://github.com/gfazioli/netfox-website/issues">github.com/gfazioli/netfox-website</a>.</p>
+</body>
+</html>

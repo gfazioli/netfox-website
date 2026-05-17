@@ -4,7 +4,7 @@
   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
     <title>Netfox</title>
-    <link>https://netfox-website.vercel.app/appcast.xml</link>
+    <link>https://netfox.app/appcast.xml</link>
     <description>Most recent Netfox updates.</description>
     <language>en</language>
     <!--
@@ -12,8 +12,18 @@
       release-pipeline script (scripts/release.sh in the app repo)
       regenerates this file on every publish, prepending the new
       version with its EdDSA signature and asset URL.
-
-      No items yet — the first public release will land here.
     -->
+    <item>
+      <title>Version 0.1.1</title>
+      <pubDate>Sun, 17 May 2026 13:30:00 +0000</pubDate>
+      <sparkle:version>1</sparkle:version>
+      <sparkle:shortVersionString>0.1.1</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
+      <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.1.1.html</sparkle:releaseNotesLink>
+      <enclosure
+        url="https://github.com/gfazioli/netfox-website/releases/download/v0.1.1/Netfox-0.1.1.dmg"
+        sparkle:edSignature="OS7LRNsC9Sur9/02/OIvPmMeJfR0Brv/m6c1EfA+vVhK23hPtwKsY4UhCQT3VQiF69JdcH0AHfG/juncBwPwAw==" length="5099952"
+        type="application/octet-stream" />
+    </item>
   </channel>
 </rss>
