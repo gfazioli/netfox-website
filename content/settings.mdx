@@ -1,0 +1,51 @@
+# Settings
+
+Open Settings with <Kbd>⌘</Kbd> <Kbd>,</Kbd> or from the menu **Netfox → Settings**.
+
+The window is tabbed: **General**, **Alerts**, **Updates**, **Advanced**, **About**. Every toggle takes effect immediately unless explicitly noted otherwise.
+
+## General
+
+### Appearance
+- **Theme** — System / Light / Dark. *System* follows whatever macOS is set to; *Light* and *Dark* pin Netfox regardless of the system value.
+
+### Login
+- **Open Netfox at login** — launches Netfox in the background when you log in to your Mac so it can start watching the network straight away. Off by default. Requires the signed/notarized release build to take effect — unsigned development builds can no-op silently.
+
+## Alerts
+
+### New devices
+- **Notify on new devices** — when on, Netfox raises an in-app alert (the bell in the toolbar) and a system notification whenever a previously-unknown device appears on the network.
+
+### Returning after long absence
+- **Notify when a device returns after long absence** — fires an alert when a known device that's been continuously offline for at least N days comes back online.
+- **Return threshold** — slider from 1 to 90 days (default 7). Off by default because homes with nomadic devices (phones that leave in the morning and return at night) would otherwise see this trip several times a day.
+
+### System notifications
+- **Open Notifications Settings…** — opens **System Settings → Notifications → Netfox**. Netfox uses the macOS notification center to surface alerts when the app is in the background. Grant *Allow* once and banners deliver directly; revoke any time from System Settings.
+
+## Updates
+
+### Background checks
+- **Check for updates on launch** — runs a silent check when Netfox starts. Only prompts when a newer version is available. Off by default.
+- **Automatically check for updates** — the auto-update framework's scheduled background check (every 24 hours by default). On by default. Disable if you want to freeze on your current version and check manually instead.
+
+### Manual check
+- **Check for Updates Now…** — opens the full update prompt straight away. Useful when you want to confirm you're on the latest build without waiting for the next scheduled check. Same flow as the **Netfox → Check for Updates…** menu item.
+
+## Advanced
+
+The Advanced tab consolidates every power-user knob. Visiting the tab is itself an opt-in — the controls are always rendered, under the assumption that someone who reached this tab knows what they're touching.
+
+### Application
+- **Advanced mode** — surfaces denser UI in the main window: MAC address in the sidebar secondary line, **Engine ID** copyable row in the detail Identity section, ISO 8601 absolute timestamps instead of "2 seconds ago" in the Activity section. Off by default; nothing breaks when off. Also toggleable from **View → Advanced Mode** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>M</Kbd>).
+
+### Discovery — Offline detection
+- **Offline threshold** — slider from 60 to 900 seconds (default 5 min). How long a device that's only visible via the system ARP cache can stay silent before being marked offline. Affects printers, NAS, and dumb IoT that don't advertise via Bonjour.
+- **Authoritative threshold** — slider from 30 to 600 seconds (default 3 min). How long a Bonjour-visible device can go silent before being marked offline. Tighter than the ARP fallback because Bonjour can confirm liveness directly.
+
+Threshold changes take effect on the **next app launch** — the lifecycle pass and anti-thrash rule both fix their windows at engine construction.
+
+## About
+
+Shows the app icon, current version, build number, and a short tagline. Read-only.
