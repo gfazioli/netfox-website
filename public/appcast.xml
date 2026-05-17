@@ -13,6 +13,7 @@
       regenerates this file on every publish, prepending the new
       version with its EdDSA signature and asset URL.
     -->
+    <!-- release.sh inserts new <item> entries right below this marker -->
     <item>
       <title>Version 0.1.1</title>
       <pubDate>Sun, 17 May 2026 13:30:00 +0000</pubDate>
