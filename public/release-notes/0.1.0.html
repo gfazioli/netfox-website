@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.1.0 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.1.0</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p>The first public build of Netfox. A native macOS app that shows you every device on your home network, when each one joined, and when something new shows up — at a glance.</p>
+<h2>What you'll see on first launch</h2>
+<ul>
+<li><strong>Live device list.</strong> Every device on your network in one window — Mac, iPhone, smart TV, printer, the lot. Refreshed continuously, no manual scanning needed.</li>
+<li><strong>Your Mac, on top.</strong> The Mac running Netfox is auto-detected, pinned to the top of the list, with the correct icon and a label saying whether it's on Wi-Fi or Ethernet.</li>
+<li><strong>Per-device timeline.</strong> Click any device to see when it first appeared on your network, when it went offline, and when it came back. No more "is the iPad actually on?" guessing.</li>
+</ul>
+<h2>Alerts that matter</h2>
+<ul>
+<li><strong>New device joined.</strong> A notification fires when something Netfox has never seen before connects to your network — useful for spotting a visitor's phone or a smart bulb you forgot you owned.</li>
+<li><strong>Known device returned.</strong> Optional alert when a device that's been offline for a while comes back. Great for "the laptop is home from the trip" — quiet about the phone that leaves every morning and returns every evening. Off by default; turn it on in Settings → Alerts and set the absence threshold in days.</li>
+<li><strong>Persistent log.</strong> Every alert lands in the in-app history (<strong>View → Alert History</strong>) so you can scroll back through what happened, even if you missed the notification.</li>
+</ul>
+<h2>Make it yours</h2>
+<ul>
+<li><strong>Manual tagging.</strong> Right-click any device → <em>Edit tag…</em> → give it a real name and an icon. Replaces the cryptic vendor names ("Espressif Inc.", "Hon Hai Precision") that mean nothing without context.</li>
+<li><strong>Theme picker.</strong> System / Light / Dark — under Settings → General.</li>
+<li><strong>Open at login.</strong> One toggle in Settings → General flips the system setting directly. No login items list to dig through.</li>
+<li><strong>Advanced toggles.</strong> Two offline-detection thresholds for users who want to tune how fast the app marks a device as gone.</li>
+</ul>
+<h2>Native, signed, no account</h2>
+<ul>
+<li>Real macOS app — proper window, system materials, dark/light mode follows the system, keyboard shortcuts everywhere (⌘R refresh, ⌘, Settings, ⌘W close).</li>
+<li>Signed with Apple Developer ID and notarized by Apple. First launch goes straight through without warnings.</li>
+<li>Universal binary — runs natively on Apple Silicon and Intel Macs.</li>
+<li>No account, no cloud, no telemetry. Everything stays on your Mac.</li>
+</ul>
+<h2>Compatibility</h2>
+<ul>
+<li>macOS 15 (Sequoia) or newer.</li>
+</ul>
+<h2>Known limitations (first release)</h2>
+<ul>
+<li><strong>No auto-update yet.</strong> The next version will need to be downloaded manually from <a href="https://netfox.app">netfox.app</a> until the auto-update channel is wired.</li>
+<li><strong>Router fingerprinting is imperfect.</strong> Some routers and IoT devices may show up as "Unknown" or with a generic vendor name. Tag them manually in the meantime.</li>
+<li><strong>Brief flicker on power-managed devices.</strong> iPads in Low Power Mode and similar power-conscious hardware may blink offline/online for a second or two; detection is being tuned for the next build.</li>
+</ul>
+<hr>
+<p>Feedback welcome — open an issue at <a href="https://github.com/gfazioli/netfox-website/issues">github.com/gfazioli/netfox-website</a>.</p>
+</body>
+</html>
