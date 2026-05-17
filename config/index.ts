@@ -6,7 +6,7 @@ export default {
     },
     description:
       'A native macOS app that monitors your home network. See every connected device, when it joined, and when something new appears — at a glance.',
-    metadataBase: new URL('https://netfox-website.vercel.app/'),
+    metadataBase: new URL('https://netfox.app/'),
     keywords: [
       'Netfox',
       'macOS',
