@@ -7,17 +7,19 @@
 - **Live device list** — every machine on your network, with hostname, MAC, vendor, IPv4/IPv6, and online state
 - **Multi-source discovery** — Bonjour/mDNS, the system ARP cache, and active ICMP probing run together. Apple devices, dumb IoT, quiet hosts — all in the same list
 - **Per-device history** — first seen, last seen, every transition (online ↔ offline, IPv4 learned/changed, hostname changed, vendor learned, kind refined) on a timeline that survives across launches
-- **New-device alerts** — both as an in-app inbox (the bell in the toolbar) and as native macOS notifications. Persistent log of everything that ever fired, viewable from **View → Alert History…** (⌘⇧A)
+- **Smart alerts** — in-app inbox (the bell in the toolbar) and native macOS notifications. Fires for brand-new devices AND for known ones returning after a long absence. Persistent log viewable from **View → Alert History…** (⌘⇧A)
 - **Probe on demand** — manually re-check a specific device with **Probe This Device** from the context menu, instead of waiting for the next discovery pass
-- **Smart context menus** — copy any field, jump to history, probe a single device
+- **Manual tagging** — right-click any device to give it a custom name and icon. Useful for the cryptic vendor-name rows ("Espressif Inc.") that mean nothing without context
 - **This Mac, pinned** — the Mac running Netfox is always at the top of the sidebar, with its current Wi-Fi/Ethernet connection state
+- **Advanced Mode** (⌘⇧M) — opt-in denser UI: MAC in the sidebar, Engine ID + absolute timestamps in the detail panel
+- **Tabbed Settings** — General (theme, login), Alerts (notifications), Updates (auto-update controls), Advanced (power-user thresholds), About
 - **No account, no cloud, no telemetry** — every observation lives on your Mac
 - **Universal binary** — runs on Apple Silicon and Intel Macs; macOS picks the right slice at launch
-- **Auto-updates** — built in, signed with EdDSA
+- **Auto-updates** — built in, signed; the app checks for new versions automatically and prompts you when one is available
 
 ## Requirements
 
 - macOS 15 (Sequoia) or later
 - A local network — Wi-Fi, Ethernet, or anything macOS reports as an interface with a subnet
 
-See [Getting Started](/docs/getting-started) for first-launch notes.
+See [Getting Started](/docs/getting-started) for first-launch notes, [Settings](/docs/settings) for the full preferences reference, and [Keyboard Shortcuts](/docs/keyboard-shortcuts) for the (small) keyboard surface.

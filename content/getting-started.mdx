@@ -51,8 +51,27 @@ Shows the selected device:
 
 The **Probe** button in the top-right of the detail header sends an ICMP ping to the device's current IPv4 and refreshes its online state immediately, instead of waiting for the next discovery pass.
 
+## Settings
+
+Open Settings with **⌘,** or from the menu **Netfox → Settings**. Five tabs:
+- **General** — theme picker (System / Light / Dark), Open at Login toggle.
+- **Alerts** — toggles for new-device + returning-after-absence alerts, plus a link to **System Settings → Notifications**.
+- **Updates** — controls for the auto-update flow (check on launch, scheduled background checks, manual *Check Now…*).
+- **Advanced** — Advanced Mode toggle, offline-detection thresholds for power users.
+- **About** — read-only version + build info.
+
+Full per-tab reference at [Settings](/docs/settings).
+
+## Updates
+
+Netfox uses a built-in auto-update framework. By default it checks once a day in the background and shows a small prompt when a newer version is available. You can also trigger a check manually from **Netfox → Check for Updates…** or from **Settings → Updates → Check for Updates Now…**.
+
 ## Tips
 
 - **⌘R** or the toolbar refresh button forces every discovery provider to emit immediately.
 - **⌘⇧A** opens **Alert History** — the persistent log of every new-device alert Netfox has ever raised.
+- **⌘⇧M** toggles **Advanced Mode** — adds the MAC to each sidebar row and surfaces the Engine ID + absolute timestamps in the detail panel. Same flag flipped from **Settings → Advanced**.
+- **⌘?** opens these docs in your browser.
 - The bell in the toolbar badges with the count of new alerts since you last opened the inbox. Tapping **Done** in the inbox clears the badge.
+
+Full keyboard reference at [Keyboard Shortcuts](/docs/keyboard-shortcuts).

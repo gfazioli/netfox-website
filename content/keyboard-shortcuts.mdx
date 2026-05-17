@@ -1,0 +1,31 @@
+# Keyboard Shortcuts
+
+Netfox keeps the keyboard surface small on purpose — most discovery happens passively, so there's not much you need to trigger by hand. Every shortcut below either flips an app-wide mode, opens a window, or refreshes the device list.
+
+## View
+
+<ShortcutsTable shortcuts={[
+  { keys: ['⌘', 'R'], action: 'Refresh — force every discovery provider to re-emit immediately' },
+  { keys: ['⌘', '⇧', 'A'], action: 'Open Alert History — the persistent log of every alert Netfox has raised' },
+  { keys: ['⌘', '⇧', 'M'], action: 'Toggle Advanced Mode — adds MAC to the sidebar, Engine ID + absolute timestamps to the detail panel' },
+]} />
+
+## Search
+
+<ShortcutsTable shortcuts={[
+  { keys: ['⌘', 'F'], action: 'Focus the sidebar search field' },
+]} />
+
+## Application
+
+<ShortcutsTable shortcuts={[
+  { keys: ['⌘', ','], action: 'Open Settings' },
+  { keys: ['⌘', 'W'], action: 'Close the main window' },
+  { keys: ['⌘', 'Q'], action: 'Quit Netfox' },
+]} />
+
+## Help
+
+<ShortcutsTable shortcuts={[
+  { keys: ['⌘', '?'], action: 'Open the live online docs in your default browser (replaces the macOS default Help menu, which has no docs to surface)' },
+]} />
