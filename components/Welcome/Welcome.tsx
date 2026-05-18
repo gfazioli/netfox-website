@@ -21,11 +21,9 @@ import {
   Group,
   Image,
   Modal,
-  Paper,
   SimpleGrid,
   Stack,
   Text,
-  ThemeIcon,
   Title,
   UnstyledButton,
 } from '@mantine/core';
@@ -34,6 +32,9 @@ import { FAQ } from '../FAQ/FAQ';
 import { ProblemSection } from '../ProblemSection/ProblemSection';
 import { SolutionSection } from '../SolutionSection/SolutionSection';
 import { BuiltForMacSection } from '../BuiltForMacSection/BuiltForMacSection';
+import { AccentCard, GradientIcon } from '../AccentCard/AccentCard';
+import accentClasses from '../AccentCard/AccentCard.module.css';
+import { RadarPulse } from '../RadarPulse/RadarPulse';
 import classes from './Welcome.module.css';
 
 /**
@@ -122,46 +123,54 @@ function ZoomableScreenshot({
   );
 }
 
+/**
+ * Each feature's `accent` is consumed by `AccentCard` as the
+ * `--card-accent` CSS variable — drives the radial gradient on
+ * the card, the icon chip gradient, and the hover glow. Mantine
+ * theme tokens (`*-5`) used uniformly so the cards stay in
+ * lockstep with the project palette (a future theme tweak shifts
+ * every accent automatically).
+ */
 const features = [
   {
     icon: IconRadar,
     title: 'Multi-Source Discovery',
     description:
       'Bonjour, ARP and active probing run together. Apple devices, dumb IoT, quiet hosts — all in the same list.',
-    color: 'orange',
+    accent: 'var(--mantine-color-orange-5)',
   },
   {
     icon: IconClock,
     title: 'Per-Device History',
     description:
       'First seen, last seen, every online/offline transition. Timeline survives across launches.',
-    color: 'blue',
+    accent: 'var(--mantine-color-blue-5)',
   },
   {
     icon: IconBell,
     title: 'New-Device Alerts',
     description:
       'In-app inbox plus native macOS notifications. Persistent log of everything that ever fired.',
-    color: 'yellow',
+    accent: 'var(--mantine-color-yellow-5)',
   },
   {
     icon: IconDeviceDesktop,
     title: 'Native macOS',
     description: 'Built in SwiftUI for macOS 15+. Follows system appearance. Universal binary.',
-    color: 'grape',
+    accent: 'var(--mantine-color-grape-5)',
   },
   {
     icon: IconNetwork,
     title: 'No Account, No Cloud',
     description: 'Data stays on your Mac. No telemetry, no sign-up, no vendor lock-in.',
-    color: 'cyan',
+    accent: 'var(--mantine-color-cyan-5)',
   },
   {
     icon: IconShieldLock,
     title: 'Signed & Notarized',
     description:
       'Developer ID + Apple notarization. Gatekeeper accepts it on first open, no security workarounds.',
-    color: 'green',
+    accent: 'var(--mantine-color-green-5)',
   },
 ];
 
@@ -171,25 +180,51 @@ export function Welcome() {
       {/* ─── Hero ─── */}
       <Box pos="relative" style={{ overflow: 'hidden' }}>
         {/*
-          Foxy mesh + a couple of warm glows so the hero reads on white
-          (light mode) without becoming garish in dark mode. Mirrors the
-          tuning approach from findergit-website's hero, retuned for the
-          orange/yellow palette.
+          Logo-anchored mesh: the Netfox icon's foxhead pulls warm
+          (orange/yellow) on a deep-blue backdrop, so the hero palette
+          mirrors that pairing — warm anchors top-of-frame, cool
+          anchors bottom — with `violet` as the bridging hue between
+          red and blue. `animate` rotates the whole mesh's hue slowly
+          over 40s; the long duration keeps the brand colors
+          recognisable instead of devolving into a rainbow. Two
+          glows (warm top-left, violet bottom-right) + DotGrid +
+          Noise stay as the secondary chrome.
         */}
         <Scene lazy>
           <Scene.Mesh
             stops={[
-              { color: 'orange', position: '20% 25%', spread: 55 },
-              { color: 'yellow', position: '80% 70%', spread: 55 },
-              { color: 'red', position: '50% 50%', spread: 70 },
+              { color: 'orange', position: '15% 20%', spread: 50 },
+              { color: 'yellow', position: '82% 18%', spread: 45 },
+              { color: 'red', position: '50% 50%', spread: 55 },
+              { color: 'violet', position: '22% 82%', spread: 50 },
+              { color: 'blue', position: '80% 78%', spread: 55 },
             ]}
-            opacity={0.22}
+            opacity={0.24}
+            animate
+            duration={40}
           />
           <Scene.Glow color="orange" size={560} blur={140} opacity={0.4} top="5%" left="-10%" />
-          <Scene.Glow color="yellow" size={460} blur={120} opacity={0.32} top="65%" left="85%" />
+          <Scene.Glow color="violet" size={460} blur={120} opacity={0.28} top="65%" left="85%" />
           <Scene.DotGrid color="gray" opacity={0.14} spacing={32} />
           <Scene.Noise opacity={0.022} />
         </Scene>
+        {/*
+          Wi-Fi pulse — concentric arcs blooming upward from the
+          bottom-centre of the hero. Fills the `Scene.Radar`-shaped
+          gap in mantine-scene; lives inline here for now so we
+          can iterate before deciding whether to upstream it.
+        */}
+        <RadarPulse
+          origin="50% 100%"
+          shape="arc"
+          color="var(--mantine-color-orange-4)"
+          count={4}
+          interval={1.5}
+          duration={6}
+          maxRadius="1400px"
+          strokeWidth={2}
+          peakOpacity={0.4}
+        />
         <Container size="lg" pos="relative" style={{ zIndex: 1 }}>
           <Stack align="center" gap="xl" py={80}>
             <Badge
@@ -286,52 +321,81 @@ export function Welcome() {
       <SolutionSection />
 
       {/* ─── Features ─── */}
-      <Container size="lg">
-        <Stack align="center" gap="md" mt={80} mb={48}>
-          <Text size="sm" fw={700} tt="uppercase" style={{ letterSpacing: 3 }} c="orange">
-            Features
-          </Text>
-          <Title order={2} ta="center" fz={{ base: 32, sm: 42 }} fw={900}>
-            Everything you need, nothing you don&apos;t
-          </Title>
-        </Stack>
+      <Box className={accentClasses.sectionBackdrop} py={80}>
+        <Container size="lg" pos="relative" style={{ zIndex: 1 }}>
+          <Stack align="center" gap="md" mb={48}>
+            <Text size="sm" fw={700} tt="uppercase" style={{ letterSpacing: 3 }} c="orange">
+              Features
+            </Text>
+            <Title order={2} ta="center" fz={{ base: 32, sm: 42 }} fw={900}>
+              Everything you need, nothing you don&apos;t
+            </Title>
+          </Stack>
 
-        <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="xl" mb={80}>
-          {features.map((feature) => (
-            <Paper key={feature.title} p="xl" radius="lg" withBorder>
-              <Stack gap="xs" align="flex-start">
-                <ThemeIcon size={48} radius="md" color={feature.color} variant="light">
-                  <feature.icon size={26} />
-                </ThemeIcon>
-                <Text fw={600} size="lg">
-                  {feature.title}
-                </Text>
-                <Text c="dimmed" size="sm">
-                  {feature.description}
-                </Text>
-              </Stack>
-            </Paper>
-          ))}
-        </SimpleGrid>
-      </Container>
+          <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="xl">
+            {features.map((feature) => (
+              <AccentCard key={feature.title} accent={feature.accent}>
+                <Stack gap="md" align="flex-start">
+                  <GradientIcon icon={feature.icon} />
+                  <Text fw={700} size="lg" c="white">
+                    {feature.title}
+                  </Text>
+                  <Text c="dimmed" size="sm">
+                    {feature.description}
+                  </Text>
+                </Stack>
+              </AccentCard>
+            ))}
+          </SimpleGrid>
+        </Container>
+      </Box>
 
-      {/* ─── Built for macOS ─── */}
-      <BuiltForMacSection />
-
-      {/* ─── Get Started CTA ─── */}
+      {/* ─── Built for macOS  ⇣  Get Started CTA — one continuous Scene ─── */}
+      {/*
+        These two sections share a single dark canvas with one Scene
+        composition: the logo-anchored mesh drifts across both halves
+        (warm anchors top where "Built for macOS" sits, cool anchors
+        bottom where the CTA sits), Aurora bands stay warm-only on
+        top (the macOS-wallpaper cue for the section identity), and
+        Waves at the bottom pan cool tones underneath the CTA — the
+        bottom-up horizon line gives the CTA a "ride this in" feel.
+        The earlier StarField + ShootingStar composition under the
+        CTA is removed: it visually competed with the mesh + felt
+        like a separate world from the section above.
+      */}
       <Box
         pos="relative"
-        py={80}
         style={{
           backgroundColor: 'var(--mantine-color-dark-8)',
           overflow: 'hidden',
         }}
       >
         <Scene lazy>
-          <Scene.StarField count={{ base: 60, md: 120 }} twinkle opacity={0.7} />
-          <Scene.ShootingStar count={2} minInterval={5} maxInterval={12} opacity={0.5} />
-          <Scene.Glow color="orange" size={500} blur={170} opacity={0.18} top="30%" left="50%" />
+          <Scene.Mesh
+            stops={[
+              { color: 'orange', position: '15% 15%', spread: 50 },
+              { color: 'yellow', position: '82% 12%', spread: 45 },
+              { color: 'red', position: '50% 40%', spread: 55 },
+              // Cool anchors use brand-deep custom hex instead of
+              // Mantine theme `violet`/`blue` — `#6d6585` is the
+              // muted slate-purple bridge between the warm anchors
+              // and the deep navy `#0b183e` which echoes the
+              // Netfox logo backdrop.
+              { color: '#6d6585', position: '22% 78%', spread: 55 },
+              { color: '#0b183e', position: '80% 75%', spread: 60 },
+            ]}
+            opacity={0.22}
+            animate
+            duration={40}
+          />
+          <Scene.Aurora colors={['orange', 'yellow', 'red']} bands={3} position="top" opacity={0.22} />
+          <Scene.Noise opacity={0.018} />
         </Scene>
+
+        <BuiltForMacSection />
+
+        {/* CTA content sits in the lower half so the Waves anchor it */}
+        <Box pos="relative" py={80}>
         <Container size="lg" pos="relative" style={{ zIndex: 1 }}>
           <Stack align="center" gap="lg">
             <Text size="sm" fw={700} tt="uppercase" style={{ letterSpacing: 3 }} c="orange">
@@ -340,7 +404,7 @@ export function Welcome() {
             <Title order={2} ta="center" fz={{ base: 36, sm: 48 }} fw={900} c="white">
               Know your network. Always.
             </Title>
-            <Text c="dimmed" ta="center" size="lg" maw={500}>
+            <Text c="white" ta="center" size="lg" maw={500}>
               Download Netfox and see who&apos;s really connected.
             </Text>
 
@@ -356,11 +420,12 @@ export function Welcome() {
             >
               Download for macOS
             </Button>
-            <Text c="dimmed" size="sm">
+            <Text c="white" size="sm">
               Free &middot; macOS 15 Sequoia or later
             </Text>
           </Stack>
         </Container>
+        </Box>
       </Box>
 
       {/* ─── FAQ ─── */}
