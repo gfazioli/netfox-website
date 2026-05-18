@@ -1,0 +1,115 @@
+/*
+ * Raycast-inspired card surface, shared between ProblemSection's
+ * "what's wrong with the alternatives" trio and Welcome.tsx's
+ * "Features" grid. The visual is identical across both: the dark
+ * card gets a per-card accent color (passed via `--card-accent`)
+ * that radiates from the top-left corner, fades to neutral by
+ * mid-card, and intensifies on hover. The 1px top-edge highlight
+ * (`inset 0 1px 0 …`) simulates light catching the lifted surface.
+ *
+ * Hosting both effects in one module avoids drift — when someone
+ * tweaks the accent strength or hover glow, every accent card on
+ * the marketing site moves with it.
+ */
+.card {
+  position: relative;
+  background:
+    radial-gradient(
+      140% 90% at 0% 0%,
+      color-mix(in srgb, var(--card-accent) 18%, transparent),
+      transparent 55%
+    ),
+    var(--mantine-color-dark-7);
+  border: 1px solid color-mix(in srgb, var(--mantine-color-dark-3) 60%, transparent);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.4);
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease,
+    border-color 200ms ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--card-accent) 40%, var(--mantine-color-dark-3));
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08),
+    0 12px 32px -12px color-mix(in srgb, var(--card-accent) 35%, transparent),
+    0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/*
+ * Square chip that holds the section icon. A vertical gradient
+ * (light top, darker bottom) plus a 1px inset top highlight gives
+ * the "metallic chip" look Raycast uses on every section icon.
+ * The bottom glow is a soft shadow of the accent — the chip looks
+ * like it's hovering a hair above the card.
+ *
+ * Sized in CSS variables so the consumer can override per-instance
+ * (default 48px / radius md) without forking the rule.
+ */
+.iconChip {
+  --chip-size: 48px;
+  width: var(--chip-size);
+  height: var(--chip-size);
+  border-radius: var(--mantine-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--card-accent) 85%, white 22%),
+      var(--card-accent)
+    );
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 0 0 rgba(0, 0, 0, 0.18),
+    0 6px 16px -6px color-mix(in srgb, var(--card-accent) 55%, transparent);
+}
+
+/*
+ * Inline highlight pill for "this is the bad thing" callouts in
+ * the Problem section ("dated UI and no history", "no big
+ * picture", …). Subtle orange-tinted background + orange text
+ * keeps the focus without the harsh red underline the previous
+ * version used. `display: inline` so it wraps natively with the
+ * surrounding paragraph instead of jumping to a new line.
+ */
+.highlightPill {
+  background-color: color-mix(in srgb, var(--mantine-color-orange-5) 18%, transparent);
+  color: var(--mantine-color-orange-3);
+  padding: 1px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/*
+ * Section-wide dotted backdrop, masked into a vertical band so the
+ * pattern fades into the section's top/bottom edges instead of
+ * butting against an abrupt border.
+ */
+.sectionBackdrop {
+  position: relative;
+  isolation: isolate;
+}
+
+.sectionBackdrop::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle at center,
+    color-mix(in srgb, var(--mantine-color-gray-6) 35%, transparent) 1px,
+    transparent 1.5px
+  );
+  background-size: 28px 28px;
+  opacity: 0.18;
+  pointer-events: none;
+  mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
+  z-index: 0;
+}
