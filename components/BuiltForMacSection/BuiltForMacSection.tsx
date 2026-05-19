@@ -22,10 +22,10 @@ const techPills = [
 
 /**
  * Inner content only. The outer `Box pos="relative"` and the `Scene`
- * composition (mesh + aurora + waves + noise) live in `Welcome.tsx`,
- * because this section visually shares one continuous Scene with the
- * "Get Started" CTA that immediately follows. Splitting the scenes
- * across two components produced a visible seam between sections.
+ * composition (mesh + aurora + noise) live in `Welcome.tsx`, because
+ * this section visually shares one continuous Scene with the "Get
+ * Started" CTA that immediately follows. Splitting the scenes across
+ * two components produced a visible seam between sections.
  */
 export function BuiltForMacSection() {
   return (

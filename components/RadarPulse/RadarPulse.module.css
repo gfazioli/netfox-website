@@ -1,10 +1,17 @@
 /*
  * Concentric arcs/circles emanating from a configurable origin —
  * the visual missing from `@gfazioli/mantine-scene` for the
- * radar/Wi-Fi case. Each wave is a circle (border-only) that
- * grows from size 0 to `--max-radius`, with its opacity fading
- * from `--peak-opacity` to 0 across the journey. Multiple waves
- * are emitted on a staggered schedule via `animation-delay`.
+ * radar/Wi-Fi case. Each wave is a border-only circle pre-sized at
+ * `--max-radius` and animated from `scale(0)` to `scale(1)`, with
+ * opacity fading from `--peak-opacity` to 0 across the journey.
+ * Multiple waves are emitted on a staggered schedule via
+ * `animation-delay`.
+ *
+ * Why scale instead of animating width/height: scale + opacity are
+ * GPU-compositable (no layout, no paint per frame), so 4 concurrent
+ * waves in the hero cost a single composite pass rather than
+ * triggering a full paint on every frame — visible win on
+ * integrated graphics.
  *
  * `shape="arc"` clips the lower half of each circle so what
  * survives is the upper hemisphere — the classic Wi-Fi icon
@@ -22,30 +29,28 @@
   position: absolute;
   left: var(--origin-x, 50%);
   top: var(--origin-y, 100%);
-  transform: translate(-50%, -50%);
-  width: 0;
-  height: 0;
+  width: var(--max-radius, 1400px);
+  height: var(--max-radius, 1400px);
   border: var(--stroke-width, 2px) solid var(--wave-color, currentColor);
   border-radius: 50%;
   opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
   animation: radar-pulse var(--wave-duration, 6s) ease-out infinite;
-  /* `--peak-opacity` is the brightness at the moment the wave
-     finishes emerging (10% into the animation). After that it
-     decays to 0 by frame 100%. */
+  will-change: transform, opacity;
 }
 
 @keyframes radar-pulse {
   0% {
-    width: 0;
-    height: 0;
+    transform: translate(-50%, -50%) scale(0);
     opacity: 0;
   }
   10% {
+    /* `--peak-opacity` is the brightness at the moment the wave
+       finishes emerging. After that it decays to 0 by frame 100%. */
     opacity: var(--peak-opacity, 0.45);
   }
   100% {
-    width: var(--max-radius, 1400px);
-    height: var(--max-radius, 1400px);
+    transform: translate(-50%, -50%) scale(1);
     opacity: 0;
   }
 }

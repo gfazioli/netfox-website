@@ -357,11 +357,10 @@ export function Welcome() {
         (warm anchors top where "Built for macOS" sits, cool anchors
         bottom where the CTA sits), Aurora bands stay warm-only on
         top (the macOS-wallpaper cue for the section identity), and
-        Waves at the bottom pan cool tones underneath the CTA — the
-        bottom-up horizon line gives the CTA a "ride this in" feel.
-        The earlier StarField + ShootingStar composition under the
-        CTA is removed: it visually competed with the mesh + felt
-        like a separate world from the section above.
+        Noise adds texture across the whole canvas. The earlier
+        StarField + ShootingStar composition under the CTA is removed:
+        it visually competed with the mesh and felt like a separate
+        world from the section above.
       */}
       <Box
         pos="relative"
@@ -394,37 +393,40 @@ export function Welcome() {
 
         <BuiltForMacSection />
 
-        {/* CTA content sits in the lower half so the Waves anchor it */}
+        {/* CTA sits in the lower half of the shared canvas, where the
+            cool mesh anchors (#6d6585 + #0b183e) take over from the
+            warm top. The extra `py={80}` separates it from the
+            BuiltForMac content above. */}
         <Box pos="relative" py={80}>
-        <Container size="lg" pos="relative" style={{ zIndex: 1 }}>
-          <Stack align="center" gap="lg">
-            <Text size="sm" fw={700} tt="uppercase" style={{ letterSpacing: 3 }} c="orange">
-              Get Started
-            </Text>
-            <Title order={2} ta="center" fz={{ base: 36, sm: 48 }} fw={900} c="white">
-              Know your network. Always.
-            </Title>
-            <Text c="white" ta="center" size="lg" maw={500}>
-              Download Netfox and see who&apos;s really connected.
-            </Text>
+          <Container size="lg" pos="relative" style={{ zIndex: 1 }}>
+            <Stack align="center" gap="lg">
+              <Text size="sm" fw={700} tt="uppercase" style={{ letterSpacing: 3 }} c="orange">
+                Get Started
+              </Text>
+              <Title order={2} ta="center" fz={{ base: 36, sm: 48 }} fw={900} c="white">
+                Know your network. Always.
+              </Title>
+              <Text c="white" ta="center" size="lg" maw={500}>
+                Download Netfox and see who&apos;s really connected.
+              </Text>
 
-            <Button
-              href={config.app.downloadUrl}
-              component="a"
-              leftSection={<IconDownload size={20} />}
-              size="xl"
-              radius="xl"
-              px={48}
-              color="orange"
-              mt="md"
-            >
-              Download for macOS
-            </Button>
-            <Text c="white" size="sm">
-              Free &middot; macOS 15 Sequoia or later
-            </Text>
-          </Stack>
-        </Container>
+              <Button
+                href={config.app.downloadUrl}
+                component="a"
+                leftSection={<IconDownload size={20} />}
+                size="xl"
+                radius="xl"
+                px={48}
+                color="orange"
+                mt="md"
+              >
+                Download for macOS
+              </Button>
+              <Text c="white" size="sm">
+                Free &middot; macOS 15 Sequoia or later
+              </Text>
+            </Stack>
+          </Container>
         </Box>
       </Box>
 
