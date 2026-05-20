@@ -14,6 +14,19 @@
       version with its EdDSA signature and asset URL.
     -->
     <!-- release.sh inserts new <item> entries right below this marker -->
+<item>
+            <title>Version 0.2.0</title>
+            <pubDate>Wed, 20 May 2026 15:18:35 +0000</pubDate>
+            <sparkle:version>60</sparkle:version>
+            <sparkle:shortVersionString>0.2.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>26.5</sparkle:minimumSystemVersion>
+            <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.2.0.html</sparkle:releaseNotesLink>
+            <enclosure
+                url="https://github.com/gfazioli/netfox-website/releases/download/v0.2.0/Netfox-0.2.0.dmg"
+                sparkle:edSignature="be03/yXQMWunHrGsEwloTT6Z55O+TukfVNRi4jeOgJfT/s0eOZ2DvpH1W1q9fOExnkxN9rAx4LqISBbxwDa2Cw==" length="5939960"
+                type="application/octet-stream" />
+        </item>
+
     <item>
       <title>Version 0.1.1</title>
       <pubDate>Sun, 17 May 2026 13:30:00 +0000</pubDate>

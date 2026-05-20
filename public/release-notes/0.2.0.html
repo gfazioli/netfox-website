@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.2.0 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.2.0</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p><strong>Netfox 0.2.0 — first public release.</strong></p>
+<p>A native macOS network monitor that tells you which devices are on your home network and which of them might need a closer look. No account. No cloud. No telemetry.</p>
+<h2>🔍 Know your network</h2>
+<ul>
+<li><strong>Live device discovery</strong> — Netfox combines passive announcement listening, the system's ARP cache, and a periodic gentle ping sweep so even the quiet IoT devices (printers, NAS units, smart plugs) show up alongside the chatty ones.</li>
+<li><strong>Per-device history</strong> — every "came online", "went offline", IPv4 change, and hostname rename is recorded in a timeline that survives across launches.</li>
+<li><strong>Custom names + kinds</strong> — right-click any device → Add Tag to give it a friendly name and the right icon. Tags persist across launches and apply everywhere in the UI.</li>
+<li><strong>New-device alerts</strong> — bell badge + macOS notification when an unknown device joins your network. Configurable threshold for the "device returned after long absence" path.</li>
+</ul>
+<h2>🛡 Security at a glance</h2>
+<p>The big new theme in 0.2:</p>
+<ul>
+<li><strong>Probe Ports</strong> — right-click any LAN device → walks a curated catalog of well-known service ports over TCP. No raw sockets, no SYN scans — sandbox-clean, App-Store-compatible. Results land in the new <strong>Ports &amp; Services</strong> tab on the detail panel.</li>
+<li><strong>Risk Badge</strong> — every device gets a colour-coded shield: green / yellow / red, or grey "Not scanned". Pulsing red shields for the urgent cases, quiet green ones for everything healthy.</li>
+<li><strong>Risk Inspector</strong> — click a badge to open a plain-English breakdown: "Telnet exposed", "Database reachable on LAN", "HTTP without HTTPS". Aimed at home users, no jargon dump.</li>
+<li><strong>Live findings</strong>: Telnet exposed (high) · FTP exposed (high) · Database ports open on LAN (high) · HTTP without HTTPS (medium) · Remote Desktop reachable (medium). Closed and filtered ports stay quiet.</li>
+</ul>
+<h2>🌐 Public IP banner</h2>
+<p>The sidebar now reads the network's public-facing IPv4 at a glance — the first question a network monitor should answer ("what face do I show the internet?"). Refresh + copy from the banner. Privacy-conscious: opt-out from Settings → Privacy.</p>
+<h2>🎬 Demo Mode (⌘⇧D)</h2>
+<p>Screenshot-safe mode for sharing your screen without leaking personal data:</p>
+<ul>
+<li>Device names → "Computer #1", "Phone #2", …</li>
+<li>MAC addresses → last three octets masked</li>
+<li>IPv6 → keep first hextet, mask the rest</li>
+<li>Public IP → class-E placeholder (<code class="notranslate">254.253.252.251</code>)</li>
+<li>Engine IDs hidden, absolute timestamps suppressed</li>
+<li>Sub-toggle "Include sample data" generates a realistic-looking demo population so the Ports tab + Risk Inspector + bell inbox all read as populated even when nothing's been scanned yet.</li>
+</ul>
+<h2>🧹 Privacy &amp; Storage</h2>
+<p>Dedicated Settings tab. One-click wipe for each of Netfox's local stores:</p>
+<ul>
+<li>Clear Port History</li>
+<li>Clear Activity History</li>
+<li>Clear Alert History</li>
+<li>Clear Custom Tags</li>
+<li>Forget All Devices (the nuclear option)</li>
+</ul>
+<p>Every action requires confirmation. Nothing leaves your Mac, ever.</p>
+<h2>🎨 Sidebar polish</h2>
+<ul>
+<li>Tier-based device sort: This Mac first, then HIGH-risk, then MEDIUM-risk / has-alert, then the rest, then offline. Animated reorders when state changes.</li>
+<li>Public IP banner with copy + refresh.</li>
+<li>Connection icons (Wi-Fi / Ethernet) inline on every row.</li>
+<li>Top + bottom safe insets so the list doesn't butt up against the chrome.</li>
+</ul>
+<h2>Under the hood</h2>
+<ul>
+<li>macOS 15+ deployment target, SwiftUI + <code class="notranslate">@Observable</code>.</li>
+<li><code class="notranslate">NetfoxCore</code> framework split: discovery providers, security rules, port probe, public-IP service, SwiftData stores — all unit-tested.</li>
+<li>Auto-updates via Sparkle 2, signed with Developer ID + notarized.</li>
+<li>100% native, no Electron, no web views, no cloud.</li>
+</ul>
+<hr>
+<p>Free. Requires macOS 15 Sequoia or later.</p>
+</body>
+</html>
