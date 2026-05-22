@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.3.0-beta.1 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.3.0-beta.1</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p><strong>Netfox 0.3.0 — modular toolbox, Wi-Fi scanner, network-wide security dashboard.</strong></p>
+<p>The shell got rebuilt around five tools, a brand-new Wi-Fi scanner joined the party, the Security tab grew into a real network-wide dashboard, and the Probe-Ports flow now runs on a schedule if you want it to. Same no-account / no-cloud / no-telemetry promise.</p>
+<h2>🧰 The new shell</h2>
+<p>Netfox now opens onto a left tool sidebar with five destinations:</p>
+<ul>
+<li><strong>Home</strong> — landing dashboard with at-a-glance KPI cards (Devices · Risk posture · Public IP · Alerts) and a hero <strong>Run Smart Scan</strong> button that kicks off a network-wide port probe.</li>
+<li><strong>Wi-Fi</strong> — the new Wi-Fi network scanner (see below).</li>
+<li><strong>Overview</strong> — the device list + detail panel you already know, untouched.</li>
+<li><strong>Security</strong> — the network-wide risk dashboard (see below).</li>
+<li><strong>Optimization</strong> — roadmap placeholder for Bandwidth, Link diagnostics, and Speed test.</li>
+</ul>
+<p>Switch tools with the sidebar, with ⌘1 / ⌘2 / ⌘3 / ⌘4 / ⌘5, or by clicking any KPI card on Home. The last-selected tool is remembered across launches.</p>
+<p>The toolbar also got a refresh: the Netfox brand lockup anchors the leading side, the status filter (All · Online · Offline) and the device search live in the title bar instead of the sidebar so the device list gets its full vertical room back, and the window's native title is suppressed so nothing else fights for the row.</p>
+<h2>📡 Wi-Fi scanner</h2>
+<p>A whole new tool dedicated to the airwaves around your Mac. Open <strong>Wi-Fi</strong> to see every network the radio can hear, not just the one you're on:</p>
+<ul>
+<li><strong>Live list with traffic-light security + signal indicators.</strong> Each row leads with a coloured lock (green = WPA2/WPA3, yellow = older WPA / WEP, red = open) and a coloured wifi icon (green = excellent, red = weak). The colour code is documented in a legend strip at the bottom of the sidebar.</li>
+<li><strong>Connected network pinned on top.</strong> Your network never moves with the sort — sort and filter shape the rest of the list around it.</li>
+<li><strong>Sort by Signal Strength · Network Name · Channel · Security Type</strong>, ascending or descending. Footer-aligned right next to the picker.</li>
+<li><strong>"All Networks" toggle</strong> filters to the same band as your network when you want to compare neighbours on 2.4 vs 5 GHz.</li>
+<li><strong>Per-network detail panel</strong> with a live signal chart (hover for the exact tick + dBm readout below), every advertised AP field (SSID, BSSID, channel, band, channel width, security, country, beacon interval, network type, PHY modes), an <code class="notranslate">info</code> icon next to each field that explains what it means, an inline copy button for every value, and an <strong>Export network data</strong> action that drops a pretty-printed JSON file with the network + its full sample history.</li>
+<li><strong>One-click jump</strong> from your network's detail panel back to <strong>View Devices in Overview</strong> — same network, different angle.</li>
+</ul>
+<p>First-time use prompts for <strong>Location Services</strong> access (macOS requires it for any app reading nearby SSIDs + BSSIDs). Data never leaves your Mac.</p>
+<h2>🛡 Network-wide Security tool</h2>
+<p>Click <strong>Security</strong> to see the whole network at a glance:</p>
+<ul>
+<li>Headline counts ("3 devices need your attention") + summary pills (high · medium · low · untested), all using the same colour language as the per-device Risk Badge.</li>
+<li><strong>Scan All Devices</strong> primary action — kicks off a port probe across every device that hasn't been scanned yet. Rate-limited under the hood (no router floods).</li>
+<li>Three sections, only rendered when non-empty: <strong>High risk</strong> · <strong>Medium risk</strong> · <strong>Untested</strong>. Each row shows the device name + the first finding ("Port 80 · HTTP without HTTPS").</li>
+<li>Click any row → jumps straight to <strong>Overview</strong> with the device preselected AND its <strong>Ports</strong> tab already active. The flagged port carries an inline risk symbol next to it.</li>
+<li>After everything's been scanned, the primary action flips to <strong>Rescan All Devices</strong> so a periodic re-check stays one click away.</li>
+</ul>
+<p>Empty states branch on what's actually true: "Nothing to assess yet" when there are no devices, "Everything looks good" when devices are scanned and clean, "Nothing assessed yet" when devices are present but unreachable from this network.</p>
+<h2>⏱ Scheduled port probing (opt-in)</h2>
+<p><strong>Settings → Security → Auto-probe ports on a schedule.</strong> Off by default. Once on, Netfox re-runs a port scan on every scannable device every N hours (slider: 1 hour … 1 week, default every 6 hours). Same rate limits, same LAN-only enforcement — the schedule can't flood the network. Flipping the toggle starts/stops the sweep immediately.</p>
+<p>Security settings now live in their own dedicated <strong>Security</strong> tab inside the Settings window, separate from Advanced.</p>
+<h2>🏠 Home dashboard</h2>
+<p>The new landing tool gives you the network's posture in one screen:</p>
+<ul>
+<li><strong>Hero card</strong> with the current risk headline + <strong>Run Smart Scan</strong> that cascades a port probe across the LAN and jumps to Security so you can watch the results land.</li>
+<li><strong>Four KPI cards</strong> in a grid:
+<ul>
+<li><strong>Devices</strong> (total · online)</li>
+<li><strong>Risk posture</strong> (high / medium counts, click to jump to Security)</li>
+<li><strong>Public IP</strong> (the displayed value, refresh in place)</li>
+<li><strong>Alerts</strong> (count of unread session inbox, click to open)</li>
+</ul>
+</li>
+<li><strong>Roadmap teaser</strong> at the bottom — Bandwidth, Wi-Fi diagnostics, Link diagnostics, Speed test, each with version pins.</li>
+</ul>
+<p>Demo Mode + sample data populates every card with realistic numbers, so screenshots tell the story end-to-end.</p>
+<h2>🧭 Optimization placeholder</h2>
+<p>The Optimization tool reads as a deliberate "coming soon" surface with the upcoming modules laid out (Bandwidth v0.4 · Link diagnostics v0.5 · Speed test backlog) and a link to the full roadmap on the website. Each future module ships when it's ready instead of waiting on the slowest one.</p>
+<h2>🪟 Window improvements</h2>
+<ul>
+<li><strong>Single-window by design.</strong> "Show Tab Bar / Show All Tabs / Merge All Windows" removed — Netfox's model is a singleton, two tabs of the same data would just confuse.</li>
+<li><strong>Persisted last-section.</strong> Quit and relaunch lands you back where you were.</li>
+<li><strong>Selection survives tool switches.</strong> Picking a device in Overview, going to Security, and coming back keeps the device selected.</li>
+</ul>
+<h2>🐛 Fixes worth calling out</h2>
+<ul>
+<li>Device-detail panel no longer truncates the name or wraps IPv6 mid-octet during window resize.</li>
+<li>Scan All / Probe buttons now show a live spinner and "Scanning…" label so a click never feels like a no-op.</li>
+<li>Demo Mode no longer hides every scannable device behind sample data — the Scan All flow now works correctly when demo + sample data are both on.</li>
+<li>Native macOS <code class="notranslate">Picker(.segmented)</code> and <code class="notranslate">.searchable</code> replace the earlier custom controls in the toolbar so the whole row reads as one visual language.</li>
+<li>New <code class="notranslate">--prerelease</code> flag on the release pipeline for internal beta cuts that skip the auto-update + homepage promotion.</li>
+</ul>
+<h2>Under the hood</h2>
+<ul>
+<li>macOS 15+, SwiftUI + <code class="notranslate">@Observable</code>.</li>
+<li><code class="notranslate">NetfoxCore</code> continues to host the discovery providers, security rules engine, port probe, Wi-Fi scanner, and SwiftData stores — all unit-tested.</li>
+<li>Auto-updates via the same EdDSA-signed appcast as v0.2; signed with Developer ID + notarized.</li>
+<li>100% native. No Electron, no web views, no cloud.</li>
+</ul>
+<hr>
+<p>Free. Requires macOS 15 Sequoia or later.</p>
+</body>
+</html>

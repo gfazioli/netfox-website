@@ -1,0 +1,82 @@
+# Security
+
+Netfox doesn't just tell you *who's* on your network — it also tells you *what looks wrong*. The Security tool runs a quick check on every device it can reach, flags anything risky in plain English, and lets you fix it from the device that has the problem.
+
+## What gets checked
+
+For every device on your home network, Netfox can probe a short list of well-known ports — the ones that matter for home security:
+
+| Category | Looking for |
+|---|---|
+| Remote access | SSH, Telnet, RDP, VNC |
+| File sharing | FTP, SMB, AFP, NFS |
+| Web & IoT control | HTTP, HTTPS, MQTT, Home Assistant |
+| Discovery | NetBIOS, mDNS, SSDP |
+| Streaming & media | AirPlay, Plex, Transmission |
+| Developer & database | MySQL, PostgreSQL, Redis, MongoDB |
+
+Each port comes back as one of three states:
+
+- **Open** — the service is actively listening
+- **Closed** — nothing's listening
+- **Filtered** — a firewall is dropping the probe
+
+Probes are quick TCP connections (no packet sniffing, no root access). They only target devices on your local network — Netfox refuses to probe anything outside your LAN, even if you ask.
+
+## Risk badges
+
+Once a device has been probed, it earns a coloured badge:
+
+- 🟢 **Low risk** — nothing obviously dangerous open
+- 🟡 **Medium risk** — at least one finding worth knowing about (an HTTP-only admin page, a slightly outdated service)
+- 🔴 **High risk** — something you should fix soon (Telnet wide open, a database port reachable from the LAN, a remote-access service without TLS)
+
+Click the badge to open the **Risk Inspector** — a plain-English explanation of every finding, including which port it's on and what to do about it. No security jargon.
+
+## Running a scan
+
+Open the **Security** tab in the left sidebar. You'll see a dashboard summarising the network's posture:
+
+- Header counts ("3 devices need your attention")
+- Severity pills (high / medium / low / untested)
+- One section per severity, with the affected devices
+
+The blue **Scan All Devices** button kicks off probes across every untested device in parallel. The Security tool is rate-limited under the hood, so it can't flood your router. While a scan is running, the button reads "Scanning…" and devices migrate out of "Untested" into their real severity bucket as their results come in.
+
+Once everything has been scanned at least once, the button flips to **Rescan All Devices** — port state ages (services start, firewalls get reconfigured), and re-running the sweep picks up anything that's changed.
+
+You can also probe a single device:
+
+- Click **Probe** next to any untested row
+- Or right-click any device in Overview → **Probe Ports**
+- Or press **⌘⇧P** with a device selected
+
+## Finding the affected port
+
+Click any risk row in the Security dashboard to jump straight to that device's **Ports** tab in Overview. Every port that triggered a finding has its risk symbol painted next to it — you can spot the troublesome port at a glance instead of cross-referencing the Risk Inspector.
+
+## Scheduled scans
+
+If you'd rather Netfox keep an eye on your network continuously, open **Settings → Advanced → Security — Auto-probe** and flip **Auto-probe ports on a schedule** on. Pick an interval from 1 hour to 1 week (default: every 6 hours). Netfox will re-scan every scannable device on that cadence — same rate limits, same LAN-only check, no extra setup.
+
+The toggle is off by default. The manual **Scan All Devices** button covers the common case ("did anything change?"); the schedule is for users who want continuous coverage without having to remember to click.
+
+## Privacy
+
+Everything stays on your Mac:
+
+- Probes only fire against devices on your own LAN (verified twice — once by the UI, once by the engine).
+- No data leaves your computer. Netfox doesn't ship findings to a cloud service.
+- Demo Mode (⌘⇧D) masks port numbers and device names so you can take screenshots without exposing your setup.
+- Probe history lives in a local file alongside the device history — toggle it off any time from **Settings → Privacy & Storage**.
+
+## Why these checks, not others
+
+The home-LAN focus is deliberate. Netfox's checks target the things that actually matter on a typical home network:
+
+- An IoT plug exposing its config page over plain HTTP
+- A NAS with SMB1 still enabled
+- A router admin panel reachable via Telnet
+- A development database port (3306, 5432) accidentally bound to all interfaces
+
+Full pentest tooling (raw-socket scanning, OS fingerprinting via TCP/IP quirks, packet capture for topology) requires root access on macOS and lives outside the sandbox Netfox runs in. That work is planned for a future privileged-helper era — for now, the unprivileged checks above already catch the vast majority of home-network problems.
