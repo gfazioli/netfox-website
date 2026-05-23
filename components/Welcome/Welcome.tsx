@@ -34,7 +34,6 @@ import { SolutionSection } from '../SolutionSection/SolutionSection';
 import { BuiltForMacSection } from '../BuiltForMacSection/BuiltForMacSection';
 import { AccentCard, GradientIcon } from '../AccentCard/AccentCard';
 import accentClasses from '../AccentCard/AccentCard.module.css';
-import { RadarPulse } from '../RadarPulse/RadarPulse';
 import classes from './Welcome.module.css';
 
 /**
@@ -206,25 +205,47 @@ export function Welcome() {
           <Scene.Glow color="orange" size={560} blur={140} opacity={0.4} top="5%" left="-10%" />
           <Scene.Glow color="violet" size={460} blur={120} opacity={0.28} top="65%" left="85%" />
           <Scene.DotGrid color="gray" opacity={0.14} spacing={32} />
+          {/*
+            Wi-Fi pulse — concentric arcs blooming upward from the
+            bottom-centre of the hero. Previously hand-rolled as a
+            sibling component (`RadarPulse`); mantine-scene 2.2+
+            ships the same primitive natively, so it sits inside
+            the `Scene` block now and inherits the same lazy /
+            viewport-aware machinery as the other layers.
+          */}
+          <Scene.Radar
+            origin="50% 100%"
+            shape="arc"
+            arcDirection="up"
+            color="orange.4"
+            count={4}
+            interval={1.5}
+            duration={6}
+            size="1400px"
+            strokeWidth={2}
+            peakOpacity={0.4}
+          />
+          {/*
+            Mirror radar at the top-centre, arcs opening downward.
+            Pairs with the bottom radar for a "signal bouncing
+            between top and bottom" feel. Parameters identical so
+            the two layers read as the same effect, just mirrored —
+            the only delta is `arcDirection="down"`, which also
+            shifts the default `origin` to `50% 0%` automatically.
+          */}
+          <Scene.Radar
+            shape="arc"
+            arcDirection="down"
+            color="orange.4"
+            count={4}
+            interval={1.5}
+            duration={6}
+            size="1400px"
+            strokeWidth={2}
+            peakOpacity={0.4}
+          />
           <Scene.Noise opacity={0.022} />
         </Scene>
-        {/*
-          Wi-Fi pulse — concentric arcs blooming upward from the
-          bottom-centre of the hero. Fills the `Scene.Radar`-shaped
-          gap in mantine-scene; lives inline here for now so we
-          can iterate before deciding whether to upstream it.
-        */}
-        <RadarPulse
-          origin="50% 100%"
-          shape="arc"
-          color="var(--mantine-color-orange-4)"
-          count={4}
-          interval={1.5}
-          duration={6}
-          maxRadius="1400px"
-          strokeWidth={2}
-          peakOpacity={0.4}
-        />
         <Container size="lg" pos="relative" style={{ zIndex: 1 }}>
           <Stack align="center" gap="xl" py={80}>
             <Badge
