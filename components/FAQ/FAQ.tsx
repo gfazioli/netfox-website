@@ -36,13 +36,13 @@ const faqItems = [
     value: 'modify',
     question: 'Does Netfox change anything on my network?',
     answer:
-      'Read-only by default. The active-probing module sends ICMP echo (standard ping) — that\'s the only outbound traffic Netfox generates on its own. No port scans, no DHCP poking, nothing intrusive.',
+      "Read-only by default. The active-probing module sends ICMP echo (standard ping) — that's the only outbound traffic Netfox generates on its own. No port scans, no DHCP poking, nothing intrusive.",
   },
   {
     value: 'cross-network',
     question: 'Does Netfox work across VLANs / guest networks?',
     answer:
-      'Only for networks the Mac is currently attached to (any interface — Wi-Fi, Ethernet, Thunderbolt bridge). Devices on an isolated guest network or a different VLAN are invisible to the Mac itself, so Netfox can\'t see them either — that\'s a router limitation, not a Netfox one.',
+      "Only for networks the Mac is currently attached to (any interface — Wi-Fi, Ethernet, Thunderbolt bridge). Devices on an isolated guest network or a different VLAN are invisible to the Mac itself, so Netfox can't see them either — that's a router limitation, not a Netfox one.",
   },
   {
     value: 'bug',

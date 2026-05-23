@@ -37,7 +37,7 @@ export function AccentCard({ accent, children, className, style, ...paperProps }
       p={paperProps.p ?? 'xl'}
       radius={paperProps.radius ?? 'lg'}
       className={`${classes.card} ${className ?? ''}`.trim()}
-      style={{ ...(style ?? {}), '--card-accent': accent } as AccentCardStyle}
+      style={{ ...style, '--card-accent': accent } as AccentCardStyle}
     >
       {children}
     </Paper>
@@ -60,10 +60,7 @@ interface GradientIconProps {
 
 export function GradientIcon({ icon: Icon, size = 48 }: GradientIconProps) {
   return (
-    <Box
-      className={classes.iconChip}
-      style={{ '--chip-size': `${size}px` } as CSSProperties}
-    >
+    <Box className={classes.iconChip} style={{ '--chip-size': `${size}px` } as CSSProperties}>
       <Icon size={Math.round(size * 0.55)} />
     </Box>
   );
