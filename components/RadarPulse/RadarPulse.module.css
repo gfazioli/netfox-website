@@ -44,11 +44,13 @@
     transform: translate(-50%, -50%) scale(0);
     opacity: 0;
   }
+
   10% {
     /* `--peak-opacity` is the brightness at the moment the wave
        finishes emerging. After that it decays to 0 by frame 100%. */
     opacity: var(--peak-opacity, 0.45);
   }
+
   100% {
     transform: translate(-50%, -50%) scale(1);
     opacity: 0;

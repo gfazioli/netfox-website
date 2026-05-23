@@ -387,7 +387,12 @@ export function Welcome() {
             animate
             duration={40}
           />
-          <Scene.Aurora colors={['orange', 'yellow', 'red']} bands={3} position="top" opacity={0.22} />
+          <Scene.Aurora
+            colors={['orange', 'yellow', 'red']}
+            bands={3}
+            position="top"
+            opacity={0.22}
+          />
           <Scene.Noise opacity={0.018} />
         </Scene>
 

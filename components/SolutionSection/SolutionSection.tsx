@@ -1,6 +1,13 @@
 'use client';
 
-import { IconDeviceLaptop, IconDeviceMobile, IconDeviceTv, IconHome, IconPrinter, IconRouter } from '@tabler/icons-react';
+import {
+  IconDeviceLaptop,
+  IconDeviceMobile,
+  IconDeviceTv,
+  IconHome,
+  IconPrinter,
+  IconRouter,
+} from '@tabler/icons-react';
 import { Badge, Box, Container, Group, Paper, Stack, Text, Title } from '@mantine/core';
 
 // Mock device snapshot that mirrors how Netfox itself renders the
