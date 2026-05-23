@@ -5,7 +5,6 @@
     ".next",
     "out",
     "public/_pagefind",
-    "*.config.js",
-    "*.config.ts"
+    "*.config.{js,cjs,mjs,ts}"
   ]
 }
