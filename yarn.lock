@@ -7449,6 +7449,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cobe@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "cobe@npm:2.0.1"
+  checksum: 10c0/5a878362077feb72ceedc9031e9b5c5b759b8922bc1f5090e177e981ce04fc39b4a67aaa5c736716a03a44ef453a98fbf194a1ddd2888aa8f7caf48308cacab8
+  languageName: node
+  linkType: hard
+
 "code-block-writer@npm:^13.0.3":
   version: 13.0.3
   resolution: "code-block-writer@npm:13.0.3"
@@ -13030,6 +13037,7 @@ __metadata:
     "@types/react": "npm:19.2.15"
     "@vercel/analytics": "npm:^1.6.1"
     babel-loader: "npm:^10.1.1"
+    cobe: "npm:^2.0.1"
     jest: "npm:^30.4.2"
     jest-environment-jsdom: "npm:^30.4.1"
     next: "npm:16.2.6"
