@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.3.0 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.3.0</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<h2>🛡 Security tool gets a full inventory</h2>
+<ul>
+<li><strong>Service Inventory — By Service view</strong> — the Security tab gains a toggle: see your network grouped by what services are exposed (Plex, nginx, Telnet, …), not just which devices have which ports open. Click a row to drill into the devices contributing each service.</li>
+<li><strong>HTTP service identification</strong> — when a device exposes a web port, Netfox grabs the <code class="notranslate">Server:</code> header + page title and surfaces them inline ("Plex Media Server", "nginx/1.24", "HP printer admin"). Opt-in from Settings → Service identification; outgoing HEAD request, LAN-only, never leaves your network.</li>
+<li><strong>UPnP / SSDP discovery</strong> — catches the devices Bonjour doesn't see: consumer routers, smart TVs, NAS units, casting boxes. Runs on a 120-second poll, joins the multicast group as a receiver — no extra permissions required.</li>
+</ul>
+<h2>🚨 Three new alert kinds (all opt-in)</h2>
+<ul>
+<li><strong>Port opened on a known device</strong> — fires when a previously closed or filtered port comes back as open ("Port 80 (HTTP) opened on the BRAVIA TV"). Uses the same per-(device, port) dedup as new-device alerts.</li>
+<li><strong>New service identified</strong> — fires the first time we fingerprint a web service on a port ("Plex Media Server detected on Living-Room-iMac"). Pairs with Service identification above.</li>
+<li><strong>Risky new device arrived</strong> — fires when a device first seen in the last 48 hours scans with a high-severity finding ("Telnet exposed on new device guest-laptop"). Pairs with the existing new-device alert.</li>
+</ul>
+<h2>🤫 Per-device mute</h2>
+<p>Right-click any device → <strong>Mute Alerts</strong>. Silences every alert kind for that one device (new-device, returned, port-opened, new-service, risky-arrival) without hiding the row. Useful for guest phones that keep tripping the returned-after-absence alert and for acknowledged-but-noisy routers. A small bell-slash indicator next to the device name keeps the silence discoverable.</p>
+<h2>🌐 VPN awareness</h2>
+<p>A <code class="notranslate">VPN</code> chip appears in the Home Public IP card and the Devices banner whenever the Mac is on a VPN tunnel. Makes "why is my public IP suddenly Frankfurt" answerable at a glance instead of a system-settings dive.</p>
+<h2>🪞 Tool renamed: Overview → Devices</h2>
+<p>The "Overview" tool is now "Devices". Matches the existing KPI on Home and the natural shorthand the rest of the UI was already using.</p>
+<h2>🎨 UI polish</h2>
+<ul>
+<li><strong>Demo Mode</strong> now masks device names + MAC suffixes in the alerts inbox + history sheet too — earlier the masking only applied to the device list, leaving real hostnames visible to screenshots taken from the bell.</li>
+<li><strong>Right-click → Copy</strong> on every identity row in the device detail (MAC, IPv4, IPv6) — the inline copy button stays, but the most natural macOS gesture now also works.</li>
+<li><strong>Wi-Fi list</strong> keeps the last known networks when macOS rate-limits the scan, instead of blanking to "No networks found" between successful ticks.</li>
+<li><strong>Devices tool</strong> renders full-width on first paint after a Wi-Fi → "View Devices" cross-link (was a compact island stuck mid-window).</li>
+</ul>
+<h2>🩹 Fixes</h2>
+<ul>
+<li><code class="notranslate">.portOpened</code> / <code class="notranslate">.newService</code> / <code class="notranslate">.riskyDeviceArrival</code> no longer silently dropped when a device id is consolidated mid-probe.</li>
+<li>Location permission prompt is more reliable on notarized installs under macOS 26 (added a documented <code class="notranslate">requestLocation()</code> call alongside the existing two triggers, plus a "Open Location Settings" escape hatch).</li>
+<li><code class="notranslate">Demo Mode + sample data</code> toggle now correctly re-injects sample alerts on launch, not just on Settings toggle.</li>
+</ul>
+<h2>🔬 Under the hood</h2>
+<ul>
+<li>50+ new unit tests covering anomaly factories, service aggregation, banner parser truth-table, SSDP message parser, Wi-Fi scan resilience contract, and the consolidation rewrite map.</li>
+<li>Persisted alert schema gains additive Optional columns so existing installs upgrade silently.</li>
+<li>Sparkle's <code class="notranslate">sign_update</code> now invoked with the explicit <code class="notranslate">--account Netfox</code> flag in <code class="notranslate">release.sh</code> to disambiguate from co-resident keypairs.</li>
+</ul>
+</body>
+</html>
