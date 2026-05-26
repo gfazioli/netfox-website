@@ -1,10 +1,31 @@
-# Netfox
+<p align="center">
+  <img src="public/icon-512x512.png" alt="Netfox" width="160" height="160" />
+</p>
 
-The marketing and download site for **[Netfox](https://netfox.app)** — a native macOS app that monitors your home network: every connected device, every Wi-Fi neighbour, every risk worth knowing about, at a glance.
+<h1 align="center">Netfox</h1>
 
-[![Latest Release](https://img.shields.io/github/v/release/gfazioli/netfox-website?label=Download&color=orange)](https://github.com/gfazioli/netfox-website/releases/latest)
-[![macOS](https://img.shields.io/badge/macOS-15%2B-blue)](https://www.apple.com/macos/)
-[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+<p align="center">
+  <strong>A native macOS network monitor — devices, history, alerts.</strong><br/>
+  Every connected device, every Wi-Fi neighbour, every risk worth knowing about, at a glance.
+</p>
+
+<p align="center">
+  <a href="https://github.com/gfazioli/netfox-website/releases/latest"><img src="https://img.shields.io/github/v/release/gfazioli/netfox-website?label=Download&color=orange" alt="Latest Release" /></a>
+  <a href="https://www.apple.com/macos/"><img src="https://img.shields.io/badge/macOS-15%2B-blue" alt="macOS 15+" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="MIT License" /></a>
+</p>
+
+<p align="center">
+  <a href="https://netfox.app">Website</a>
+  ·
+  <a href="https://netfox.app/docs/getting-started">Documentation</a>
+  ·
+  <a href="https://github.com/gfazioli/netfox-website/releases/latest">Download</a>
+</p>
+
+<p align="center">
+  <img src="public/screenshot-overview.png" alt="Netfox Overview" width="820" />
+</p>
 
 ## What is Netfox?
 
