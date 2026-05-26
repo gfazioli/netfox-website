@@ -1,0 +1,41 @@
+import { Callout } from 'nextra/components';
+
+# Overview
+
+The **Overview** is the landing tool — it's what you see the first time you open Netfox, and it's where you land at every launch. Think of it as the dashboard: in one screen you see *what's on your network*, *what looks risky*, *what your network's outward face is*, and *what's in the alert inbox*.
+
+![Netfox Overview](/screenshot-overview.png)
+
+## Hero card
+
+The top of the page tells you the most important thing first: the headline of the network's posture. The hero card adapts:
+
+- **All clear** — every probed device is low risk
+- **N device(s) worth a look** — there are medium-risk findings to triage
+- **N device(s) need attention** — there are high-risk findings, deal with them
+- **Run your first scan** — nothing has been probed yet
+
+The blue **Run Smart Scan** button takes you to the [Security](/docs/tools/security) tool and kicks off a scan across every untested device on your LAN. Convenient because the same button works whether you've never scanned or want to re-scan everything.
+
+## At a glance
+
+Four KPI cards sit under the hero. Each one is clickable and switches to the relevant tool when you tap it:
+
+| Card | What it shows | Click target |
+|---|---|---|
+| **Devices** | Total count + how many are online right now | [Devices tool](/docs/tools/devices) |
+| **Risk posture** | Headline severity + breakdown (high / medium / low / untested) | [Security tool](/docs/tools/security) |
+| **Public IP** | Your network's outward IPv4 + a live chip when a VPN tunnel is active. Inline refresh button | [Devices tool](/docs/tools/devices) |
+| **Alerts inbox** | Count of unread alerts since you last opened the bell | [Devices tool](/docs/tools/devices) |
+
+<Callout type="info">
+The **Public IP** card is opt-in. It's off by default; enable it from **Settings → Privacy → Show my public IP**. When on, Netfox queries a public-IP lookup service over HTTPS — that's the only outbound traffic the Overview generates.
+</Callout>
+
+## Demo Mode
+
+If you ever screenshot or screen-share the Overview, flip on **Demo Mode** with <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>D</Kbd> first. Device names, MACs, IPv6, Wi-Fi SSIDs, and the public IP placeholder all collapse to generic labels — no real values leak into the recording. See [Settings → Privacy](/docs/settings#privacy) for the full mask reference.
+
+## Roadmap teaser
+
+A small footer card at the bottom of the Overview links to the public [Roadmap](/docs/roadmap), which lays out the modules planned past v0.3. You can dismiss it once you've seen it — it doesn't pop again.
