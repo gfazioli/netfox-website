@@ -386,23 +386,24 @@ export function Welcome() {
             (4 cards) and wrapping reads less awkwardly than hitting a
             hard stop at the ends.
           */}
-          <Box
-            mt={32}
-            // The DepthSelect renders its cards `position: absolute`
-            // (so the stack overlaps in 3D). Without an explicit
-            // height the wrapper collapses to 0px and the slideshow
-            // disappears. The screenshots ship at ~3:2; reserve
-            // enough room for the front card plus the trailing
-            // visibleCards offsets (`translateYStep * (visibleCards
-            // - 1)` ≈ 90px headroom).
-            style={{
-              position: 'relative',
-              width: '100%',
-              aspectRatio: '3 / 2',
-              maxWidth: 1100,
-              marginInline: 'auto',
-            }}
-          >
+          <Box mt={32} maw={1100} mx="auto">
+            {/*
+              Follow the component's documented usage pattern:
+              numeric `h` directly on the DepthSelect (the docs
+              demo uses `h={200}`). Earlier the slideshow lived
+              inside a wrapper with `aspect-ratio` + `h="100%"`,
+              which left the controls column without a tall flex
+              container — `controlsProps.justify: 'center'` had
+              no room to centre against. With an explicit pixel
+              height the column gets its proper bounds and
+              centring works.
+
+              640 is a balanced choice: tall enough that the
+              active card preserves the screenshots' ratio on a
+              typical desktop width, short enough that the hero
+              doesn't push the next-section content past the
+              fold on a 1080p display.
+            */}
             <DepthSelect
               data={heroSlides}
               defaultValue="overview"
@@ -410,15 +411,9 @@ export function Welcome() {
               loop
               ariaLabel="Netfox screenshots"
               controlsPosition="right"
-              // The DepthSelect ships with `justify: 'start'` as
-              // the runtime default (the TS doc claims `center`
-              // but the rendered output disagrees). Force-centre
-              // the up/down controls vertically so they sit
-              // beside the active card instead of floating at
-              // the top edge of the wrapper.
-              controlsProps={{ justify: 'center' }}
-              h="100%"
+              controlsProps={{ justify: 'center', w: 80 }}
               w="100%"
+              h={640}
             />
           </Box>
         </Container>
