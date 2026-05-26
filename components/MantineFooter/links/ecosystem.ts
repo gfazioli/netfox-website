@@ -2,7 +2,7 @@ export const ecosystem = [
   {
     key: 'findergit',
     title: 'FinderGit',
-    href: 'https://findergit-website.vercel.app',
+    href: 'https://findergit.app',
     newWindow: true,
   },
   {
