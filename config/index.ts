@@ -1,7 +1,11 @@
 export default {
   metadata: {
     title: {
-      default: 'Netfox — Network Monitor for macOS',
+      // 53 characters — within the 50-60 OG sweet spot. Combines
+      // the app's two main pillars (network monitoring + risk
+      // scanning) so a link preview tells the user what the app
+      // does, not just its name.
+      default: 'Netfox — Network Scanner & Security Toolkit for macOS',
       template: '%s | Netfox',
     },
     description:
