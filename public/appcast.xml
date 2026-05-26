@@ -15,6 +15,19 @@
     -->
     <!-- release.sh inserts new <item> entries right below this marker -->
 <item>
+            <title>Version 0.3.1</title>
+            <pubDate>Tue, 26 May 2026 09:04:35 +0000</pubDate>
+            <sparkle:version>152</sparkle:version>
+            <sparkle:shortVersionString>0.3.1</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>26.5</sparkle:minimumSystemVersion>
+            <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.3.1.html</sparkle:releaseNotesLink>
+            <enclosure
+                url="https://github.com/gfazioli/netfox-website/releases/download/v0.3.1/Netfox-0.3.1.dmg"
+                sparkle:edSignature="lq3HecmsxHzq5dvnNycSY/FgUsz7abbNjvk2AkiM/eDMj7LDRhIFdutuY+K1bVDEzgEsi0chJU8DDhkR0rUxBw==" length="7412523"
+                type="application/octet-stream" />
+        </item>
+
+<item>
             <title>Version 0.3.0</title>
             <pubDate>Mon, 25 May 2026 16:30:28 +0000</pubDate>
             <sparkle:version>145</sparkle:version>
