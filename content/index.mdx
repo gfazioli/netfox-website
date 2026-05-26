@@ -1,18 +1,33 @@
 # Netfox
 
-**Netfox** is a native macOS application that monitors your home network. Every connected device, when it joined, and what's new — at a glance. No cloud account, no telemetry, no router-vendor lock-in.
+**Netfox** is a native macOS application that monitors your home network. Every connected device, every Wi-Fi neighbour, every risk worth knowing about — at a glance. No cloud account, no telemetry, no router-vendor lock-in.
+
+## A modular toolkit
+
+The app is organised as five focused tools you switch between from the left sidebar:
+
+- **Overview** — a landing dashboard that summarises devices, risk posture, your public IP, and the alert inbox in one screen
+- **Wi-Fi** — every Wi-Fi network your Mac can see, with live signal-strength history, channel, band, and security mode
+- **Devices** — the full LAN device list, with a detail panel per device showing identity, network, history, and open services
+- **Security** — port-probe results and risk badges for every reachable device, plus a one-click *Scan All Devices*
+- **Optimization** — placeholder for the post-0.3 module wave (Wi-Fi diagnostics → Link diagnostics → Bandwidth monitor)
+
+Each tool reads from the same shared device store, so a finding in one shows up everywhere it's relevant.
 
 ## What it does
 
-- **Live device list** — every machine on your network, with hostname, MAC, vendor, IPv4/IPv6, and online state
-- **Multi-source discovery** — Bonjour/mDNS, the system ARP cache, and active ICMP probing run together. Apple devices, dumb IoT, quiet hosts — all in the same list
+- **Multi-source discovery** — Bonjour / mDNS, the system ARP cache, SSDP, NetBIOS, and active ICMP probing run together. Apple devices, dumb IoT, quiet hosts, smart-TVs — all in the same list
 - **Per-device history** — first seen, last seen, every transition (online ↔ offline, IPv4 learned/changed, hostname changed, vendor learned, kind refined) on a timeline that survives across launches
-- **Smart alerts** — in-app inbox (the bell in the toolbar) and native macOS notifications. Fires for brand-new devices AND for known ones returning after a long absence. Persistent log viewable from **View → Alert History…** (⌘⇧A)
-- **Probe on demand** — manually re-check a specific device with **Probe This Device** from the context menu, instead of waiting for the next discovery pass
-- **Manual tagging** — right-click any device to give it a custom name and icon. Useful for the cryptic vendor-name rows ("Espressif Inc.") that mean nothing without context
-- **This Mac, pinned** — the Mac running Netfox is always at the top of the sidebar, with its current Wi-Fi/Ethernet connection state
-- **Advanced Mode** (⌘⇧M) — opt-in denser UI: MAC in the sidebar, Engine ID + absolute timestamps in the detail panel
-- **Tabbed Settings** — General (theme, login), Alerts (notifications), Updates (auto-update controls), Advanced (power-user thresholds), About
+- **Smart alerts** — fires for **new devices**, **returning devices after a long absence**, **risky arrivals** (a port-risky host that's been silent comes back online), **new services** opening on a device, and **port-state changes**. Inbox + persistent history (⌘⇧A) + per-device mute + native macOS notifications
+- **Security checks** — TCP port probes against the well-known home-security set (SSH, Telnet, RDP, VNC, SMB, HTTP/HTTPS, MQTT, MySQL/PostgreSQL/Redis/MongoDB, …). Open services get a plain-English Risk Inspector with what each finding means and what to do about it
+- **Wi-Fi visibility** — live RSSI / noise / SNR per network, channel + band, security mode, signal history chart for the selected AP, and a one-click jump to the devices on the currently-connected network
+- **Public IP + VPN awareness** — shows your network's outward face on the Overview, with a live chip when the connection is being tunnelled
+- **Tagging** — right-click any device to give it a custom name and icon. Useful for the cryptic vendor-name rows ("Espressif Inc.") that mean nothing without context
+- **Probe on demand** — right-click → *Probe This Device* (refresh online state) or *Probe Ports* (re-run the security check) without waiting for the next pass
+- **Demo Mode (⌘⇧D)** — one-keystroke privacy mask for screenshots and demos: device names collapse to `Computer #1`, MACs lose their last three octets, IPv6 loses everything past the first hextet, Wi-Fi SSIDs become `Network #N`. Render-only — the underlying store is untouched
+- **This Mac, pinned** — the Mac running Netfox is always at the top of the Devices list, with its current Wi-Fi/Ethernet badge
+- **Advanced Mode (⌘⇧M)** — opt-in denser UI: MAC in the sidebar, Engine ID + absolute timestamps in the detail panel
+- **Tabbed Settings** — General · Alerts · Security · Privacy · Advanced · Updates · About
 - **No account, no cloud, no telemetry** — every observation lives on your Mac
 - **Universal binary** — runs on Apple Silicon and Intel Macs; macOS picks the right slice at launch
 - **Auto-updates** — built in, signed; the app checks for new versions automatically and prompts you when one is available
@@ -21,5 +36,6 @@
 
 - macOS 15 (Sequoia) or later
 - A local network — Wi-Fi, Ethernet, or anything macOS reports as an interface with a subnet
+- For the Wi-Fi tool, macOS requires Location permission to expose SSID details — Netfox asks once the first time you open the tool
 
-See [Getting Started](/docs/getting-started) for first-launch notes, [Settings](/docs/settings) for the full preferences reference, and [Keyboard Shortcuts](/docs/keyboard-shortcuts) for the (small) keyboard surface.
+See [Getting Started](/docs/getting-started) for the first-launch walkthrough, [Security](/docs/security) for what the Security tool checks and why, [Settings](/docs/settings) for the full preferences reference, [Keyboard Shortcuts](/docs/keyboard-shortcuts) for the (small) keyboard surface, and [Roadmap](/docs/roadmap) for what's coming next.

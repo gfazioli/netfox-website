@@ -1,25 +1,39 @@
 # Keyboard Shortcuts
 
-Netfox keeps the keyboard surface small on purpose — most discovery happens passively, so there's not much you need to trigger by hand. Every shortcut below either flips an app-wide mode, opens a window, or refreshes the device list.
+Netfox keeps the keyboard surface small on purpose — most discovery happens passively, so there's not much you need to trigger by hand. Every shortcut below either switches tools, opens a window, flips an app-wide mode, or refreshes the device list.
+
+## Switch tools
+
+The five tools in the left sidebar each carry a number, in display order:
+
+<ShortcutsTable shortcuts={[
+  { keys: ['⌘', '1'], action: 'Switch to Overview — the landing dashboard' },
+  { keys: ['⌘', '2'], action: 'Switch to Wi-Fi — visible networks and signal history' },
+  { keys: ['⌘', '3'], action: 'Switch to Devices — the LAN device list and detail panel' },
+  { keys: ['⌘', '4'], action: 'Switch to Security — risk findings and Smart Scan' },
+  { keys: ['⌘', '5'], action: 'Switch to Optimization — placeholder for the post-0.3 module wave' },
+]} />
 
 ## View
 
 <ShortcutsTable shortcuts={[
   { keys: ['⌘', 'R'], action: 'Refresh — force every discovery provider to re-emit immediately' },
   { keys: ['⌘', '⇧', 'A'], action: 'Open Alert History — the persistent log of every alert Netfox has raised' },
+  { keys: ['⌘', '⇧', 'P'], action: 'Probe Ports — run a security scan on the currently selected device' },
+  { keys: ['⌘', '⇧', 'D'], action: 'Toggle Demo Mode — masks names, MACs, IPv6, and SSIDs for safe screenshots' },
   { keys: ['⌘', '⇧', 'M'], action: 'Toggle Advanced Mode — adds MAC to the sidebar, Engine ID + absolute timestamps to the detail panel' },
 ]} />
 
 ## Search
 
 <ShortcutsTable shortcuts={[
-  { keys: ['⌘', 'F'], action: 'Focus the sidebar search field' },
+  { keys: ['⌘', 'F'], action: 'Focus the sidebar search field (in the Devices tool)' },
 ]} />
 
 ## Application
 
 <ShortcutsTable shortcuts={[
-  { keys: ['⌘', ','], action: 'Open Settings' },
+  { keys: ['⌘', ','], action: 'Open Settings (always lands on the General tab)' },
   { keys: ['⌘', 'W'], action: 'Close the main window' },
   { keys: ['⌘', 'Q'], action: 'Quit Netfox' },
 ]} />
