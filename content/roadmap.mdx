@@ -1,0 +1,51 @@
+---
+title: Roadmap
+---
+
+# Roadmap
+
+Netfox grows one module at a time. Each release ships a focused piece of the bigger picture so you can use what's ready instead of waiting for everything to land at once.
+
+Dates aren't promised — versions are. Modules ship in the order below, and "Planned for v0.X" means "this is the version we're aiming to land it in", not a fixed calendar.
+
+## Where we are today
+
+Netfox **0.3** is live. The current build covers:
+
+- **Discovery & history** — Bonjour / mDNS, ARP, SSDP, NetBIOS. Every device you've ever had on the network is remembered with a timeline.
+- **Alerts** — new devices, returning devices, risky arrivals, port changes, new services. Inbox + history + per-device mute.
+- **Security** — port probe + risk badges, network-wide Smart Scan, Risk Inspector.
+- **Public IP & VPN awareness** — shows your network's outward face and whether traffic is tunnelled.
+- **Demo Mode** — a one-keystroke privacy mask for screenshots and demos.
+- **Overview dashboard** — the landing surface that summarises everything above at a glance.
+
+## What's next
+
+### v0.4 — Wi-Fi diagnostics
+
+The Wi-Fi tab today is a basic neighbour list. v0.4 turns it into a real diagnostics tool: signal-strength history, channel usage, congestion warnings, hidden network detection. Goal: answer "is my Wi-Fi the problem?" without leaving Netfox.
+
+### v0.5 — Link diagnostics
+
+Physical-layer health. Cable speed negotiation, duplex mismatch warnings, NIC stats, route latency. For people who plug their Mac in and want to know whether the wall jack is letting them down.
+
+### v0.6 — Bandwidth monitor
+
+Per-device traffic accounting in real time. This is the biggest single lift on the roadmap because it needs a privileged background helper to read packet metadata — the helper itself is reusable for several follow-up features, so the slot also unlocks more advanced security signals.
+
+### Backlog — Speed test
+
+A built-in speed test (download / upload / latency / jitter / packet loss). Nice to have, but not the differentiator — Netfox's job is what's on *your* network, and free speed-test sites already do this well. We'll fold it in when the surrounding modules need a reference for "what should this look like?".
+
+## Beyond v0.6
+
+The plan past v0.6 is intentionally less specific. Likely directions:
+
+- **Threat intelligence** — cross-referencing devices and traffic against public reputation feeds, with the helper from v0.6 doing the heavy lifting.
+- **Topology view** — a graph of how devices reach each other (router, mesh nodes, switches), surfaced once the helper has enough signal to draw it reliably.
+- **Menu bar agent** — a quick-glance popover so you can check what's happening without opening the main window.
+- **Polish & 1.0** — by the time the modules above are stable, we'll know what the v1.0 release should look like and what tradeoffs it should make.
+
+## Feedback shapes the order
+
+If a feature you care about is sitting low on the list and you'd use Netfox more if it moved up, [open an issue](https://github.com/gfazioli/netfox-website/issues) and say so. The order above is the current best guess — it's not a contract.
