@@ -2831,6 +2831,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@gfazioli/mantine-depth-select@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@gfazioli/mantine-depth-select@npm:2.0.2"
+  peerDependencies:
+    "@mantine/core": ">=7.0.0"
+    "@mantine/hooks": ">=7.0.0"
+    react: ^18.x || ^19.x
+    react-dom: ^18.x || ^19.x
+  checksum: 10c0/6d0db162cdd6b140a76534e786125ba5a3659d9aecae8acc6922a62efab71d7f19803914b64d0f194c9bc84a2d7f0e84ec6017381395d1126c50cbcf89d39aa0
+  languageName: node
+  linkType: hard
+
 "@gfazioli/mantine-marquee@npm:^4.0.3":
   version: 4.0.3
   resolution: "@gfazioli/mantine-marquee@npm:4.0.3"
@@ -13016,6 +13028,7 @@ __metadata:
   resolution: "netfox-website@workspace:."
   dependencies:
     "@babel/core": "npm:^7.29.0"
+    "@gfazioli/mantine-depth-select": "npm:^2.0.2"
     "@gfazioli/mantine-marquee": "npm:^4.0.3"
     "@gfazioli/mantine-scene": "npm:^2.2.1"
     "@gfazioli/mantine-text-animate": "npm:^4.0.2"

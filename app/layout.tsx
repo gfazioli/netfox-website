@@ -3,6 +3,7 @@ import '@mantine/core/styles.css';
 import '@gfazioli/mantine-marquee/styles.css';
 import '@gfazioli/mantine-text-animate/styles.css';
 import '@gfazioli/mantine-scene/styles.css';
+import '@gfazioli/mantine-depth-select/styles.css';
 // Mantine theme overrides (body background, marquee fade edges, etc.)
 import '@/theme/global.css';
 

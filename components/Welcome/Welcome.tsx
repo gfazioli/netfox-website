@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { DepthSelect, type DepthSelectItem } from '@gfazioli/mantine-depth-select';
 import { Scene } from '@gfazioli/mantine-scene';
 import { TextAnimate } from '@gfazioli/mantine-text-animate';
 import {
@@ -123,6 +124,61 @@ function ZoomableScreenshot({
 }
 
 /**
+ * Cards rendered inside the hero `DepthSelect`. One per top-level
+ * tool in the app — Overview, Wi-Fi, Devices, Security — keyed by a
+ * stable string value so consumers (analytics, deep-links) could
+ * round-trip an active card later if we want to.
+ *
+ * Each card is a `ZoomableScreenshot` so clicking through the stack
+ * still opens the fullscreen Modal on the active card. Module-level
+ * JSX is fine here: React reads it as element descriptors and the
+ * `useState` inside `ZoomableScreenshot` is invoked per render, not
+ * at definition.
+ */
+const heroSlides: DepthSelectItem[] = [
+  {
+    value: 'overview',
+    view: (
+      <ZoomableScreenshot
+        src="/screenshot-overview.png"
+        alt="Netfox — Overview dashboard"
+        shadowOpacity={0.7}
+      />
+    ),
+  },
+  {
+    value: 'wifi',
+    view: (
+      <ZoomableScreenshot
+        src="/screenshot-wifi.png"
+        alt="Netfox — Wi-Fi diagnostics"
+        shadowOpacity={0.7}
+      />
+    ),
+  },
+  {
+    value: 'devices',
+    view: (
+      <ZoomableScreenshot
+        src="/screenshot-devices.png"
+        alt="Netfox — Devices and history"
+        shadowOpacity={0.7}
+      />
+    ),
+  },
+  {
+    value: 'security',
+    view: (
+      <ZoomableScreenshot
+        src="/screenshot-security.png"
+        alt="Netfox — Security findings"
+        shadowOpacity={0.7}
+      />
+    ),
+  },
+];
+
+/**
  * Each feature's `accent` is consumed by `AccentCard` as the
  * `--card-accent` CSS variable — drives the radial gradient on
  * the card, the icon chip gradient, and the hover glow. Mantine
@@ -135,21 +191,28 @@ const features = [
     icon: IconRadar,
     title: 'Multi-Source Discovery',
     description:
-      'Bonjour, ARP and active probing run together. Apple devices, dumb IoT, quiet hosts — all in the same list.',
+      'Bonjour, ARP, SSDP, NetBIOS and active probing run together. Apple devices, smart-TVs, IoT, quiet hosts — all in the same list.',
     accent: 'var(--mantine-color-orange-5)',
+  },
+  {
+    icon: IconShieldLock,
+    title: 'Risk-Aware Security',
+    description:
+      'One-click Scan All checks every reachable device against a curated set of home-network ports. Risk Inspector explains each finding in plain English.',
+    accent: 'var(--mantine-color-red-5)',
   },
   {
     icon: IconClock,
     title: 'Per-Device History',
     description:
-      'First seen, last seen, every online/offline transition. Timeline survives across launches.',
+      'First seen, last seen, every online/offline transition, every IP/hostname/vendor change. Timeline survives across launches.',
     accent: 'var(--mantine-color-blue-5)',
   },
   {
     icon: IconBell,
-    title: 'New-Device Alerts',
+    title: 'Five Kinds of Alert',
     description:
-      'In-app inbox plus native macOS notifications. Persistent log of everything that ever fired.',
+      'New device, returning after long absence, risky arrival, port-state change, new service. Inbox + persistent log + per-device mute.',
     accent: 'var(--mantine-color-yellow-5)',
   },
   {
@@ -161,15 +224,9 @@ const features = [
   {
     icon: IconNetwork,
     title: 'No Account, No Cloud',
-    description: 'Data stays on your Mac. No telemetry, no sign-up, no vendor lock-in.',
-    accent: 'var(--mantine-color-cyan-5)',
-  },
-  {
-    icon: IconShieldLock,
-    title: 'Signed & Notarized',
     description:
-      'Developer ID + Apple notarization. Gatekeeper accepts it on first open, no security workarounds.',
-    accent: 'var(--mantine-color-green-5)',
+      'Data stays on your Mac. No telemetry, no sign-up, no vendor lock-in. One-keystroke Demo Mode masks names, MACs, IPv6 and SSIDs for safe screenshots.',
+    accent: 'var(--mantine-color-cyan-5)',
   },
 ];
 
@@ -217,7 +274,7 @@ export function Welcome() {
             origin="50% 100%"
             shape="arc"
             arcDirection="up"
-            color="orange.4"
+            color="blue.4"
             count={4}
             interval={1.5}
             duration={6}
@@ -236,7 +293,7 @@ export function Welcome() {
           <Scene.Radar
             shape="arc"
             arcDirection="down"
-            color="orange.4"
+            color="blue.4"
             count={4}
             interval={1.5}
             duration={6}
@@ -318,18 +375,43 @@ export function Welcome() {
             </Group>
           </Stack>
 
-          {/* ─── Hero screenshot ─── */}
+          {/* ─── Hero slideshow ─── */}
           {/*
-            Hero screenshot pulled from /public/screenshot-hero.png. The
-            release motion (scripts/release.sh) is wired to auto-stage
-            anything matching public/screenshot-*.png so swapping the
-            shot in a future build doesn't need a separate commit.
+            Four-deep stack showing Overview → Wi-Fi → Devices →
+            Security. Driven by `@gfazioli/mantine-depth-select`, the
+            same 3D-stack component the user maintains as a Mantine
+            extension. Each card is still a `ZoomableScreenshot` so the
+            click-to-zoom Modal stays available without the slideshow
+            eating that affordance. Loop enabled — the stack is small
+            (4 cards) and wrapping reads less awkwardly than hitting a
+            hard stop at the ends.
           */}
-          <Box mt={32}>
-            <ZoomableScreenshot
-              src="/screenshot-hero.png"
-              alt="Netfox — Network monitor for macOS"
-              shadowOpacity={0.7}
+          <Box
+            mt={32}
+            // The DepthSelect renders its cards `position: absolute`
+            // (so the stack overlaps in 3D). Without an explicit
+            // height the wrapper collapses to 0px and the slideshow
+            // disappears. The screenshots ship at ~3:2; reserve
+            // enough room for the front card plus the trailing
+            // visibleCards offsets (`translateYStep * (visibleCards
+            // - 1)` ≈ 90px headroom).
+            style={{
+              position: 'relative',
+              width: '100%',
+              aspectRatio: '3 / 2',
+              maxWidth: 1100,
+              marginInline: 'auto',
+            }}
+          >
+            <DepthSelect
+              data={heroSlides}
+              defaultValue="overview"
+              visibleCards={4}
+              loop
+              ariaLabel="Netfox screenshots"
+              controlsPosition="right"
+              h="100%"
+              w="100%"
             />
           </Box>
         </Container>
