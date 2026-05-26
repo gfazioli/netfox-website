@@ -9,36 +9,67 @@
 
 ## First launch on macOS
 
+<Callout type="info">
 Netfox is signed with **Apple Developer ID** and **notarized by Apple**, so Gatekeeper accepts it on first open. Just double-click — no right-click trick, no System Settings detour.
+</Callout>
 
-When you first launch any app downloaded from the internet, macOS shows a one-time confirmation dialog (*“Netfox” is an app downloaded from the Internet. Are you sure you want to open it?*). Click **Open** and you're done — every subsequent launch is silent.
+When you first launch any app downloaded from the internet, macOS shows a one-time confirmation dialog (*"Netfox" is an app downloaded from the Internet. Are you sure you want to open it?*). Click **Open** and you're done — every subsequent launch is silent.
+
+## The five tools
+
+Netfox is organised as a left tool sidebar with five entries, mirroring the way you actually think about your network:
+
+![Netfox Overview](/screenshot-overview.png)
+
+| Tool | What it shows |
+|---|---|
+| **Overview** | Landing dashboard — devices, risk posture, public IP, alerts inbox at a glance |
+| **Wi-Fi** | Every wireless network your Mac can see, signal history, channel, security |
+| **Devices** | The LAN device list, with a detail panel per device |
+| **Security** | Port-probe results + risk badges per reachable device, with a one-click *Scan All Devices* |
+| **Optimization** | Placeholder for the post-0.3 module wave (Wi-Fi diagnostics, Link, Bandwidth) |
+
+Switch tools with the sidebar or with <Kbd>⌘</Kbd> <Kbd>1</Kbd> through <Kbd>⌘</Kbd> <Kbd>5</Kbd>.
 
 ## First-launch tour
 
-When you open Netfox for the first time, the sidebar starts populating immediately:
+When you open Netfox for the first time, you land on the **Overview**. Behind the scenes, discovery starts populating immediately:
 
-1. **This Mac** appears first, pinned at the top, with the current Wi-Fi/Ethernet badge.
+1. **This Mac** appears first, pinned at the top of the Devices list, with its current Wi-Fi/Ethernet badge.
 2. Within a few seconds, Bonjour services (HomePods, Apple TVs, AirPlay receivers, printers advertising mDNS) show up.
 3. ARP-only devices (anything that has talked on the LAN recently — your phone, NAS, IoT plugs) come in shortly after.
-4. The active-ping pass starts and gradually fills in IPv4 addresses for devices the system ARP cache holds but Bonjour didn't reach.
+4. SSDP and NetBIOS pull in smart-TVs, media servers, and Windows shares.
+5. The active-ping pass fills in IPv4 addresses for devices the system ARP cache holds but Bonjour didn't reach.
 
 On a typical home network you'll see most of the picture within 30 seconds.
 
-## Allowing notifications
+### Allowing notifications
 
-The first time Netfox detects a brand-new device, it tries to post a macOS notification banner. macOS will prompt you to grant notification permission — accept it once, and from then on every new-device alert pops up natively even when Netfox is in the background.
+The first time Netfox detects a brand-new device, it tries to post a macOS notification banner. macOS will prompt you to grant notification permission — accept it once, and every new-device alert pops up natively even when Netfox is in the background.
 
-If you ever miss the prompt, an in-app banner reappears with a one-click link to **System Settings → Notifications → Netfox** where you can flip the toggle. The bell in the toolbar still works without notifications enabled.
+<Callout>
+If you ever miss the prompt, an in-app banner reappears with a one-click link to **System Settings → Notifications → Netfox**. The bell badge in the Devices tool still works without notifications enabled.
+</Callout>
 
-## Interface
+### Allowing Wi-Fi network access
 
-Netfox has two main areas:
+The first time you open the **Wi-Fi** tool, macOS prompts for **Location permission** — that's how SSID details are exposed at the system level. Netfox uses location *only* to read the Wi-Fi neighbour list; it doesn't track or store your physical location.
 
-### Sidebar (left)
+![Netfox Wi-Fi tool](/screenshot-wifi.png)
 
-Lists every device Netfox currently knows about, sorted with This Mac first, then online devices alphabetically, then offline. The search box filters by hostname, IP, or MAC.
+If you decline, the Wi-Fi tool shows a one-click *Open Location Settings* button and waits — flip the toggle and the scan starts immediately.
 
-The dot at the end of each row is green for online, gray for offline.
+## The Devices tool
+
+![Netfox Devices](/screenshot-devices.png)
+
+The Devices tool has two panels:
+
+### Device list (left)
+
+Every device Netfox currently knows about. This Mac sits at the top, then online devices, then offline. The dot at the end of each row is green for online, gray for offline. The bell badges with the count of new alerts since you last opened the inbox.
+
+Search box filters by hostname, IP, or MAC. The status filter pill at the top scopes the list to *All / Online / Offline* without clearing the search.
 
 ### Detail panel (right)
 
@@ -47,18 +78,34 @@ Shows the selected device:
 - **Identity** — MAC address, kind (computer, mobile, speaker, tablet, TV, printer, router, …), vendor
 - **Network** — IPv4, IPv6, connection type (for this Mac only — see the FAQ for why we can't tell for everyone else)
 - **Activity** — first seen, last seen, status
+- **Ports** — open services found by the most recent security scan (only present once probed)
 - **Recent activity** — the last few transitions; click **View Full History…** for everything
 
-The **Probe** button in the top-right of the detail header sends an ICMP ping to the device's current IPv4 and refreshes its online state immediately, instead of waiting for the next discovery pass.
+The **Probe** button in the top-right sends an ICMP ping to the device's current IPv4 and refreshes its online state immediately. Right-clicking a row opens the context menu (*Probe This Device*, *Probe Ports*, *Edit Tag*, *Mute Alerts*).
+
+## The Security tool
+
+![Netfox Security](/screenshot-security.png)
+
+The Security tool aggregates risk findings across every device. The headline counts (*"3 devices need attention"*), severity pills, and per-device rows give you the LAN's posture in one screen. The blue **Scan All Devices** button kicks off probes across every untested device in parallel.
+
+See [Security](/docs/security) for what gets checked and how to act on the findings.
 
 ## Settings
 
-Open Settings with **⌘,** or from the menu **Netfox → Settings**. Five tabs:
-- **General** — theme picker (System / Light / Dark), Open at Login toggle.
-- **Alerts** — toggles for new-device + returning-after-absence alerts, plus a link to **System Settings → Notifications**.
-- **Updates** — controls for the auto-update flow (check on launch, scheduled background checks, manual *Check Now…*).
-- **Advanced** — Advanced Mode toggle, offline-detection thresholds for power users.
-- **About** — read-only version + build info.
+Open Settings with <Kbd>⌘</Kbd> <Kbd>,</Kbd> or from the menu **Netfox → Settings**. Seven tabs:
+
+- **General** — theme picker (System / Light / Dark), Open at Login toggle
+- **Alerts** — toggles for the five alert kinds, plus a link to **System Settings → Notifications**
+- **Security** — auto-probe schedule (off by default)
+- **Privacy** — wipe rows for device history, port history, alerts, tags, plus the Demo Mode master switch
+- **Advanced** — Advanced Mode toggle, offline-detection thresholds for power users
+- **Updates** — controls for the auto-update flow (check on launch, scheduled background checks, manual *Check Now…*)
+- **About** — read-only version + build info
+
+<Callout type="info">
+Every time you open Settings, the window lands on **General**. Mid-session moves don't persist on close.
+</Callout>
 
 Full per-tab reference at [Settings](/docs/settings).
 
@@ -68,10 +115,12 @@ Netfox uses a built-in auto-update framework. By default it checks once a day in
 
 ## Tips
 
-- **⌘R** or the toolbar refresh button forces every discovery provider to emit immediately.
-- **⌘⇧A** opens **Alert History** — the persistent log of every new-device alert Netfox has ever raised.
-- **⌘⇧M** toggles **Advanced Mode** — adds the MAC to each sidebar row and surfaces the Engine ID + absolute timestamps in the detail panel. Same flag flipped from **Settings → Advanced**.
-- **⌘?** opens these docs in your browser.
-- The bell in the toolbar badges with the count of new alerts since you last opened the inbox. Tapping **Done** in the inbox clears the badge.
+- <Kbd>⌘</Kbd> <Kbd>R</Kbd> or the toolbar refresh button forces every discovery provider to emit immediately
+- <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>A</Kbd> opens **Alert History** — the persistent log of every alert Netfox has ever raised
+- <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>D</Kbd> toggles **Demo Mode** — masks names, MACs, IPv6, and SSIDs in the UI so screenshots are safe to share
+- <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>P</Kbd> runs a **port probe** on the currently selected device
+- <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>M</Kbd> toggles **Advanced Mode** — adds the MAC to each sidebar row and surfaces the Engine ID + absolute timestamps in the detail panel
+- <Kbd>⌘</Kbd> <Kbd>?</Kbd> opens these docs in your browser
+- The bell in the Devices toolbar badges with the count of new alerts since you last opened the inbox. Tapping **Done** in the inbox clears the badge.
 
 Full keyboard reference at [Keyboard Shortcuts](/docs/keyboard-shortcuts).

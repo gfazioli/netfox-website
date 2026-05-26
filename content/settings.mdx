@@ -2,49 +2,115 @@
 
 Open Settings with <Kbd>⌘</Kbd> <Kbd>,</Kbd> or from the menu **Netfox → Settings**.
 
-The window is tabbed: **General**, **Alerts**, **Updates**, **Advanced**, **About**. Every toggle takes effect immediately unless explicitly noted otherwise.
+<Callout type="info">
+Every time you reopen the window it lands on the **General** tab. Mid-session moves between tabs don't persist on close — predictable open state, no surprise jumps.
+</Callout>
+
+The window is tabbed in this order: **General · Alerts · Security · Privacy · Advanced · Updates · About**. Every toggle takes effect immediately unless explicitly noted otherwise.
 
 ## General
 
 ### Appearance
-- **Theme** — System / Light / Dark. *System* follows whatever macOS is set to; *Light* and *Dark* pin Netfox regardless of the system value.
+
+- **Theme** — *System / Light / Dark*. *System* follows whatever macOS is set to; *Light* and *Dark* pin Netfox regardless of the system value.
 
 ### Login
+
 - **Open Netfox at login** — launches Netfox in the background when you log in to your Mac so it can start watching the network straight away. Off by default. Requires the signed/notarized release build to take effect — unsigned development builds can no-op silently.
 
 ## Alerts
 
+Netfox can raise five kinds of alert. Each one has its own toggle so you can mute the noisy ones while keeping the signal that matters.
+
 ### New devices
-- **Notify on new devices** — when on, Netfox raises an in-app alert (the bell in the toolbar) and a system notification whenever a previously-unknown device appears on the network.
+
+- **Notify on new devices** — when on, Netfox raises an in-app alert (the bell in the Devices toolbar) and a system notification whenever a previously-unknown device appears on the network.
 
 ### Returning after long absence
+
 - **Notify when a device returns after long absence** — fires an alert when a known device that's been continuously offline for at least N days comes back online.
 - **Return threshold** — slider from 1 to 90 days (default 7). Off by default because homes with nomadic devices (phones that leave in the morning and return at night) would otherwise see this trip several times a day.
 
+### Risky arrival
+
+- **Notify on risky-host arrival** — when a device that earned a high or medium risk badge has been silent and then reconnects, Netfox raises an alert so you don't miss the return of a known weak link.
+
+### Port-state changes
+
+- **Notify when a port opens** — fires when a port that was previously closed or filtered comes back as open on a device you've already seen. Both the scheduled port probe and the manual one-shot *Probe Ports* feed this check.
+- **Off by default**: the first sweep on a fresh install is silent (no baseline yet), but the second can carpet-bomb you with alerts for every legitimately-open service that was discovered in sweep one. Opt in once you've seen what the first sweep finds.
+
+### New service
+
+- **Notify on new service** — fires when a service shows up on a device that didn't have it before. Lower-noise than the raw port-open alert because it groups by service identity rather than port number.
+
 ### System notifications
+
 - **Open Notifications Settings…** — opens **System Settings → Notifications → Netfox**. Netfox uses the macOS notification center to surface alerts when the app is in the background. Grant *Allow* once and banners deliver directly; revoke any time from System Settings.
 
-## Updates
+## Security
 
-### Background checks
-- **Check for updates on launch** — runs a silent check when Netfox starts. Only prompts when a newer version is available. Off by default.
-- **Automatically check for updates** — the auto-update framework's scheduled background check (every 24 hours by default). On by default. Disable if you want to freeze on your current version and check manually instead.
+Controls for the **Security** tool's auto-probe loop. The manual *Scan All Devices* button covers the common case — this tab is for users who want continuous coverage without having to remember to click.
 
-### Manual check
-- **Check for Updates Now…** — opens the full update prompt straight away. Useful when you want to confirm you're on the latest build without waiting for the next scheduled check. Same flow as the **Netfox → Check for Updates…** menu item.
+### Auto-probe ports on a schedule
+
+- **Off by default**. When on, re-runs a port scan on every scannable device every N hours.
+- **Interval** — 1 hour to 1 week.
+- Probes still respect the LAN-only check and the global / per-host rate limits, so a schedule can't flood the network.
+
+See [Security](/docs/security) for what the scan actually checks and how the findings are surfaced.
+
+## Privacy
+
+Controls for what Netfox stores about your network, plus the master switch for **Demo Mode**.
+
+### Demo Mode
+
+- **Demo Mode (⌘⇧D)** — masks identifying information in the UI so screenshots and screen-shares are safe to publish. Device names collapse to `Computer #1`/`Phone #2`/…, MAC addresses lose the last three octets (the OUI vendor prefix survives), IPv6 loses everything past the first hextet, and Wi-Fi SSIDs become `Network #N`.
+- **Render-only.** The underlying device, port, and alert stores are untouched — flip Demo Mode off and the real values reappear instantly. No data is rewritten.
+- Toggleable in-app with <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>D</Kbd>.
+
+### Storage
+
+Five wipe rows, each one a one-click *Erase…* with a confirm prompt:
+
+- **Erase device history** — drops every observation, leaving you a blank Devices list. Discovery rebuilds the list on the next pass.
+- **Erase port history** — drops every cached port probe result. Risk badges reset to *Untested*.
+- **Erase alert history** — clears the persistent log surfaced by <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>A</Kbd>.
+- **Erase tags** — drops every custom name and icon you've assigned via right-click → *Edit Tag*.
+- **Erase Wi-Fi history** — drops the per-network signal-strength samples used by the Wi-Fi tool's signal chart.
+
+<Callout type="warning">
+The erase rows are immediate and irreversible. Netfox doesn't keep a hidden backup — once you confirm the wipe, the SQLite store loses that table's rows.
+</Callout>
 
 ## Advanced
 
 The Advanced tab consolidates every power-user knob. Visiting the tab is itself an opt-in — the controls are always rendered, under the assumption that someone who reached this tab knows what they're touching.
 
 ### Application
+
 - **Advanced mode** — surfaces denser UI in the main window: MAC address in the sidebar secondary line, **Engine ID** copyable row in the detail Identity section, ISO 8601 absolute timestamps instead of "2 seconds ago" in the Activity section. Off by default; nothing breaks when off. Also toggleable from **View → Advanced Mode** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>M</Kbd>).
 
 ### Discovery — Offline detection
+
 - **Offline threshold** — slider from 60 to 900 seconds (default 5 min). How long a device that's only visible via the system ARP cache can stay silent before being marked offline. Affects printers, NAS, and dumb IoT that don't advertise via Bonjour.
 - **Authoritative threshold** — slider from 30 to 600 seconds (default 3 min). How long a Bonjour-visible device can go silent before being marked offline. Tighter than the ARP fallback because Bonjour can confirm liveness directly.
 
+<Callout>
 Threshold changes take effect on the **next app launch** — the lifecycle pass and anti-thrash rule both fix their windows at engine construction.
+</Callout>
+
+## Updates
+
+### Background checks
+
+- **Check for updates on launch** — runs a silent check when Netfox starts. Only prompts when a newer version is available. Off by default.
+- **Automatically check for updates** — the auto-update framework's scheduled background check (every 24 hours by default). On by default. Disable if you want to freeze on your current version and check manually instead.
+
+### Manual check
+
+- **Check for Updates Now…** — opens the full update prompt straight away. Useful when you want to confirm you're on the latest build without waiting for the next scheduled check. Same flow as the **Netfox → Check for Updates…** menu item.
 
 ## About
 

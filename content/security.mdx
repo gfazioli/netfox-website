@@ -35,7 +35,9 @@ Click the badge to open the **Risk Inspector** — a plain-English explanation o
 
 ## Running a scan
 
-Open the **Security** tab in the left sidebar. You'll see a dashboard summarising the network's posture:
+![Netfox Security](/screenshot-security.png)
+
+Open the **Security** tab in the left sidebar (or press <Kbd>⌘</Kbd> <Kbd>4</Kbd>). You'll see a dashboard summarising the network's posture:
 
 - Header counts ("3 devices need your attention")
 - Severity pills (high / medium / low / untested)
@@ -67,8 +69,8 @@ Everything stays on your Mac:
 
 - Probes only fire against devices on your own LAN (verified twice — once by the UI, once by the engine).
 - No data leaves your computer. Netfox doesn't ship findings to a cloud service.
-- Demo Mode (⌘⇧D) masks port numbers and device names so you can take screenshots without exposing your setup.
-- Probe history lives in a local file alongside the device history — toggle it off any time from **Settings → Privacy & Storage**.
+- **Demo Mode** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>D</Kbd>) masks device names, MAC addresses, IPv6, and Wi-Fi SSIDs so you can take screenshots without exposing your setup. Findings stay visible — only the identifying labels around them are masked. See [Settings → Privacy](/docs/settings#privacy) for the full mask reference.
+- Probe history lives in a local SQLite store alongside the device history. **Settings → Privacy** has an *Erase port history* button if you ever want to wipe the slate.
 
 ## Why these checks, not others
 
