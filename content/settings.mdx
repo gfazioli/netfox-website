@@ -1,3 +1,5 @@
+import { Callout } from 'nextra/components';
+
 # Settings
 
 Open Settings with <Kbd>⌘</Kbd> <Kbd>,</Kbd> or from the menu **Netfox → Settings**.
@@ -58,7 +60,7 @@ Controls for the **Security** tool's auto-probe loop. The manual *Scan All Devic
 - **Interval** — 1 hour to 1 week.
 - Probes still respect the LAN-only check and the global / per-host rate limits, so a schedule can't flood the network.
 
-See [Security](/docs/security) for what the scan actually checks and how the findings are surfaced.
+See [Security](/docs/tools/security) for what the scan actually checks and how the findings are surfaced.
 
 ## Privacy
 
@@ -66,7 +68,7 @@ Controls for what Netfox stores about your network, plus the master switch for *
 
 ### Demo Mode
 
-- **Demo Mode (⌘⇧D)** — masks identifying information in the UI so screenshots and screen-shares are safe to publish. Device names collapse to `Computer #1`/`Phone #2`/…, MAC addresses lose the last three octets (the OUI vendor prefix survives), IPv6 loses everything past the first hextet, and Wi-Fi SSIDs become `Network #N`.
+- **Demo Mode** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>D</Kbd>) — masks identifying information in the UI so screenshots and screen-shares are safe to publish. Device names collapse to `Computer #1`/`Phone #2`/…, MAC addresses lose the last three octets (the OUI vendor prefix survives), IPv6 loses everything past the first hextet, and Wi-Fi SSIDs become `Network #N`.
 - **Render-only.** The underlying device, port, and alert stores are untouched — flip Demo Mode off and the real values reappear instantly. No data is rewritten.
 - Toggleable in-app with <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>D</Kbd>.
 

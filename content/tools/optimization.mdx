@@ -1,0 +1,32 @@
+import { Callout } from 'nextra/components';
+
+# Optimization
+
+The **Optimization** tool is a placeholder in 0.3 — a preview of the modules planned for the next versions. Opening it shows a list of upcoming features with their target version, plus a link to the full [Roadmap](/docs/roadmap).
+
+<Callout type="info">
+This tool intentionally doesn't ship functionality yet. Each module under it needs either a privileged background helper or new core providers before it can earn its space. Shipping the slot empty (with the roadmap inside) tells users "yes, this is coming — here's when" instead of hiding the plan.
+</Callout>
+
+## What's coming
+
+| Module | Target | Notes |
+|---|---|---|
+| **Wi-Fi diagnostics** | v0.4 | Channel congestion, signal-history scoring, hidden network detection, neighbour-AP interference — extension of today's [Wi-Fi](/docs/tools/wifi) tool |
+| **Link diagnostics** | v0.5 | Physical-layer health: NIC stats, cable speed negotiation, duplex mismatch warnings, route latency |
+| **Bandwidth monitor** | v0.6 | Per-device traffic accounting in real time. Needs a privileged background helper to read packet metadata — the biggest single lift on the roadmap |
+| **Speed test** | Backlog | Built-in download / upload / latency / jitter / packet-loss benchmark |
+
+Versions aren't promised dates — they're the version we're aiming to land each in. See the [Roadmap](/docs/roadmap) for the longer narrative and what comes after v0.6.
+
+## Why a placeholder tool, not just docs
+
+A few reasons:
+
+- **Discoverability** — putting the slot in the sidebar tells users the surface exists. A roadmap page on the website is easy to miss; a tool in the app you use every day isn't.
+- **Anchor for follow-up work** — when v0.4 ships, the Optimization tab is already there to host the Wi-Fi diagnostics module. No reshuffle of the navigation needed.
+- **Honest expectations** — separating "what's shipped" (Overview, Wi-Fi, Devices, Security) from "what's planned" (Optimization) keeps the user from clicking a feature that doesn't work yet.
+
+## What to do today
+
+For now, treat this tab as a heads-up. If a planned module would change how you use Netfox enough to warrant being prioritised sooner, [open a feature-request issue](https://github.com/gfazioli/netfox-website/issues/new?template=feature_request.yml) and say so — the order isn't a contract.

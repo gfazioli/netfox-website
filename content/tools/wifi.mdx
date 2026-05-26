@@ -1,0 +1,67 @@
+import { Callout } from 'nextra/components';
+
+# Wi-Fi
+
+The **Wi-Fi** tool shows every wireless network the Mac's radio can currently see, with live signal-strength history, channel/band info, and security mode at a glance.
+
+![Netfox Wi-Fi tool](/screenshot-wifi.png)
+
+## Location permission
+
+<Callout type="warning">
+The first time you open the Wi-Fi tool, macOS prompts for **Location permission**. SSID details (network names, BSSIDs, encryption modes) are gated behind that permission at the system level — without it, the system returns empty network names and the tool can't render anything useful.
+</Callout>
+
+Netfox uses location *only* to read the Wi-Fi neighbour list. It doesn't track or store your physical position, doesn't ship coordinates anywhere, and stops requesting the permission once granted. If you decline, the Wi-Fi tool shows a one-click *Open Location Settings* button and waits; flip the toggle and the scan starts immediately.
+
+## The network list
+
+Each row in the sidebar shows:
+
+- **Security icon** — a lock coloured by encryption strength (green for WPA2/WPA3, yellow for legacy WPA/WEP, red for open networks)
+- **Wi-Fi icon** — coloured by signal-strength bucket (red weak → orange fair → yellow good → green excellent)
+- **SSID** — the broadcast network name, or `Hidden network` for non-broadcasting APs
+- **Connection badge** — a checkmark seal next to the network you're currently joined to
+- **Subtitle** — short security label + channel + band, e.g. `WPA2 · Ch 36 (5 GHz)`
+- **Trailing dBm** — current RSSI in dBm, monospaced so the column scans
+
+Sorting is configurable from the bottom of the sidebar: signal strength (default), name, channel, or security type. The direction arrow flips the order.
+
+## The detail panel
+
+Selecting any network opens a detail panel with:
+
+### Header
+The SSID large + a *Last seen N seconds ago* line. If this is the network you're connected to, the seal badge appears here too.
+
+### Signal Overview
+A live chart of RSSI samples over time, with optional noise overlay when the radio reports noise data. Underneath, three metrics:
+- **Current RSSI** — most recent dBm reading
+- **Noise Level** — ambient noise floor in dBm (or `—` if the radio doesn't expose it)
+- **SNR** — signal-to-noise ratio in dB
+
+### Network Information
+A table with SSID, BSSID (the AP's radio MAC), channel, band, channel width, security mode, country code, beacon interval, network type (infrastructure vs ad-hoc), and PHY modes.
+
+### Export
+A *Export network data* button saves the full network metadata + the current sample buffer as JSON — handy for diffing two scans, sharing a problem report, or feeding the data into another tool.
+
+### Cross-link to Devices
+When the selected network is the one you're currently connected to, an extra **View devices on this network** button appears at the bottom — one click jumps to the [Devices](/docs/tools/devices) tool with that subnet filtered.
+
+## Demo Mode
+
+<Callout type="info">
+Wi-Fi SSIDs are sensitive — they often double as the household surname or contain location hints. **Demo Mode** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>D</Kbd>) masks every SSID to a generic `Network #N` label and the BSSID to its vendor OUI + masked tail. Country code is left visible — it's not identifying.
+</Callout>
+
+## What it can't see
+
+Two natural limits:
+
+- **Networks the Mac's radio can't reach** — anything out of range or behind a wall thick enough to attenuate the signal below the radio's threshold won't show up.
+- **Hidden network details** — APs that don't broadcast their SSID still appear (the radio sees the beacon) but render as `Hidden network`. Channel / band / security are still readable.
+
+## What's coming
+
+The current build is the **scan + history** version. v0.4 expands the tool into proper Wi-Fi diagnostics — channel congestion warnings, hidden network detection, neighbour-AP interference analysis. See the [Roadmap](/docs/roadmap) for the post-0.3 plan.

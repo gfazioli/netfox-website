@@ -1,3 +1,5 @@
+import { Callout } from 'nextra/components';
+
 # Getting Started
 
 ## Installation
@@ -23,13 +25,13 @@ Netfox is organised as a left tool sidebar with five entries, mirroring the way 
 
 | Tool | What it shows |
 |---|---|
-| **Overview** | Landing dashboard — devices, risk posture, public IP, alerts inbox at a glance |
-| **Wi-Fi** | Every wireless network your Mac can see, signal history, channel, security |
-| **Devices** | The LAN device list, with a detail panel per device |
-| **Security** | Port-probe results + risk badges per reachable device, with a one-click *Scan All Devices* |
-| **Optimization** | Placeholder for the post-0.3 module wave (Wi-Fi diagnostics, Link, Bandwidth) |
+| [**Overview**](/docs/tools/overview) | Landing dashboard — devices, risk posture, public IP, alerts inbox at a glance |
+| [**Wi-Fi**](/docs/tools/wifi) | Every wireless network your Mac can see, signal history, channel, security |
+| [**Devices**](/docs/tools/devices) | The LAN device list, with a detail panel per device |
+| [**Security**](/docs/tools/security) | Port-probe results + risk badges per reachable device, with a one-click *Scan All Devices* |
+| [**Optimization**](/docs/tools/optimization) | Placeholder for the post-0.3 module wave (Wi-Fi diagnostics, Link, Bandwidth) |
 
-Switch tools with the sidebar or with <Kbd>⌘</Kbd> <Kbd>1</Kbd> through <Kbd>⌘</Kbd> <Kbd>5</Kbd>.
+Switch tools with the sidebar or with <Kbd>⌘</Kbd> <Kbd>1</Kbd> through <Kbd>⌘</Kbd> <Kbd>5</Kbd>. Each tool has its own deep-dive in the docs — click any row above for the full reference.
 
 ## First-launch tour
 
@@ -89,7 +91,7 @@ The **Probe** button in the top-right sends an ICMP ping to the device's current
 
 The Security tool aggregates risk findings across every device. The headline counts (*"3 devices need attention"*), severity pills, and per-device rows give you the LAN's posture in one screen. The blue **Scan All Devices** button kicks off probes across every untested device in parallel.
 
-See [Security](/docs/security) for what gets checked and how to act on the findings.
+See [Security](/docs/tools/security) for what gets checked and how to act on the findings.
 
 ## Settings
 

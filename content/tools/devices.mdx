@@ -1,0 +1,92 @@
+import { Callout } from 'nextra/components';
+
+# Devices
+
+The **Devices** tool is the heart of Netfox — the live LAN device list, with a detail panel showing identity, history, ports, and recent activity for the currently selected row.
+
+![Netfox Devices](/screenshot-devices.png)
+
+## How devices are discovered
+
+Five providers run in parallel and merge their results into one record per physical device:
+
+| Provider | What it sees |
+|---|---|
+| **Bonjour / mDNS** | Apple devices (HomePods, Apple TVs), AirPlay receivers, AirPrint printers, anything advertising a `_*._tcp` service |
+| **System ARP cache** | Anything that has exchanged a packet on the LAN recently — phones, NAS, IoT plugs that don't advertise |
+| **SSDP** | UPnP and DLNA devices — smart-TVs, media servers, some routers |
+| **NetBIOS** | Windows shares and legacy NAS that advertise NetBIOS names |
+| **Active ICMP** | Standard `ping` against IPs the system ARP cache holds but Bonjour didn't reach — catches devices that are alive but quiet |
+
+Discovery is read-only by default. The only outbound traffic the device list generates on its own is the ICMP echo from the active probe — no port scans, no DHCP poking, nothing intrusive.
+
+## The device list
+
+This Mac sits at the top, pinned, with its current Wi-Fi/Ethernet badge. Below: online devices first, then offline. Each row shows hostname / IP / vendor (or your custom tag) plus a dot — green online, gray offline.
+
+### Search and filter
+- The **search box** at the top filters by hostname, IPv4, IPv6, or MAC. Matches highlight in the row.
+- The **status filter pill** scopes the list to *All / Online / Offline* without clearing the search.
+
+### Bell badge
+The bell in the toolbar carries a count of unread alerts. Click to open the inbox; click *Done* in the inbox to mark them read and reset the badge to zero. Persistent log lives at <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>A</Kbd> (Alert History).
+
+## The detail panel
+
+Selecting any device opens a panel with five sections:
+
+### Identity
+MAC address, device kind (computer / phone / speaker / tablet / TV / printer / router / …), and vendor (resolved from the MAC's OUI). In **Advanced Mode** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>M</Kbd>) an extra *Engine ID* row appears — useful for cross-referencing logs.
+
+### Network
+IPv4, IPv6, and connection type. For this Mac, the connection type reflects the active interface (Wi-Fi / Ethernet / etc.). For other devices the value is blank — see the [FAQ](/docs/faq) for why we can't tell from the outside.
+
+### Activity
+First seen, last seen, current status. Timestamps are relative (*2 minutes ago*) in normal mode and absolute ISO 8601 in Advanced Mode.
+
+### Ports
+Open services from the most recent security probe. Each port shows the service name, the port number, and a risk symbol if it triggered a finding. Empty section if the device has never been probed — use the **Probe Ports** button to run a scan, or run a network-wide scan from the [Security](/docs/tools/security) tool.
+
+### Recent activity
+The last few transitions — online ↔ offline, IPv4 learned/changed, hostname changed, vendor learned, kind refined. *View Full History…* opens the complete timeline.
+
+## Context menu
+
+Right-click any row in the device list:
+
+| Action | What it does |
+|---|---|
+| **Probe This Device** | Sends an ICMP echo and refreshes online state immediately |
+| **Probe Ports** | Runs the [Security](/docs/tools/security) port scan against this device only |
+| **Edit Tag** | Opens a sheet to assign a custom name + icon (overrides hostname and vendor in the UI) |
+| **Mute Alerts** | Stops the bell from firing for this device. Useful for noisy IoT that re-connects every few minutes |
+| **Reveal in Wi-Fi** | If the device is on Wi-Fi, jumps to the [Wi-Fi](/docs/tools/wifi) tool with the matching network selected |
+
+## Tagging
+
+Click **Edit Tag** on a device whose hostname is meaningless ("Espressif Inc.", "Computer-1") and assign:
+
+- A custom name — replaces hostname everywhere in the UI
+- A custom kind — overrides the auto-detected device kind
+- A mute toggle — silences alerts for that device
+
+Tags survive across launches and are masked when [Demo Mode](/docs/settings#privacy) is on. Wipe them from **Settings → Privacy → Erase tags** if you ever want a fresh slate.
+
+## History timeline
+
+Click *View Full History…* in the detail panel to open the per-device history sheet:
+
+- Every observation Netfox has ever recorded for that device, newest first
+- Categorised by kind (online/offline transition, hostname change, IP change, vendor change, …)
+- Filterable by event kind
+- Exportable as JSON for sharing or diffing
+
+## Demo Mode
+
+When [Demo Mode](/docs/settings#privacy) is on:
+- Hostnames + custom tag names collapse to `Computer #1`, `Phone #2`, etc., numbered by device kind
+- MAC addresses lose the last three octets (vendor OUI survives)
+- IPv6 addresses lose everything past the first hextet
+- IPv4 stays visible — RFC 1918 ranges don't leak anything network-specific
+
+The render-only masking is enough for safe screenshots; the underlying store is never touched.
