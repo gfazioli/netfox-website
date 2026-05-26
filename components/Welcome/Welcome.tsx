@@ -410,6 +410,13 @@ export function Welcome() {
               loop
               ariaLabel="Netfox screenshots"
               controlsPosition="right"
+              // The DepthSelect ships with `justify: 'start'` as
+              // the runtime default (the TS doc claims `center`
+              // but the rendered output disagrees). Force-centre
+              // the up/down controls vertically so they sit
+              // beside the active card instead of floating at
+              // the top edge of the wrapper.
+              controlsProps={{ justify: 'center' }}
               h="100%"
               w="100%"
             />
