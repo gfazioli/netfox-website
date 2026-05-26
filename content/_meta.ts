@@ -8,4 +8,5 @@ export default {
   '----': { type: 'separator' },
   faq: 'FAQ',
   'release-notes': '',
+  roadmap: 'Roadmap',
 };
