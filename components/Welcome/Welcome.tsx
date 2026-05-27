@@ -409,7 +409,7 @@ export function Welcome() {
             (4 cards) and wrapping reads less awkwardly than hitting a
             hard stop at the ends.
           */}
-          <Box mt={32} maw={1100} mx="auto">
+          <Box mt={32} mb={80} maw={1100} mx="auto">
             {/*
               Follow the component's documented usage pattern:
               numeric `h` directly on the DepthSelect (the docs
