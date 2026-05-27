@@ -6,6 +6,7 @@ import { Scene } from '@gfazioli/mantine-scene';
 import { TextAnimate } from '@gfazioli/mantine-text-animate';
 import {
   IconDownload,
+  IconArrowLeft,
   IconArrowRight,
   IconBell,
   IconClock,
@@ -15,18 +16,17 @@ import {
   IconShieldLock,
 } from '@tabler/icons-react';
 import {
+  ActionIcon,
   Badge,
   Box,
   Button,
   Container,
   Group,
   Image,
-  Modal,
   SimpleGrid,
   Stack,
   Text,
   Title,
-  UnstyledButton,
 } from '@mantine/core';
 import config from '@/config';
 import { FAQ } from '../FAQ/FAQ';
@@ -38,145 +38,34 @@ import accentClasses from '../AccentCard/AccentCard.module.css';
 import classes from './Welcome.module.css';
 
 /**
- * Click-to-zoom screenshot. The thumbnail uses a `drop-shadow` filter so
- * the soft halo follows the rounded macOS chrome already baked into the
- * PNG's alpha channel; clicking opens a fullscreen Modal where the same
- * image renders constrained to 95vw/95vh with `object-fit: contain` so
- * landscape and portrait shots both fit. Same pattern as findergit-website
- * — kept here in a slimmed form because all hero/feature shots will need
- * it.
+ * Hero screenshots, one per top-level tool. Kept as a flat data array
+ * so it drives two things from one source: the `DepthSelect` card stack
+ * (`heroSlides`) and the custom controls below it (which need the human
+ * label + position). The screenshots are 3072×1886 PNGs — that ratio is
+ * mirrored on the slideshow wrapper so each image fills its card exactly,
+ * which is what lets the depth-stack peek read (a shorter card would hide
+ * the scaled-down cards behind the front one).
  */
-function ZoomableScreenshot({
-  src,
-  alt,
-  shadowOpacity = 0.55,
-}: {
-  src: string;
-  alt: string;
-  shadowOpacity?: number;
-}) {
-  const [opened, setOpened] = useState(false);
+const HERO_SCREEN_RATIO = '3072 / 1886';
 
-  return (
-    <>
-      <UnstyledButton
-        onClick={() => setOpened(true)}
-        aria-label={`Open enlarged screenshot: ${alt}`}
-        style={{ display: 'block', width: '100%', cursor: 'zoom-in' }}
-      >
-        <Image
-          src={src}
-          alt={alt}
-          display="block"
-          style={{
-            width: '100%',
-            height: 'auto',
-            filter: `drop-shadow(0 30px 60px rgba(0, 0, 0, ${shadowOpacity}))`,
-          }}
-        />
-      </UnstyledButton>
-      <Modal
-        opened={opened}
-        onClose={() => setOpened(false)}
-        fullScreen
-        withCloseButton
-        padding={0}
-        radius={0}
-        transitionProps={{ transition: 'fade', duration: 180 }}
-        styles={{
-          content: { backgroundColor: 'transparent', boxShadow: 'none' },
-          body: {
-            padding: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'rgba(0, 0, 0, 0.92)',
-            minHeight: '100vh',
-          },
-          header: {
-            position: 'absolute',
-            top: 16,
-            right: 16,
-            background: 'transparent',
-            zIndex: 10,
-            padding: 0,
-            minHeight: 0,
-          },
-          close: { color: 'white' },
-        }}
-      >
-        <Image
-          src={src}
-          alt={alt}
-          onClick={() => setOpened(false)}
-          style={{
-            maxWidth: '95vw',
-            maxHeight: '95vh',
-            width: 'auto',
-            height: 'auto',
-            cursor: 'zoom-out',
-            objectFit: 'contain',
-          }}
-        />
-      </Modal>
-    </>
-  );
-}
-
-/**
- * Cards rendered inside the hero `DepthSelect`. One per top-level
- * tool in the app — Overview, Wi-Fi, Devices, Security — keyed by a
- * stable string value so consumers (analytics, deep-links) could
- * round-trip an active card later if we want to.
- *
- * Each card is a `ZoomableScreenshot` so clicking through the stack
- * still opens the fullscreen Modal on the active card. Module-level
- * JSX is fine here: React reads it as element descriptors and the
- * `useState` inside `ZoomableScreenshot` is invoked per render, not
- * at definition.
- */
-const heroSlides: DepthSelectItem[] = [
-  {
-    value: 'overview',
-    view: (
-      <ZoomableScreenshot
-        src="/screenshot-overview.png"
-        alt="Netfox — Overview dashboard"
-        shadowOpacity={0.7}
-      />
-    ),
-  },
-  {
-    value: 'wifi',
-    view: (
-      <ZoomableScreenshot
-        src="/screenshot-wifi.png"
-        alt="Netfox — Wi-Fi diagnostics"
-        shadowOpacity={0.7}
-      />
-    ),
-  },
-  {
-    value: 'devices',
-    view: (
-      <ZoomableScreenshot
-        src="/screenshot-devices.png"
-        alt="Netfox — Devices and history"
-        shadowOpacity={0.7}
-      />
-    ),
-  },
-  {
-    value: 'security',
-    view: (
-      <ZoomableScreenshot
-        src="/screenshot-security.png"
-        alt="Netfox — Security findings"
-        shadowOpacity={0.7}
-      />
-    ),
-  },
+const heroScreens = [
+  { value: 'overview', label: 'Overview', src: '/screenshot-overview.png', alt: 'Netfox — Overview dashboard' },
+  { value: 'wifi', label: 'Wi-Fi', src: '/screenshot-wifi.png', alt: 'Netfox — Wi-Fi diagnostics' },
+  { value: 'devices', label: 'Devices', src: '/screenshot-devices.png', alt: 'Netfox — Devices and history' },
+  { value: 'security', label: 'Security', src: '/screenshot-security.png', alt: 'Netfox — Security findings' },
 ];
+
+const heroSlides: DepthSelectItem[] = heroScreens.map((screen) => ({
+  value: screen.value,
+  view: (
+    <Image
+      src={screen.src}
+      alt={screen.alt}
+      display="block"
+      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+    />
+  ),
+}));
 
 /**
  * Each feature's `accent` is consumed by `AccentCard` as the
@@ -231,6 +120,20 @@ const features = [
 ];
 
 export function Welcome() {
+  // Slideshow is controlled so the custom controls below the stack can
+  // drive it (the built-in controls are turned off). Prev/Next wrap
+  // around the four screens.
+  const [activeScreen, setActiveScreen] = useState(heroScreens[0].value);
+  const activeIndex = Math.max(
+    0,
+    heroScreens.findIndex((s) => s.value === activeScreen)
+  );
+  const stepScreen = (delta: number) => {
+    const count = heroScreens.length;
+    const next = (activeIndex + delta + count) % count;
+    setActiveScreen(heroScreens[next].value);
+  };
+
   return (
     <>
       {/* ─── Hero ─── */}
@@ -401,48 +304,73 @@ export function Welcome() {
           {/* ─── Hero slideshow ─── */}
           {/*
             Four-deep stack showing Overview → Wi-Fi → Devices →
-            Security. Driven by `@gfazioli/mantine-depth-select`, the
-            same 3D-stack component the user maintains as a Mantine
-            extension. Each card is still a `ZoomableScreenshot` so the
-            click-to-zoom Modal stays available without the slideshow
-            eating that affordance. Loop enabled — the stack is small
-            (4 cards) and wrapping reads less awkwardly than hitting a
-            hard stop at the ends.
-          */}
-          <Box mt={32} mb={80} maw={1100} mx="auto">
-            {/*
-              Follow the component's documented usage pattern:
-              numeric `h` directly on the DepthSelect (the docs
-              demo uses `h={200}`). Earlier the slideshow lived
-              inside a wrapper with `aspect-ratio` + `h="100%"`,
-              which left the controls column without a tall flex
-              container — `controlsProps.justify: 'center'` had
-              no room to centre against. With an explicit pixel
-              height the column gets its proper bounds and
-              centring works.
+            Security, driven by `@gfazioli/mantine-depth-select` (the
+            3D-stack component the user maintains as a Mantine extension).
 
-              640 is a balanced choice: tall enough that the
-              active card preserves the screenshots' ratio on a
-              typical desktop width, short enough that the hero
-              doesn't push the next-section content past the
-              fold on a 1080p display.
-            */}
+            Layout notes:
+            - The wrapper mirrors the screenshots' 3072×1886 aspect ratio
+              and the DepthSelect runs `h="100%"`, so each image fills its
+              card exactly. This is what makes the depth peek read — with a
+              taller fixed height the image sat top-aligned inside the card
+              and the scaled-down cards behind hid entirely behind the front.
+            - `translateYStep={72}` overrides the component default (30, tuned
+              for short ~200px cards). At our ~675px card height the default
+              offset was smaller than the per-level scale shrink, so nothing
+              peeked; 72 restores a clear, monotonic upward fan (~31/48/50px
+              peeks) that stays within the `mt` headroom above.
+            - Built-in controls are off; custom Prev/Next controls sit below
+              the stack (the docs' "Custom controls" pattern), driven by the
+              controlled `value`/`onChange`.
+            - `mt` leaves headroom for the cards that peek above the front one.
+          */}
+          <Box mt={72} mb={80} maw={1100} mx="auto">
             {/*
-              No built-in controls: the up/down column added clutter on
-              narrow viewports and bought little on desktop, since wheel /
-              trackpad scroll navigates the stack just as well. Dropping it
-              also lets the card stack reclaim the full width at every size.
+              position:relative + the DepthSelect pinned inset:0 inside an
+              aspect-ratio box. A bare `h="100%"` doesn't resolve against a
+              height that itself comes from `aspect-ratio`, so the stack
+              collapsed to 0 — pinning with inset sidesteps the percentage
+              chain entirely while still tracking the box's responsive height.
             */}
-            <DepthSelect
-              data={heroSlides}
-              defaultValue="overview"
-              visibleCards={4}
-              loop
-              ariaLabel="Netfox screenshots"
-              withControls={false}
-              w="100%"
-              h={640}
-            />
+            <Box style={{ aspectRatio: HERO_SCREEN_RATIO, position: 'relative' }}>
+              <DepthSelect
+                data={heroSlides}
+                value={activeScreen}
+                onChange={(value) => setActiveScreen(String(value))}
+                visibleCards={4}
+                loop
+                ariaLabel="Netfox screenshots"
+                withControls={false}
+                translateYStep={72}
+                w="100%"
+                h="100%"
+                style={{ position: 'absolute', inset: 0 }}
+              />
+            </Box>
+
+            {/* Custom controls — Prev · label · Next */}
+            <Group justify="center" gap="md" mt="xl">
+              <ActionIcon
+                variant="default"
+                radius="xl"
+                size="lg"
+                onClick={() => stepScreen(-1)}
+                aria-label="Previous screenshot"
+              >
+                <IconArrowLeft size={18} />
+              </ActionIcon>
+              <Text fw={600} c="dimmed" ta="center" w={110}>
+                {heroScreens[activeIndex].label}
+              </Text>
+              <ActionIcon
+                variant="default"
+                radius="xl"
+                size="lg"
+                onClick={() => stepScreen(1)}
+                aria-label="Next screenshot"
+              >
+                <IconArrowRight size={18} />
+              </ActionIcon>
+            </Group>
           </Box>
         </Container>
       </Box>
