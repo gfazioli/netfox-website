@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useMediaQuery } from '@mantine/hooks';
 import { DepthSelect, type DepthSelectItem } from '@gfazioli/mantine-depth-select';
 import { Scene } from '@gfazioli/mantine-scene';
 import { TextAnimate } from '@gfazioli/mantine-text-animate';
@@ -231,6 +232,13 @@ const features = [
 ];
 
 export function Welcome() {
+  // The DepthSelect's up/down controls sit in a fixed-width column to the
+  // right of the card stack. On narrow viewports that column squeezes the
+  // cards and reads as clutter, so the controls are shown only on generous
+  // desktops (≥ lg / 1200px). `initialValue: false` keeps the controls
+  // hidden during SSR and the first paint, so mobile never flashes them in.
+  const showSlideshowControls = useMediaQuery('(min-width: 75em)', false);
+
   return (
     <>
       {/* ─── Hero ─── */}
@@ -433,6 +441,7 @@ export function Welcome() {
               visibleCards={4}
               loop
               ariaLabel="Netfox screenshots"
+              withControls={showSlideshowControls}
               controlsPosition="right"
               controlsProps={{ justify: 'center', w: 80 }}
               w="100%"
