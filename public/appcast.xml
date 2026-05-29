@@ -19,7 +19,7 @@
             <pubDate>Tue, 26 May 2026 15:44:21 +0000</pubDate>
             <sparkle:version>156</sparkle:version>
             <sparkle:shortVersionString>0.3.2</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>26.5</sparkle:minimumSystemVersion>
+            <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.3.2.html</sparkle:releaseNotesLink>
             <enclosure
                 url="https://github.com/gfazioli/netfox-website/releases/download/v0.3.2/Netfox-0.3.2.dmg"
@@ -32,7 +32,7 @@
             <pubDate>Tue, 26 May 2026 09:04:35 +0000</pubDate>
             <sparkle:version>152</sparkle:version>
             <sparkle:shortVersionString>0.3.1</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>26.5</sparkle:minimumSystemVersion>
+            <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.3.1.html</sparkle:releaseNotesLink>
             <enclosure
                 url="https://github.com/gfazioli/netfox-website/releases/download/v0.3.1/Netfox-0.3.1.dmg"
@@ -45,7 +45,7 @@
             <pubDate>Mon, 25 May 2026 16:30:28 +0000</pubDate>
             <sparkle:version>145</sparkle:version>
             <sparkle:shortVersionString>0.3.0</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>26.5</sparkle:minimumSystemVersion>
+            <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.3.0.html</sparkle:releaseNotesLink>
             <enclosure
                 url="https://github.com/gfazioli/netfox-website/releases/download/v0.3.0/Netfox-0.3.0.dmg"
@@ -58,7 +58,7 @@
             <pubDate>Wed, 20 May 2026 15:18:35 +0000</pubDate>
             <sparkle:version>60</sparkle:version>
             <sparkle:shortVersionString>0.2.0</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>26.5</sparkle:minimumSystemVersion>
+            <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.2.0.html</sparkle:releaseNotesLink>
             <enclosure
                 url="https://github.com/gfazioli/netfox-website/releases/download/v0.2.0/Netfox-0.2.0.dmg"
