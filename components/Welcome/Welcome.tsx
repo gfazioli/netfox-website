@@ -11,6 +11,7 @@ import {
   IconBell,
   IconClock,
   IconDeviceDesktop,
+  IconLayoutNavbar,
   IconNetwork,
   IconRadar,
   IconShieldLock,
@@ -103,6 +104,13 @@ const features = [
     description:
       'New device, returning after long absence, risky arrival, port-state change, new service. Inbox + persistent log + per-device mute.',
     accent: 'var(--mantine-color-yellow-5)',
+  },
+  {
+    icon: IconLayoutNavbar,
+    title: 'Menu Bar at a Glance',
+    description:
+      'A menu bar popover shows devices online, risk level, public IP and VPN, and active alerts — without opening the main window.',
+    accent: 'var(--mantine-color-teal-5)',
   },
   {
     icon: IconDeviceDesktop,

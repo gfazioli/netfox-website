@@ -1,0 +1,44 @@
+import { Callout } from 'nextra/components';
+
+# Menu Bar
+
+Sometimes you don't want the whole app — you just want to know if your network is OK. The **menu bar** popover gives you that answer in a single click. Look for the small Netfox fox icon up in the macOS menu bar: click it and you get a compact, at-a-glance snapshot of your network without ever opening the main window.
+
+{/* TODO: add the screenshot once captured — ![Netfox menu bar popover](/screenshot-menu-bar.png) */}
+
+## What it shows at a glance
+
+The popover lays out the essentials as cards on a subtle gradient, so you can read the state of your network in a second:
+
+- **Devices** — how many are online right now, out of the total Netfox knows about
+- **Risk level** — the headline posture, with the count of high- and medium-risk findings
+- **Public IP** — your network's outward address, plus a chip telling you whether a VPN tunnel is active
+- **Alerts** — how many alerts are currently active in the inbox
+
+It's the same information you'd find on the [Overview](/docs/tools/overview), distilled into a glance-and-go panel. When something looks off — a risk level you didn't expect, an alert you haven't seen — one click takes you into the full app to dig in via the [Security](/docs/tools/security) or [Devices](/docs/tools/devices) tools.
+
+## Stays in your menu bar
+
+Closing the main window no longer quits Netfox. Instead, the app stays resident in the menu bar, quietly keeping its picture of your network up to date. The popover is always a click away.
+
+When you want the full experience back, click **Open Netfox** in the popover — the main window reopens right where you left off.
+
+<Callout type="info">
+Netfox now lives in two places at once: the full window when you want depth, and the menu bar popover when you just want a quick check. Closing the window simply tucks the app away — it keeps running in the menu bar instead of shutting down.
+</Callout>
+
+## Quick actions
+
+The footer of the popover keeps the things you reach for most one click away:
+
+| Action | What it does |
+|---|---|
+| **Open Netfox** | Reopens the full app window |
+| **Check for Updates** | Asks the updater whether a newer version is available |
+| **Help** | Opens the documentation and help resources |
+| **Settings** | Jumps straight to Netfox's preferences |
+| **Sponsor** | Opens GitHub Sponsors, if you'd like to support development |
+
+## Demo Mode
+
+The menu bar respects **Demo Mode** just like the rest of the app. Flip it on with <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>D</Kbd> before you screenshot or screen-share, and the popover masks your public IP and VPN status alongside everything else — no real values leak into the recording. See [Settings → Privacy](/docs/settings#privacy) for the full mask reference.
