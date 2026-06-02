@@ -13,7 +13,9 @@ For every device on your home network, Netfox can probe a short list of well-kno
 | Web & IoT control | HTTP, HTTPS, MQTT, Home Assistant |
 | Discovery | NetBIOS, mDNS, SSDP |
 | Streaming & media | AirPlay, Plex, Transmission |
-| Developer & database | MySQL, PostgreSQL, Redis, MongoDB |
+| Developer & database | MySQL, PostgreSQL, Redis, MongoDB, and common dev servers (Node/Next.js, Vite, Angular, Django, Jupyter) |
+
+The dev-server ports are there so you can catch a framework server you left running and reachable across your LAN. Unlike the database ports, they don't raise a risk finding on their own — a dev server turning up won't push a device into a higher risk badge. (Servers on non-standard ports aren't checked yet; configurable custom ports are planned.)
 
 Each port comes back as one of three states:
 
