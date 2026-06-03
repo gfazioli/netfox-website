@@ -50,10 +50,25 @@ import classes from './Welcome.module.css';
 const HERO_SCREEN_RATIO = '3072 / 1886';
 
 const heroScreens = [
-  { value: 'overview', label: 'Overview', src: '/screenshot-overview.png', alt: 'Netfox — Overview dashboard' },
+  {
+    value: 'overview',
+    label: 'Overview',
+    src: '/screenshot-overview.png',
+    alt: 'Netfox — Overview dashboard',
+  },
   { value: 'wifi', label: 'Wi-Fi', src: '/screenshot-wifi.png', alt: 'Netfox — Wi-Fi diagnostics' },
-  { value: 'devices', label: 'Devices', src: '/screenshot-devices.png', alt: 'Netfox — Devices and history' },
-  { value: 'security', label: 'Security', src: '/screenshot-security.png', alt: 'Netfox — Security findings' },
+  {
+    value: 'devices',
+    label: 'Devices',
+    src: '/screenshot-devices.png',
+    alt: 'Netfox — Devices and history',
+  },
+  {
+    value: 'security',
+    label: 'Security',
+    src: '/screenshot-security.png',
+    alt: 'Netfox — Security findings',
+  },
 ];
 
 const heroSlides: DepthSelectItem[] = heroScreens.map((screen) => ({
