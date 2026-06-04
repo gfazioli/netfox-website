@@ -68,6 +68,12 @@ export default {
     // "View full changelog on GitHub" button at the bottom of /docs/release-notes.
     url: 'https://github.com/gfazioli/netfox-website/releases',
     maxReleases: 10,
+    // Releases share this repo with the website's own Mantine/Nextra
+    // template releases (a `v6.x` tag on package bumps). Keep only Netfox
+    // app releases (release.sh names them "Netfox X.Y.Z"), and render just
+    // the most recent few — the rest are one click away on GitHub.
+    appReleaseNamePrefix: 'Netfox',
+    displayCount: 3,
   },
   search: {
     queryKeyword: 'q',
