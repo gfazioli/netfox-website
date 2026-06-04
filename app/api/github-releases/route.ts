@@ -75,9 +75,16 @@ export async function GET(request: Request) {
     }
 
     const releases = await response.json();
+    // Only Netfox app releases, capped to the most recent displayCount.
+    const prefix = config.releaseNotes.appReleaseNamePrefix;
+    const appReleases = Array.isArray(releases)
+      ? releases
+          .filter((r: any) => typeof r?.name === 'string' && r.name.startsWith(prefix))
+          .slice(0, config.releaseNotes.displayCount)
+      : releases;
 
     return Response.json(
-      { releases, status: 'ok' },
+      { releases: appReleases, status: 'ok' },
       {
         headers: {
           'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
