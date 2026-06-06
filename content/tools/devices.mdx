@@ -18,7 +18,9 @@ Five providers run in parallel and merge their results into one record per physi
 | **NetBIOS** | Windows shares and legacy NAS that advertise NetBIOS names |
 | **Active ICMP** | Standard `ping` against IPs the system ARP cache holds but Bonjour didn't reach — catches devices that are alive but quiet |
 
-Discovery is read-only by default. The only outbound traffic the device list generates on its own is the ICMP echo from the active probe — no port scans, no DHCP poking, nothing intrusive.
+<Callout type="info">
+Discovery is **read-only by default**. The only outbound traffic the device list generates on its own is the ICMP echo from the active probe — no port scans, no DHCP poking, nothing intrusive. Port scanning only happens when you ask for it, from the [Security](/docs/tools/security) tool.
+</Callout>
 
 ## The device list
 
@@ -47,7 +49,7 @@ IPv4, IPv6, and connection type. For this Mac, the connection type reflects the 
 First seen, last seen, current status. Timestamps are relative (*2 minutes ago*) in normal mode and absolute ISO 8601 in Advanced Mode.
 
 ### Ports
-Open services from the most recent security probe. Each port shows the service name, the port number, and a risk symbol if it triggered a finding. Empty section if the device has never been probed — use the **Probe Ports** button to run a scan, or run a network-wide scan from the [Security](/docs/tools/security) tool.
+Open services from the most recent security probe, grouped by category. Each port shows the service name, the port number, and a risk symbol if it triggered a finding. Ports you've added yourself appear under their own **Custom** section, labelled with the names you gave them — see [Security → Custom ports](/docs/tools/security#custom-ports). Empty section if the device has never been probed — use the **Probe Ports** button to run a scan, or run a network-wide scan from the [Security](/docs/tools/security) tool.
 
 ### Recent activity
 The last few transitions — online ↔ offline, IPv4 learned/changed, hostname changed, vendor learned, kind refined. *View Full History…* opens the complete timeline.

@@ -1,6 +1,12 @@
+import { Callout } from 'nextra/components';
+
 # Netfox
 
 **Netfox** is a native macOS application that monitors your home network. Every connected device, every Wi-Fi neighbour, every risk worth knowing about — at a glance. No cloud account, no telemetry, no router-vendor lock-in.
+
+<Callout type="info">
+**New here?** [Download the latest release](https://github.com/gfazioli/netfox-website/releases/latest) and follow the [Getting Started](/docs/getting-started) walkthrough — you'll see your whole network inside a minute.
+</Callout>
 
 ## A modular toolkit
 
@@ -10,16 +16,17 @@ The app is organised as five focused tools you switch between from the left side
 - [**Wi-Fi**](/docs/tools/wifi) — every Wi-Fi network your Mac can see, with live signal-strength history, channel, band, and security mode
 - [**Devices**](/docs/tools/devices) — the full LAN device list, with a detail panel per device showing identity, network, history, and open services
 - [**Security**](/docs/tools/security) — port-probe results and risk badges for every reachable device, plus a one-click *Scan All Devices*
-- [**Optimization**](/docs/tools/optimization) — placeholder for the post-0.3 module wave (Wi-Fi diagnostics → Link diagnostics → Bandwidth monitor)
+- [**Optimization**](/docs/tools/optimization) — preview of the upcoming module wave (Wi-Fi diagnostics → Link diagnostics → Bandwidth monitor)
 
-Each tool reads from the same shared device store, so a finding in one shows up everywhere it's relevant.
+Each tool reads from the same shared device store, so a finding in one shows up everywhere it's relevant. And when you don't need the full window, the [**menu bar popover**](/docs/menu-bar) keeps the essentials — devices online, risk, public IP, live traffic — one click away.
 
 ## What it does
 
 - **Multi-source discovery** — Bonjour / mDNS, the system ARP cache, SSDP, NetBIOS, and active ICMP probing run together. Apple devices, dumb IoT, quiet hosts, smart-TVs — all in the same list
 - **Per-device history** — first seen, last seen, every transition (online ↔ offline, IPv4 learned/changed, hostname changed, vendor learned, kind refined) on a timeline that survives across launches
 - **Smart alerts** — fires for **new devices**, **returning devices after a long absence**, **risky arrivals** (a port-risky host that's been silent comes back online), **new services** opening on a device, and **port-state changes**. Inbox + persistent history (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>A</Kbd>) + per-device mute + native macOS notifications
-- **Security checks** — TCP port probes against the well-known home-security set (SSH, Telnet, RDP, VNC, SMB, HTTP/HTTPS, MQTT, MySQL/PostgreSQL/Redis/MongoDB, common dev servers, …). Open services get a plain-English Risk Inspector with what each finding means and what to do about it
+- **Security checks** — TCP port probes against the well-known home-security set (SSH, Telnet, RDP, VNC, SMB, HTTP/HTTPS, MQTT, MySQL/PostgreSQL/Redis/MongoDB, common dev servers, …) plus [your own custom ports](/docs/tools/security#custom-ports) with the labels you give them. Open services get a plain-English Risk Inspector with what each finding means and what to do about it
+- **Menu bar at a glance** — a popover with devices online, risk level, public IP and VPN, active alerts, and a live chart of your Mac's traffic. Closing the main window keeps Netfox running there
 - **Wi-Fi visibility** — live RSSI / noise / SNR per network, channel + band, security mode, signal history chart for the selected AP, and a one-click jump to the devices on the currently-connected network
 - **Public IP + VPN awareness** — shows your network's outward face on the Overview, with a live chip when the connection is being tunnelled
 - **Tagging** — right-click any device to give it a custom name and icon. Useful for the cryptic vendor-name rows ("Espressif Inc.") that mean nothing without context

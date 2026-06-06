@@ -29,9 +29,13 @@ Netfox is organised as a left tool sidebar with five entries, mirroring the way 
 | [**Wi-Fi**](/docs/tools/wifi) | Every wireless network your Mac can see, signal history, channel, security |
 | [**Devices**](/docs/tools/devices) | The LAN device list, with a detail panel per device |
 | [**Security**](/docs/tools/security) | Port-probe results + risk badges per reachable device, with a one-click *Scan All Devices* |
-| [**Optimization**](/docs/tools/optimization) | Placeholder for the post-0.3 module wave (Wi-Fi diagnostics, Link, Bandwidth) |
+| [**Optimization**](/docs/tools/optimization) | Preview of the upcoming module wave (Wi-Fi diagnostics, Link, Bandwidth) |
 
 Switch tools with the sidebar or with <Kbd>⌘</Kbd> <Kbd>1</Kbd> through <Kbd>⌘</Kbd> <Kbd>5</Kbd>. Each tool has its own deep-dive in the docs — click any row above for the full reference.
+
+<Callout type="info">
+Netfox also lives in your **menu bar**: a popover shows devices online, risk, public IP and a live chart of your Mac's traffic — and closing the main window keeps the app running there. See [Menu Bar](/docs/menu-bar).
+</Callout>
 
 ## First-launch tour
 
@@ -97,13 +101,13 @@ See [Security](/docs/tools/security) for what gets checked and how to act on the
 
 Open Settings with <Kbd>⌘</Kbd> <Kbd>,</Kbd> or from the menu **Netfox → Settings**. Seven tabs:
 
-- **General** — theme picker (System / Light / Dark), Open at Login toggle
+- **General** — theme picker (System / Light / Dark), menu bar icon style, Open at Login, support window at launch
 - **Alerts** — toggles for the five alert kinds, plus a link to **System Settings → Notifications**
-- **Security** — auto-probe schedule (off by default)
+- **Security** — auto-probe schedule (off by default) and your custom ports list
 - **Privacy** — wipe rows for device history, port history, alerts, tags, plus the Demo Mode master switch
 - **Advanced** — Advanced Mode toggle, offline-detection thresholds for power users
 - **Updates** — controls for the auto-update flow (check on launch, scheduled background checks, manual *Check Now…*)
-- **About** — read-only version + build info
+- **About** — the full About + Support panel: version, quick links, sponsors, and more apps
 
 <Callout type="info">
 Every time you open Settings, the window lands on **General**. Mid-session moves don't persist on close.
