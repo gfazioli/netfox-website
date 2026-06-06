@@ -10,39 +10,39 @@ Dates aren't promised — versions are. Modules ship in the order below, and "Pl
 
 ## Where we are today
 
-Netfox **0.3** is live. The current build covers:
+Netfox **0.5** is live. The current build covers:
 
-- **Discovery & history** — Bonjour / mDNS, ARP, SSDP, NetBIOS. Every device you've ever had on the network is remembered with a timeline.
+- **Discovery & history** — every device you've ever had on the network is remembered with a timeline, discovered across multiple protocols.
 - **Alerts** — new devices, returning devices, risky arrivals, port changes, new services. Inbox + history + per-device mute.
-- **Security** — port probe + risk badges, network-wide Smart Scan, Risk Inspector.
+- **Security** — port probe + risk badges, network-wide Smart Scan, Risk Inspector, scheduled scans, and user-defined **custom ports** with your own labels.
 - **Public IP & VPN awareness** — shows your network's outward face and whether traffic is tunnelled.
 - **Demo Mode** — a one-keystroke privacy mask for screenshots and demos.
 - **Overview dashboard** — the landing surface that summarises everything above at a glance.
-- **Menu bar** — a quick-glance popover with your network's status (devices online, risk, public IP, alerts) right from the menu bar, without opening the main window.
+- **Menu bar** — a quick-glance popover with your network's status (devices online, risk, public IP, alerts) plus a live chart of your Mac's traffic — without opening the main window. Two icon styles: an adaptive monochrome glyph or the colour fox.
 
 ## What's next
 
-### v0.5 — Wi-Fi diagnostics
+### v0.6 — Wi-Fi diagnostics
 
-The Wi-Fi tab today is a basic neighbour list. v0.5 turns it into a real diagnostics tool: signal-strength history, channel usage, congestion warnings, hidden network detection. Goal: answer "is my Wi-Fi the problem?" without leaving Netfox.
+The Wi-Fi tab today is a basic neighbour list. This release turns it into a real diagnostics tool: signal-strength history, channel usage, congestion warnings, hidden network detection. Goal: answer "is my Wi-Fi the problem?" without leaving Netfox.
 
-### v0.6 — Link diagnostics
+### v0.7 — Link diagnostics
 
 Physical-layer health. Cable speed negotiation, duplex mismatch warnings, NIC stats, route latency. For people who plug their Mac in and want to know whether the wall jack is letting them down.
 
-### v0.7 — Bandwidth monitor
+### v0.8 — Bandwidth monitor
 
-Per-device traffic accounting in real time. This is the biggest single lift on the roadmap because it needs a privileged background helper to read packet metadata — the helper itself is reusable for several follow-up features, so the slot also unlocks more advanced security signals.
+Per-device traffic accounting in real time. This is the biggest single lift on the roadmap because it needs a privileged background helper to read packet metadata — the helper itself is reusable for several follow-up features, so the slot also unlocks more advanced security signals. (The menu bar's traffic chart already shows your *Mac's* throughput — this module extends that to every device on the network.)
 
 ### Backlog — Speed test
 
 A built-in speed test (download / upload / latency / jitter / packet loss). Nice to have, but not the differentiator — Netfox's job is what's on *your* network, and free speed-test sites already do this well. We'll fold it in when the surrounding modules need a reference for "what should this look like?".
 
-## Beyond v0.7
+## Beyond v0.8
 
-The plan past v0.7 is intentionally less specific. Likely directions:
+The plan past v0.8 is intentionally less specific. Likely directions:
 
-- **Threat intelligence** — cross-referencing devices and traffic against public reputation feeds, with the helper from v0.7 doing the heavy lifting.
+- **Threat intelligence** — cross-referencing devices and traffic against public reputation feeds, with the helper from v0.8 doing the heavy lifting.
 - **Topology view** — a graph of how devices reach each other (router, mesh nodes, switches), surfaced once the helper has enough signal to draw it reliably.
 - **Polish & 1.0** — by the time the modules above are stable, we'll know what the v1.0 release should look like and what tradeoffs it should make.
 

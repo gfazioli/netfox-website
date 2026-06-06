@@ -15,10 +15,15 @@ The window is tabbed in this order: **General · Alerts · Security · Privacy �
 ### Appearance
 
 - **Theme** — *System / Light / Dark*. *System* follows whatever macOS is set to; *Light* and *Dark* pin Netfox regardless of the system value.
+- **Menu bar icon** — *Monochrome / Full Color*. *Monochrome* (default) is a fox-silhouette glyph that adapts to light and dark menu bars like the system's own status icons; *Full Color* keeps the colour fox. Applies instantly — see [Menu Bar](/docs/menu-bar#pick-your-icon).
 
 ### Login
 
 - **Open Netfox at login** — launches Netfox in the background when you log in to your Mac so it can start watching the network straight away. Off by default. Requires the signed/notarized release build to take effect — unsigned development builds can no-op silently.
+
+### Support window
+
+- **Show the support window at launch** — opens the About + Support window when Netfox starts: version and quick links, the project's sponsors, and other apps from the same developer. On by default; turn it off here or with the checkbox in the window itself. Even when off, the window re-surfaces once when its content changes (a new sponsor or app), then your preference applies again. The same window is always available from the app menu (**About Netfox**) and Settings → About.
 
 ## Alerts
 
@@ -59,6 +64,10 @@ Controls for the **Security** tool's auto-probe loop. The manual *Scan All Devic
 - **Off by default**. When on, re-runs a port scan on every scannable device every N hours.
 - **Interval** — 1 hour to 1 week.
 - Probes still respect the LAN-only check and the global / per-host rate limits, so a schedule can't flood the network.
+
+### Custom ports
+
+- **Extra ports** — a free-text list of TCP ports every scan checks on top of the built-in catalog. Entries are separated by commas or new lines, each a port number with an optional label after `=` (e.g. `9281 = Next.js dev`). Invalid entries are ignored; a live caption shows which ports registered. Changes apply from the next scan. See [Security → Custom ports](/docs/tools/security#custom-ports).
 
 ![Settings Security tab](/screenshot-settings-security.png)
 
@@ -120,4 +129,4 @@ Threshold changes take effect on the **next app launch** — the lifecycle pass 
 
 ## About
 
-Shows the app icon, current version, build number, and a short tagline. Read-only.
+The full About + Support panel: app icon, version and build, quick links (website, documentation, release notes, issue reporting), the project's sponsors with a *Become a sponsor* button, and a "You might also like" section with other apps from the same developer. The same content opens from the app menu (**About Netfox**) and — unless you've turned it off in [General](#support-window) — as a window at launch.

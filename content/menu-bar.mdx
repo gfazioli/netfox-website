@@ -12,14 +12,34 @@ The popover lays out the essentials as cards on a subtle gradient, so you can re
 
 - **Devices** — how many are online right now, out of the total Netfox knows about
 - **Risk level** — the headline posture, with the count of high- and medium-risk findings
-- **Public IP** — your network's outward address, plus a chip telling you whether a VPN tunnel is active
+- **Public IP** — your network's outward address, plus a chip telling you whether a VPN tunnel is active — with a one-click copy button once the address resolves
 - **Alerts** — how many alerts are currently active in the inbox
+- **Traffic** — a live chart of your Mac's network throughput over the last minute: download as a filled curve, upload as a line, with live readouts next to them
 
 It's the same information you'd find on the [Overview](/docs/tools/overview), distilled into a glance-and-go panel. When something looks off — a risk level you didn't expect, an alert you haven't seen — one click takes you into the full app to dig in via the [Security](/docs/tools/security) or [Devices](/docs/tools/devices) tools.
 
+## Live traffic
+
+The **Traffic** card charts what your Mac is actually moving on the network, sampled once a second over a rolling minute. A download ramping up, a backup pulsing in the background, a video call holding steady — you can see the shape of it without opening anything.
+
+The chart reads the Mac's own network counters, so it needs no special permissions and costs effectively nothing to keep running. Because sampling runs for the whole life of the app, the chart opens already filled with the last minute of history — no awkward empty graph while it warms up.
+
+<Callout type="info">
+This is your **Mac's** traffic — what this machine is downloading and uploading. Per-device bandwidth for everything else on the network is on the [roadmap](/docs/roadmap) and needs deeper system access, which Netfox will ask for explicitly when that ships.
+</Callout>
+
+## Pick your icon
+
+The menu bar mark comes in two styles, and you choose in **Settings → General → Appearance**:
+
+- **Monochrome** (default) — a fox-silhouette glyph that follows the macOS convention: it adapts automatically to light and dark menu bars and inverts correctly when the popover is open, just like the system's own status icons
+- **Full Color** — the classic colour fox, if you prefer the brand mark over system adaptation
+
+The switch applies instantly — no relaunch needed.
+
 ## Stays in your menu bar
 
-Closing the main window no longer quits Netfox. Instead, the app stays resident in the menu bar, quietly keeping its picture of your network up to date. The popover is always a click away.
+Closing the main window no longer quits Netfox. Instead, the app stays resident in the menu bar, quietly keeping its picture of your network up to date. Discovery runs for the whole life of the app — not just while a window is open — so the popover always reflects the network as it is *right now*, even if you haven't opened the main window in days. The popover is always a click away.
 
 When you want the full experience back, click **Open Netfox** in the popover — the main window reopens right where you left off.
 

@@ -1,3 +1,5 @@
+import { Callout } from 'nextra/components';
+
 # Security
 
 Netfox doesn't just tell you *who's* on your network — it also tells you *what looks wrong*. The Security tool runs a quick check on every device it can reach, flags anything risky in plain English, and lets you fix it from the device that has the problem.
@@ -15,7 +17,7 @@ For every device on your home network, Netfox can probe a short list of well-kno
 | Streaming & media | AirPlay, Plex, Transmission |
 | Developer & database | MySQL, PostgreSQL, Redis, MongoDB, and common dev servers (Node/Next.js, Vite, Angular, Django, Jupyter) |
 
-The dev-server ports are there so you can catch a framework server you left running and reachable across your LAN. Unlike the database ports, they don't raise a risk finding on their own — a dev server turning up won't push a device into a higher risk badge. (Servers on non-standard ports aren't checked yet; configurable custom ports are planned.)
+The dev-server ports are there so you can catch a framework server you left running and reachable across your LAN. Unlike the database ports, they don't raise a risk finding on their own — a dev server turning up won't push a device into a higher risk badge. And when a service lives on a port the catalog doesn't know, you can add it yourself — see [Custom ports](#custom-ports) below.
 
 Each port comes back as one of three states:
 
@@ -68,6 +70,29 @@ If you'd rather Netfox keep an eye on your network continuously, open **Settings
 ![Settings Security tab with auto-probe schedule](/screenshot-settings-security.png)
 
 The toggle is off by default. The manual **Scan All Devices** button covers the common case ("did anything change?"); the schedule is for users who want continuous coverage without having to remember to click.
+
+## Custom ports
+
+The built-in catalog covers the ports a home network is most likely to care about — but your network might not be everyone's network. A dev server pinned to `:9281`, an admin panel on `:10443`, a self-hosted service on whatever port you gave it: add them in **Settings → Security → Custom ports** and every scan checks them, on top of the catalog.
+
+Entries are separated by commas or new lines, each a port number with an optional label after `=`:
+
+```
+9281 = Next.js dev
+10443 = Admin UI
+8081
+```
+
+A few things the list does for you:
+
+- **Your labels show up everywhere** — the device detail panel, the Services view and alerts all call the port by the name you gave it, instead of a generic "Port 9281"
+- **Custom ports get their own section** in the device detail panel, so your additions stay visually distinct from the curated catalog
+- **Typos can't break anything** — entries that aren't valid port numbers are simply ignored, and a live caption under the field shows exactly which ports registered
+- **No restart needed** — changes apply from the next scan, manual or scheduled
+
+<Callout type="info">
+Custom ports can only *add* checks. If you list a port that's already in the built-in catalog, the catalog's name wins — so SSH stays "SSH" no matter what you call it.
+</Callout>
 
 ## Privacy
 
