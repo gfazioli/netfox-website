@@ -1,8 +1,7 @@
-import type { ReactNode } from 'react';
-import { Group } from '@mantine/core';
 import {
   IconBook2,
   IconHelpCircle,
+  IconHistory,
   IconKeyboard,
   IconLayoutNavbar,
   IconRocket,
@@ -10,22 +9,7 @@ import {
   IconSettings,
   IconTool,
 } from '@tabler/icons-react';
-
-// Sidebar entry with a leading icon — same pattern as the FinderGit
-// site. The icon inherits `currentColor`, so it tracks the link's
-// active/hover colour automatically; the label stays a bare string (a
-// Mantine `Text` would impose its own colour token and break that
-// inheritance). Every entry reads as `nav(Icon, 'Label')`.
-function nav(Icon: typeof IconBook2, label: string): { title: ReactNode } {
-  return {
-    title: (
-      <Group component="span" gap={8} wrap="nowrap" align="center">
-        <Icon size={16} stroke={1.8} />
-        {label}
-      </Group>
-    ),
-  };
-}
+import { nav } from '@/lib/nav-helper';
 
 export default {
   index: nav(IconBook2, 'Introduction'),
@@ -37,6 +21,6 @@ export default {
   'keyboard-shortcuts': nav(IconKeyboard, 'Keyboard Shortcuts'),
   '----': { type: 'separator' },
   faq: nav(IconHelpCircle, 'FAQ'),
-  'release-notes': '',
+  'release-notes': nav(IconHistory, 'Release Notes'),
   roadmap: nav(IconRoute, 'Roadmap'),
 };

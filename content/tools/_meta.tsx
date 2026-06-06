@@ -1,5 +1,3 @@
-import type { ReactNode } from 'react';
-import { Group } from '@mantine/core';
 import {
   IconDevices,
   IconGauge,
@@ -7,20 +5,7 @@ import {
   IconShieldLock,
   IconWifi,
 } from '@tabler/icons-react';
-
-// Same `nav(Icon, 'Label')` helper as the root `_meta.tsx` — kept local
-// (not shared) because each file is a self-contained Nextra meta module
-// and the helper is four lines.
-function nav(Icon: typeof IconDevices, label: string): { title: ReactNode } {
-  return {
-    title: (
-      <Group component="span" gap={8} wrap="nowrap" align="center">
-        <Icon size={16} stroke={1.8} />
-        {label}
-      </Group>
-    ),
-  };
-}
+import { nav } from '@/lib/nav-helper';
 
 export default {
   overview: nav(IconLayoutDashboard, 'Overview'),

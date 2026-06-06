@@ -50,6 +50,18 @@ import classes from './Welcome.module.css';
  */
 const HERO_SCREEN_RATIO = '3072 / 1886';
 
+/**
+ * Anchor chrome for the clickable feature cards: kill the default
+ * underline/colour and fill the grid cell. Module-level so the seven
+ * cards share one allocation instead of recreating the object per
+ * render (CodeRabbit nitpick on PR #19).
+ */
+const FEATURE_LINK_STYLE = {
+  textDecoration: 'none',
+  color: 'inherit',
+  display: 'block',
+} as const;
+
 const heroScreens = [
   {
     value: 'overview',
@@ -434,11 +446,7 @@ export function Welcome() {
               // the card's hover-lift + accent glow already signal
               // interactivity, so the anchor only needs to kill the
               // default underline/colour and fill the grid cell.
-              <Link
-                key={feature.title}
-                href={feature.href}
-                style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
-              >
+              <Link key={feature.title} href={feature.href} style={FEATURE_LINK_STYLE}>
                 <AccentCard accent={feature.accent} h="100%">
                   <Stack gap="md" align="flex-start">
                     <GradientIcon icon={feature.icon} />
