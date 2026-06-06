@@ -1,3 +1,5 @@
+import { Callout } from 'nextra/components';
+
 # Keyboard Shortcuts
 
 Netfox keeps the keyboard surface small on purpose — most discovery happens passively, so there's not much you need to trigger by hand. Every shortcut below either switches tools, opens a window, flips an app-wide mode, or refreshes the device list.
@@ -11,7 +13,7 @@ The five tools in the left sidebar each carry a number, in display order:
   { keys: ['⌘', '2'], action: 'Switch to Wi-Fi — visible networks and signal history' },
   { keys: ['⌘', '3'], action: 'Switch to Devices — the LAN device list and detail panel' },
   { keys: ['⌘', '4'], action: 'Switch to Security — risk findings and Smart Scan' },
-  { keys: ['⌘', '5'], action: 'Switch to Optimization — placeholder for the post-0.3 module wave' },
+  { keys: ['⌘', '5'], action: 'Switch to Optimization — preview of the upcoming module wave' },
 ]} />
 
 ## View
@@ -37,6 +39,10 @@ The five tools in the left sidebar each carry a number, in display order:
   { keys: ['⌘', 'W'], action: 'Close the main window' },
   { keys: ['⌘', 'Q'], action: 'Quit Netfox' },
 ]} />
+
+<Callout type="info">
+Closing the main window (<Kbd>⌘</Kbd> <Kbd>W</Kbd>) doesn't quit Netfox — the app stays resident in the [menu bar](/docs/menu-bar), still watching the network. <Kbd>⌘</Kbd> <Kbd>Q</Kbd> (or **Quit Netfox** from the menu bar popover's ⋯ menu) is the way to actually exit.
+</Callout>
 
 ## Help
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { DepthSelect, type DepthSelectItem } from '@gfazioli/mantine-depth-select';
 import { Scene } from '@gfazioli/mantine-scene';
 import { TextAnimate } from '@gfazioli/mantine-text-animate';
@@ -90,6 +91,10 @@ const heroSlides: DepthSelectItem[] = heroScreens.map((screen) => ({
  * theme tokens (`*-5`) used uniformly so the cards stay in
  * lockstep with the project palette (a future theme tweak shifts
  * every accent automatically).
+ *
+ * `href` makes each card a deep link into the matching docs page —
+ * the grid doubles as a visual table of contents, and the existing
+ * hover-lift already reads as "clickable".
  */
 const features = [
   {
@@ -98,6 +103,7 @@ const features = [
     description:
       'Bonjour, ARP, SSDP, NetBIOS and active probing run together. Apple devices, smart-TVs, IoT, quiet hosts — all in the same list.',
     accent: 'var(--mantine-color-orange-5)',
+    href: '/docs/tools/devices',
   },
   {
     icon: IconShieldLock,
@@ -105,6 +111,7 @@ const features = [
     description:
       'One-click Scan All checks every reachable device against a curated set of home-network ports. Risk Inspector explains each finding in plain English.',
     accent: 'var(--mantine-color-red-5)',
+    href: '/docs/tools/security',
   },
   {
     icon: IconClock,
@@ -112,6 +119,7 @@ const features = [
     description:
       'First seen, last seen, every online/offline transition, every IP/hostname/vendor change. Timeline survives across launches.',
     accent: 'var(--mantine-color-blue-5)',
+    href: '/docs/tools/devices',
   },
   {
     icon: IconBell,
@@ -119,6 +127,7 @@ const features = [
     description:
       'New device, returning after long absence, risky arrival, port-state change, new service. Inbox + persistent log + per-device mute.',
     accent: 'var(--mantine-color-yellow-5)',
+    href: '/docs/settings#alerts',
   },
   {
     icon: IconLayoutNavbar,
@@ -126,12 +135,14 @@ const features = [
     description:
       'A menu bar popover shows devices online, risk level, public IP and VPN, and active alerts — without opening the main window.',
     accent: 'var(--mantine-color-teal-5)',
+    href: '/docs/menu-bar',
   },
   {
     icon: IconDeviceDesktop,
     title: 'Native macOS',
     description: 'Built in SwiftUI for macOS 15+. Follows system appearance. Universal binary.',
     accent: 'var(--mantine-color-grape-5)',
+    href: '/docs/getting-started',
   },
   {
     icon: IconNetwork,
@@ -139,6 +150,7 @@ const features = [
     description:
       'Data stays on your Mac. No telemetry, no sign-up, no vendor lock-in. One-keystroke Demo Mode masks names, MACs, IPv6 and SSIDs for safe screenshots.',
     accent: 'var(--mantine-color-cyan-5)',
+    href: '/docs/settings#privacy',
   },
 ];
 
@@ -418,17 +430,27 @@ export function Welcome() {
 
           <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="xl">
             {features.map((feature) => (
-              <AccentCard key={feature.title} accent={feature.accent}>
-                <Stack gap="md" align="flex-start">
-                  <GradientIcon icon={feature.icon} />
-                  <Text fw={700} size="lg" c="white">
-                    {feature.title}
-                  </Text>
-                  <Text c="dimmed" size="sm">
-                    {feature.description}
-                  </Text>
-                </Stack>
-              </AccentCard>
+              // The whole card is the link target (not just the title):
+              // the card's hover-lift + accent glow already signal
+              // interactivity, so the anchor only needs to kill the
+              // default underline/colour and fill the grid cell.
+              <Link
+                key={feature.title}
+                href={feature.href}
+                style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
+              >
+                <AccentCard accent={feature.accent} h="100%">
+                  <Stack gap="md" align="flex-start">
+                    <GradientIcon icon={feature.icon} />
+                    <Text fw={700} size="lg" c="white">
+                      {feature.title}
+                    </Text>
+                    <Text c="dimmed" size="sm">
+                      {feature.description}
+                    </Text>
+                  </Stack>
+                </AccentCard>
+              </Link>
             ))}
           </SimpleGrid>
         </Container>

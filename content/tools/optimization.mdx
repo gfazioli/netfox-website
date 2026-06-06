@@ -12,19 +12,19 @@ This tool intentionally doesn't ship functionality yet. Each module under it nee
 
 | Module | Target | Notes |
 |---|---|---|
-| **Wi-Fi diagnostics** | v0.5 | Channel congestion, signal-history scoring, hidden network detection, neighbour-AP interference — extension of today's [Wi-Fi](/docs/tools/wifi) tool |
-| **Link diagnostics** | v0.6 | Physical-layer health: NIC stats, cable speed negotiation, duplex mismatch warnings, route latency |
-| **Bandwidth monitor** | v0.7 | Per-device traffic accounting in real time. Needs a privileged background helper to read packet metadata — the biggest single lift on the roadmap |
+| **Wi-Fi diagnostics** | v0.6 | Channel congestion, signal-history scoring, hidden network detection, neighbour-AP interference — extension of today's [Wi-Fi](/docs/tools/wifi) tool |
+| **Link diagnostics** | v0.7 | Physical-layer health: NIC stats, cable speed negotiation, duplex mismatch warnings, route latency |
+| **Bandwidth monitor** | v0.8 | Per-device traffic accounting in real time. Needs a privileged background helper to read packet metadata — the biggest single lift on the roadmap. The menu bar's [traffic chart](/docs/menu-bar#live-traffic) already covers your own Mac |
 | **Speed test** | Backlog | Built-in download / upload / latency / jitter / packet-loss benchmark |
 
-Versions aren't promised dates — they're the version we're aiming to land each in. See the [Roadmap](/docs/roadmap) for the longer narrative and what comes after v0.7.
+Versions aren't promised dates — they're the version we're aiming to land each in. See the [Roadmap](/docs/roadmap) for the longer narrative and what comes after v0.8.
 
 ## Why a placeholder tool, not just docs
 
 A few reasons:
 
 - **Discoverability** — putting the slot in the sidebar tells users the surface exists. A roadmap page on the website is easy to miss; a tool in the app you use every day isn't.
-- **Anchor for follow-up work** — when v0.5 ships, the Optimization tab is already there to host the Wi-Fi diagnostics module. No reshuffle of the navigation needed.
+- **Anchor for follow-up work** — when Wi-Fi diagnostics ships, the Optimization tab is already there to host it. No reshuffle of the navigation needed.
 - **Honest expectations** — separating "what's shipped" (Overview, Wi-Fi, Devices, Security) from "what's planned" (Optimization) keeps the user from clicking a feature that doesn't work yet.
 
 ## What to do today
