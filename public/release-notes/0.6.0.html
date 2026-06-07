@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.6.0 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.6.0</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p>Netfox 0.6.0 is <strong>the redesign</strong>. The whole app moves to a dark, full-bleed gradient that shifts colour with every tool — so a glance tells you where you are — and the things you reach for most now work from anywhere.</p>
+<h2>🎨 A new look</h2>
+<p>Netfox is now dark by design, with a living gradient canvas: violet on the Overview, teal on Wi-Fi, blue on Devices, red on Security, green on Optimization. The sidebar floats as a translucent panel that picks up each tool's colour, the cards share one glass treatment, and the whole window reads as a single, modern surface instead of a stack of grey boxes.</p>
+<h2>🖱 Click straight through from the menu bar</h2>
+<p>The menu bar popover's cards are now live links. Click <strong>Devices</strong>, <strong>Risk</strong>, <strong>Public IP</strong> or <strong>Alerts</strong> and Netfox opens the main window — recreating it if you'd closed it — right on the matching tool. The popover also keeps its live traffic chart and one-click Public IP copy.</p>
+<h2>⌨️ Commands that work from any tool</h2>
+<p><strong>Refresh</strong> (⌘R), <strong>Probe Ports</strong> (⌘⇧P) and <strong>Alert History</strong> (⌘⇧A) used to grey out unless you were on the Devices tool. They're now available everywhere — fire a refresh or open your alert history from Overview, Wi-Fi, Security, wherever you are.</p>
+<h2>✨ Polish throughout</h2>
+<ul>
+<li>The device list, the Wi-Fi network list and the Security views all wear the new design language, with smoother scrolling and cleaner panels.</li>
+<li>The Devices search field sits where you expect it, pinned to the trailing edge of the toolbar.</li>
+<li>Cards lift and glow on hover so it's obvious what's clickable.</li>
+</ul>
+<h2>🗺 Roadmap</h2>
+<p>The public roadmap now commits to the <strong>order</strong> of upcoming modules rather than pinning each to a version — Wi-Fi diagnostics is up next, then link diagnostics, then the per-device bandwidth monitor.</p>
+</body>
+</html>
