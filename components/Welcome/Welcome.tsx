@@ -69,7 +69,10 @@ const heroScreens = [
     src: '/screenshot-overview.png',
     alt: 'Netfox — Overview dashboard',
   },
-  { value: 'wifi', label: 'Wi-Fi', src: '/screenshot-wifi.png', alt: 'Netfox — Wi-Fi diagnostics' },
+  // Hero uses a cleaner, glance-friendly Wi-Fi shot (hero aspect
+  // ratio); the docs Wi-Fi page keeps the fuller detail-panel
+  // screenshot (`/screenshot-wifi.png`).
+  { value: 'wifi', label: 'Wi-Fi', src: '/screenshot-hero-wifi.png', alt: 'Netfox — Wi-Fi diagnostics' },
   {
     value: 'devices',
     label: 'Devices',

@@ -27,11 +27,17 @@ Discovery is **read-only by default**. The only outbound traffic the device list
 This Mac sits at the top, pinned, with its current Wi-Fi/Ethernet badge. Below: online devices first, then offline. Each row shows hostname / IP / vendor (or your custom tag) plus a dot — green online, gray offline.
 
 ### Search and filter
-- The **search box** at the top filters by hostname, IPv4, IPv6, or MAC. Matches highlight in the row.
+- The **search box**, pinned to the toolbar's trailing edge, filters by hostname, IPv4, IPv6, or MAC. Matches narrow the list live.
 - The **status filter pill** scopes the list to *All / Online / Offline* without clearing the search.
+
+![Searching the device list](/screenshot-device-search.png)
 
 ### Bell badge
 The bell in the toolbar carries a count of unread alerts. Click to open the inbox; click *Done* in the inbox to mark them read and reset the badge to zero. Persistent log lives at <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>A</Kbd> (Alert History).
+
+![The alerts inbox](/screenshot-alerts-inbox.png)
+
+The persistent **Alert History** sheet (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>A</Kbd>) keeps every alert ever raised, even after you've cleared the inbox:
 
 ![Alert History sheet](/screenshot-alert-history.png)
 
@@ -50,6 +56,8 @@ First seen, last seen, current status. Timestamps are relative (*2 minutes ago*)
 
 ### Ports
 Open services from the most recent security probe, grouped by category. Each port shows the service name, the port number, and a risk symbol if it triggered a finding. Ports you've added yourself appear under their own **Custom** section, labelled with the names you gave them — see [Security → Custom ports](/docs/tools/security#custom-ports). Empty section if the device has never been probed — use the **Probe Ports** button to run a scan, or run a network-wide scan from the [Security](/docs/tools/security) tool.
+
+![The Ports tab, grouped by category](/screenshot-device-ports.png)
 
 ### Recent activity
 The last few transitions — online ↔ offline, IPv4 learned/changed, hostname changed, vendor learned, kind refined. *View Full History…* opens the complete timeline.
@@ -80,9 +88,11 @@ Tags survive across launches and are masked when [Demo Mode](/docs/settings#priv
 
 ## History timeline
 
-![Per-device history timeline](/screenshot-device-history.png)
+The detail panel's **History** tab shows the most recent transitions inline, with a *View Full History…* link to the complete log:
 
-Click *View Full History…* in the detail panel to open the per-device history sheet:
+![The per-device History tab](/screenshot-device-history.png)
+
+Click *View Full History…* to open the per-device history sheet:
 
 - Every observation Netfox has ever recorded for that device, newest first
 - Categorised by kind (online/offline transition, hostname change, IP change, vendor change, …)

@@ -59,7 +59,11 @@ You can also probe a single device:
 - Or right-click any device in Overview → **Probe Ports**
 - Or press <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>P</Kbd> with a device selected
 
-## Finding the affected port
+## By device or by service
+
+The **By Device** / **By Service** toggle at the top flips the dashboard between two ways of reading the same scan. *By Device* (above) groups findings under each host. *By Service* inverts it — one row per exposed service across the whole network, with how many devices expose it and how many of those are at risk. It answers "what's reachable on my LAN, and where?" instead of "which device is risky?".
+
+![Security, grouped by service](/screenshot-security-services.png)
 
 Click any risk row in the Security dashboard to jump straight to that device's **Ports** tab in Overview. Every port that triggered a finding has its risk symbol painted next to it — you can spot the troublesome port at a glance instead of cross-referencing the Risk Inspector.
 
