@@ -6,11 +6,11 @@ title: Roadmap
 
 Netfox grows one module at a time. Each release ships a focused piece of the bigger picture so you can use what's ready instead of waiting for everything to land at once.
 
-Dates aren't promised — versions are. Modules ship in the order below, and "Planned for v0.X" means "this is the version we're aiming to land it in", not a fixed calendar.
+**The order is the promise, not the version number.** Netfox is built by one person, and what ships next is sometimes whatever the moment calls for — so rather than pin each module to a "v0.X" that keeps moving, the list below commits to *sequence*. Modules land in this order; the version they land in is whatever it is when they're ready.
 
 ## Where we are today
 
-Netfox **0.5** is live. The current build covers:
+Netfox **0.6** is live — and it's the release that gave the whole app a new look: a dark, full-bleed gradient that shifts colour per tool. The current build covers:
 
 - **Discovery & history** — every device you've ever had on the network is remembered with a timeline, discovered across multiple protocols.
 - **Alerts** — new devices, returning devices, risky arrivals, port changes, new services. Inbox + history + per-device mute.
@@ -18,19 +18,19 @@ Netfox **0.5** is live. The current build covers:
 - **Public IP & VPN awareness** — shows your network's outward face and whether traffic is tunnelled.
 - **Demo Mode** — a one-keystroke privacy mask for screenshots and demos.
 - **Overview dashboard** — the landing surface that summarises everything above at a glance.
-- **Menu bar** — a quick-glance popover with your network's status (devices online, risk, public IP, alerts) plus a live chart of your Mac's traffic — without opening the main window. Two icon styles: an adaptive monochrome glyph or the colour fox.
+- **Menu bar** — a quick-glance popover with your network's status (devices online, risk, public IP, alerts) plus a live chart of your Mac's traffic, and cards that deep-link straight into the app. Two icon styles: an adaptive monochrome glyph or the colour fox.
 
 ## What's next
 
-### v0.6 — Wi-Fi diagnostics
+### Up next — Wi-Fi diagnostics
 
-The Wi-Fi tab today is a basic neighbour list. This release turns it into a real diagnostics tool: signal-strength history, channel usage, congestion warnings, hidden network detection. Goal: answer "is my Wi-Fi the problem?" without leaving Netfox.
+The Wi-Fi tab today is a basic neighbour list. The next module turns it into a real diagnostics tool: signal-strength history, channel usage, congestion warnings, hidden network detection. Goal: answer "is my Wi-Fi the problem?" without leaving Netfox.
 
-### v0.7 — Link diagnostics
+### Then — Link diagnostics
 
 Physical-layer health. Cable speed negotiation, duplex mismatch warnings, NIC stats, route latency. For people who plug their Mac in and want to know whether the wall jack is letting them down.
 
-### v0.8 — Bandwidth monitor
+### Later — Bandwidth monitor
 
 Per-device traffic accounting in real time. This is the biggest single lift on the roadmap because it needs a privileged background helper to read packet metadata — the helper itself is reusable for several follow-up features, so the slot also unlocks more advanced security signals. (The menu bar's traffic chart already shows your *Mac's* throughput — this module extends that to every device on the network.)
 
@@ -38,13 +38,13 @@ Per-device traffic accounting in real time. This is the biggest single lift on t
 
 A built-in speed test (download / upload / latency / jitter / packet loss). Nice to have, but not the differentiator — Netfox's job is what's on *your* network, and free speed-test sites already do this well. We'll fold it in when the surrounding modules need a reference for "what should this look like?".
 
-## Beyond v0.8
+## Further out
 
-The plan past v0.8 is intentionally less specific. Likely directions:
+Past the bandwidth monitor the plan is intentionally less specific. Likely directions:
 
-- **Threat intelligence** — cross-referencing devices and traffic against public reputation feeds, with the helper from v0.8 doing the heavy lifting.
+- **Threat intelligence** — cross-referencing devices and traffic against public reputation feeds, with the privileged helper doing the heavy lifting.
 - **Topology view** — a graph of how devices reach each other (router, mesh nodes, switches), surfaced once the helper has enough signal to draw it reliably.
-- **Polish & 1.0** — by the time the modules above are stable, we'll know what the v1.0 release should look like and what tradeoffs it should make.
+- **Polish & 1.0** — by the time the modules above are stable, we'll know what the 1.0 release should look like and what tradeoffs it should make.
 
 ## Feedback shapes the order
 
