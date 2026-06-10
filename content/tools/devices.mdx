@@ -56,7 +56,7 @@ Open services from the most recent security probe, grouped by category. Each por
 ![The Ports tab, grouped by category](/screenshot-device-ports.png)
 
 ### Recent activity
-The last few transitions — online ↔ offline, IPv4 learned/changed, hostname changed, vendor learned, kind refined. *View Full History…* opens the complete timeline.
+The last few transitions — online ↔ offline, IPv4 learned/changed, hostname changed, vendor learned, kind refined, ports opened/closed. *View Full History…* opens the complete timeline.
 
 ## Context menu
 
@@ -91,9 +91,13 @@ The detail panel's **History** tab shows the most recent transitions inline, wit
 Click *View Full History…* to open the per-device history sheet:
 
 - Every observation Netfox has ever recorded for that device, newest first
-- Categorised by kind (online/offline transition, hostname change, IP change, vendor change, …)
+- Categorised by kind (online/offline transition, hostname change, IP change, vendor change, port opened/closed, …)
 - Filterable by event kind
 - Exportable as JSON for sharing or diffing
+
+### Port-state changes
+
+When a probe — manual or scheduled — flips a port between **open** and not-open, the timeline records it: *"Port opened — 3000 (Node dev server)"* when a service appears, *"Port closed"* when it goes away. So the History captures how a device's **service exposure** changed over time, not just its presence: you can see that a dev server ran on port 3000 yesterday evening even though it's gone now. First-time observations don't record (learning a port's state isn't a change), and closed↔filtered flips are treated as reachability noise.
 
 ## Demo Mode
 
