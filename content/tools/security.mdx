@@ -89,19 +89,13 @@ The toggle is off by default. The manual **Scan All Devices** button covers the 
 
 The built-in catalog covers the ports a home network is most likely to care about — but your network might not be everyone's network. A dev server pinned to `:9281`, an admin panel on `:10443`, a self-hosted service on whatever port you gave it: add them in **Settings → Security → Custom ports** and every scan checks them, on top of the catalog.
 
-Entries are separated by commas or new lines, each a port number with an optional label after `=`:
-
-```
-9281 = Next.js dev
-10443 = Admin UI
-8081
-```
+The list is a simple editor — each row is a **port number** and an optional **description**. Use **Add Port** to add a row and the **−** button to remove one; the list scrolls once it gets long.
 
 A few things the list does for you:
 
 - **Your labels show up everywhere** — the device detail panel, the Services view and alerts all call the port by the name you gave it, instead of a generic "Port 9281"
 - **Custom ports get their own section** in the device detail panel, so your additions stay visually distinct from the curated catalog
-- **Typos can't break anything** — entries that aren't valid port numbers are simply ignored, and a live caption under the field shows exactly which ports registered
+- **Typos can't break anything** — a row without a valid port number (1–65535) is flagged and simply skipped, and a live caption shows exactly which ports registered
 - **No restart needed** — changes apply from the next scan, manual or scheduled
 
 <Callout type="info">
