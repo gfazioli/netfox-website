@@ -7,7 +7,7 @@ const faqItems = [
     value: 'what',
     question: 'What is Netfox?',
     answer:
-      'Netfox is a native macOS app that shows you a live list of every device on your home network, with first-seen / last-seen history, alerts when something new connects, port-probe risk badges, and a Wi-Fi diagnostics tool. Five focused tools (Overview, Wi-Fi, Devices, Security, Optimization) share the same store, so a finding in one shows up everywhere it matters.',
+      'Netfox is a native macOS app that shows you a live list of every device on your home network, with first-seen / last-seen history, alerts when something new connects, port-probe risk badges, and a view of the Wi-Fi networks around you. Five focused tools (Overview, Wi-Fi, Devices, Security, Optimization) share the same store, so a finding in one shows up everywhere it matters.',
   },
   {
     value: 'free',
@@ -30,7 +30,7 @@ const faqItems = [
     value: 'security',
     question: 'What does the Security tool actually check?',
     answer:
-      'It opens a TCP connection to a curated list of well-known home-network ports (SSH, Telnet, RDP, VNC, SMB, AFP, NFS, HTTP, HTTPS, MQTT, AirPlay, Plex, MySQL, PostgreSQL, Redis, MongoDB, and a few more) on every device that responds on the LAN. Each open port is classified by risk, and the Risk Inspector explains in plain English what each finding means and what to do about it. No raw-socket scanning, no root access, no fingerprinting — just unprivileged TCP probes.',
+      'It opens a TCP connection to a curated list of well-known home-network ports (SSH, Telnet, RDP, VNC, SMB, AFP, NFS, HTTP, HTTPS, MQTT, AirPlay, Plex, MySQL, PostgreSQL, Redis, MongoDB, and a few more) on every device that responds on the LAN. Each open port is classified by risk, and the Risk Inspector explains in plain English what each finding means and what to do about it. You can also add your own custom ports to that list, or run a Full Scan over a wider range (up to all 65,535) on a single device when you want to dig deeper. No raw-socket scanning, no root access, no fingerprinting — just unprivileged TCP probes.',
   },
   {
     value: 'demo-mode',

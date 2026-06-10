@@ -67,6 +67,8 @@ The catalog walk above checks a curated set of well-known ports — fast and qui
 - **All ports (1–65535)** — the exhaustive sweep
 - **Custom range…** — any contiguous span you type
 
+![A full scan in progress — live progress bar, a running count, and open ports landing as they reply](/scanning-in-progress.png)
+
 A full scan is heavier than the catalog walk by design, so it's always something you start by hand, per device — never part of the scheduled sweep. It runs under its own rate limits (still LAN-only, still polite to your router) and shows a live progress bar with a running count of how many ports it has checked and how many came back open. Cancel any time. Open ports it finds land in the **Ports** list — and feed History and alerts — exactly like a catalog probe; the thousands of closed ports are counted but not stored.
 
 ## By device or by service

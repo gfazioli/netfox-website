@@ -99,6 +99,8 @@ Click *View Full History…* to open the per-device history sheet:
 
 When a probe — manual or scheduled — flips a port between **open** and not-open, the timeline records it: *"Port opened — 3000 (Node dev server)"* when a service appears, *"Port closed"* when it goes away. So the History captures how a device's **service exposure** changed over time, not just its presence: you can see that a dev server ran on port 3000 yesterday evening even though it's gone now. First-time observations don't record (learning a port's state isn't a change), and closed↔filtered flips are treated as reachability noise.
 
+![Port opened and closed events at the top of a device's full History](/history-ports.png)
+
 ## Demo Mode
 
 ![Devices with Demo Mode active](/screenshot-demo-mode.png)
