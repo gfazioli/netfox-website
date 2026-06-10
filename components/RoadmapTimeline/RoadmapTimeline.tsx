@@ -86,7 +86,7 @@ const modules: { icon: ReactNode; title: string; tier: Tier; body: ReactNode }[]
 
 export function RoadmapTimeline() {
   return (
-    <Timeline active={0} bulletSize={32} lineWidth={4} color="orange" mt={24}>
+    <Timeline active={0} bulletSize={32} lineWidth={4} color={tierColor[modules[0].tier]} mt={24}>
       {modules.map((m) => (
         <Timeline.Item
           key={m.title}
