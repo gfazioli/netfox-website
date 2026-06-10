@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.7.0 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.7.0</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p>Netfox 0.7.0 goes deeper on ports — and gives Settings a fresh, scannable look.</p>
+<p>🔍 Full Scan<br>
+The curated catalog is fast and quiet, the right default. When you want to dig deeper on one device, Full Scan sweeps a wider range — well-known ports (1–1024), all 65,535, or a custom range you type — with a live progress bar and a running count of open ports. Cancel any time. It's per-device and never part of the scheduled sweep, and it stays polite to your router.</p>
+<p>🕓 Port history<br>
+The device History timeline now records when a port opens or closes, so you can see that a dev server ran on :3000 yesterday evening even though it's gone now — service exposure over time, not just presence.</p>
+<p>🔔 Port alerts can include this Mac<br>
+The "new port opened" alert can now optionally cover your own Mac — an unexpected listener on your own machine is worth knowing about. On by default once you've enabled port alerts; flip it off if your dev workflow is noisy.</p>
+<p>🎛️ Custom ports, now a list<br>
+Settings → Security → Custom ports is a proper editor now: one row per port with an optional description, add and remove buttons, and a scrollable list — no more free-text field.</p>
+<p>✨ Settings, refreshed<br>
+Every setting gets a colour icon for quick scanning and an info button that opens its full explanation in a popover, so the panels stay clean while every detail stays one click away.</p>
+<p>⭕ Ring gauges<br>
+The menu bar popover and the Overview now show Devices (online / total) and Risk (share at risk) as at-a-glance rings, tinted by severity.</p>
+<p>Plus polish: relative timestamps now read "Just now" for fresh events instead of the odd "in 0 seconds".</p>
+</body>
+</html>
