@@ -53,7 +53,7 @@ Netfox can raise five kinds of alert. Each one has its own toggle so you can mut
 
 - **Notify when a port opens** — fires when a port that was previously closed or filtered comes back as open on a device you've already seen. Both the scheduled port probe and the manual one-shot *Probe Ports* feed this check.
 - **Off by default**: the first sweep on a fresh install is silent (no baseline yet), but the second can carpet-bomb you with alerts for every legitimately-open service that was discovered in sweep one. Opt in once you've seen what the first sweep finds.
-- **Include this Mac** — your own Mac is normally exempt from device alerts. Leave this on (the default) to be told when a new port opens on it too: an unexpected listener on your own machine is worth knowing about. If you run local dev servers that open and close ports all day, this is the switch to flip off. The device [History](/docs/tools/devices#port-state-changes) records port changes on this Mac either way.
+- **Include this Mac** — your own Mac is exempt from the other alert types (new-device, returning, risky arrival), but for port-open alerts it's included by default via this toggle: an unexpected listener on your own machine is worth knowing about. Flip it off if you run local dev servers that open and close ports all day. The device [History](/docs/tools/devices#port-state-changes) records port changes on this Mac either way.
 
 ### New service
 
