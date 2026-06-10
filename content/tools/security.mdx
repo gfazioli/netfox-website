@@ -59,6 +59,16 @@ You can also probe a single device:
 - Or right-click any device in Overview → **Probe Ports**
 - Or press <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>P</Kbd> with a device selected
 
+## Full scan
+
+The catalog walk above checks a curated set of well-known ports — fast and quiet, the right default. When you want to go deeper on **one** device, open its **Ports** tab in Overview and use **Full Scan**:
+
+- **Well-known ports (1–1024)** — the IANA system range, where almost every interesting service lives
+- **All ports (1–65535)** — the exhaustive sweep
+- **Custom range…** — any contiguous span you type
+
+A full scan is heavier than the catalog walk by design, so it's always something you start by hand, per device — never part of the scheduled sweep. It runs under its own rate limits (still LAN-only, still polite to your router) and shows a live progress bar with a running count of how many ports it has checked and how many came back open. Cancel any time. Open ports it finds land in the **Ports** list — and feed History and alerts — exactly like a catalog probe; the thousands of closed ports are counted but not stored.
+
 ## By device or by service
 
 The **By Device** / **By Service** toggle at the top flips the dashboard between two ways of reading the same scan. *By Device* (above) groups findings under each host. *By Service* inverts it — one row per exposed service across the whole network, with how many devices expose it and how many of those are at risk. It answers "what's reachable on my LAN, and where?" instead of "which device is risky?".
