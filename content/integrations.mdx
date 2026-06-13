@@ -1,0 +1,81 @@
+import { Callout } from 'nextra/components';
+
+# Integrations
+
+Netfox keeps everything it sees on your Mac — but if you already run a monitoring stack, you can let it read from Netfox too. The **metrics endpoint** exposes Netfox's data in the [Prometheus](https://prometheus.io) text exposition format, so you can scrape it with Prometheus and chart it in [Grafana](https://grafana.com) alongside the rest of your homelab — open ports, device presence, last-seen times, throughput, and alert counts.
+
+<Callout type="info">
+The endpoint is **off by default** and bound to **localhost only**. It opens a listening socket on your Mac, so turning it on — and especially exposing it to your network — is always a deliberate choice.
+</Callout>
+
+## Turning it on
+
+![Settings — Integrations tab](/screenshot-settings-integrations.png)
+
+Open **Settings → Integrations** (<Kbd>⌘</Kbd> <Kbd>,</Kbd>) and switch **Expose a metrics endpoint** on. Four controls:
+
+- **Expose a metrics endpoint** — the master switch. Off by default.
+- **Port** — the TCP port to listen on (default `9090`). A change applies when you press <Kbd>Return</Kbd> or leave the field, while the endpoint is running.
+- **Allow access from other devices** — off by default, the endpoint binds `127.0.0.1` and only this Mac can scrape it. Turn it on to bind every interface so another host on your LAN — say a Prometheus running on your NAS — can reach it.
+- **Access token** — optional. When set, every scrape must send `Authorization: Bearer <token>` or it gets a `401`. Leave empty for no authentication (fine for a localhost-only bind; recommended once you expose it to the network).
+
+The panel shows the live **endpoint URL** with a copy button — point your Prometheus scrape config straight at it.
+
+<Callout type="info">
+The endpoint is live **only while Netfox is running**. Since Netfox stays resident in the [menu bar](/docs/menu-bar) after you close its window, leaving it running keeps the endpoint up.
+</Callout>
+
+## What gets exposed
+
+A `GET /metrics` scrape returns these series:
+
+| Metric | What it tells you |
+|---|---|
+| `netfox_up` | `1` while the endpoint is serving |
+| `netfox_devices_total` | Total devices Netfox is tracking |
+| `netfox_devices_online_total` | Devices currently online |
+| `netfox_device_info{host,mac,hostname,kind,local}` | Per-device metadata (value always `1`) — join other series on the `host` label |
+| `netfox_device_online{host}` | `1` if the device is online, `0` otherwise |
+| `netfox_device_last_seen_timestamp_seconds{host}` | When the device was last observed |
+| `netfox_host_open_ports{host}` | Number of open ports on the host |
+| `netfox_port_open{host,port}` | `1` if the port was last observed open, `0` otherwise |
+| `netfox_port_last_observed_timestamp_seconds{host,port}` | When that port's state was last probed |
+| `netfox_throughput_bytes_per_second{direction}` | This Mac's network throughput, `rx` and `tx` |
+| `netfox_alerts_total{kind}` | Persisted alert counts, by kind |
+
+The `host` label is the device's IPv4 (the address you'll recognise in Grafana), falling back to its MAC then an internal id for a device without one.
+
+<Callout type="info">
+The port series (`netfox_port_open`, `netfox_port_last_observed_timestamp_seconds`) only appear for devices that have been **scanned at least once** — run a scan from the [Security](/docs/tools/security) tool first. And `..._last_observed_..._seconds` is when Netfox last *probed* the port's state, not when a client last connected to it — Netfox probes on a schedule, it doesn't packet-capture per-port traffic.
+</Callout>
+
+## Pointing Prometheus at it
+
+Add a scrape job to your `prometheus.yml`, using this Mac's LAN address and the port you chose:
+
+```yaml
+scrape_configs:
+  - job_name: netfox
+    static_configs:
+      - targets: ['192.168.1.50:9090'] # this Mac's IP and the configured port
+    # only if you set an access token:
+    authorization:
+      credentials: YOUR_TOKEN
+```
+
+Then build your Grafana panels on top — for example `netfox_host_open_ports` as a per-host table, `netfox_device_online` as an up/down status grid, or `rate`-free gauges over `netfox_throughput_bytes_per_second`.
+
+## Security
+
+The endpoint is read-only — it never accepts commands, only serves the current snapshot — but it's still a socket, so it ships locked down:
+
+- **Off by default.** Nothing listens until you opt in.
+- **Localhost by default.** Exposing it to the LAN is a separate, explicit toggle.
+- **Optional bearer token.** Set one before you expose the endpoint to the network; unauthenticated scrapes then get a `401`.
+- **No data leaves your Mac on its own.** Prometheus pulls; Netfox never pushes anywhere.
+
+## Demo Mode and the endpoint
+
+<Callout type="warning">
+[Demo Mode](/docs/settings#demo-mode) masks the **on-screen UI** for screenshots — it does **not** mask the metrics endpoint. A scrape always returns real IPs, MAC addresses, and hostnames. That's deliberate: the endpoint exists to feed accurate data to your own monitoring, and masking it would produce churning, broken series in Grafana. If you're recording a demo with the endpoint enabled, keep that in mind, or switch the endpoint off for the recording.
+</Callout>

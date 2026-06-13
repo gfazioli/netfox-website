@@ -8,7 +8,7 @@ Open Settings with <Kbd>⌘</Kbd> <Kbd>,</Kbd> or from the menu **Netfox → Set
 Every time you reopen the window it lands on the **General** tab. Mid-session moves between tabs don't persist on close — predictable open state, no surprise jumps.
 </Callout>
 
-The window is tabbed in this order: **General · Alerts · Security · Privacy · Advanced · Updates · About**. Every toggle takes effect immediately unless explicitly noted otherwise.
+The window is tabbed in this order: **General · Alerts · Security · Privacy · Integrations · Advanced · Updates · About**. Every toggle takes effect immediately unless explicitly noted otherwise.
 
 Each setting carries a small coloured icon for quick scanning, and an **ⓘ** button that opens a popover with the full explanation — so the panels stay uncluttered while every detail stays one click away:
 
@@ -106,6 +106,12 @@ Five wipe rows, each one a one-click *Erase…* with a confirm prompt:
 <Callout type="warning">
 The erase rows are immediate and irreversible. Netfox doesn't keep a hidden backup — once you confirm the wipe, the SQLite store loses that table's rows.
 </Callout>
+
+## Integrations
+
+Connects Netfox to an external monitoring stack via an opt-in, Prometheus-compatible metrics endpoint — so you can scrape it from Prometheus and chart it in Grafana. Off by default and localhost-bound by default.
+
+See the dedicated [Integrations](/docs/integrations) page for the full reference: the controls, every metric exposed, a sample Prometheus scrape config, and how the endpoint relates to Demo Mode.
 
 ## Advanced
 

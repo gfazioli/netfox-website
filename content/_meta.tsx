@@ -1,5 +1,6 @@
 import {
   IconBook2,
+  IconChartLine,
   IconHelpCircle,
   IconHistory,
   IconKeyboard,
@@ -18,6 +19,7 @@ export default {
   tools: nav(IconTool, 'Tools'),
   'menu-bar': nav(IconLayoutNavbar, 'Menu Bar'),
   settings: nav(IconSettings, 'Settings'),
+  integrations: nav(IconChartLine, 'Integrations'),
   'keyboard-shortcuts': nav(IconKeyboard, 'Keyboard Shortcuts'),
   '----': { type: 'separator' },
   faq: nav(IconHelpCircle, 'FAQ'),

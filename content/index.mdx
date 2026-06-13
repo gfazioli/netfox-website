@@ -34,7 +34,8 @@ Each tool reads from the same shared device store, so a finding in one shows up 
 - **Demo Mode** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>D</Kbd>) — one-keystroke privacy mask for screenshots and demos: device names collapse to `Computer #1`, MACs lose their last three octets, IPv6 loses everything past the first hextet, Wi-Fi SSIDs become `Network #N`. Render-only — the underlying store is untouched
 - **This Mac, pinned** — the Mac running Netfox is always at the top of the Devices list, with its current Wi-Fi/Ethernet badge
 - **Advanced Mode** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>M</Kbd>) — opt-in denser UI: MAC in the sidebar, Engine ID + absolute timestamps in the detail panel
-- **Tabbed Settings** — General · Alerts · Security · Privacy · Advanced · Updates · About
+- **Prometheus metrics endpoint** — an opt-in `/metrics` endpoint exposes open ports, device presence, last-seen times, throughput, and alert counts in the [Prometheus](https://prometheus.io) format, so homelab users can scrape it and chart it in Grafana. Off by default, localhost-bound, optional token — see [Integrations](/docs/integrations)
+- **Tabbed Settings** — General · Alerts · Security · Privacy · Integrations · Advanced · Updates · About
 - **No account, no cloud, no telemetry** — every observation lives on your Mac
 - **Universal binary** — runs on Apple Silicon and Intel Macs; macOS picks the right slice at launch
 - **Auto-updates** — built in, signed; the app checks for new versions automatically and prompts you when one is available
