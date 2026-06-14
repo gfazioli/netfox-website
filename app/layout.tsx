@@ -14,7 +14,7 @@ import { getPageMap } from 'nextra/page-map';
 import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from '@mantine/core';
 // !! End of important imports !!
 
-import { MantineFooter, MantineNavBar } from '@/components';
+import { MantineFooter, MantineNavBar, StructuredData } from '@/components';
 import config from '@/config';
 import { theme } from '../theme';
 
@@ -33,16 +33,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           nonce={head.mantine.nonce}
           defaultColorScheme={head.mantine.defaultColorScheme}
         />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
-        />
+        <meta name="theme-color" content="#f76707" />
+        {/* Keep pinch-zoom enabled — `user-scalable=no` is an accessibility/SEO ding. */}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <body>
+        <StructuredData />
         <MantineProvider theme={theme} defaultColorScheme={head.mantine.defaultColorScheme}>
           <Layout
             banner={

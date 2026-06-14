@@ -1,6 +1,9 @@
 # https://netfox.app/robots.txt
 #
 # Search engines are welcome.
+
+Sitemap: https://netfox.app/sitemap.xml
+
 User-agent: Googlebot
 Allow: /
 
@@ -65,10 +68,10 @@ Disallow: /
 User-agent: Meta-ExternalFetcher
 Disallow: /
 
+# Note: facebookexternalhit is intentionally NOT blocked — it's the
+# crawler that renders link previews on Facebook / Messenger / WhatsApp /
+# Instagram, so blocking it would kill rich previews when the site is shared.
 User-agent: FacebookBot
-Disallow: /
-
-User-agent: facebookexternalhit
 Disallow: /
 
 User-agent: Facebot
