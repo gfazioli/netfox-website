@@ -1,12 +1,13 @@
 import type { MetadataRoute } from 'next';
 import { readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
+import config from '@/config';
 
 // Generated at build time. Enumerates the homepage plus every MDX doc under
 // content/ (served at /docs/* via Nextra's contentDirBasePath). Filesystem
 // walk rather than the Nextra page map so the output is deterministic and
 // easy to reason about — every committed .mdx becomes one entry.
-const BASE = 'https://netfox.app';
+const BASE = config.metadata.metadataBase.toString().replace(/\/$/, '');
 const CONTENT_DIR = join(process.cwd(), 'content');
 
 interface DocPage {
