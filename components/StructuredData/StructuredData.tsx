@@ -4,7 +4,9 @@ import config from '@/config';
 // site eligible for Google's app rich results; Organization + WebSite anchor
 // the brand entity. Values are sourced from config so version/description stay
 // in sync with the rest of the site.
-const BASE = 'https://netfox.app';
+// Single source of truth — derived from the canonical metadataBase so the
+// JSON-LD URLs can't drift from the rest of the site's metadata.
+const BASE = config.metadata.metadataBase.toString().replace(/\/$/, '');
 
 const structuredData = {
   '@context': 'https://schema.org',
