@@ -272,6 +272,10 @@ export function Welcome() {
             <Image
               src="/icon-512x512.png"
               alt="Netfox"
+              // Hero logo is the above-the-fold LCP candidate — hint the
+              // browser to fetch it eagerly and at high priority.
+              fetchPriority="high"
+              loading="eager"
               w={{ base: 120, sm: 160, md: 200 }}
               h={{ base: 120, sm: 160, md: 200 }}
               style={{
