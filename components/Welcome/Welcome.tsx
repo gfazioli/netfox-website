@@ -339,20 +339,40 @@ export function Welcome() {
               param is served as-is, untouched by Next's optimizer. Fixed
               250×54 to match Product Hunt's canonical badge dimensions.
             */}
-            <a
-              href="https://www.producthunt.com/products/netfox?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-netfox"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Netfox on Product Hunt"
-            >
-              <Image
-                src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1156418&theme=light&t=1779880374909"
-                alt="Netfox - A native local macOS network monitor | Product Hunt"
-                w={250}
-                h={54}
-                fit="contain"
-              />
-            </a>
+            <Group align="center" gap="md">
+              <a
+                href="https://www.producthunt.com/products/netfox?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-netfox"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Netfox on Product Hunt"
+              >
+                <Image
+                  src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1156418&theme=light&t=1779880374909"
+                  alt="Netfox - A native local macOS network monitor | Product Hunt"
+                  w={250}
+                  h={54}
+                  fit="contain"
+                />
+              </a>
+
+              {/* ─── Launchpadly directory badge ─── */}
+              <a
+                href="https://launchpadly.co/startup/netfox"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Netfox on Launchpadly"
+                data-launchpadly-badge="netfox"
+                data-launchpadly-badge-variant="listed-on"
+              >
+                <Image
+                  src="https://launchpadly.co/embed/badges/startup/netfox.svg?variant=listed-on"
+                  alt="Launchpadly Startup Directory"
+                  w={260}
+                  h={48}
+                  fit="contain"
+                />
+              </a>
+            </Group>
           </Stack>
 
           {/* ─── Hero slideshow ─── */}
