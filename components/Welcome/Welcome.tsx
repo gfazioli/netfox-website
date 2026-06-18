@@ -29,6 +29,7 @@ import {
   Stack,
   Text,
   Title,
+  Anchor,
 } from '@mantine/core';
 import config from '@/config';
 import { FAQ } from '../FAQ/FAQ';
@@ -309,7 +310,7 @@ export function Welcome() {
 
             <Group justify="center" mt="md">
               <Button
-                href={config.app.downloadUrl}
+                href="/download"
                 component="a"
                 leftSection={<IconDownload size={20} />}
                 size="xl"
@@ -330,6 +331,16 @@ export function Welcome() {
                 See what it does
               </Button>
             </Group>
+
+            <Stack gap={4} align="center" mt={8}>
+              <Text c="dimmed" ta="center" size="sm">
+                Free &middot; v{config.app.version} &middot; macOS 15+ &middot; Universal (Apple Silicon + Intel) &middot;
+                Signed &amp; notarized
+              </Text>
+              <Anchor href="/docs/release-notes" c="dimmed" size="sm">
+                Release notes
+              </Anchor>
+            </Stack>
 
             {/* ─── Product Hunt launch badge ─── */}
             {/*
@@ -557,7 +568,7 @@ export function Welcome() {
               </Text>
 
               <Button
-                href={config.app.downloadUrl}
+                href="/download"
                 component="a"
                 leftSection={<IconDownload size={20} />}
                 size="xl"
