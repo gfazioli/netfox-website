@@ -12,7 +12,9 @@ import {
   IconBell,
   IconClock,
   IconDeviceDesktop,
+  IconLanguage,
   IconLayoutNavbar,
+  IconLockOpen,
   IconNetwork,
   IconRadar,
   IconShieldLock,
@@ -115,6 +117,15 @@ const heroSlides: DepthSelectItem[] = heroScreens.map((screen) => ({
  * hover-lift already reads as "clickable".
  */
 const features = [
+  // Row 1 — UNDERSTAND: the enrichment story leads.
+  {
+    icon: IconLanguage,
+    title: 'Plain-English Identity',
+    description:
+      'A cryptic “ESP-8A2F” becomes “Shelly relay · web UI · no auth” — vendor, what it really is, and what it exposes. The mystery gadget turns into the neighbor’s HomePod; no hex to decode yourself.',
+    accent: 'var(--mantine-color-green-5)',
+    href: '/docs/tools/devices',
+  },
   {
     icon: IconRadar,
     title: 'Multi-Source Discovery',
@@ -124,6 +135,15 @@ const features = [
     href: '/docs/tools/devices',
   },
   {
+    icon: IconClock,
+    title: 'Per-Device History',
+    description:
+      'First seen, last seen, every online/offline transition, every IP/hostname/vendor change. Timeline survives across launches.',
+    accent: 'var(--mantine-color-blue-5)',
+    href: '/docs/tools/devices',
+  },
+  // Row 2 — PROTECT: read first, then act on what you read.
+  {
     icon: IconShieldLock,
     title: 'Risk-Aware Security',
     description:
@@ -132,12 +152,12 @@ const features = [
     href: '/docs/tools/security',
   },
   {
-    icon: IconClock,
-    title: 'Per-Device History',
+    icon: IconLockOpen,
+    title: 'Spot Exposed Services',
     description:
-      'First seen, last seen, every online/offline transition, every IP/hostname/vendor change. Timeline survives across launches.',
-    accent: 'var(--mantine-color-blue-5)',
-    href: '/docs/tools/devices',
+      'Netfox flags when one of your own services drifts from localhost to the whole LAN — a dev database, a homelab dashboard, an auth-less endpoint left open. The exposure a router app never surfaces.',
+    accent: 'var(--mantine-color-pink-5)',
+    href: '/docs/tools/security',
   },
   {
     icon: IconBell,
@@ -147,6 +167,7 @@ const features = [
     accent: 'var(--mantine-color-yellow-5)',
     href: '/docs/settings#alerts',
   },
+  // Row 3 — NATIVE & PRIVATE: how it lives on your Mac.
   {
     icon: IconLayoutNavbar,
     title: 'Menu Bar at a Glance',
