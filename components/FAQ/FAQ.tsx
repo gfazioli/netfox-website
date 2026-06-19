@@ -69,6 +69,12 @@ const faqItems = [
       'Netfox checks for new releases in the background (every 24 hours by default) and prompts you when one is available. Builds are signed with Apple Developer ID and notarized by Apple, so the update installs without a Gatekeeper detour. You can disable the auto-check or trigger a manual one from Settings → Updates.',
   },
   {
+    value: 'menubar-icon-hidden',
+    question: "I can't see the Netfox icon in the menu bar",
+    answer:
+      "On Macs with a notch, a busy menu bar can push status icons behind the notch, where macOS simply stops showing them — Netfox included. The icon isn't gone, it's just hidden. To bring it back: hold Command and drag the menu bar icons to reorder them so Netfox sits clear of the notch; remove a few icons you don't use from System Settings → Control Center; or use a menu bar manager (such as Ice or Bartender) that tucks overflow icons into an expandable section. Picking the monochrome menu bar icon in Settings → General also helps, since it's narrower than the full-color fox.",
+  },
+  {
     value: 'bug',
     question: 'I found a bug. How do I report it?',
     answer: 'bug-report',
