@@ -15,7 +15,8 @@ import { Badge, Box, Container, Group, Paper, Stack, Text, Title } from '@mantin
 // but the point here is the ENRICHMENT: each row pairs the raw identity
 // with a plain-English `detail` (what it is / what it exposes), and two
 // rows show the signal Netfox surfaces that a router never would (a
-// decoded mystery device with no auth, an accidentally-exposed dev DB).
+// decoded mystery IoT device with an open web server, and an
+// accidentally-exposed dev database).
 // Marketing mock, not a faithful clone.
 const devices = [
   {
@@ -36,17 +37,17 @@ const devices = [
   },
   {
     icon: IconHome,
-    name: 'HomePod — Living Room',
-    detail: 'Apple HomePod · AirPlay',
+    name: 'Living Room',
+    detail: 'Apple · AirPlay speaker',
     state: 'Online',
     stateColor: 'teal',
     online: true,
   },
   {
     icon: IconBolt,
-    name: 'Shelly relay',
-    detail: 'was “ESP-8A2F” · web UI on :80',
-    state: 'No auth',
+    name: 'ESP-8A2F',
+    detail: 'Espressif · web server on :80 · “lighttpd”',
+    state: 'Open :80',
     stateColor: 'red',
     online: true,
     risk: true,
@@ -54,7 +55,7 @@ const devices = [
   {
     icon: IconServer,
     name: 'dev-server.local',
-    detail: 'Postgres :5432 · reachable from the whole LAN',
+    detail: 'PostgreSQL on :5432 · open on the LAN',
     state: 'Exposed',
     stateColor: 'red',
     online: true,
@@ -108,7 +109,7 @@ export function SolutionSection() {
               Netfox tells you
             </Text>
             <Text c="white" fw={600} fz={{ base: 14, sm: 18 }} style={{ fontFamily: 'monospace' }}>
-              Shelly relay · web UI :80 · no auth
+              Espressif · web server on :80 · lighttpd
             </Text>
           </Stack>
         </Group>
