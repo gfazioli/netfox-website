@@ -452,11 +452,19 @@ export function Welcome() {
       </Box>
 
       {/* ─── Validation / testimonial (Chris Messina) ─── */}
-      <Box py={64}>
+      <Box
+        py={80}
+        style={{
+          background:
+            'radial-gradient(60% 120% at 50% 0%, rgba(247, 103, 7, 0.1), transparent 70%), var(--mantine-color-dark-8)',
+          borderTop: '1px solid var(--mantine-color-dark-6)',
+          borderBottom: '1px solid var(--mantine-color-dark-6)',
+        }}
+      >
         <Container size="sm">
           <Stack align="center" gap="lg">
             <IconQuoteFilled size={44} color="var(--mantine-color-orange-5)" />
-            <Text ta="center" fz={{ base: 24, sm: 30 }} fw={700} style={{ lineHeight: 1.35 }}>
+            <Text ta="center" fz={{ base: 24, sm: 30 }} fw={700} fs="italic" style={{ lineHeight: 1.4 }}>
               If you take machine speak and convert it into humanese,{' '}
               <Text span inherit c="orange">
                 that&apos;s valuable.
