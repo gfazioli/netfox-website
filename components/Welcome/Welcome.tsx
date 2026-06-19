@@ -464,15 +464,15 @@ export function Welcome() {
         <Container size="sm">
           <Stack align="center" gap="lg">
             <IconQuoteFilled size={44} color="var(--mantine-color-orange-5)" />
-            <Text ta="center" fz={{ base: 24, sm: 30 }} fw={700} fs="italic" style={{ lineHeight: 1.4 }}>
+            <Text c="gray.0" ta="center" fz={{ base: 24, sm: 30 }} fw={700} fs="italic" style={{ lineHeight: 1.4 }}>
               If you take machine speak and convert it into humanese,{' '}
-              <Text span inherit c="orange">
+              <Text span inherit c="orange.4">
                 that&apos;s valuable.
               </Text>
             </Text>
             <Group gap="sm" justify="center" mt={4}>
               <Avatar src="/chris-messina.jpg" alt="Chris Messina" size="md" radius="xl" />
-              <Text c="dimmed" size="sm" fw={600}>
+              <Text c="gray.5" size="sm" fw={600}>
                 Chris Messina &middot; inventor of the hashtag
               </Text>
             </Group>

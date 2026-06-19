@@ -86,7 +86,7 @@ export function SolutionSection() {
           <Title order={2} ta="center" fz={{ base: 32, sm: 42 }} fw={900} c="white">
             The same network — finally readable.
           </Title>
-          <Text c="dimmed" ta="center" size="lg" maw={620} mx="auto">
+          <Text c="gray.5" ta="center" size="lg" maw={620} mx="auto">
             Netfox enriches every device — vendor, real identity, and what it’s exposing — and flags
             what your router never would. See it in a full window or right from the menu bar.
           </Text>
@@ -95,7 +95,7 @@ export function SolutionSection() {
         {/* Before → after: the literal "machine speak → humanese" translation */}
         <Group justify="center" gap="xl" mb={44} wrap="wrap">
           <Stack gap={4} align="center">
-            <Text size="xs" tt="uppercase" fw={700} c="dimmed" style={{ letterSpacing: 2 }}>
+            <Text size="xs" tt="uppercase" fw={700} c="gray.5" style={{ letterSpacing: 2 }}>
               Your router shows
             </Text>
             <Text c="gray.5" fz={{ base: 14, sm: 18 }} style={{ fontFamily: 'monospace' }}>
@@ -133,7 +133,7 @@ export function SolutionSection() {
               <Box w={12} h={12} style={{ borderRadius: '50%', backgroundColor: '#febc2e' }} />
               <Box w={12} h={12} style={{ borderRadius: '50%', backgroundColor: '#28c840' }} />
             </Group>
-            <Text size="sm" c="dimmed" style={{ fontFamily: 'monospace' }}>
+            <Text size="sm" c="gray.5" style={{ fontFamily: 'monospace' }}>
               Netfox — Your Network
             </Text>
           </Group>
@@ -160,7 +160,7 @@ export function SolutionSection() {
                     <Text size="sm" c="gray.3">
                       {device.name}
                     </Text>
-                    <Text size="xs" c="dimmed">
+                    <Text size="xs" c="gray.5">
                       {device.detail}
                     </Text>
                   </Stack>
