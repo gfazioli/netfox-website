@@ -16,9 +16,11 @@ import {
   IconNetwork,
   IconRadar,
   IconShieldLock,
+  IconQuoteFilled,
 } from '@tabler/icons-react';
 import {
   ActionIcon,
+  Avatar,
   Badge,
   Box,
   Button,
@@ -458,17 +460,20 @@ export function Welcome() {
       {/* ─── Validation / testimonial ─── */}
       <Box py={64}>
         <Container size="sm">
-          <Stack align="center" gap="md">
+          <Stack align="center" gap="lg">
+            <IconQuoteFilled size={44} color="var(--mantine-color-orange-5)" />
             <Text ta="center" fz={{ base: 24, sm: 30 }} fw={700} style={{ lineHeight: 1.35 }}>
-              &ldquo;If you take machine speak and convert it into humanese,{' '}
+              If you take machine speak and convert it into humanese,{' '}
               <Text span inherit c="orange">
                 that&apos;s valuable.
               </Text>
-              &rdquo;
             </Text>
-            <Text c="dimmed" size="sm" fw={600}>
-              Chris Messina &middot; inventor of the hashtag
-            </Text>
+            <Group gap="sm" justify="center" mt={4}>
+              <Avatar src="/chris-messina.jpg" alt="Chris Messina" size="md" radius="xl" />
+              <Text c="dimmed" size="sm" fw={600}>
+                Chris Messina &middot; inventor of the hashtag
+              </Text>
+            </Group>
           </Stack>
         </Container>
       </Box>
