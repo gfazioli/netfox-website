@@ -451,13 +451,7 @@ export function Welcome() {
         </Container>
       </Box>
 
-      {/* ─── The Problem ─── */}
-      <ProblemSection />
-
-      {/* ─── The Solution ─── */}
-      <SolutionSection />
-
-      {/* ─── Validation / testimonial ─── */}
+      {/* ─── Validation / testimonial (Chris Messina) ─── */}
       <Box py={64}>
         <Container size="sm">
           <Stack align="center" gap="lg">
@@ -477,6 +471,12 @@ export function Welcome() {
           </Stack>
         </Container>
       </Box>
+
+      {/* ─── The Problem ─── */}
+      <ProblemSection />
+
+      {/* ─── The Solution ─── */}
+      <SolutionSection />
 
       {/* ─── Features ─── */}
       <Box className={accentClasses.sectionBackdrop} py={80}>
