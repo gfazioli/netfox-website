@@ -9,7 +9,7 @@ export default {
       template: '%s | Netfox',
     },
     description:
-      'A native macOS app that monitors your home network. See every connected device, when it joined, and when something new appears — at a glance.',
+      'Netfox turns raw network data into plain English on your Mac: decode every device, see what it exposes, and catch the services you didn’t mean to leave open. No cloud, no account.',
     metadataBase: new URL('https://netfox.app/'),
     keywords: [
       'Netfox',

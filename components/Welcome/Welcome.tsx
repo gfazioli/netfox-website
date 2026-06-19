@@ -285,27 +285,34 @@ export function Welcome() {
               }}
             />
 
-            <Title maw="90vw" mx="auto" className={classes.title} ta="center">
-              Know who&apos;s on your network —{' '}
-              <TextAnimate
-                animate="in"
-                by="character"
-                inherit
-                variant="gradient"
-                component="span"
-                segmentDelay={0.12}
-                duration={1.5}
-                animation="scale"
-                animateProps={{ scaleAmount: 2 }}
-                gradient={{ from: 'orange', to: 'yellow' }}
-              >
-                always.
-              </TextAnimate>
-            </Title>
+            <Stack gap="xs" align="center">
+              <Text size="sm" fw={700} tt="uppercase" c="orange" style={{ letterSpacing: 3 }}>
+                machine speak → humanese
+              </Text>
+              <Title maw="90vw" mx="auto" className={classes.title} ta="center">
+                Your network,{' '}
+                <TextAnimate
+                  animate="in"
+                  by="character"
+                  inherit
+                  variant="gradient"
+                  component="span"
+                  segmentDelay={0.12}
+                  duration={1.5}
+                  animation="scale"
+                  animateProps={{ scaleAmount: 2 }}
+                  gradient={{ from: 'orange', to: 'yellow' }}
+                >
+                  in plain English.
+                </TextAnimate>
+              </Title>
+            </Stack>
 
             <Text c="dimmed" ta="center" size="xl" maw={640} mx="auto">
-              Netfox is a native macOS network monitor. Every connected device, when it joined, and
-              what&apos;s new — at a glance. No cloud, no account, no telemetry.
+              Netfox turns raw network data into plain words. That cryptic
+              &quot;ESP-8A2F&quot; is a Shelly relay exposing a web UI on port 80 with no auth — and
+              Netfox catches the dev server you accidentally opened to the whole LAN. No cloud, no
+              account, all on your Mac.
             </Text>
 
             <Group justify="center" mt="md">
@@ -447,6 +454,24 @@ export function Welcome() {
 
       {/* ─── The Solution ─── */}
       <SolutionSection />
+
+      {/* ─── Validation / testimonial ─── */}
+      <Box py={64}>
+        <Container size="sm">
+          <Stack align="center" gap="md">
+            <Text ta="center" fz={{ base: 24, sm: 30 }} fw={700} style={{ lineHeight: 1.35 }}>
+              &ldquo;If you take machine speak and convert it into humanese,{' '}
+              <Text span inherit c="orange">
+                that&apos;s valuable.
+              </Text>
+              &rdquo;
+            </Text>
+            <Text c="dimmed" size="sm" fw={600}>
+              Chris Messina &middot; inventor of the hashtag
+            </Text>
+          </Stack>
+        </Container>
+      </Box>
 
       {/* ─── Features ─── */}
       <Box className={accentClasses.sectionBackdrop} py={80}>

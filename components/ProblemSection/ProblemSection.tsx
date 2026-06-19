@@ -17,26 +17,26 @@ import accentClasses from '@/components/AccentCard/AccentCard.module.css';
 const problems = [
   {
     icon: IconRouter,
-    title: 'Router admin pages',
-    description: 'Show MACs and IPs, but ',
-    highlight: 'dated UI and no history',
-    rest: '. You only see what’s online right now.',
+    title: 'Router & eero apps',
+    description: 'List devices by a cryptic name and IP, ',
+    highlight: 'but never what they are',
+    rest: ' — and never what they’re exposing.',
     accent: 'var(--mantine-color-blue-5)',
   },
   {
     icon: IconTerminal2,
     title: 'Terminal tools',
-    description: 'Give precise data, but ',
-    highlight: 'no big picture',
-    rest: '. One scan at a time, results never persist.',
+    description: 'Precise but raw — ',
+    highlight: 'you decode the hex yourself',
+    rest: ', one scan at a time, nothing kept or explained.',
     accent: 'var(--mantine-color-teal-5)',
   },
   {
     icon: IconCloud,
     title: 'Vendor cloud apps',
-    description: 'Beautiful, but ',
-    highlight: 'send your data to the cloud',
-    rest: ' and lock you into one router brand.',
+    description: 'Prettier dashboards, but they ',
+    highlight: 'ship your network to the cloud',
+    rest: ' and still only label devices, never explain them.',
     accent: 'var(--mantine-color-grape-5)',
   },
 ];
@@ -50,7 +50,7 @@ export function ProblemSection() {
             The Problem
           </Text>
           <Title order={2} ta="center" fz={{ base: 32, sm: 42 }} fw={900}>
-            Seeing who&apos;s on your network shouldn&apos;t require a cloud account
+            Seeing your network is easy. Understanding it is the hard part.
           </Title>
         </Stack>
 
