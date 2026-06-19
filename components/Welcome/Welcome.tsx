@@ -122,7 +122,7 @@ const features = [
     icon: IconLanguage,
     title: 'Plain-English Identity',
     description:
-      'A cryptic “ESP-8A2F” becomes “Shelly relay · web UI · no auth” — vendor, what it really is, and what it exposes. The mystery gadget turns into the neighbor’s HomePod; no hex to decode yourself.',
+      'A cryptic “ESP-8A2F” turns into “Espressif · web server on :80 · lighttpd” — vendor, category, open ports and the server banner, side by side. No hex to decode yourself.',
     accent: 'var(--mantine-color-green-5)',
     href: '/docs/tools/devices',
   },
@@ -155,7 +155,7 @@ const features = [
     icon: IconLockOpen,
     title: 'Spot Exposed Services',
     description:
-      'Netfox flags when one of your own services drifts from localhost to the whole LAN — a dev database, a homelab dashboard, an auth-less endpoint left open. The exposure a router app never surfaces.',
+      'Netfox scans your own Mac and the LAN for risky open ports — a dev database, a homelab dashboard, a port that just opened up — names each service and flags what’s worth a look. The exposure a router app never surfaces.',
     accent: 'var(--mantine-color-pink-5)',
     href: '/docs/tools/security',
   },
@@ -333,8 +333,8 @@ export function Welcome() {
 
             <Text c="dimmed" ta="center" size="xl" maw={640} mx="auto">
               Netfox turns raw network data into plain words. That cryptic
-              &quot;ESP-8A2F&quot; is a Shelly relay exposing a web UI on port 80 with no auth — and
-              Netfox catches the dev server you accidentally opened to the whole LAN. No cloud, no
+              &quot;ESP-8A2F&quot; becomes an Espressif gadget running a web server on port 80 — and
+              Netfox catches the dev server you accidentally left open on the LAN. No cloud, no
               account, all on your Mac.
             </Text>
 
