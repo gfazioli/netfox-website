@@ -365,24 +365,6 @@ export function Welcome() {
                   fit="contain"
                 />
               </a>
-
-              {/* ─── Launchpadly directory badge ─── */}
-              <a
-                href="https://launchpadly.co/startup/netfox"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Netfox on Launchpadly"
-                data-launchpadly-badge="netfox"
-                data-launchpadly-badge-variant="listed-on"
-              >
-                <Image
-                  src="https://launchpadly.co/embed/badges/startup/netfox.svg?variant=listed-on"
-                  alt="Launchpadly Startup Directory"
-                  w={260}
-                  h={48}
-                  fit="contain"
-                />
-              </a>
             </Group>
           </Stack>
 
