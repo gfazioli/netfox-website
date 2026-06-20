@@ -47,7 +47,7 @@ const transforms = [
   },
   {
     before: 'HP ENVY 7640',
-    after: 'HP printer · IPP + web admin open',
+    after: 'HP printer · web admin on :80',
     pill: 'Online',
     pillColor: 'teal',
   },
@@ -112,7 +112,7 @@ const devices = [
   {
     icon: IconPrinter,
     name: 'HP ENVY 7640',
-    detail: 'HP printer · IPP, web admin',
+    detail: 'HP printer · web admin on :80',
     state: 'Online',
     stateColor: 'teal',
     online: true,
