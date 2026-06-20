@@ -1,7 +1,8 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import {
-  IconArrowRight,
+  IconArrowDown,
   IconBolt,
   IconDeviceLaptop,
   IconHome,
@@ -9,7 +10,54 @@ import {
   IconRouter,
   IconServer,
 } from '@tabler/icons-react';
-import { Badge, Box, Container, Group, Paper, Stack, Text, Title } from '@mantine/core';
+import {
+  Badge,
+  Box,
+  Container,
+  Group,
+  Paper,
+  SimpleGrid,
+  Stack,
+  Text,
+  ThemeIcon,
+  Title,
+} from '@mantine/core';
+import classes from './SolutionSection.module.css';
+
+// The before → after conversion, as a sequence of cards (Chris Messina's
+// note: show the transformation, don't just say it in text). Stored as
+// plain data so the `·` / `—` / quotes read literally without JSX-entity
+// escaping. Every "after" stays inside the shipped-app capability boundary
+// (see Netfox DIRECTION.md): vendor from the MAC OUI, a coarse category,
+// open ports from the catalog, and the HTTP `Server` banner — no
+// product-level fingerprinting and no "no-auth" labels. The strongest two
+// (a decoded mystery gadget, an accidentally-exposed dev database) lead.
+const transforms = [
+  {
+    before: 'ESP-8A2F · 192.168.1.40',
+    after: 'Espressif gadget · web server on :80 · lighttpd',
+    pill: 'Open :80',
+    pillColor: 'orange',
+  },
+  {
+    before: 'dev-server.local · 0.0.0.0:5432',
+    after: 'PostgreSQL exposed to the whole LAN — not just localhost',
+    pill: 'Exposed',
+    pillColor: 'red',
+  },
+  {
+    before: 'HP ENVY 7640',
+    after: 'HP printer · IPP + web admin open',
+    pill: 'Online',
+    pillColor: 'teal',
+  },
+  {
+    before: 'unknown · Ac:DE:48:23:6f:1a',
+    after: 'Apple · AirPlay speaker · “Living Room”',
+    pill: 'Online',
+    pillColor: 'teal',
+  },
+];
 
 // Mock device snapshot that mirrors how Netfox renders the sidebar —
 // but the point here is the ENRICHMENT: each row pairs the raw identity
@@ -72,6 +120,37 @@ const devices = [
 ];
 
 export function SolutionSection() {
+  // One-shot reveal: a single observer on the grid flips `revealed`, then
+  // CSS staggers each card's "after" via its inline --reveal-delay. Reveal
+  // immediately when IntersectionObserver is unavailable so the content is
+  // never stranded hidden.
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [revealed, setRevealed] = useState(false);
+
+  useEffect(() => {
+    const el = gridRef.current;
+    if (!el) {
+      return;
+    }
+    if (typeof IntersectionObserver === 'undefined') {
+      setRevealed(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setRevealed(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <Box
       py={80}
@@ -80,7 +159,7 @@ export function SolutionSection() {
       }}
     >
       <Container size="lg">
-        <Stack align="center" gap="md" mb={40}>
+        <Stack align="center" gap="md" mb={48}>
           <Text size="sm" fw={700} tt="uppercase" style={{ letterSpacing: 3 }} c="orange">
             The Solution
           </Text>
@@ -93,26 +172,84 @@ export function SolutionSection() {
           </Text>
         </Stack>
 
-        {/* Before → after: the literal "machine speak → humanese" translation */}
-        <Group justify="center" gap="xl" mb={44} wrap="wrap">
-          <Stack gap={4} align="center">
-            <Text size="xs" tt="uppercase" fw={700} c="gray.5" style={{ letterSpacing: 2 }}>
-              Your router shows
-            </Text>
-            <Text c="gray.5" fz={{ base: 14, sm: 18 }} style={{ fontFamily: 'monospace' }}>
-              ESP-8A2F · 192.168.1.40
-            </Text>
-          </Stack>
-          <IconArrowRight size={28} color="var(--mantine-color-orange-5)" />
-          <Stack gap={4} align="center">
-            <Text size="xs" tt="uppercase" fw={700} c="orange" style={{ letterSpacing: 2 }}>
-              Netfox tells you
-            </Text>
-            <Text c="white" fw={600} fz={{ base: 14, sm: 18 }} style={{ fontFamily: 'monospace' }}>
-              Espressif · web server on :80 · lighttpd
-            </Text>
-          </Stack>
-        </Group>
+        {/* Before → after, as a sequence of cards: the literal
+            "machine speak → humanese" translation, shown not told. */}
+        <SimpleGrid
+          ref={gridRef}
+          cols={{ base: 1, sm: 2, lg: 4 }}
+          spacing="lg"
+          mb={48}
+          className={revealed ? classes.revealed : undefined}
+        >
+          {transforms.map((t, i) => (
+            <Paper
+              key={t.before}
+              radius="lg"
+              p="lg"
+              bg="var(--mantine-color-dark-7)"
+              style={{
+                border: '1px solid var(--mantine-color-dark-5)',
+                ['--reveal-delay' as string]: `${i * 120}ms`,
+              }}
+            >
+              <Stack gap="md" h="100%">
+                {/* before — raw machine data, deliberately cryptic */}
+                <Box className={classes.before}>
+                  <Text
+                    size="xs"
+                    tt="uppercase"
+                    fw={700}
+                    c="gray.6"
+                    style={{ letterSpacing: 2 }}
+                    mb={6}
+                  >
+                    Your router shows
+                  </Text>
+                  <Text
+                    c="gray.5"
+                    fz={14}
+                    style={{ fontFamily: 'monospace', wordBreak: 'break-word' }}
+                  >
+                    {t.before}
+                  </Text>
+                </Box>
+
+                {/* transform marker */}
+                <Group gap="xs" align="center" wrap="nowrap">
+                  <Box
+                    style={{ flex: 1, height: 1, backgroundColor: 'var(--mantine-color-dark-4)' }}
+                  />
+                  <ThemeIcon size="sm" radius="xl" variant="light" color="orange">
+                    <IconArrowDown size={14} />
+                  </ThemeIcon>
+                  <Box
+                    style={{ flex: 1, height: 1, backgroundColor: 'var(--mantine-color-dark-4)' }}
+                  />
+                </Group>
+
+                {/* after — Netfox's plain-English read */}
+                <Box className={classes.after} style={{ marginTop: 'auto' }}>
+                  <Text
+                    size="xs"
+                    tt="uppercase"
+                    fw={700}
+                    c="orange"
+                    style={{ letterSpacing: 2 }}
+                    mb={6}
+                  >
+                    Netfox tells you
+                  </Text>
+                  <Text c="white" fw={600} fz={15} style={{ lineHeight: 1.4 }} mb={10}>
+                    {t.after}
+                  </Text>
+                  <Badge variant="light" color={t.pillColor} size="sm" radius="sm">
+                    {t.pill}
+                  </Badge>
+                </Box>
+              </Stack>
+            </Paper>
+          ))}
+        </SimpleGrid>
 
         {/* Mock window */}
         <Paper
@@ -152,9 +289,7 @@ export function SolutionSection() {
                   <device.icon
                     size={18}
                     color={
-                      device.risk
-                        ? 'var(--mantine-color-red-4)'
-                        : 'var(--mantine-color-dark-2)'
+                      device.risk ? 'var(--mantine-color-red-4)' : 'var(--mantine-color-dark-2)'
                     }
                   />
                   <Stack gap={0}>

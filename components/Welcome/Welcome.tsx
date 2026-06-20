@@ -472,6 +472,15 @@ export function Welcome() {
         </Container>
       </Box>
 
+      {/* ─── The Solution — the conversion, right below the hero ─── */}
+      {/*
+        Per Chris Messina's feedback: the machine-speak→humanese conversion
+        is the first content after the hero so it reads at a glance, and the
+        before/after is shown as a sequence of cards, not buried as a single
+        line of text deep down the page.
+      */}
+      <SolutionSection />
+
       {/* ─── Validation / testimonial (Chris Messina) ─── */}
       <Box
         py={80}
@@ -503,9 +512,6 @@ export function Welcome() {
 
       {/* ─── The Problem ─── */}
       <ProblemSection />
-
-      {/* ─── The Solution ─── */}
-      <SolutionSection />
 
       {/* ─── Features ─── */}
       <Box className={accentClasses.sectionBackdrop} py={80}>
