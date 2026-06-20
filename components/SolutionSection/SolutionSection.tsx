@@ -205,10 +205,19 @@ export function SolutionSection() {
                   >
                     Your router shows
                   </Text>
+                  {/* Reserve two lines so the one-line values (ESP-8A2F,
+                      HP ENVY) take the same height as the wrapping two-line
+                      ones (dev-server.local, the MAC) — keeps the arrow
+                      marker aligned across all four cards. */}
                   <Text
                     c="gray.5"
                     fz={14}
-                    style={{ fontFamily: 'monospace', wordBreak: 'break-word' }}
+                    style={{
+                      fontFamily: 'monospace',
+                      wordBreak: 'break-word',
+                      lineHeight: 1.5,
+                      minHeight: '3em',
+                    }}
                   >
                     {t.before}
                   </Text>
@@ -239,7 +248,17 @@ export function SolutionSection() {
                   >
                     Netfox tells you
                   </Text>
-                  <Text c="white" fw={600} fz={15} style={{ lineHeight: 1.4 }} mb={10}>
+                  {/* Reserve three lines so the shorter reads take the same
+                      height as the longest (the exposed-Postgres card) —
+                      keeps the "Netfox tells you" label and the pill aligned
+                      across all four cards. */}
+                  <Text
+                    c="white"
+                    fw={600}
+                    fz={15}
+                    style={{ lineHeight: 1.4, minHeight: '4.2em' }}
+                    mb={10}
+                  >
                     {t.after}
                   </Text>
                   <Badge variant="light" color={t.pillColor} size="sm" radius="sm">
