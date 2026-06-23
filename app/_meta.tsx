@@ -12,7 +12,7 @@ export default {
   download: {
     type: 'page',
     title: 'Download',
-    href: 'https://github.com/gfazioli/netfox-website/releases/latest',
+    href: '/download',
   },
   community: {
     title: 'Community',
@@ -24,7 +24,7 @@ export default {
       },
       issues: {
         title: 'Report an Issue',
-        href: 'https://github.com/gfazioli/netfox-website/issues',
+        href: 'mailto:feedback@netfox.app?subject=Netfox%20feedback',
       },
     },
   },

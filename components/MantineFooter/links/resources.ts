@@ -17,8 +17,7 @@ export const resources = [
   {
     key: 'issues',
     title: 'Report an Issue',
-    href: 'https://github.com/gfazioli/netfox-website/issues',
-    newWindow: true,
+    href: 'mailto:feedback@netfox.app?subject=Netfox%20feedback',
   },
   {
     key: 'undolog',

@@ -103,27 +103,27 @@ export function FAQ() {
               </Text>
             ) : item.answer === 'bug-report' ? (
               <Text c="dimmed" size="sm">
-                Please open a{' '}
+                Please send us a{' '}
                 <Anchor
-                  href="https://github.com/gfazioli/netfox-website/issues/new?template=bug_report.yml"
+                  href="mailto:feedback@netfox.app?subject=Netfox%20bug%20report"
                   size="sm"
                 >
-                  Bug Report
+                  bug report
                 </Anchor>{' '}
-                on GitHub. Include your Netfox version, macOS version, and steps to reproduce the
+                by email. Include your Netfox version, macOS version, and steps to reproduce the
                 issue. Screenshots are very helpful — flip Demo Mode (⌘⇧D) on first if the
                 screenshot would otherwise show your real device names.
               </Text>
             ) : item.answer === 'feature-request' ? (
               <Text c="dimmed" size="sm">
-                We&apos;d love to hear your ideas! Open a{' '}
+                We&apos;d love to hear your ideas! Send us a{' '}
                 <Anchor
-                  href="https://github.com/gfazioli/netfox-website/issues/new?template=feature_request.yml"
+                  href="mailto:feedback@netfox.app?subject=Netfox%20feature%20request"
                   size="sm"
                 >
-                  Feature Request
+                  feature request
                 </Anchor>{' '}
-                on GitHub and describe what you&apos;d like Netfox to do. The more detail you
+                by email and describe what you&apos;d like Netfox to do. The more detail you
                 provide, the better we can evaluate and prioritize it.
               </Text>
             ) : (
