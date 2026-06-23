@@ -1,0 +1,86 @@
+---
+title: "Notch HUD"
+description: "Netfox can turn your MacBook's notch into a live network HUD — a Dynamic-Island-style overlay with devices, risk, public IP and traffic, in your choice of four layouts."
+---
+
+import { Callout } from 'nextra/components';
+
+# Notch HUD
+
+On a MacBook with a notch, Netfox can put your network *right where your eyes already are*. The **Notch HUD** is a small overlay that grows out of the notch: idle, it's a discreet pill fused with the black cutout; reach for it and it expands into a live panel showing who's on your network, your risk level, your public IP and live traffic. No window, no menu bar trip — just glance up.
+
+![The Netfox Notch HUD expanded under the notch](/screenshot-notch.png)
+
+<Callout type="info">
+The Notch HUD is only offered on Macs that actually have a notch (the 14″/16″ MacBook Pro and the MacBook Air from 2022 onward). On a Mac without a notch the feature — and its Settings pane — stay hidden.
+</Callout>
+
+## Turning it on
+
+Open **Settings → Notch** and switch on **Show the Notch HUD**. A discreet pill appears just below the notch right away; everything else — the layout, how it opens, and which modules it carries — is configured from the same pane.
+
+![The Notch pane in Settings](/screenshot-settings-notch.png)
+
+## Choose a layout
+
+The expanded HUD comes in **four layouts**, so you can match it to how much you want on screen. Pick one in **Settings → Notch → Layout**.
+
+**Horizontal** — a single compact row of key figures spread to the sides of the notch. The lightest option.
+
+![The Horizontal notch layout](/screenshot-notch-horizontal.png)
+
+**Vertical** — a narrow column with one labelled row per module. Tidy and readable.
+
+![The Vertical notch layout](/screenshot-notch-vertical.png)
+
+**Panel** — a roomy grid of cards (the default). The most "dashboard at a glance".
+
+![The Panel notch layout](/screenshot-notch-panel.png)
+
+**Super Island** — the richest: a tabbed mini-dashboard under the notch, covered next.
+
+## Super Island
+
+**Super Island** turns the notch into a compact dashboard with four tabs:
+
+- **Devices** — everything Netfox knows is on your network, online state at a glance
+- **Risk** — only the devices currently flagged high or medium
+- **Traffic** — the live throughput chart (see below)
+- **Alerts** — what's currently in your alert inbox
+
+Click any row and Netfox opens the main window **straight on that device's detail** — not just the Overview — so a name that catches your eye is one click from the full story.
+
+![Super Island, with its Devices / Risk / Traffic / Alerts tabs](/screenshot-notch-super-island.png)
+
+## How it opens
+
+You decide what reveals the expanded HUD, in **Settings → Notch → Trigger**:
+
+- **Hover** — the panel opens when you move the pointer onto the notch and closes when you leave
+- **Click to pin** — a click pins the panel open so it stays put; click again to dismiss it
+- **Hover + click to pin** — hover for a quick peek, click when you want it to stay
+
+## What it shows
+
+The same essentials you'd find on the [Overview](/docs/tools/overview) and in the [Menu Bar](/docs/menu-bar) popover, distilled to a glance:
+
+- **Devices** — how many are online out of the total Netfox knows about
+- **Risk** — your current risk level, tinted by severity
+- **Public IP** — your network's outward address, with a VPN indicator
+- **Traffic** — your Mac's live download and upload
+
+Turn individual modules on or off in **Settings → Notch → Show**, so the HUD carries exactly what you care about and nothing else.
+
+## Live traffic
+
+The **Traffic** view charts what your Mac is moving on the network, sampled once a second over a rolling minute — download as a filled curve, upload as a line, with peak readouts and a faint grid for scale. It's the same live chart as the [Menu Bar](/docs/menu-bar) popover, sized for the notch.
+
+![The Traffic view inside the Notch HUD](/screenshot-notch-traffic.png)
+
+<Callout type="info">
+This is your **Mac's** traffic — what this machine is downloading and uploading. Per-device bandwidth for the rest of the network is on the [roadmap](/docs/roadmap).
+</Callout>
+
+## Demo Mode
+
+The Notch HUD respects **Demo Mode** just like the rest of the app. Flip it on with <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>D</Kbd> and the HUD masks your public IP, device names and the rest before you screenshot or screen-share. See [Settings → Privacy](/docs/settings#privacy) for the full mask reference.

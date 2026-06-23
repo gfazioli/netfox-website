@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.9.0 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.9.0</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p>Netfox 0.9.0 brings the <strong>Notch HUD</strong> — your network, live, right out of your MacBook's notch — plus sharper device recognition across the board.</p>
+<h2>Notch HUD</h2>
+<ul>
+<li>A Dynamic-Island-style overlay grows out of the notch with live device, risk, public-IP and traffic readouts. Idle it's a discreet pill; reach for it and it expands.</li>
+<li><strong>Four layouts</strong> to match how much you want on screen: Horizontal, Vertical, Panel, and the rich <strong>Super Island</strong> — a tabbed dashboard (Devices · Risk · Traffic · Alerts) where clicking a row jumps straight to that device's detail.</li>
+<li><strong>Open it your way</strong>: on hover, on click to pin it open, or hover-then-click.</li>
+<li>A live traffic chart sized for the notch, with a steadier scale and min/max guides.</li>
+<li>Off by default, and only offered on Macs that actually have a notch. Turn it on in Settings → Notch.</li>
+</ul>
+<h2>Sharper device recognition</h2>
+<ul>
+<li>Your gateway is now labelled as a Router.</li>
+<li>Netfox reads the product behind a device's web page and flags pages that require a login.</li>
+<li>Recognizes more vendors and ports out of the box.</li>
+</ul>
+<h2>Fixes &amp; polish</h2>
+<ul>
+<li>A steadier device list — brief network blips no longer make devices flicker in and out.</li>
+<li>The colored menu bar icon is now the default (switch to monochrome in Settings → General).</li>
+<li>Settings: About now lives in the sidebar header ("About Netfox").</li>
+</ul>
+</body>
+</html>
