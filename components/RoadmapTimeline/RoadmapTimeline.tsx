@@ -1,12 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import {
-  IconBolt,
-  IconChartArea,
-  IconPlugConnected,
-  IconWifi,
-} from '@tabler/icons-react';
+import { IconBolt, IconChartArea, IconPlugConnected, IconWifi } from '@tabler/icons-react';
 import { Badge, Group, Text, Timeline } from '@mantine/core';
 
 /**
@@ -34,10 +29,10 @@ const modules: { icon: ReactNode; title: string; tier: Tier; body: ReactNode }[]
     tier: 'Up next',
     body: (
       <>
-        The Wi-Fi tab today is a basic neighbour list. The next module turns it
-        into a real diagnostics tool: signal-strength history, channel usage,
-        congestion warnings, hidden network detection. Goal: answer &ldquo;is my
-        Wi-Fi the problem?&rdquo; without leaving Netfox.
+        The Wi-Fi tab today is a basic neighbour list. The next module turns it into a real
+        diagnostics tool: signal-strength history, channel usage, congestion warnings, hidden
+        network detection. Goal: answer &ldquo;is my Wi-Fi the problem?&rdquo; without leaving
+        Netfox.
       </>
     ),
   },
@@ -47,9 +42,9 @@ const modules: { icon: ReactNode; title: string; tier: Tier; body: ReactNode }[]
     tier: 'Then',
     body: (
       <>
-        Physical-layer health. Cable speed negotiation, duplex mismatch
-        warnings, NIC stats, route latency. For people who plug their Mac in and
-        want to know whether the wall jack is letting them down.
+        Physical-layer health. Cable speed negotiation, duplex mismatch warnings, NIC stats, route
+        latency. For people who plug their Mac in and want to know whether the wall jack is letting
+        them down.
       </>
     ),
   },
@@ -59,11 +54,10 @@ const modules: { icon: ReactNode; title: string; tier: Tier; body: ReactNode }[]
     tier: 'Later',
     body: (
       <>
-        Per-device traffic accounting in real time. The biggest single lift on
-        the roadmap because it needs a privileged background helper to read
-        packet metadata — the helper itself is reusable for several follow-up
-        features, so the slot also unlocks more advanced security signals. (The
-        menu bar&rsquo;s traffic chart already shows your <em>Mac&rsquo;s</em>{' '}
+        Per-device traffic accounting in real time. The biggest single lift on the roadmap because
+        it needs a privileged background helper to read packet metadata — the helper itself is
+        reusable for several follow-up features, so the slot also unlocks more advanced security
+        signals. (The menu bar&rsquo;s traffic chart already shows your <em>Mac&rsquo;s</em>{' '}
         throughput — this module extends that to every device on the network.)
       </>
     ),
@@ -74,11 +68,10 @@ const modules: { icon: ReactNode; title: string; tier: Tier; body: ReactNode }[]
     tier: 'Backlog',
     body: (
       <>
-        A built-in speed test (download / upload / latency / jitter / packet
-        loss). Nice to have, but not the differentiator — Netfox&rsquo;s job is
-        what&rsquo;s on <em>your</em> network, and free speed-test sites already
-        do this well. We&rsquo;ll fold it in when the surrounding modules need a
-        reference for &ldquo;what should this look like?&rdquo;.
+        A built-in speed test (download / upload / latency / jitter / packet loss). Nice to have,
+        but not the differentiator — Netfox&rsquo;s job is what&rsquo;s on <em>your</em> network,
+        and free speed-test sites already do this well. We&rsquo;ll fold it in when the surrounding
+        modules need a reference for &ldquo;what should this look like?&rdquo;.
       </>
     ),
   },

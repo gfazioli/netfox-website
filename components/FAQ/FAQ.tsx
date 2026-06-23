@@ -104,10 +104,7 @@ export function FAQ() {
             ) : item.answer === 'bug-report' ? (
               <Text c="dimmed" size="sm">
                 Please send us a{' '}
-                <Anchor
-                  href="mailto:feedback@netfox.app?subject=Netfox%20bug%20report"
-                  size="sm"
-                >
+                <Anchor href="mailto:feedback@netfox.app?subject=Netfox%20bug%20report" size="sm">
                   bug report
                 </Anchor>{' '}
                 by email. Include your Netfox version, macOS version, and steps to reproduce the

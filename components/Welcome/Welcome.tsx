@@ -77,7 +77,12 @@ const heroScreens = [
   // Hero uses a cleaner, glance-friendly Wi-Fi shot (hero aspect
   // ratio); the docs Wi-Fi page keeps the fuller detail-panel
   // screenshot (`/screenshot-wifi.png`).
-  { value: 'wifi', label: 'Wi-Fi', src: '/screenshot-hero-wifi.png', alt: 'Netfox — Wi-Fi diagnostics' },
+  {
+    value: 'wifi',
+    label: 'Wi-Fi',
+    src: '/screenshot-hero-wifi.png',
+    alt: 'Netfox — Wi-Fi diagnostics',
+  },
   {
     value: 'devices',
     label: 'Devices',
@@ -332,10 +337,10 @@ export function Welcome() {
             </Stack>
 
             <Text c="dimmed" ta="center" size="xl" maw={640} mx="auto">
-              Netfox turns raw network data into plain words. That cryptic
-              &quot;ESP-8A2F&quot; becomes an Espressif gadget running a web server on port 80 — and
-              Netfox catches the dev server you accidentally left open on the LAN. No cloud, no
-              account, all on your Mac.
+              Netfox turns raw network data into plain words. That cryptic &quot;ESP-8A2F&quot;
+              becomes an Espressif gadget running a web server on port 80 — and Netfox catches the
+              dev server you accidentally left open on the LAN. No cloud, no account, all on your
+              Mac.
             </Text>
 
             <Group justify="center" mt="md">
@@ -364,8 +369,8 @@ export function Welcome() {
 
             <Stack gap={4} align="center" mt={8}>
               <Text c="dimmed" ta="center" size="sm">
-                Free &middot; v{config.app.version} &middot; macOS 15+ &middot; Universal (Apple Silicon + Intel) &middot;
-                Signed &amp; notarized
+                Free &middot; v{config.app.version} &middot; macOS 15+ &middot; Universal (Apple
+                Silicon + Intel) &middot; Signed &amp; notarized
               </Text>
               <Anchor href="/docs/release-notes" c="dimmed" size="sm">
                 Release notes
@@ -494,7 +499,14 @@ export function Welcome() {
         <Container size="sm">
           <Stack align="center" gap="lg">
             <IconQuoteFilled size={44} color="var(--mantine-color-orange-5)" />
-            <Text c="gray.0" ta="center" fz={{ base: 24, sm: 30 }} fw={700} fs="italic" style={{ lineHeight: 1.4 }}>
+            <Text
+              c="gray.0"
+              ta="center"
+              fz={{ base: 24, sm: 30 }}
+              fw={700}
+              fs="italic"
+              style={{ lineHeight: 1.4 }}
+            >
               If you take machine speak and convert it into humanese,{' '}
               <Text span inherit c="orange.4">
                 that&apos;s valuable.
