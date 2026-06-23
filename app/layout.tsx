@@ -66,6 +66,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             docsRepositoryBase={nextraLayout.docsRepositoryBase}
             footer={<MantineFooter />}
             sidebar={nextraLayout.sidebar}
+            /*
+              First visit defaults to dark (the brand scheme); the toggle still
+              works. Mantine's defaultColorScheme already says 'dark', but the
+              theme observer follows Nextra, whose own default is 'system' — so
+              without this the site silently tracked the OS. Pin Nextra to dark too.
+            */
+            nextThemes={{ defaultTheme: 'dark' }}
           >
             {children}
           </Layout>

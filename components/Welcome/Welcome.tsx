@@ -12,13 +12,17 @@ import {
   IconBell,
   IconClock,
   IconDeviceDesktop,
+  IconLanguage,
   IconLayoutNavbar,
+  IconLockOpen,
   IconNetwork,
   IconRadar,
   IconShieldLock,
+  IconQuoteFilled,
 } from '@tabler/icons-react';
 import {
   ActionIcon,
+  Avatar,
   Badge,
   Box,
   Button,
@@ -113,6 +117,15 @@ const heroSlides: DepthSelectItem[] = heroScreens.map((screen) => ({
  * hover-lift already reads as "clickable".
  */
 const features = [
+  // Row 1 — UNDERSTAND: the enrichment story leads.
+  {
+    icon: IconLanguage,
+    title: 'Plain-English Identity',
+    description:
+      'A cryptic “ESP-8A2F” turns into “Espressif · web server on :80 · lighttpd” — vendor, category, open ports and the server banner, side by side. No hex to decode yourself.',
+    accent: 'var(--mantine-color-green-5)',
+    href: '/docs/tools/devices',
+  },
   {
     icon: IconRadar,
     title: 'Multi-Source Discovery',
@@ -122,6 +135,15 @@ const features = [
     href: '/docs/tools/devices',
   },
   {
+    icon: IconClock,
+    title: 'Per-Device History',
+    description:
+      'First seen, last seen, every online/offline transition, every IP/hostname/vendor change. Timeline survives across launches.',
+    accent: 'var(--mantine-color-blue-5)',
+    href: '/docs/tools/devices',
+  },
+  // Row 2 — PROTECT: read first, then act on what you read.
+  {
     icon: IconShieldLock,
     title: 'Risk-Aware Security',
     description:
@@ -130,12 +152,12 @@ const features = [
     href: '/docs/tools/security',
   },
   {
-    icon: IconClock,
-    title: 'Per-Device History',
+    icon: IconLockOpen,
+    title: 'Spot Exposed Services',
     description:
-      'First seen, last seen, every online/offline transition, every IP/hostname/vendor change. Timeline survives across launches.',
-    accent: 'var(--mantine-color-blue-5)',
-    href: '/docs/tools/devices',
+      'Netfox scans your own Mac and the LAN for risky open ports — a dev database, a homelab dashboard, a port that just opened up — names each service and flags what’s worth a look. The exposure a router app never surfaces.',
+    accent: 'var(--mantine-color-pink-5)',
+    href: '/docs/tools/security',
   },
   {
     icon: IconBell,
@@ -145,6 +167,7 @@ const features = [
     accent: 'var(--mantine-color-yellow-5)',
     href: '/docs/settings#alerts',
   },
+  // Row 3 — NATIVE & PRIVATE: how it lives on your Mac.
   {
     icon: IconLayoutNavbar,
     title: 'Menu Bar at a Glance',
@@ -285,27 +308,34 @@ export function Welcome() {
               }}
             />
 
-            <Title maw="90vw" mx="auto" className={classes.title} ta="center">
-              Know who&apos;s on your network —{' '}
-              <TextAnimate
-                animate="in"
-                by="character"
-                inherit
-                variant="gradient"
-                component="span"
-                segmentDelay={0.12}
-                duration={1.5}
-                animation="scale"
-                animateProps={{ scaleAmount: 2 }}
-                gradient={{ from: 'orange', to: 'yellow' }}
-              >
-                always.
-              </TextAnimate>
-            </Title>
+            <Stack gap="xs" align="center">
+              <Text size="sm" fw={700} tt="uppercase" c="orange" style={{ letterSpacing: 3 }}>
+                machine speak → humanese
+              </Text>
+              <Title maw="90vw" mx="auto" className={classes.title} ta="center">
+                Your network,{' '}
+                <TextAnimate
+                  animate="in"
+                  by="character"
+                  inherit
+                  variant="gradient"
+                  component="span"
+                  segmentDelay={0.12}
+                  duration={1.5}
+                  animation="scale"
+                  animateProps={{ scaleAmount: 2 }}
+                  gradient={{ from: 'orange', to: 'yellow' }}
+                >
+                  in plain English.
+                </TextAnimate>
+              </Title>
+            </Stack>
 
             <Text c="dimmed" ta="center" size="xl" maw={640} mx="auto">
-              Netfox is a native macOS network monitor. Every connected device, when it joined, and
-              what&apos;s new — at a glance. No cloud, no account, no telemetry.
+              Netfox turns raw network data into plain words. That cryptic
+              &quot;ESP-8A2F&quot; becomes an Espressif gadget running a web server on port 80 — and
+              Netfox catches the dev server you accidentally left open on the LAN. No cloud, no
+              account, all on your Mac.
             </Text>
 
             <Group justify="center" mt="md">
@@ -362,24 +392,6 @@ export function Welcome() {
                   alt="Netfox - A native local macOS network monitor | Product Hunt"
                   w={250}
                   h={54}
-                  fit="contain"
-                />
-              </a>
-
-              {/* ─── Launchpadly directory badge ─── */}
-              <a
-                href="https://launchpadly.co/startup/netfox"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Netfox on Launchpadly"
-                data-launchpadly-badge="netfox"
-                data-launchpadly-badge-variant="listed-on"
-              >
-                <Image
-                  src="https://launchpadly.co/embed/badges/startup/netfox.svg?variant=listed-on"
-                  alt="Launchpadly Startup Directory"
-                  w={260}
-                  h={48}
                   fit="contain"
                 />
               </a>
@@ -460,11 +472,46 @@ export function Welcome() {
         </Container>
       </Box>
 
+      {/* ─── The Solution — the conversion, right below the hero ─── */}
+      {/*
+        Per Chris Messina's feedback: the machine-speak→humanese conversion
+        is the first content after the hero so it reads at a glance, and the
+        before/after is shown as a sequence of cards, not buried as a single
+        line of text deep down the page.
+      */}
+      <SolutionSection />
+
+      {/* ─── Validation / testimonial (Chris Messina) ─── */}
+      <Box
+        py={80}
+        style={{
+          background:
+            'radial-gradient(60% 120% at 50% 0%, rgba(247, 103, 7, 0.1), transparent 70%), var(--mantine-color-dark-8)',
+          borderTop: '1px solid var(--mantine-color-dark-6)',
+          borderBottom: '1px solid var(--mantine-color-dark-6)',
+        }}
+      >
+        <Container size="sm">
+          <Stack align="center" gap="lg">
+            <IconQuoteFilled size={44} color="var(--mantine-color-orange-5)" />
+            <Text c="gray.0" ta="center" fz={{ base: 24, sm: 30 }} fw={700} fs="italic" style={{ lineHeight: 1.4 }}>
+              If you take machine speak and convert it into humanese,{' '}
+              <Text span inherit c="orange.4">
+                that&apos;s valuable.
+              </Text>
+            </Text>
+            <Group gap="sm" justify="center" mt={4}>
+              <Avatar src="/chris-messina.jpg" alt="Chris Messina" size="md" radius="xl" />
+              <Text c="gray.5" size="sm" fw={600}>
+                Chris Messina &middot; inventor of the hashtag
+              </Text>
+            </Group>
+          </Stack>
+        </Container>
+      </Box>
+
       {/* ─── The Problem ─── */}
       <ProblemSection />
-
-      {/* ─── The Solution ─── */}
-      <SolutionSection />
 
       {/* ─── Features ─── */}
       <Box className={accentClasses.sectionBackdrop} py={80}>

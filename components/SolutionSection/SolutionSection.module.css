@@ -1,0 +1,52 @@
+/*
+  Before → after reveal for the conversion cards. On scroll into view the
+  grid gets `.revealed`: each card's "before" (raw machine data) dims back
+  and its "after" (Netfox's plain-English read) materialises — fade +
+  slide + un-blur — one-shot, staggered per card via the inline
+  `--reveal-delay` custom property. prefers-reduced-motion skips the
+  animation but keeps the final, fully-legible state.
+*/
+
+.before {
+  transition:
+    opacity 0.5s ease,
+    filter 0.5s ease;
+}
+
+.after {
+  opacity: 0;
+  transform: translateY(10px);
+  filter: blur(3px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease,
+    filter 0.6s ease;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.revealed .before {
+  opacity: 0.5;
+}
+
+.revealed .after {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .before,
+  .after {
+    transition: none;
+  }
+
+  .after {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  .before {
+    opacity: 0.5;
+  }
+}

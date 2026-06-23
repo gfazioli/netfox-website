@@ -1,15 +1,16 @@
 export default {
   metadata: {
     title: {
-      // 53 characters — within the 50-60 OG sweet spot. Combines
-      // the app's two main pillars (network monitoring + risk
-      // scanning) so a link preview tells the user what the app
-      // does, not just its name.
-      default: 'Netfox — Network Scanner & Security Toolkit for macOS',
+      // 49 characters — within the OG/SERP sweet spot. Leads with the
+      // positioning ("your network in plain English") rather than the
+      // feature list; "network" + "macOS" keep the core search intent,
+      // while the description and the keywords array still carry the
+      // scanner/security/monitor terms.
+      default: 'Netfox — Your Network in Plain English, for macOS',
       template: '%s | Netfox',
     },
     description:
-      'A native macOS app that monitors your home network. See every connected device, when it joined, and when something new appears — at a glance.',
+      'Netfox turns raw network data into plain English on your Mac: decode every device, see what it exposes, and catch the services you didn’t mean to leave open. No cloud, no account.',
     metadataBase: new URL('https://netfox.app/'),
     keywords: [
       'Netfox',
