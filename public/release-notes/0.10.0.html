@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.10.0 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.10.0</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p>Netfox 0.10 is the <strong>readability</strong> release. It works harder to tell you <em>what</em> each device is — in plain English — instead of leaving you with hex addresses and port numbers.</p>
+<h2>Know what's on your network</h2>
+<ul>
+<li><strong>Plain-English identity</strong> — a device with no friendly name now leads with <em>what it is</em> — "Netgear · Router · Web service" — instead of a bare IP address. The address drops to the subtitle, where it belongs. Devices you've named, or that report a hostname, keep that name up front as before.</li>
+<li><strong>More services recognised</strong> — more of what a device announces on the network now feeds its identity, so more devices read as what they are at a glance instead of an anonymous address.</li>
+</ul>
+<h2>See what's actually running — the Service inspector</h2>
+<ul>
+<li><strong>Service inspector</strong> — open a device's General tab and Netfox names the product behind its open ports: a router's SSH shell, an HP printer, a NAS, a smart-home web page. A bare "port 8080 open" becomes "that's the printer's web admin."</li>
+<li>It reads only what a service announces about itself on connect — no login attempt, nothing intrusive — and stays off until you switch on <strong>Look up service info on open ports</strong> in Settings → Privacy.</li>
+</ul>
+<h2>Settings</h2>
+<ul>
+<li><strong>A clearer reset</strong> — in Settings → Privacy, the full reset ("Forget all devices," which wipes <em>everything</em>) now sits in its own <strong>Reset everything</strong> section, clearly apart from the targeted history clears, so it can't be mistaken for one of them.</li>
+</ul>
+<hr>
+<p>Netfox stays native, on-device, and account-free — everything it learns about your network lives only on your Mac. Requires macOS 15.6 or later.</p>
+</body>
+</html>

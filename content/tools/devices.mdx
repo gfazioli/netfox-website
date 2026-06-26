@@ -47,7 +47,22 @@ The bell in the toolbar carries a count of unread alerts. Click to open the inbo
 Selecting any device opens a panel with five sections:
 
 ### Identity
-MAC address, device kind (computer / phone / speaker / tablet / TV / printer / router / …), and vendor (resolved from the MAC's OUI). In **Advanced Mode** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>M</Kbd>) an extra *Engine ID* row appears — useful for cross-referencing logs.
+MAC address, device kind (computer / phone / speaker / tablet / TV / printer / router / …), and vendor (resolved from the MAC's OUI). The **Services** row lists, in plain English, what the device offers on the network — AirPlay, file sharing, IPP printing, SSH, a web service, and so on — gathered from what each device advertises.
+
+Netfox composes these into a one-line **plain-English identity** — *vendor · kind · services*, e.g. "Apple · Speaker · AirPlay". A device with no friendly name now **leads with that identity** in the list and the detail header (e.g. "Netgear · Router · Web service") instead of a bare IP address — the address drops to the subtitle, where it belongs. Devices you've named, or that report a hostname, keep that name up front as before.
+
+In **Advanced Mode** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>M</Kbd>) an extra *Engine ID* row appears — useful for cross-referencing logs.
+
+### Service inspector
+Turn on **Look up service info on open ports** (Settings → Privacy) and Netfox reads what a service *announces about itself* the moment it connects — the web server's response and page title on HTTP/HTTPS ports, the identification line an SSH server sends — and names the **product** behind it: a router's SSH shell, an HP printer, a NAS, a home-automation page. The recognised products appear together in a **Service inspector** section on the device's General tab, so a bare "port 8080 open" becomes "that's the printer's web admin".
+
+It only reads what the service volunteers — no login attempt, nothing intrusive — and it's off until you opt in.
+
+![The Service inspector naming the web product behind a printer's open port](/screenshot-device-inspector.png)
+
+It reads SSH the same way — here it identifies the SSH service running on another device:
+
+![The Service inspector reading a device's SSH service](/screenshot-device-inspector-ssh.png)
 
 ### Network
 IPv4, IPv6, and connection type. For this Mac, the connection type reflects the active interface (Wi-Fi / Ethernet / etc.). For other devices the value is blank — see the [FAQ](/docs/faq) for why we can't tell from the outside.
@@ -85,7 +100,7 @@ Click **Edit Tag** on a device whose hostname is meaningless ("Espressif Inc.", 
 - A custom kind — overrides the auto-detected device kind
 - A mute toggle — silences alerts for that device
 
-Tags survive across launches and are masked when [Demo Mode](/docs/settings#privacy) is on. Wipe them from **Settings → Privacy → Erase tags** if you ever want a fresh slate.
+Tags survive across launches and are masked when [Demo Mode](/docs/settings#privacy) is on. Wipe them from **Settings → Privacy → Clear custom tags** if you ever want a fresh slate.
 
 ## History timeline
 

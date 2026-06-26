@@ -104,18 +104,25 @@ Controls for what Netfox stores about your network, plus the master switch for *
 - **Render-only.** The underlying device, port, and alert stores are untouched — flip Demo Mode off and the real values reappear instantly. No data is rewritten.
 - Toggleable in-app with <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>D</Kbd>.
 
+### Service identification
+
+- **Look up service info on open ports** — when on, Netfox reads what a service announces about itself on a device's open web (HTTP/HTTPS) and SSH ports and names the product behind it — a router's SSH shell, an HP printer, a NAS. See [the Service inspector](/docs/tools/devices#service-inspector). It only reads what a service volunteers on connect — no login attempt, nothing intrusive — and stays off until you switch it on.
+
 ### Storage
 
-Five wipe rows, each one a one-click *Erase…* with a confirm prompt:
+The **Privacy & Storage** rows each wipe one kind of stored data, with a confirm prompt:
 
-- **Erase device history** — drops every observation, leaving you a blank Devices list. Discovery rebuilds the list on the next pass.
-- **Erase port history** — drops every cached port probe result. Risk badges reset to *Untested*.
-- **Erase alert history** — clears the persistent log surfaced by <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>A</Kbd>.
-- **Erase tags** — drops every custom name and icon you've assigned via right-click → *Edit Tag*.
-- **Erase Wi-Fi history** — drops the per-network signal-strength samples used by the Wi-Fi tool's signal chart.
+- **Clear port scan history** — drops every cached port-probe result. Risk badges reset to *Untested*.
+- **Clear activity history** — drops the per-device timeline (online/offline, IPv4/hostname changes, …) without touching the device list itself.
+- **Clear alert history** — clears the persistent log surfaced by <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>A</Kbd>.
+- **Clear custom tags** — drops every custom name and kind you've assigned via right-click → *Edit Tag*.
+
+Set apart in its own **Reset everything** section:
+
+- **Forget all devices** — the full reset. Wipes *every* store at once — devices, activity, alerts, tags, and port history — so it sits on its own, away from the targeted clears above. Devices on the network rediscover on the next pass, but everything you'd saved about them is gone.
 
 <Callout type="warning">
-The erase rows are immediate and irreversible. Netfox doesn't keep a hidden backup — once you confirm the wipe, the SQLite store loses that table's rows.
+These actions are immediate and irreversible. Netfox keeps no hidden backup — once you confirm, the local store loses those rows for good.
 </Callout>
 
 ## Integrations
