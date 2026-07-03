@@ -17,6 +17,7 @@ const structuredData = {
       name: 'Netfox',
       applicationCategory: 'UtilitiesApplication',
       operatingSystem: `macOS ${config.app.minMacOS} or later`,
+      inLanguage: ['en', 'it', 'fr', 'de', 'es'],
       description: config.metadata.description,
       url: BASE,
       downloadUrl: config.app.downloadUrl,
