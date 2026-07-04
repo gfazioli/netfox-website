@@ -185,7 +185,7 @@ const features = [
     icon: IconDeviceDesktop,
     title: 'Native macOS',
     description:
-      'Built in SwiftUI for macOS 15+. Follows your system appearance and language — localized in English, Italian, French, German, and Spanish. Universal binary.',
+      'Built in SwiftUI for macOS 15+. Follows your system appearance and language — localized in 7 languages 🇬🇧 🇮🇹 🇫🇷 🇩🇪 🇪🇸 🇵🇹 🇳🇱. Universal binary.',
     accent: 'var(--mantine-color-grape-5)',
     href: '/docs/getting-started',
   },
