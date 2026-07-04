@@ -24,7 +24,7 @@ const faqItems = [
     value: 'languages',
     question: 'Which languages does Netfox speak?',
     answer:
-      "English, Italian, French, German, and Spanish. Netfox follows your Mac's system language automatically — there is no in-app switcher. To use a different language, reorder your preferred languages in System Settings → General → Language & Region. Everything arrives localized: the five tools, Settings, the menu bar popover, even the macOS permission prompts and the post-update What's New panel.",
+      "🇬🇧 English, 🇮🇹 Italian, 🇫🇷 French, 🇩🇪 German, 🇪🇸 Spanish, 🇵🇹 Portuguese, and 🇳🇱 Dutch — seven in all. Netfox follows your Mac's system language automatically; there is no in-app switcher. To use a different language, reorder your preferred languages in System Settings → General → Language & Region. Everything arrives localized: the tools, Settings, the menu bar popover and notch HUD, even the macOS permission prompts and the post-update What's New panel.",
   },
   {
     value: 'how-detects',
