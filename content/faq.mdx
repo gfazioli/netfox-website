@@ -8,5 +8,15 @@ description: "Common Netfox questions answered: pricing, privacy, supported macO
 <div style={{ marginTop: 32 }} />
 
 import { FAQ } from "@/components/FAQ/FAQ";
+import { Callout } from "nextra/components";
 
 <FAQ />
+
+<Callout type="info">
+  **Black border around Netfox in full screen on a MacBook with a notch?**
+  This is a macOS setting — "Scale to fit below built-in camera" — that shrinks
+  the app below the notch and letterboxes it on all four sides. Netfox 0.11.5 and
+  later declare notch support so macOS never turns it on. If you're on an older
+  build (or still see it), right-click **Netfox** in Finder → **Get Info** and
+  uncheck **"Scale to fit below built-in camera"**.
+</Callout>
