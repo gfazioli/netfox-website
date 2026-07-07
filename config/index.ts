@@ -88,7 +88,7 @@ export default {
     defaultLanguage: 'en',
   },
   app: {
-    version: '0.11.5',
+    version: '0.11.6',
     minMacOS: '15.0',
     downloadUrl: 'https://github.com/gfazioli/netfox-website/releases/latest',
   },
