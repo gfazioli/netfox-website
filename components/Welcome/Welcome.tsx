@@ -36,6 +36,7 @@ import {
   Anchor,
 } from '@mantine/core';
 import config from '@/config';
+import { ShareButtons } from '@/components/ShareButtons/ShareButtons';
 import { FAQ } from '../FAQ/FAQ';
 import { ProblemSection } from '../ProblemSection/ProblemSection';
 import { SolutionSection } from '../SolutionSection/SolutionSection';
@@ -401,6 +402,9 @@ export function Welcome() {
                   fit="contain"
                 />
               </a>
+            </Group>
+            <Group justify="center" mt="sm">
+              <ShareButtons />
             </Group>
           </Stack>
 
