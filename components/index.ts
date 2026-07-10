@@ -4,4 +4,5 @@ export { Logo } from './Logo/Logo';
 export { MantineFooter } from './MantineFooter/MantineFooter';
 export { MantineNavBar } from './MantineNavBar/MantineNavBar';
 export { MantineNextraThemeObserver } from './MantineNextraThemeObserver/MantineNextraThemeObserver';
+export { ShareButtons } from './ShareButtons/ShareButtons';
 export { StructuredData } from './StructuredData/StructuredData';
