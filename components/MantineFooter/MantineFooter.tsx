@@ -24,6 +24,7 @@ import {
   Title,
 } from '@mantine/core';
 import { Logo } from '@/components/Logo/Logo';
+import { ShareButtons } from '@/components/ShareButtons/ShareButtons';
 import { AnimateBadge } from './AnimateBadge';
 import { apps, highlights, resources, sponsors } from './links';
 import classes from './MantineFooter.module.css';
@@ -91,6 +92,10 @@ export const MantineFooter = () => {
                   <IconMailHeart size={24} />
                 </ActionIcon>
               </Group>
+              <Text tt="uppercase" fz={11} fw={600} c="dimmed" mt={6}>
+                Share this page
+              </Text>
+              <ShareButtons />
             </Stack>
           </Grid.Col>
           <Grid.Col className={classes.column} span={2}>
