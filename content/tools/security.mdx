@@ -44,6 +44,10 @@ Click the badge to open the **Risk Inspector** — a plain-English explanation o
 
 ![Risk Inspector explaining an HTTP-without-HTTPS finding](/screenshot-risk-inspector.png)
 
+When [live inspection](/docs/tools/devices#looking-inside-a-service) has looked inside a flagged service, the finding gets sharper still. A database port isn't just "open" — Netfox tells you whether it actually answered **with no password**, turning a generic warning into a confirmed exposure. Leave **Inspect automatically during scans** on (Settings → Privacy) and that check runs as part of the sweep, so a wide-open database is flagged the moment it's seen.
+
+![A Redis database flagged High risk — open on the LAN with no password](/screenshot-inspector-exposed-db.png)
+
 ## Running a scan
 
 ![Netfox Security](/screenshot-security.png)

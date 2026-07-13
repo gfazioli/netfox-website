@@ -78,6 +78,50 @@ Open services from the most recent security probe, grouped by category. Each por
 ### Recent activity
 The last few transitions — online ↔ offline, IPv4 learned/changed, hostname changed, vendor learned, kind refined, ports opened/closed. *View Full History…* opens the complete timeline.
 
+## Looking inside a service
+
+The Ports tab tells you a port is *open*. Sometimes you want to know **what's actually answering** — is that web port a printer's admin page or a forgotten dev server? Is that database wide open or locked down? Tap any open port and Netfox opens a detail sheet that lets you look inside, read-only.
+
+![The port detail sheet identifying the product behind an open web port](/screenshot-inspector-service-info.png)
+
+The sheet has up to three tabs:
+
+- **Overview** — the port, its category, current state, the recognised **product** (e.g. "HP printer · HP HTTP Server"), any risk finding, and an **Open with** row that hands off to the right system app: copy a database connection string, open a file share in Finder, an SSH session in Terminal. Netfox never logs in for you — it just opens the door.
+- **Live** — for web ports, an in-app browser (below).
+- **Raw** — the verbatim detail behind the summary, plus an on-demand protocol peek for non-web services (below).
+
+The Raw tab is the unparsed truth — the exact response header a web server returned, an SSH server's identification line — for when you want the bytes, not Netfox's tidy summary:
+
+![The Raw tab showing a web server's response header and status](/screenshot-inspector-raw.png)
+
+### The in-app web viewer
+
+For an open web port, the **Live** tab renders the device's own web interface — right inside Netfox, in a dedicated, resizable window.
+
+![The Live tab's launcher for a device's web interface](/screenshot-inspector-web-launcher.png)
+
+Click **Open Web Viewer** and the page loads in a viewer **locked to that one device**: it can't wander to anything else on your network or out to the internet, the page runs normally, and nothing is kept — no history, no cookies that outlive the window. It's the convenience of "just open the printer's page" without pointing your everyday browser at an untrusted LAN device.
+
+![A printer's embedded web interface rendered inside Netfox's own web viewer](/screenshot-inspector-web-viewer.png)
+
+### Reading a non-web service
+
+Web ports get a browser; everything else gets a **read-only peek**. Turn on **Inspect services on demand** (Settings → Privacy → Live inspection) and the Raw tab gains an **Inspect service** button.
+
+![The Raw tab's Inspect service action](/screenshot-inspector-inspect-button.png)
+
+It reads what the service announces on connect — an FTP or mail greeting, a database's handshake version. For the two databases that stay silent until spoken to (Redis, PostgreSQL) it sends a single harmless, non-authenticating hello and reads the reply. It never logs in, sends a credential, or issues a command.
+
+From that, Netfox works out the service's **posture** — how safely it's exposed — and says it in plain English:
+
+![A posture verdict: an open Redis reachable with no password](/screenshot-inspector-posture.png)
+
+A database reachable **with no password** is the one you want to catch: right now anyone on your Wi-Fi could read or erase it. That verdict also feeds the [Security](/docs/tools/security) risk report, so an exposed dev database is flagged as soon as it's seen — not only after you go looking.
+
+<Callout type="info">
+Live inspection is **off by default** and strictly read-only — Netfox opens an outgoing connection only when you ask it to (or, with **Inspect automatically during scans**, as part of a scan you started), and never sends a password or a command. It's suppressed entirely in [Demo Mode](/docs/settings#privacy).
+</Callout>
+
 ## Context menu
 
 ![Context menu on a Devices row](/screenshot-context-menu.png)
