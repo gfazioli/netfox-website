@@ -104,6 +104,16 @@ Click **Open Web Viewer** and the page loads in a viewer **locked to that one de
 
 ![A printer's embedded web interface rendered inside Netfox's own web viewer](/screenshot-inspector-web-viewer.png)
 
+#### Typing your own address
+
+The address bar is editable, so you don't have to hunt for a link to get where you're going:
+
+- **A path** — type `/admin` or `/web` and press <Kbd>Return</Kbd>.
+- **Another port** — type `192.168.1.9:9000` to jump to a different service on the same device.
+- **The other scheme** — switch between `http://` and `https://` the same way.
+
+**The host stays locked.** It's the whole point of the viewer, so it isn't editable: type a different address and Netfox tells you it's locked to this device rather than following you there. Changing the port or scheme rebuilds the viewer's lock around the new one, so it's never loosened — just re-pointed, with your path preserved.
+
 ### Reading a non-web service
 
 Web ports get a browser; everything else gets a **read-only peek**. Turn on **Inspect services on demand** (Settings → Privacy → Live inspection) and the Raw tab gains an **Inspect service** button.

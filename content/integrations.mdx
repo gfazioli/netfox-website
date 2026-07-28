@@ -21,8 +21,12 @@ Open **Settings → Integrations** (<Kbd>⌘</Kbd> <Kbd>,</Kbd>) and switch **Ex
 
 - **Expose a metrics endpoint** — the master switch. Off by default.
 - **Port** — the TCP port to listen on (default `9090`). A change applies when you press <Kbd>Return</Kbd> or leave the field, while the endpoint is running.
-- **Allow access from other devices** — off by default, the endpoint binds `127.0.0.1` and only this Mac can scrape it. Turn it on to bind every interface so another host on your LAN — say a Prometheus running on your NAS — can reach it.
-- **Access token** — optional. When set, every scrape must send `Authorization: Bearer <token>` or it gets a `401`. Leave empty for no authentication (fine for a localhost-only bind; recommended once you expose it to the network).
+- **Allow access from other devices** — off by default, the endpoint binds `127.0.0.1` and only this Mac can scrape it. Turn it on to bind every interface so another host on your LAN — say a Prometheus running on your NAS — can reach it. **This requires an access token**: see below.
+- **Access token** — when set, every scrape must send `Authorization: Bearer <token>` or it gets a `401`. It can be left empty only for a localhost-only bind. The token is kept in your keychain, not in preferences, and the field hides it as you type.
+
+<Callout type="warning">
+**The endpoint refuses to start if you allow access from other devices without a token.** A scrape returns your whole device inventory — every IP, MAC address, hostname and open port — so an unauthenticated endpoint on the network would hand that to anyone who asks. Netfox won't do it: set a token first, and the reason appears under **Endpoint** if you try.
+</Callout>
 
 The panel shows the live **endpoint URL** with a copy button — point your Prometheus scrape config straight at it.
 
@@ -76,7 +80,8 @@ The endpoint is read-only — it never accepts commands, only serves the current
 
 - **Off by default.** Nothing listens until you opt in.
 - **Localhost by default.** Exposing it to the LAN is a separate, explicit toggle.
-- **Optional bearer token.** Set one before you expose the endpoint to the network; unauthenticated scrapes then get a `401`.
+- **It fails closed.** Exposing the endpoint to the network without a token isn't allowed — Netfox refuses to start it rather than serving your inventory unauthenticated.
+- **Bearer token, kept in the keychain.** Required for a network-reachable endpoint, optional for a localhost-only one. Unauthenticated scrapes get a `401`, and the token is compared in constant time so response timing gives nothing away.
 - **No data leaves your Mac on its own.** Prometheus pulls; Netfox never pushes anywhere.
 
 ## Demo Mode and the endpoint
