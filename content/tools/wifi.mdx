@@ -27,7 +27,7 @@ Each row in the sidebar shows:
 - **Wi-Fi icon** — coloured by signal-strength bucket (red weak → orange fair → yellow good → green excellent)
 - **SSID** — the broadcast network name, or `Hidden network` for non-broadcasting APs
 - **Connection badge** — a checkmark seal next to the network you're currently joined to
-- **Subtitle** — short security label + channel + band, e.g. `WPA2 · Ch 36 (5 GHz)`
+- **Subtitle** — short security label + channel + band, e.g. `WPA2 · Ch 36 (5 GHz)`. On a hidden network it also carries **who made the access point**, e.g. `WPA2 · Ch 11 (2.4 GHz) · Belkin` — see below for why that's the useful bit
 - **Trailing dBm** — current RSSI in dBm, monospaced so the column scans
 
 Sorting is configurable from the bottom of the sidebar: signal strength (default), name, channel, or security type. The direction arrow flips the order.
@@ -46,13 +46,23 @@ A live chart of RSSI samples over time, with optional noise overlay when the rad
 - **SNR** — signal-to-noise ratio in dB
 
 ### Network Information
-A table with SSID, BSSID (the AP's radio MAC), channel, band, channel width, security mode, country code, beacon interval, network type (infrastructure vs ad-hoc), and PHY modes.
+A table with SSID, BSSID (the AP's radio MAC), **access point manufacturer**, channel, band, channel width, security mode, country code, beacon interval, network type (infrastructure vs ad-hoc), and PHY modes.
 
 ### Export
 A *Export network data* button saves the full network metadata + the current sample buffer as JSON — handy for diffing two scans, sharing a problem report, or feeding the data into another tool.
 
 ### Cross-link to Devices
 When the selected network is the one you're currently connected to, an extra **View devices on this network** button appears at the bottom — one click jumps to the [Devices](/docs/tools/devices) tool with that subnet filtered.
+
+## Reading a hidden network
+
+A hidden network is simply an access point configured to leave its name out of the beacon. It isn't a security measure — the name travels in the clear the moment a client associates — and in practice most of the hidden networks around you belong to hardware you already own: the service SSIDs consumer routers ship with, and the backhaul links mesh nodes use to talk to each other.
+
+That makes them awkward in a list. Three rows all reading `Hidden network` are indistinguishable, and the one slot that would tell them apart is the one deliberately left blank.
+
+The hardware still identifies itself, though. Every beacon carries the AP's BSSID — its radio's MAC address — and the registered block that address belongs to names the manufacturer. So a `Hidden network` that turns out to be the same brand as your own router is almost certainly one of its own networks rather than a neighbour's, and Netfox surfaces that on the row itself rather than making you open the panel to find it.
+
+Signal strength is the other half of the answer: −34 dBm is a device in the same room, −70 dBm is somebody else's.
 
 ## Demo Mode
 
@@ -65,7 +75,7 @@ Wi-Fi SSIDs are sensitive — they often double as the household surname or cont
 Two natural limits:
 
 - **Networks the Mac's radio can't reach** — anything out of range or behind a wall thick enough to attenuate the signal below the radio's threshold won't show up.
-- **Hidden network details** — APs that don't broadcast their SSID still appear (the radio sees the beacon) but render as `Hidden network`. Channel / band / security are still readable.
+- **A hidden network's name** — an AP that doesn't broadcast its SSID still appears (the radio sees the beacon) but renders as `Hidden network`. The name is the only thing withheld: channel, band, security, signal and the access point's manufacturer are all still readable.
 
 ## What's coming
 

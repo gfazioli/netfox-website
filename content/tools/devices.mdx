@@ -17,7 +17,7 @@ Five providers run in parallel and merge their results into one record per physi
 
 | Provider | What it sees |
 |---|---|
-| **Bonjour / mDNS** | Apple devices (HomePods, Apple TVs), AirPlay receivers, AirPrint printers, anything advertising a `_*._tcp` service |
+| **Bonjour / mDNS** | Apple devices (HomePods, Apple TVs), AirPlay receivers, AirPrint printers, anything advertising a `_*._tcp` service — including the model many of them declare about themselves |
 | **System ARP cache** | Anything that has exchanged a packet on the LAN recently — phones, NAS, IoT plugs that don't advertise |
 | **SSDP** | UPnP and DLNA devices — smart-TVs, media servers, some routers |
 | **NetBIOS** | Windows shares and legacy NAS that advertise NetBIOS names |
@@ -33,7 +33,7 @@ This Mac sits at the top, pinned, with its current Wi-Fi/Ethernet badge. Below: 
 
 ### Search and filter
 - The **search box**, pinned to the toolbar's trailing edge, filters by hostname, IPv4, IPv6, or MAC. Matches narrow the list live.
-- The **status filter pill** scopes the list to *All / Online / Offline* without clearing the search.
+- The **status filter pill** scopes the list to *All / Online / Offline* without clearing the search. Your choice sticks — across switching tools and across restarts — so a list you've scoped to *Online* stays that way. The search box deliberately doesn't persist: a forgotten search term hides devices with nothing on screen to explain why.
 
 ![Searching the device list](/screenshot-device-search.png)
 
@@ -47,7 +47,14 @@ The bell in the toolbar carries a count of unread alerts. Click to open the inbo
 Selecting any device opens a panel with five sections:
 
 ### Identity
-MAC address, device kind (computer / phone / speaker / tablet / TV / printer / router / …), and vendor (resolved from the MAC's OUI). The **Services** row lists, in plain English, what the device offers on the network — AirPlay, file sharing, IPP printing, SSH, a web service, and so on — gathered from what each device advertises.
+MAC address, device kind (computer / phone / speaker / tablet / TV / printer / router / …), manufacturer, and the **Model** the device announces about itself. The **Services** row lists, in plain English, what the device offers on the network — AirPlay, file sharing, IPP printing, SSH, a web service, and so on — gathered from what each device advertises.
+
+**Model** is the one identity signal on the network that isn't inferred. Where *Kind* and *Manufacturer* are worked out from the device's behaviour and its address, many devices state their model outright — `AppleTV5,3`, `Mac14,15`, `BRAVIA 4K GB ATV3` — and Netfox trusts that over everything else when deciding what a device is. It's what stops an Apple TV named "Living Room" from being filed as a phone: the name gives nothing away, and the services it speaks are the same ones a HomePod and a Mac use, but the model is unambiguous. Not everything publishes one; when nothing does, Netfox falls back to the services and the name as before.
+
+**Manufacturer** comes from the registered block a MAC address belongs to, matched against the full public IEEE registry — around 53,000 assignments, so nearly every real device resolves. Where it doesn't, the reason is usually not a gap:
+
+- **"Private address"** means the device invented its address rather than using the one burned into its hardware. Phones and laptops increasingly do this per network, for privacy. There is no manufacturer to look up — that's the complete answer, not a missing one.
+- A blank Manufacturer means the address *is* a hardware address but its block isn't in the registry. That's rare, and mildly interesting in itself.
 
 Netfox composes these into a one-line **plain-English identity** — *vendor · kind · services*, e.g. "Apple · Speaker · AirPlay". A device with no friendly name now **leads with that identity** in the list and the detail header (e.g. "Netgear · Router · Web service") instead of a bare IP address — the address drops to the subtitle, where it belongs. Devices you've named, or that report a hostname, keep that name up front as before.
 

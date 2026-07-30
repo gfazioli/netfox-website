@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.14.0 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.14.0</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p>Netfox used to guess what your devices were. Now it asks them.</p>
+<h2>Devices</h2>
+<p><strong>Identified by what they declare, not by their name.</strong> Most devices state their exact model on the network — an Apple TV says so outright, and so does a Mac, an iPad, a HomePod. Netfox now reads that and trusts it above every other clue. An Apple TV called "Living Room" or a HomePod called "Kitchen" used to be filed as a phone, because the name gives nothing away and the services those devices offer are the same ones a Mac offers. The model settles it, and it now appears in the detail panel alongside the manufacturer.</p>
+<p><strong>A manufacturer for nearly everything.</strong> Netfox now carries the complete public registry of hardware manufacturers — around 53,000 entries — in place of the short hand-curated list it shipped with. On a typical home network that is the difference between two or three devices naming their maker and almost all of them doing so.</p>
+<p><strong>A randomized address says so.</strong> Phones and laptops increasingly invent a fresh hardware address for every network they join, for privacy. There is genuinely no manufacturer to look up for those, so the field now reads "Private address" instead of sitting empty — a complete answer rather than an apparent gap.</p>
+<p><strong>One row per device.</strong> Some devices could turn up twice, once under a name and once as a bare address. Netfox now recognises the two as the same device, and repairs the ones already in your list the first time you launch this version.</p>
+<p><strong>The status filter stays where you put it.</strong> Scoping the list to Online or Offline now survives switching between tools and quitting the app. The search box deliberately doesn't persist — a forgotten search term hides devices with nothing on screen to explain why.</p>
+<h2>Wi-Fi</h2>
+<p><strong>Hidden networks now have a maker.</strong> A hidden network withholds its name, which leaves its row with nothing to identify it — and several of them look identical. The access point still identifies its manufacturer, though, so that now shows on the row itself and in the detail panel. A hidden network from the same brand as your own router is almost always one of its own service or mesh networks rather than a neighbour's.</p>
+<h2>Privacy</h2>
+<p>Failure details from the metrics endpoint and from the device-record repair no longer reach the system log in the clear. Both could carry local network detail — a bind address, a file path — into a place any diagnostic report collects.</p>
+</body>
+</html>
