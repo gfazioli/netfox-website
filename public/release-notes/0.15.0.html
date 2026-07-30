@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.15.0 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.15.0</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p>This release is about the two questions a network monitor should be able to answer and Netfox couldn't: what settings is this network actually handing out, and how well is each device really reachable.</p>
+<h2>Your network's settings</h2>
+<p>A new <strong>Network</strong> panel on the Overview shows what the network gives to everything on it — the network name, the range of addresses in use, the router, the name servers, the domain, and the device handing out addresses along with how long yours lasts. The things you'd otherwise go digging through a router admin page to find.</p>
+<p>If your Mac has been pointed at name servers the network didn't nominate — a manual entry, a VPN, a filtering service — an extra row says so, because the rest of the network is still using what it was given.</p>
+<p>On a device's own panel the address now carries the size of the network it sits on (<code class="notranslate">192.168.1.14</code> <code class="notranslate">/24</code>), and the same lease is available under a collapsed <strong>Network context</strong> group. It stays folded because it's identical for every device: it belongs to the network, not to the one you're looking at, and Netfox never asks a device what its settings are.</p>
+<h2>Which device does what</h2>
+<p>A device that's your <strong>Gateway</strong>, hands out addresses as the <strong>DHCP server</strong>, or answers name lookups as a <strong>DNS resolver</strong> now says so on its own row. On most home networks one box is all three. A name resolver that isn't your router is the interesting case — that's an ad-blocker or a filtering service someone put in the path, and it's worth knowing you have one.</p>
+<h2>Link quality</h2>
+<p>Every device now has a <strong>Link quality</strong> panel: how long a small packet takes to reach it and come back, how steady that is, how often it doesn't answer at all, and a chart of how the day went. <strong>Measure now</strong> takes a fresh reading on demand; otherwise it fills in on its own, because Netfox was already checking whether each device was reachable and now keeps the timing from those checks.</p>
+<p>This is deliberately <em>not</em> the device's Wi-Fi signal strength, and no app on your Mac can show you that — signal is measured by whichever radio is receiving, so only your Apple TV knows how well it hears your access point. What's measured here is the path between your Mac and the device, which is the part you notice when something feels slow.</p>
+<p><strong>A sleeping device now says it's sleeping.</strong> When the first reply takes far longer than the ones behind it, Netfox tells you that's a device letting its Wi-Fi rest between messages. It's normal for anything battery-powered, and without the explanation it reads as a fault.</p>
+<h2>Fixes</h2>
+<ul>
+<li>Every explanation in the app now speaks your language. The notes behind each ⓘ were still English on an otherwise fully translated app — all of them are translated now, in all six languages.</li>
+<li>A device merged with another while Netfox was timing it could lose that measurement from its chart.</li>
+<li>The Overview's network name is masked in Demo Mode along with everything else, so a screenshot or a screen-share never carries your real network name.</li>
+</ul>
+</body>
+</html>

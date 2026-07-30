@@ -44,7 +44,7 @@ The bell in the toolbar carries a count of unread alerts. Click to open the inbo
 
 ## The detail panel
 
-Selecting any device opens a panel with five sections:
+Selecting any device opens a panel of sections, each covering one thing you might want to know:
 
 ### Identity
 MAC address, device kind (computer / phone / speaker / tablet / TV / printer / router / …), manufacturer, and the **Model** the device announces about itself. The **Services** row lists, in plain English, what the device offers on the network — AirPlay, file sharing, IPP printing, SSH, a web service, and so on — gathered from what each device advertises.
@@ -72,7 +72,41 @@ It reads SSH the same way — here it identifies the SSH service running on anot
 ![The Service inspector reading a device's SSH service](/screenshot-device-inspector-ssh.png)
 
 ### Network
-IPv4, IPv6, and connection type. For this Mac, the connection type reflects the active interface (Wi-Fi / Ethernet / etc.). For other devices the value is blank — see the [FAQ](/docs/faq) for why we can't tell from the outside.
+IPv4, IPv6, and connection type. The IPv4 row carries the size of the address range after it — `192.168.1.14` `/24` — which is a fact about the network the device sits on, not about the device. Copying the row still gives you the bare address. For this Mac, the connection type reflects the active interface (Wi-Fi / Ethernet / etc.). For other devices the value is blank — see the [FAQ](/docs/faq) for why we can't tell from the outside.
+
+A device that does a job for the network says so here, as **Roles**:
+
+- **Gateway** — traffic bound for the internet leaves through it
+- **DNS resolver** — the network tells its clients to ask this device to look up names
+- **DHCP server** — it hands out the addresses
+
+On most home networks one box is all three. The interesting case is a resolver that *isn't* your router: that's an ad-blocker or a filtering service someone put in the path, and it's worth knowing you have one.
+
+Under those, a collapsed **Network context** group holds the lease itself — subnet mask, router, name servers, domain, DHCP server. It's folded away because it is identical for every device on the network; expanding it here saves a trip to the [Overview](/docs/tools/overview#network) when you're already looking at a device.
+
+![The Network context group expanded on a device](/screenshot-network-context.png)
+
+### Link quality
+How long a small packet takes to reach the device and come back, measured from your Mac.
+
+![The Link quality panel](/screenshot-device-general.png)
+
+| Row | What it tells you |
+| --- | --- |
+| **Latency** | The fastest round trip of the burst — the cleanest read on what the path costs when nothing is in the way |
+| **Average** | The typical round trip |
+| **Variability** | How much the individual trips differed. Erratic timing is what makes calls stutter and streams rebuffer, even when the average looks fine |
+| **Packet loss** | How often the device didn't answer at all, across every check Netfox has stored — not just the last handful |
+
+**Measure now** runs a fresh burst on demand. Otherwise the panel fills in on its own: Netfox already checks whether each device is reachable on a regular round, and now keeps the timings from those checks. The chart appears once there are enough measurements to be a trend rather than two dots.
+
+<Callout type="warning">
+This is **not** the device's Wi-Fi signal strength, and no app on your Mac can show you that. Signal is measured by whichever radio is receiving, so the only thing that knows how well your Apple TV hears your access point is the Apple TV. What Netfox measures is the path between your Mac and the device — which is the part you actually notice when something feels slow.
+</Callout>
+
+When the first reply of a burst takes far longer than the ones behind it, Netfox says so in plain words: that's a device letting its Wi-Fi radio sleep between frames and having to wake up to answer. It's normal for anything battery-powered, and without the explanation it reads as a problem. A mains-powered device on the same network shows no such gap.
+
+Link quality is hidden for **This Mac** — the measurement would be a packet to your own address that never leaves the machine, so it would report a flawless link forever while saying nothing about the network.
 
 ### Activity
 First seen, last seen, current status. Timestamps are relative (*2 minutes ago*) in normal mode and absolute ISO 8601 in Advanced Mode.

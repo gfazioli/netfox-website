@@ -37,6 +37,29 @@ Four KPI cards sit under the hero. Each one is clickable and switches to the rel
 The **Public IP** card is opt-in. It's off by default; enable it from **Settings → Privacy → Show my public IP**. When on, Netfox queries a public-IP lookup service over HTTPS — that's the only outbound traffic the Overview generates.
 </Callout>
 
+## Network
+
+Below the KPI cards sits a **Network** panel: the settings your network hands out to everything on it.
+
+![The Network panel on the Overview](/screenshot-overview.png)
+
+| Row | What it is |
+| --- | --- |
+| **Network name** | The Wi-Fi network this Mac is joined to |
+| **IP address** | This Mac's address, with the size of the address range after the slash — `/24` means the first three numbers identify the network |
+| **Router** | Where traffic leaves for the internet |
+| **DNS** | The name servers the network tells its clients to use |
+| **Domain** | The domain appended to bare names — it often names the internet provider or the router's maker |
+| **DHCP server** | The device handing out addresses, and how long yours lasts |
+
+These are the things you would otherwise go looking for in a router admin page, and they're the same for every device on the network — which is exactly why they live here once, rather than being repeated on all forty device panels.
+
+<Callout type="info">
+Netfox reads this from the lease **this Mac** holds. It never asks another device what its settings are, because there is no way to ask — so a device's own panel shows this under a clearly-labelled *Network context* group rather than presenting it as something measured on that device.
+</Callout>
+
+If this Mac is set to use name servers the network didn't nominate — a manual entry, a VPN, or a filtering service — an extra **This Mac uses** row appears, so you can see at a glance that your Mac and the rest of the network disagree.
+
 ## Demo Mode
 
 ![Devices with Demo Mode active](/screenshot-demo-mode.png)
