@@ -14,7 +14,7 @@ Netfox grows one module at a time. Each release ships a focused piece of the big
 
 ## Where we are today
 
-Netfox **0.15** is live. The current build covers:
+Netfox **0.16** is live. The current build covers:
 
 - **Discovery & history** — every device you've ever had on the network is remembered with a timeline, discovered across multiple protocols. The timeline now records **port-state changes** too, so you can see when a service appeared or went away.
 - **Alerts** — new devices, returning devices, risky arrivals, port changes, new services. Inbox + history + per-device mute, and the port-opened alert can optionally include your own Mac.
@@ -29,6 +29,7 @@ Netfox **0.15** is live. The current build covers:
 - **Device identity** — devices are identified by the model they announce about themselves rather than guessed from their name, and the manufacturer comes from the full public hardware registry. A randomized address says "Private address" rather than leaving the field blank.
 - **Network settings** — what your network hands out to everything on it: the network name, address range, router, name servers, domain and lease, on the Overview. Each device shows the roles it plays — gateway, name resolver, address server.
 - **Link quality** — the round trip to each device, how steady it is, how often it doesn't answer, and a chart of the day. Not the device's own signal, which only the device can measure: the path between your Mac and it.
+- **Local services** — what's listening on your own Mac, including the loopback-only ports a network check structurally cannot see, named by your hosts file so a forgotten dev server reads as the project it belongs to rather than as a number.
 - **Menu bar** — a quick-glance popover with your network's status: Devices and Risk as ring gauges, public IP and alerts alongside, plus a live chart of your Mac's traffic, and cards that deep-link straight into the app. Two icon styles: an adaptive monochrome glyph or the colour fox.
 
 ## What's next

@@ -173,6 +173,34 @@ A database reachable **with no password** is the one you want to catch: right no
 Live inspection is **off by default** and strictly read-only — Netfox opens an outgoing connection only when you ask it to (or, with **Inspect automatically during scans**, as part of a scan you started), and never sends a password or a command. It's suppressed entirely in [Demo Mode](/docs/settings#privacy).
 </Callout>
 
+## Local Services — what's listening on your own Mac
+
+Select **This Mac** in the device list and you get a tab no other device has: **Local Services**.
+
+![Local Services listing this Mac's listening ports, grouped by reachability](/screenshot-local-services.png)
+
+There's a blind spot it exists to close. Netfox checks every device by connecting to it over the network, at its address on your Wi-Fi. That is the right way to check a printer, a NAS or a phone — and the wrong way to check the Mac you're sitting at. A development server on `127.0.0.1:3000` genuinely refuses connections from anywhere else, so the check reports it closed. Accurately, and uselessly: the most interesting services on the machine you care most about are precisely the ones a network check structurally cannot see.
+
+So this list doesn't probe anything. It asks macOS directly which ports are listening, which means it sees all of them.
+
+### The two groups
+
+**Only on this Mac** — bound to a loopback address, so nothing else on your network can connect: not another computer, not your phone, not the router. Development servers, database engines and helper tools bind this way on purpose. These are the ones no network probe could ever have shown you.
+
+**Reachable from the network** — not bound to loopback. Some listen on every network interface, others on this Mac's own address; either way, anything on your Wi-Fi can reach them. That's usually intended, since file sharing, AirPlay and remote access all work this way. It's worth a glance for one you don't recognise, because it's open to everything on the network, not only to you.
+
+Each row is the port, the process holding it, and its process ID. An (i) beside each heading explains the group in plain English if you'd rather not keep the distinction in your head.
+
+### Names instead of numbers
+
+`3000` tells you nothing. `shop.local:3000` tells you which project it is.
+
+If a listener's address has names pointing at it in your Mac's own hosts file, Netfox shows them next to the port. This is where a list of numbers turns into a list of *things* — the local sites, staging environments and side projects you set up months ago and forgot were still running.
+
+<Callout type="info">
+Nothing here needs a password, a permission prompt or a helper. Netfox reads what the system already knows about your own machine. Your own listeners come back complete; ones belonging to other user accounts or to the system may be partial, which is the cost of not asking for privileges. The whole tab is masked in [Demo Mode](/docs/settings#privacy) — a list of running processes is a software inventory, so process names, IDs and hosts-file names are all hidden before you share a screenshot.
+</Callout>
+
 ## Context menu
 
 ![Context menu on a Devices row](/screenshot-context-menu.png)

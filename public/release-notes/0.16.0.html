@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.16.0 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.16.0</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p>Netfox checks every device by connecting to it across the network. That is the right way to check a printer, a NAS or a phone — and the wrong way to check the Mac you are sitting at. This release closes that blind spot, and fixes a port state that had been reported backwards.</p>
+<h2>Local Services</h2>
+<p>A new tab on <strong>This Mac</strong> lists every port your Mac is accepting connections on. It does not probe anything: it asks the system directly, which is the only way to see the whole picture.</p>
+<ul>
+<li><strong>The ports nothing else could see.</strong> A development server on <code class="notranslate">127.0.0.1:3000</code> genuinely refuses connections from anywhere else, so a network check reports it closed — accurately, and uselessly. Those listeners are now listed, grouped apart from the ones the rest of your network really can reach.</li>
+<li><strong>Names instead of numbers.</strong> <code class="notranslate">3000</code> says nothing; <code class="notranslate">shop.local:3000</code> says which project it is. If a listener's address has names pointing at it on your Mac, they are shown beside the port. This is where a list of numbers turns into a list of the local sites and side projects you set up months ago and forgot were still running.</li>
+<li><strong>Two groups, each explained.</strong> <em>Only on this Mac</em> and <em>Reachable from the network</em>, with an (i) beside each that explains in plain English what the distinction means and when it is worth a second look.</li>
+<li><strong>Nothing to grant.</strong> No password, no permission prompt, no helper. Your own listeners come back complete.</li>
+</ul>
+<h2>Fixes</h2>
+<ul>
+<li><strong>A closed port now says closed.</strong> A port that actively refuses a connection was being classified as <em>filtered</em>, as though something were standing in the way. Closed and filtered mean different things — nothing listening, versus something blocking — so this was a wrong answer on every scan. It also made scans slower: a refusal is an immediate answer, and it was being waited out to the full timeout instead.</li>
+<li><strong>Two devices with the same name stay two devices.</strong> When one device took over an address another had been using and answered to the same name, Netfox could fold the two into a single row carrying the wrong hardware. They now stay apart when their hardware shows they are genuinely different — while a phone that rotates its address between sightings still stays one device, which is the failure people actually notice.</li>
+</ul>
+<h2>Privacy</h2>
+<p>Demo Mode covers the new list. Process names, their numbers, any names of your own and a specific bound address are all hidden with one keystroke, so a screenshot of what is running on your Mac never gives away what you have installed.</p>
+<h2>Under the hood</h2>
+<ul>
+<li>The framework test suite has rejoined the gate. It had been running 64 of its 148 tests, because a failed assertion left a short array that the next line indexed and killed the runner. Both numbers are now 148, and the run is 452 + 148. The refused-port defect above is what the broken suite had been hiding — nobody could see it while it was not running.</li>
+<li>Identity matching moved out of the discovery actor into a pure, testable type. Exercising it previously meant starting real network browsers, which collapsed the suite from 430 tests to 39 — so the rule at the centre of what the app claims to do was effectively untestable.</li>
+<li>The listener parser reads the whole of <code class="notranslate">127.0.0.0/8</code> as loopback rather than only <code class="notranslate">127.0.0.1</code>, so an <code class="notranslate">lo0</code> alias is classified correctly.</li>
+<li>Process names are no longer truncated to nine characters.</li>
+<li>The interface, including every new string and both explanations, is translated into Italian, French, German, Spanish, Portuguese and Dutch. Catalog coverage is 735/735 on all six.</li>
+</ul>
+<h2>Install</h2>
+<p>Download the DMG, drag Netfox to Applications. Existing installs update themselves.</p>
+<h2>Requirements</h2>
+<p>macOS 15.6 or later. Universal (Apple Silicon + Intel). Signed and notarized.</p>
+</body>
+</html>
