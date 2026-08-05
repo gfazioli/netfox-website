@@ -18,7 +18,7 @@ const faqItems = [
     value: 'macos',
     question: 'What macOS version do I need?',
     answer:
-      'macOS 15.6 (Sequoia) or later. Netfox is built with SwiftUI and uses APIs available from macOS 15.6 onward.',
+      'macOS 15.6 (Sequoia) or later. Netfox is built natively for macOS and uses system APIs available from 15.6 onward.',
   },
   {
     value: 'languages',
