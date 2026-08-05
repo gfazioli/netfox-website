@@ -186,7 +186,7 @@ const features = [
     icon: IconDeviceDesktop,
     title: 'Native macOS',
     description:
-      'Built in SwiftUI for macOS 15+. Follows your system appearance and language — localized in 7 languages 🇬🇧 🇮🇹 🇫🇷 🇩🇪 🇪🇸 🇵🇹 🇳🇱. Universal binary.',
+      'Built in SwiftUI for macOS 15.6+. Follows your system appearance and language — localized in 7 languages 🇬🇧 🇮🇹 🇫🇷 🇩🇪 🇪🇸 🇵🇹 🇳🇱. Universal binary.',
     accent: 'var(--mantine-color-grape-5)',
     href: '/docs/getting-started',
   },
@@ -297,7 +297,7 @@ export function Welcome() {
                 boxShadow: '0 8px 22px -8px rgba(247, 103, 7, 0.45)',
               }}
             >
-              Free for macOS 15+
+              Free for macOS 15.6+
             </Badge>
 
             <Image
@@ -371,7 +371,7 @@ export function Welcome() {
 
             <Stack gap={4} align="center" mt={8}>
               <Text c="dimmed" ta="center" size="sm">
-                Free &middot; v{config.app.version} &middot; macOS 15+ &middot; Universal (Apple
+                Free &middot; v{config.app.version} &middot; macOS 15.6+ &middot; Universal (Apple
                 Silicon + Intel) &middot; Signed &amp; notarized
               </Text>
               <Anchor href="/docs/release-notes" c="dimmed" size="sm">
@@ -644,7 +644,7 @@ export function Welcome() {
                 Download for macOS
               </Button>
               <Text c="white" size="sm">
-                Free &middot; macOS 15 Sequoia or later
+                Free &middot; macOS 15.6 Sequoia or later
               </Text>
             </Stack>
           </Container>
