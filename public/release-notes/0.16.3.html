@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.16.3 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.16.3</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p>A fix for Local Services, reported from a machine running a real web server.</p>
+<h2>Fixed</h2>
+<p><strong>One row per service, not one per process.</strong> A server that runs several worker processes — nginx, and anything else that pre-forks — was listed once for every worker. On a Mac running nginx across three ports that meant <strong>39 entries for about four services</strong>: ten identical rows on port 60, ten on 80, ten on 443.</p>
+<p>They now collapse into a single row per listener, which says how many processes are behind it. That is the honest summary: the master opens the socket and the workers inherit it, so from the network's side there is one thing listening on port 80, held by ten processes.</p>
+<p>Listeners that genuinely differ still get their own row — the same server on another port, or on another address.</p>
+<h2>Under the hood</h2>
+<ul>
+<li>The listener is now identified by name, port and reachability rather than by process id. The process id shown is the lowest, which for a pre-forking server is the master rather than whichever worker the system happened to report first.</li>
+<li>Process ids and process counts are rendered without locale digit grouping. A localized number format was turning a five-digit process id into <code class="notranslate">55.207</code> on an Italian Mac — the same problem that once affected the port column.</li>
+</ul>
+<h2>Install</h2>
+<p>Download the DMG, drag Netfox to Applications. Existing installs update themselves.</p>
+<h2>Requirements</h2>
+<p>macOS 15.6 or later. Universal (Apple Silicon + Intel). Signed and notarized.</p>
+</body>
+</html>
