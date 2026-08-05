@@ -108,7 +108,9 @@ User-facing pages (`content/*.mdx`, the homepage, release notes hosted at `publi
 - ❌ "Groq", "Llama", "OpenAI", "Anthropic" — say "the AI" or "the AI provider"
 - ❌ "Vercel proxy", "Next.js API route", "Cloudflare Worker" — say "Netfox handles the request on your behalf"
 - ❌ "Sparkle", "AppKit's NSEvent monitor", framework names — say "the auto-update framework" / "macOS keyboard handling"
-- ✅ User-relevant facts ARE allowed: "free", "no account required", "data never leaves your Mac", "macOS 15+ required"
+- ✅ User-relevant facts ARE allowed: "free", "no account required", "data never leaves your Mac", "macOS 15.6+ required"
+
+**The macOS floor is 15.6, not 15.** Take it from `MACOSX_DEPLOYMENT_TARGET` in the app's pbxproj (it also drives `sparkle:minimumSystemVersion` in the appcast) — never from FinderGit, whose floor is different. Six places on this site said "macOS 15+" / "macOS 15 (Sequoia)" until 2026-08-05, which told anyone on 15.0–15.5 the app would run when Sparkle would never offer it and the binary would not launch. When the deployment target moves, grep the whole site for the old value rather than fixing the page you happen to be on.
 
 Reasoning: end users care about what the feature does for them, not which vendor or library powers it. Naming the stack also paints us into a corner if we ever swap it — would force rewriting every page.
 
