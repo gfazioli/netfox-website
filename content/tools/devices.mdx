@@ -116,6 +116,17 @@ Open services from the most recent security probe, grouped by category. Each por
 
 ![The Ports tab, grouped by category](/screenshot-device-ports.png)
 
+A picker above the list narrows it to one state, and each segment carries its count — **All**, **Open**, **Closed**, **Filtered**. The counts are worth reading on their own: *Filtered 3* on a device that answers everything else means something is dropping probes for exactly those three ports, which is a finding before you click anything.
+
+**Closed and filtered are not the same thing**, and the difference is the useful part:
+
+| | what happened | what you know |
+|---|---|---|
+| **Closed** | the device answered, refusing the connection | nothing is listening there — a definite answer |
+| **Filtered** | no answer at all, the probe timed out | something is dropping the packets; whether a service is behind it is unknown |
+
+Closed is a *no*. Filtered is a *silence*. A device that returns mostly closed ports is being straightforward with you; one that returns mostly filtered has a firewall in the way, and its real state is hidden.
+
 ### Recent activity
 The last few transitions — online ↔ offline, IPv4 learned/changed, hostname changed, vendor learned, kind refined, ports opened/closed. *View Full History…* opens the complete timeline.
 
