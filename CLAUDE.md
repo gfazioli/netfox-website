@@ -117,6 +117,7 @@ Reasoning: end users care about what the feature does for them, not which vendor
 **Exceptions**:
 - Developer-facing files (commit messages, this `CLAUDE.md`, `CHANGELOG.md`) — name infra freely
 - "Under the hood" sections at the bottom of release notes — okay to be specific for power users who want to know, but prefer generic phrasing where it doesn't lose information
+- **`SwiftUI` in `BuiltForMacSection` and the Welcome feature grid stays** (decided 2026-08-05). There naming it *is* the claim — a real Mac app rather than an Electron wrapper — and the section exists for exactly that. The test is whether the name carries the message or merely explains an implementation: an auto-reviewer flagged the same word in the FAQ, where it was being used to justify a minimum macOS version and told the reader nothing, and there it was correctly removed. Expect the flag to recur on these two; it has been considered.
 
 ## Tooling
 
