@@ -84,9 +84,13 @@ export function useReleaseNotes() {
             // the GitHub Release before it commits the appcast + config — so the tag
             // lands on the previous release's commit and `created_at` is that
             // release's date. v0.16.6 read as August 5 while it shipped on August 20.
+            // Pinned to UTC: this is the calendar date of an event, not a local
+            // clock reading, so it must not move with the reader. v0.15.0 was
+            // published 18:03 UTC and rendered as July 31 in New Zealand
+            // (measured) while GitHub itself shows July 30.
             displayDate: new Date(release.published_at ?? release.created_at).toLocaleDateString(
               'en-US',
-              { year: 'numeric', month: 'long', day: 'numeric' }
+              { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }
             ),
             body: await compileMdx(release.body),
           }))
