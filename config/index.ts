@@ -89,7 +89,11 @@ export default {
   },
   app: {
     version: '0.16.6',
-    minMacOS: '15.0',
+    // 15.6, not 15.0: it is the pbxproj MACOSX_DEPLOYMENT_TARGET and the
+    // appcast's sparkle:minimumSystemVersion. Only StructuredData reads this,
+    // so a wrong value here is invisible on the page and still published to
+    // search engines as the supported OS.
+    minMacOS: '15.6',
     downloadUrl: 'https://github.com/gfazioli/netfox-website/releases/latest',
   },
 } as const;
