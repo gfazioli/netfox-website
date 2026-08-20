@@ -206,11 +206,13 @@ Each row is the port, the process holding it, and its process ID. An (i) beside 
 
 `3000` tells you nothing. `shop.local:3000` gives you somewhere to start.
 
-If a listener's address has names pointing at it in your Mac's own hosts file, Netfox shows them next to the port — the local sites, staging environments and side projects you set up months ago and forgot were still running.
+Netfox reads your Mac's own hosts file and shows the names it finds — but where it shows them follows what they actually describe, because **a hosts entry points at an address, not at a port**.
 
-One thing to read correctly: a hosts entry points at an **address**, not at a port. The names you have on `127.0.0.1` and `::1` are shown against every listener that is loopback-only — and against every listener bound to all interfaces too, because a wildcard bind answers on loopback as well, which is exactly how `shop.local:3000` reaches a server listening on `*`.
+The names on `127.0.0.1` and `::1` therefore belong to loopback itself, and reach every listener bound there — including every listener bound to *all* interfaces, since a wildcard bind answers on loopback too. That is how `shop.local:3000` reaches a server listening on `*`. Those names are stated **once, in the group heading**: *"On this Mac they also answer as localhost and shop.local."* Repeated on each row they would read as though each service owned its name, and on a machine with a single alias that puts the same name beside every unrelated thing you happen to be running.
 
-So a single alias turns up on a lot of rows at once: accurate, since the name really does reach each of them, but not something that tells them apart. The name is a lead, not a label — with several aliases it narrows things down, with exactly one it mostly reminds you the file exists.
+A name on a **specific address** is the case that does tell rows apart, so it stays on the row: two listeners bound to two different addresses genuinely answer to two different names.
+
+With several aliases the heading narrows things down; with exactly one it mostly tells you the file exists. Either way it points you at where to look rather than labelling what each service is.
 
 <Callout type="info">
 Nothing here needs a password, a permission prompt or a helper. Netfox reads what the system already knows about your own machine. Your own listeners come back complete; ones belonging to other user accounts or to the system may be partial, which is the cost of not asking for privileges. The whole tab is masked in [Demo Mode](/docs/settings#privacy) — a list of running processes is a software inventory, so process names, IDs and hosts-file names are all hidden before you share a screenshot.
