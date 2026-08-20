@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { compileMdx } from 'nextra/compile';
 import useSWR from 'swr';
 
+import { formatReleaseDate } from './format-release-date';
+
 export interface Author {
   login: string;
   id: number;
@@ -79,19 +81,7 @@ export function useReleaseNotes() {
         const releases = await Promise.all(
           data.releases.map(async (release) => ({
             ...release,
-            // `published_at`, NOT `created_at`. GitHub reports `created_at` as the
-            // date of the *commit the tag points at*, and the release script creates
-            // the GitHub Release before it commits the appcast + config — so the tag
-            // lands on the previous release's commit and `created_at` is that
-            // release's date. v0.16.6 read as August 5 while it shipped on August 20.
-            // Pinned to UTC: this is the calendar date of an event, not a local
-            // clock reading, so it must not move with the reader. v0.15.0 was
-            // published 18:03 UTC and rendered as July 31 in New Zealand
-            // (measured) while GitHub itself shows July 30.
-            displayDate: new Date(release.published_at ?? release.created_at).toLocaleDateString(
-              'en-US',
-              { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }
-            ),
+            displayDate: formatReleaseDate(release.published_at, release.created_at),
             body: await compileMdx(release.body),
           }))
         );
