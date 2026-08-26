@@ -24,22 +24,9 @@ const tierColor: Record<Tier, string> = {
 
 const modules: { icon: ReactNode; title: string; tier: Tier; body: ReactNode }[] = [
   {
-    icon: <IconWifi size={18} />,
-    title: 'Wi-Fi diagnostics',
-    tier: 'Up next',
-    body: (
-      <>
-        The Wi-Fi tab today is a basic neighbour list. The next module turns it into a real
-        diagnostics tool: signal-strength history, channel usage, congestion warnings, hidden
-        network detection. Goal: answer &ldquo;is my Wi-Fi the problem?&rdquo; without leaving
-        Netfox.
-      </>
-    ),
-  },
-  {
     icon: <IconPlugConnected size={18} />,
     title: 'Link diagnostics',
-    tier: 'Then',
+    tier: 'Up next',
     body: (
       <>
         Physical-layer health. Cable speed negotiation, duplex mismatch warnings, NIC stats, route
@@ -51,7 +38,7 @@ const modules: { icon: ReactNode; title: string; tier: Tier; body: ReactNode }[]
   {
     icon: <IconChartArea size={18} />,
     title: 'Bandwidth monitor',
-    tier: 'Later',
+    tier: 'Then',
     body: (
       <>
         Per-device traffic accounting in real time. The biggest single lift on the roadmap because
