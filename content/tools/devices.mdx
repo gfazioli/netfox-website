@@ -49,6 +49,8 @@ Selecting any device opens a panel of sections, each covering one thing you migh
 ### Identity
 MAC address, device kind (computer / phone / speaker / tablet / TV / printer / router / …), manufacturer, and the **Model** the device announces about itself. The **Services** row lists, in plain English, what the device offers on the network — AirPlay, file sharing, IPP printing, SSH, a web service, and so on — gathered from what each device advertises.
 
+0.17.0 widened that list after measuring what a real network answers for, and one of the additions fixes a blind spot rather than adding a nicety: HomeKit accessories advertise the Accessory Protocol, which Netfox was not looking for, so they were arriving as **Unknown** while the label existed and was unreachable. Screen sharing, scanning (both the modern and older spellings that multifunction printers use), Matter and Spotify Connect are recognised too.
+
 **Model** is the one identity signal on the network that isn't inferred. Where *Kind* and *Manufacturer* are worked out from the device's behaviour and its address, many devices state their model outright — `AppleTV5,3`, `Mac14,15`, `BRAVIA 4K GB ATV3` — and Netfox trusts that over everything else when deciding what a device is. It's what stops an Apple TV named "Living Room" from being filed as a phone: the name gives nothing away, and the services it speaks are the same ones a HomePod and a Mac use, but the model is unambiguous. Not everything publishes one; when nothing does, Netfox falls back to the services and the name as before.
 
 **Manufacturer** comes from the registered block a MAC address belongs to, matched against the full public IEEE registry — around 53,000 assignments, so nearly every real device resolves. Where it doesn't, the reason is usually not a gap:
@@ -201,6 +203,20 @@ So this list doesn't probe anything. It asks macOS directly which ports are list
 **Reachable from the network** — not bound to loopback. Some listen on every network interface, others on this Mac's own address; either way, anything on your Wi-Fi can reach them. That's usually intended, since file sharing, AirPlay and remote access all work this way. It's worth a glance for one you don't recognise, because it's open to everything on the network, not only to you.
 
 Each row is the port, the process holding it, and its process ID. An (i) beside each heading explains the group in plain English if you'd rather not keep the distinction in your head.
+
+### Freeing a port
+
+Netfox showed you that `node` is holding 3000, and until 0.17.0 the answer was still a terminal. Each row now has an action that asks that process to quit.
+
+It asks first: the request is the polite kind, so a development server can save whatever it was holding before it goes. If it ignores that, Netfox offers to force it — and only then, because forcing loses unsaved work.
+
+Where a single listener is held by several processes, all of them are asked, starting with the one that opened the socket. A web server that runs a worker per core is one entry in this list and several processes behind it; asking only the first would leave the others holding the port, and the port would look stuck for no visible reason.
+
+<Callout type="info">
+Some listeners can't be quit from here, and the row says which and why rather than failing when you press it. A service owned by another user or by the system needs privileges Netfox doesn't have and doesn't ask for. The action is also unavailable while Demo Mode is on, since Demo Mode replaces process names with placeholders — a confirmation naming something that isn't the real target would be worse than no button at all.
+</Callout>
+
+Netfox re-checks the port immediately before sending anything. A row is a snapshot of a moment that has already passed, and process IDs get reused, so what the list showed and what is holding the port right now are not guaranteed to be the same thing.
 
 ### Names instead of numbers
 

@@ -88,7 +88,7 @@ export default {
     defaultLanguage: 'en',
   },
   app: {
-    version: '0.16.6',
+    version: '0.17.0',
     // 15.6, not 15.0: it is the pbxproj MACOSX_DEPLOYMENT_TARGET and the
     // appcast's sparkle:minimumSystemVersion. Only StructuredData reads this,
     // so a wrong value here is invisible on the page and still published to

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.17.0 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.17.0</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p>Two questions this release answers without a terminal and without a router admin page: is my Wi-Fi the problem, and what is holding that port.</p>
+<h2>Is my Wi-Fi the problem?</h2>
+<p>The Wi-Fi tab already showed you the numbers. It did not tell you what they meant. Open the network you are connected to and the panel now answers the question in a sentence.</p>
+<ul>
+<li><strong>A verdict, in plain English.</strong> One of four: the Wi-Fi looks fine, the channel is busy, the signal is weak, or both at once. Which one it is decides what you should actually do — a busy channel and a weak signal call for opposite moves, and the numbers alone never said which you had.</li>
+<li><strong>The three numbers behind it.</strong> How many networks share your stretch of spectrum, how many of them are close enough in strength to compete with you for the channel, and your signal-to-noise ratio. The middle one is the one that decides the verdict, and it is deliberately not the same as the first: an access point far below yours overlaps your spectrum on paper without ever holding you up, so counting it would call a perfectly good link crowded.</li>
+<li><strong>A quieter channel, when one exists.</strong> Netfox names it, and judges the candidate by the width <em>your</em> access point would carry there rather than by the channel number alone.</li>
+<li><strong>Wide channels counted as what they are.</strong> An 80 MHz access point on channel 36 is using 36 through 48. A "quiet" channel inside that range is not quiet, and both the occupancy figures and the suggestion account for it.</li>
+<li><strong>The rest of the band, at a glance.</strong> A row of chips shows each channel in your band with how many networks sit on it and how many reach into it from a neighbouring block. Yours is marked.</li>
+<li><strong>It stays quiet when it cannot tell you honestly.</strong> A band it barely saw gets no channel suggestion. A "quieter" channel has to be quieter by a real margin, not by one access point. And where macOS gives no noise reading, the signal half is reported as unknown rather than assumed to be good — a verdict that read a missing measurement as a clean bill of health would be worse than no verdict.</li>
+</ul>
+<p>An (i) beside each part explains how it was worked out, for when the answer is surprising enough that you want to see the reasoning.</p>
+<h3>A hidden network is now explained</h3>
+<p>Hiding a network's name is widely believed to be a security measure. It is not one: the devices that already know the network broadcast its name while they look for it, so anything nearby can learn it by listening. Netfox used to label these networks and leave it there. It now says what the label means — and counts them toward the congestion picture, because an access point that withholds its name occupies spectrum exactly like one that publishes it.</p>
+<h2>Freeing a port on This Mac</h2>
+<p>Netfox would show you that something was holding port 3000. The next step was still a terminal. Each row on Local Services now has an action that asks that process to quit.</p>
+<ul>
+<li><strong>It asks first.</strong> The polite request, so a development server can save what it was holding. If the process ignores it, Netfox offers to force the matter — and only then, because forcing loses unsaved work.</li>
+<li><strong>The whole family, not the first one.</strong> A server that runs a worker per core is one row here and several processes behind it. All of them are asked, starting with the one that opened the socket. Asking only the first would leave the port held for no visible reason.</li>
+<li><strong>A refusal explains itself.</strong> A listener owned by another user or by the system needs privileges Netfox does not have and does not ask for. Those rows say so when you press them, rather than being a dead control.</li>
+<li><strong>It re-checks before it acts.</strong> A row is a snapshot of a moment that has already passed, and process IDs get reused. Netfox reads the port again immediately before sending anything, and stops if what it finds is not what you asked about.</li>
+</ul>
+<p>The action is unavailable while Demo Mode is on, since Demo Mode replaces process names with placeholders — a confirmation dialog naming something that is not the real target would be worse than no button at all.</p>
+<h2>More devices say what they are</h2>
+<p>The list of services Netfox recognises grew, after measuring what a real network actually answers for. One of the additions closes a blind spot rather than adding a nicety: HomeKit accessories announce themselves over the Accessory Protocol, which Netfox was not looking for — so they arrived as <strong>Unknown</strong> while the label for them existed and was unreachable. Screen sharing, scanning (both the modern and the older spelling that multifunction printers use), Matter and Spotify Connect are recognised and named too.</p>
+<h2>Under the hood</h2>
+<ul>
+<li><strong>The competing-neighbour threshold is measured, not chosen.</strong> On a real dense environment — 33 access points visible at 5 GHz, median −85 dBm against a −58 dBm link — the count of competing neighbours sat flat at 2 all the way out to 15 dB and only then climbed, reaching 11 by 25 dB. 15 dB is where the plateau ends, which is why that is the window.</li>
+<li><strong>Nothing new is probed, and nothing new is asked for.</strong> Occupancy, overlap and the verdict are all computed from the scan the Wi-Fi tab already performs. No new permission, no new traffic, no extra battery.</li>
+<li><strong>The quit path decides on fresh data.</strong> Eligibility is re-evaluated against the row read a moment before the signal is sent, not against the row on screen; a process that has become ineligible in between is refused rather than acted on. It then waits for the process to actually be gone rather than reporting success on a delivered signal.</li>
+<li><strong>An API with tests and no callers was deleted.</strong> <code class="notranslate">identitySummary</code> had coverage and zero call sites — the tests were proving that unused code kept working.</li>
+<li><strong>The test gate now refuses to run while the app is open.</strong> The app-hosted test bundle is a second process on the same stores, and the running app dies. It waits for the stores to be released instead of crashing the app that holds them.</li>
+<li><strong>Six languages, in step.</strong> Every new string is translated into Italian, French, German, Spanish, Portuguese and Dutch. Coverage is 817/817 on all six, plus 82/82 in the framework catalog.</li>
+<li><strong>475 + 215 tests, green.</strong></li>
+</ul>
+<h2>Install</h2>
+<p>Download the DMG, drag Netfox to Applications. Existing installs update themselves.</p>
+<h2>Requirements</h2>
+<p>macOS 15.6 or later. Universal (Apple Silicon + Intel). Signed and notarized.</p>
+</body>
+</html>

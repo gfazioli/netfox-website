@@ -45,6 +45,27 @@ A live chart of RSSI samples over time, with optional noise overlay when the rad
 - **Noise Level** — ambient noise floor in dBm (or `—` if the radio doesn't expose it)
 - **SNR** — signal-to-noise ratio in dB
 
+### Is my Wi-Fi the problem?
+
+For the network you're connected to, the panel answers that in a sentence rather than leaving you to read the numbers. It combines the signal-to-noise ratio with who else is using your stretch of spectrum, and says which of the two is the problem:
+
+- **Your Wi-Fi looks fine** — good signal, and nothing on the channel loud enough to compete.
+- **This channel is busy** — your signal is fine, but other networks share the spectrum and take turns with you for airtime. That shows up as stalls rather than as low speed.
+- **The signal is weak** — the neighbours aren't the problem; distance, walls or where the router sits are.
+- **Weak signal on a busy channel** — both at once. Moving closer to the router usually helps more than changing channel.
+
+Beside the sentence are the three numbers behind it: how many networks share your spectrum, how many are **close enough in strength to compete** for airtime, and your SNR.
+
+The middle one is the one that decides the verdict, and it is not the same as the first. An access point 25 dB below yours overlaps your spectrum on paper but does not raise the channel's energy enough to hold you off — so counting it would call a good link crowded. Netfox counts a neighbour as competing when it is within 15 dB of your own signal, a figure measured against a real dense environment rather than picked: on a network with 33 access points visible at 5 GHz and a median of −85 dBm against a −58 dBm link, the count sat flat at 2 up to 15 dB and jumped to 11 by 25 dB.
+
+When a materially quieter channel exists, Netfox names it.
+
+<Callout type="info">
+It stays quiet when it can't tell you honestly. A channel suggestion needs enough of the band to have been seen, and a "quieter" channel has to be quieter by a real margin — not by one access point. If macOS reports no noise measurement for the interface, the signal half is reported as unknown rather than assumed to be good: a verdict that treated a missing measurement as a clean bill of health would be worse than no verdict.
+</Callout>
+
+An access point using a wide channel is measured across the whole block it occupies, not just the channel it's named after. An 80 MHz access point on channel 36 is using 36 through 48, so a "quiet" channel inside that range isn't quiet at all — and any suggestion Netfox makes accounts for the width *your* access point would carry there.
+
 ### Network Information
 A table with SSID, BSSID (the AP's radio MAC), **access point manufacturer**, channel, band, channel width, security mode, country code, beacon interval, network type (infrastructure vs ad-hoc), and PHY modes.
 
@@ -64,6 +85,8 @@ The hardware still identifies itself, though. Every beacon carries the AP's BSSI
 
 Signal strength is the other half of the answer: −34 dBm is a device in the same room, −70 dBm is somebody else's.
 
+Opening a hidden network now says this in the app too, rather than leaving it as a label: hiding the name isn't a security measure, because the devices that already know the network broadcast its name while they look for it. Anything nearby can learn it by listening.
+
 ## Demo Mode
 
 <Callout type="info">
@@ -79,4 +102,6 @@ Two natural limits:
 
 ## What's coming
 
-The current build is the **scan + history** version. The next major module expands the tool into proper Wi-Fi diagnostics — channel occupancy, congestion warnings and neighbour-AP interference analysis. Hidden networks already show up in the list, as described above; what's missing is what they mean for the channel they sit on. See the [Roadmap](/docs/roadmap) for the full plan.
+Channel occupancy, the congestion verdict and neighbour interference **shipped in 0.17.0** and are described above. Hidden networks now count toward the congestion picture as well, since an access point that withholds its name occupies spectrum exactly like one that publishes it.
+
+What's still ahead on this tool: per-channel occupancy shown across the whole band rather than only for the network you're on, and signal-strength history long enough to show a pattern over days. See the [Roadmap](/docs/roadmap) for the full plan.
