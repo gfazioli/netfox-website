@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.17.1 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.17.1</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p>A patch, and the whole of it is one idea: a device should look like itself everywhere, and stay looking like itself.</p>
+<h2>One device, one icon</h2>
+<p>The same device could carry a different icon in the device list, in its own alerts, in its History window and in the tag editor — and could change between launches, with no setting touched and no code changed.</p>
+<p>Three separate causes, all now closed:</p>
+<ul>
+<li><strong>The stored category was decided by whichever discovery answered first.</strong> A device advertising two service types that mean different things — a HomePod advertises both an audio one and a display one — got whichever arrived first. The browsers run concurrently, so "first" was genuinely random between launches. The category is now decided by what the device says about itself, and where the evidence does not reach, it stays put rather than flipping.</li>
+<li><strong>Three surfaces read the raw stored value</strong> instead of the one the list shows. So a router promoted correctly in the list showed a question mark in the History window opened from that very row, and the tag editor offered "Auto-detect (Unknown)" beside a router icon.</li>
+<li><strong>An alert kept only half its device.</strong> The snapshot dropped the model and the advertised services, so an alert re-read after a restart had only the device's name to go on — and looked different from the same alert an hour earlier.</li>
+</ul>
+<h2>A product name instead of a code</h2>
+<p>Some devices answer the "what are you?" question with an internal board code rather than a product identifier, and which of the two you get depends on which service you ask. Netfox now prefers the one it can name: where it recognises the code, the Model row reads <em>Apple TV</em> instead of a string of letters and digits.</p>
+<h2>The timeline explains a change instead of just making it</h2>
+<p>A device that re-identifies itself — a new category, a better model — used to have its row change quietly under you, with nothing in its history to account for it, while an address change of the same significance got its own entry. Those changes are now recorded like any other.</p>
+<h2>Under the hood</h2>
+<ul>
+<li><strong>The test gate crashed about one run in three</strong>, and the cause was not what it looked like. A crash report showed ten database connections opening in one process with two of them inside the same table-creation path — an intra-process race, not the shared-file conflict every other failure of this shape has been. Serialising that construction fixed it: ten consecutive clean runs against a prior rate near one in three. The wrong diagnosis is kept in the code, because the fix that followed from it would have made the race <em>more</em> frequent while looking like a repair.</li>
+<li><strong>The release pipeline now refuses to sign with the wrong toolchain.</strong> The tool that signs an update and the framework that verifies it on your Mac were never tied together, and on the build machine they had drifted apart. Harmless so far, and exactly the kind of thing that fails after the download rather than before it.</li>
+<li><strong>A window that was ordered out is now closed properly.</strong> The suspected leak did not reproduce when measured, and that is recorded too — but dropping the only reference to a window nothing can close afterwards is wrong on its own terms.</li>
+<li>Six languages, as always: every new string is translated into Italian, French, German, Spanish, Portuguese and Dutch.</li>
+</ul>
+<h2>Install</h2>
+<p>Download the DMG, drag Netfox to Applications. Existing installs update themselves.</p>
+<h2>Requirements</h2>
+<p>macOS 15.6 or later. Universal (Apple Silicon + Intel). Signed and notarized.</p>
+</body>
+</html>
