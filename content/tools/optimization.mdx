@@ -1,28 +1,28 @@
 ---
 title: "Optimization"
-description: "What's next for Netfox: Wi-Fi diagnostics, link diagnostics and a bandwidth monitor — a preview of the upcoming optimization tools."
+description: "What's next for Netfox: link diagnostics and a bandwidth monitor — a preview of the upcoming optimization tools."
 ---
 
 import { Callout } from 'nextra/components';
 
 # Optimization
 
-The **Optimization** tool is a placeholder today — a preview of the modules planned for the next versions. Opening it shows a list of upcoming features with their target version, plus a link to the full [Roadmap](/docs/roadmap).
+The **Optimization** tool is a placeholder today — a preview of the modules still to come. Opening it shows the upcoming features in the order they are planned, plus a link to the full [Roadmap](/docs/roadmap).
 
 <Callout type="info">
-This tool intentionally doesn't ship functionality yet. Each module under it needs either a privileged background helper or new core providers before it can earn its space. Shipping the slot empty (with the roadmap inside) tells users "yes, this is coming — here's when" instead of hiding the plan.
+This tool intentionally doesn't ship functionality yet. Each module under it needs either a privileged background helper or new core providers before it can earn its space. Shipping the slot empty (with the roadmap inside) tells users "yes, this is coming, and here is what is next" instead of hiding the plan.
 </Callout>
 
 ## What's coming
 
-| Module | Target | Notes |
+| Module | Status | Notes |
 |---|---|---|
-| **Wi-Fi diagnostics** | v0.6 | Channel congestion, signal-history scoring, hidden network detection, neighbour-AP interference — extension of today's [Wi-Fi](/docs/tools/wifi) tool |
-| **Link diagnostics** | v0.7 | Physical-layer health: NIC stats, cable speed negotiation, duplex mismatch warnings, route latency |
-| **Bandwidth monitor** | v0.8 | Per-device traffic accounting in real time. Needs a privileged background helper to read packet metadata — the biggest single lift on the roadmap. The menu bar's [traffic chart](/docs/menu-bar#live-traffic) already covers your own Mac |
+| **Wi-Fi diagnostics** | Shipped in v0.17.0 | Channel congestion, neighbour-AP interference, hidden network detection, and a plain-English verdict on whether your Wi-Fi is the problem — built into today's [Wi-Fi](/docs/tools/wifi) tool |
+| **Link diagnostics** | Up next | Physical-layer health: what your Ethernet port negotiated against what it can do — a 10-gigabit port settling for 1 is worth knowing, and the switch or the cable is usually why — plus link error counters and route latency |
+| **Bandwidth monitor** | Then | Per-device traffic accounting in real time. Needs a privileged background helper to read packet metadata — the biggest single lift on the roadmap. The menu bar's [traffic chart](/docs/menu-bar#live-traffic) already covers your own Mac |
 | **Speed test** | Backlog | Built-in download / upload / latency / jitter / packet-loss benchmark |
 
-Versions aren't promised dates — they're the version we're aiming to land each in. See the [Roadmap](/docs/roadmap) for the longer narrative and what comes after v0.8.
+**The order is the promise, not a version number.** Each module lands in whatever version is current when it's ready, so this table tracks status rather than a target — a number written here ages badly the moment a release slips or arrives early. See the [Roadmap](/docs/roadmap) for the longer narrative and what comes after these.
 
 ## Why a placeholder tool, not just docs
 

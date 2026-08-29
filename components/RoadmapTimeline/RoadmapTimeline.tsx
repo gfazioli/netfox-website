@@ -29,9 +29,10 @@ const modules: { icon: ReactNode; title: string; tier: Tier; body: ReactNode }[]
     tier: 'Up next',
     body: (
       <>
-        Physical-layer health. Cable speed negotiation, duplex mismatch warnings, NIC stats, route
-        latency. For people who plug their Mac in and want to know whether the wall jack is letting
-        them down.
+        Physical-layer health. What your Ethernet port negotiated against what it is capable
+        of &mdash; a 10-gigabit port settling for 1 is worth knowing, and the switch or the cable
+        is usually why &mdash; plus link error counters and route latency. For people who plug
+        their Mac in and want to know whether they are getting what they paid for.
       </>
     ),
   },
