@@ -22,6 +22,11 @@ const tierColor: Record<Tier, string> = {
   Backlog: 'gray',
 };
 
+// The same module list lives in two other places and each drifts on its own:
+// content/tools/optimization.mdx, and the app's own Optimization screen
+// (Netfox/OptimizationSection.swift). Wi-Fi diagnostics shipped in 0.17.0 and
+// went on reading "Up next" in the app for a full release, because nothing
+// connects the three. Move one, move all three.
 const modules: { icon: ReactNode; title: string; tier: Tier; body: ReactNode }[] = [
   {
     icon: <IconPlugConnected size={18} />,
