@@ -371,8 +371,25 @@ export function Welcome() {
 
             <Stack gap={4} align="center" mt={8}>
               <Text c="dimmed" ta="center" size="sm">
-                Free &middot; v{config.app.version} &middot; macOS 15.6+ &middot; Universal (Apple
-                Silicon + Intel) &middot; Signed &amp; notarized
+                {/*
+                  One interpolated string rather than JSX text, because the
+                  JSX version shipped as "v0.17.1· macOS 15.6+": in a text
+                  chunk spanning more than one line, the space between an
+                  interpolation and a following HTML ENTITY is dropped.
+                  Measured on the live site and reproduced in a probe route -
+                  a plain character in the same position keeps its space, and
+                  so does the entity while the chunk fits on one line, so it
+                  takes both the entity and the wrap.
+
+                  Fixing it with an explicit {' '} does not hold: oxfmt
+                  removes it and rejoins the lines, which is why the defect
+                  survived on the homepage. A template literal puts the
+                  separators inside a string, where neither the formatter nor
+                  the JSX whitespace rules can reach them.
+
+                  Ported from findergit-website, where this was found.
+                */}
+                {`Free · v${config.app.version} · macOS ${config.app.minMacOS}+ · Universal (Apple Silicon + Intel) · Signed & notarized`}
               </Text>
               <Anchor href="/docs/release-notes" c="dimmed" size="sm">
                 Release notes
