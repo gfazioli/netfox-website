@@ -33,10 +33,14 @@ import {
   Stack,
   Text,
   Title,
-  Anchor,
 } from '@mantine/core';
 import config from '@/config';
 import { ShareButtons } from '@/components/ShareButtons/ShareButtons';
+import { ReleaseCadence } from '@/components/ReleaseCadence/ReleaseCadence';
+import {
+  fallbackReleaseCadence,
+  type ReleaseCadence as Cadence,
+} from '@/components/ReleaseCadence/release-cadence';
 import { FAQ } from '../FAQ/FAQ';
 import { ProblemSection } from '../ProblemSection/ProblemSection';
 import { SolutionSection } from '../SolutionSection/SolutionSection';
@@ -200,7 +204,13 @@ const features = [
   },
 ];
 
-export function Welcome() {
+/**
+ * `cadence` is fetched on the server in `app/page.tsx` so the release count
+ * and date ship inside the initial HTML. It defaults to the config-derived
+ * fallback, which keeps the strip rendering in tests and on any path that
+ * mounts the hero without the server fetch.
+ */
+export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cadence }) {
   // Slideshow is controlled so the custom controls below the stack can
   // drive it (the built-in controls are turned off). Prev/Next wrap
   // around the four screens.
@@ -391,9 +401,12 @@ export function Welcome() {
                 */}
                 {`Free · v${config.app.version} · macOS ${config.app.minMacOS}+ · Universal (Apple Silicon + Intel) · Signed & notarized`}
               </Text>
-              <Anchor href="/docs/release-notes" c="dimmed" size="sm">
-                Release notes
-              </Anchor>
+              {/*
+                Replaces a bare "Release notes" anchor that used to sit here.
+                The strip links to the same page, and two links to it 30px
+                apart was the only thing the old anchor added.
+              */}
+              <ReleaseCadence cadence={cadence} />
             </Stack>
 
             {/* ─── Product Hunt launch badge ─── */}
