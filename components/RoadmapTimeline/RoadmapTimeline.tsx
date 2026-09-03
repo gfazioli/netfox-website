@@ -22,11 +22,29 @@ const tierColor: Record<Tier, string> = {
   Backlog: 'gray',
 };
 
-// The same module list lives in two other places and each drifts on its own:
-// content/tools/optimization.mdx, and the app's own Optimization screen
-// (Netfox/OptimizationSection.swift). Wi-Fi diagnostics shipped in 0.17.0 and
-// went on reading "Up next" in the app for a full release, because nothing
-// connects the three. Move one, move all three.
+// SIX places name these modules, not three. The count in this note used to
+// say three -- here, the RoadmapTimeline component, and the app's own
+// Optimization screen. Grepping the module names across both repos on
+// 2026-09-03 found the rest:
+//
+//   1. Netfox/OptimizationSection.swift   the canonical list
+//   2. Netfox/HomeSection.swift   the Overview's roadmap teaser
+//   3. content/tools/optimization.mdx this table
+//   4. components/RoadmapTimeline/RoadmapTimeline.tsx
+//   5. content/index.mdx  "the upcoming module wave"
+//   6. content/getting-started.mdxthe same phrase
+//
+// Two of them (2, and 5 with 6) were still calling Wi-Fi diagnostics
+// upcoming a release after it shipped. content/keyboard-shortcuts.mdx makes
+// the same claim without naming anything, so it cannot drift on names but
+// does go stale on the premise.
+//
+// A comment enumerating the copies is itself a copy, and this one drifted
+// the same way. Nothing here derives from a machine-readable fact, so the
+// only net that finds them all is a grep for the module NAMES across both
+// repos, run whenever one of them moves. A shipped module leaves the app's
+// list entirely, since that one answers "what is not built yet" rather than
+// "what happened".
 const modules: { icon: ReactNode; title: string; tier: Tier; body: ReactNode }[] = [
   {
     icon: <IconPlugConnected size={18} />,
