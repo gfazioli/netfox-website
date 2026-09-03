@@ -42,9 +42,9 @@ This tool intentionally doesn't ship functionality yet. Each module under it nee
 | Module | Status | Notes |
 |---|---|---|
 | **Wi-Fi diagnostics** | Shipped in v0.17.0 | Channel congestion, neighbour-AP interference, hidden network detection, and a plain-English verdict on whether your Wi-Fi is the problem — built into today's [Wi-Fi](/docs/tools/wifi) tool |
-| **Link diagnostics** | Up next | Physical-layer health: what your Ethernet port negotiated against what it can do — a 10-gigabit port settling for 1 is worth knowing, and the switch or the cable is usually why — plus link error counters and route latency |
-| **Bandwidth monitor** | Then | Per-device traffic accounting in real time. Needs a privileged background helper to read packet metadata — the biggest single lift on the roadmap. The menu bar's [traffic chart](/docs/menu-bar#live-traffic) already covers your own Mac |
-| **Speed test** | Backlog | Built-in download / upload / latency / jitter / packet-loss benchmark |
+| **Link diagnostics** | Shipped in v0.18.0 | Physical-layer health: what your Ethernet port negotiated against what it can do — a 10-gigabit port settling for 1 is worth knowing, and the switch or the cable is usually why — plus link error counters and route latency, split into your own first hop and everything past your router. Built into the [Overview](/docs/tools/overview#link) |
+| **Bandwidth monitor** | Up next | Per-device traffic accounting in real time. Needs a privileged background helper to read packet metadata — the biggest single lift on the roadmap. The menu bar's [traffic chart](/docs/menu-bar#live-traffic) already covers your own Mac |
+| **Speed test** | Then | Built-in download / upload / latency / jitter / packet-loss benchmark |
 
 **The order is the promise, not a version number.** Each module lands in whatever version is current when it's ready, so this table tracks status rather than a target — a number written here ages badly the moment a release slips or arrives early. See the [Roadmap](/docs/roadmap) for the longer narrative and what comes after these.
 

@@ -1,7 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { IconBolt, IconChartArea, IconPlugConnected, IconWifi } from '@tabler/icons-react';
+import { IconBolt, IconChartArea } from '@tabler/icons-react';
 import { Badge, Group, Text, Timeline } from '@mantine/core';
 
 /**
@@ -47,22 +47,9 @@ const tierColor: Record<Tier, string> = {
 // "what happened".
 const modules: { icon: ReactNode; title: string; tier: Tier; body: ReactNode }[] = [
   {
-    icon: <IconPlugConnected size={18} />,
-    title: 'Link diagnostics',
-    tier: 'Up next',
-    body: (
-      <>
-        Physical-layer health. What your Ethernet port negotiated against what it is capable of
-        &mdash; a 10-gigabit port settling for 1 is worth knowing, and the switch or the cable is
-        usually why &mdash; plus link error counters and route latency. For people who plug their
-        Mac in and want to know whether they are getting what they paid for.
-      </>
-    ),
-  },
-  {
     icon: <IconChartArea size={18} />,
     title: 'Bandwidth monitor',
-    tier: 'Then',
+    tier: 'Up next',
     body: (
       <>
         Per-device traffic accounting in real time. The biggest single lift on the roadmap because
@@ -76,7 +63,7 @@ const modules: { icon: ReactNode; title: string; tier: Tier; body: ReactNode }[]
   {
     icon: <IconBolt size={18} />,
     title: 'Speed test',
-    tier: 'Backlog',
+    tier: 'Then',
     body: (
       <>
         A built-in speed test (download / upload / latency / jitter / packet loss). Nice to have,
