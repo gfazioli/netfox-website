@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.18.0 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.18.0</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p>One question this release answers without a terminal, a router admin page or a speed test: <strong>is my connection the problem, or is it something past my door?</strong></p>
+<h2>The link, in plain English</h2>
+<p>The Overview has a new panel. It reads the physical layer of this Mac's own connection — the part underneath the IP address, where the cable and the radio actually live — and says what it finds.</p>
+<h3>What the cable negotiated, against what it could have</h3>
+<ul>
+<li><strong>A port settling for less than it can do is named.</strong> A 10-gigabit port that negotiated 1 Gb/s is not broken, and nothing in macOS tells you it happened. Netfox says so, and says the two usual reasons: the cable, or the switch at the other end. Cat 5e runs 1 Gb/s; 10 needs Cat 6a and a switch that speaks it.</li>
+<li><strong>Full duplex and flow control, where they are a verdict.</strong> They are shown coloured because there is a right answer. Auto-negotiation is shown plainly, because a hand-pinned link is unusual rather than wrong.</li>
+</ul>
+<h3>What the radio is doing</h3>
+<ul>
+<li><strong>The generation, the rate, and the room you have.</strong> Wi-Fi 7 at 1.2 Gb/s means little on its own; "39 dB of headroom — signal −58 dBm against −97 dBm of noise" means you have room to spare.</li>
+<li><strong>The band, the width and the channel — only when there is one.</strong> A radio that is switched off has no band, and a screen that fills those in with "Unknown" has invented two facts out of an absence.</li>
+<li><strong>Whether the rate is holding.</strong> The panel takes two samples and tells you what changed between them: steady, renegotiated up, renegotiated down. This is not decoration — during development the radio moved from 648 Mb/s to 1.2 Gb/s between two samples two seconds apart, on the same network, in the same room. A single reading calls that a property of your link. It is not one.</li>
+</ul>
+<h3>Whether anything is being dropped</h3>
+<p>Two separate claims, because neither implies the other:</p>
+<ul>
+<li><strong>Right now</strong> — what crossed the link in the last two seconds, and whether any of it faulted.</li>
+<li><strong>Since boot</strong> — the same question over the machine's uptime.</li>
+</ul>
+<p>A link that has been clean for weeks can start dropping frames this second, and one that dropped a handful during a cable swap last month is clean now. And a link nothing crossed gets no clean bill of health: it has not been shown to be fine, it has not been shown anything.</p>
+<h3>And how far away the delay starts</h3>
+<ul>
+<li><strong>The first hop, and everything past it.</strong> "First hop 2.9 ms, then 12 ms more past the router" splits the question in two: your own link, and the internet beyond it. That split is the whole point — it is the difference between a problem you can fix and one you can only wait out.</li>
+<li><strong>A router that ignores pings is not a broken router.</strong> Many drop them by policy. Netfox says it cannot time the first hop rather than reporting a fault.</li>
+<li><strong>Packet loss outranks speed.</strong> A flaky cable is quick right up until the packet that vanishes.</li>
+<li><strong>The first hop never leaves your network.</strong> The comparison past the router uses a public resolver, and only if you have left Netfox's internet access on — the same switch that controls the public-IP lookup. Turn it off and the panel reports the first hop alone rather than inventing a comparison.</li>
+</ul>
+<h2>The Overview fits on one screen</h2>
+<p>Five panels and a scrollbar, on the screen whose whole job is to be readable at a glance. The last one was always below the fold on a large window, and the space it needed was being spent above it.</p>
+<ul>
+<li>The sponsor buttons moved into the corner beside the logo instead of taking a row of their own.</li>
+<li>The banner that counted devices needing attention <strong>became the first card of the summary</strong>, with its Smart Scan button. It and the risk card had been printing the same number twice, in two sizes, a hundred points apart.</li>
+<li>The network card and the new link card sit <strong>side by side</strong> when the window is wide enough, and stack when it is not. They are the same story told logically and physically.</li>
+</ul>
+<h2>Fixes</h2>
+<ul>
+<li><strong>The What's New panel is translated.</strong> It shipped in English inside six otherwise-translated languages, along with its menu item.</li>
+<li><strong>Netfox no longer advertises what it has already built.</strong> Two lists inside the app were still calling shipped features "coming".</li>
+<li><strong>Band and Channel Width read correctly in Italian, Spanish, French and Portuguese.</strong> Both showed an "Unknown" written for a different word, so the adjective disagreed with the label beside it. English inflects neither, so the screen looked finished in every language.</li>
+<li><strong>A Wi-Fi generation newer than this build knows is no longer reported as "not connected".</strong> The next generation of hardware would have shown a live link labelled disconnected.</li>
+</ul>
+<h2>Under the hood</h2>
+<ul>
+<li><strong>The panel refuses to draw a container for an absence.</strong> No section header over an empty section, no pills for a radio that is not associated, no green seal over a sample where nothing moved. Each of those was in a draft and each was caught by rendering the panel rather than by reading it.</li>
+<li><strong>Every latency figure is a minimum, never an average.</strong> Measured across five bursts: the minimum moved by under a millisecond on both a router and a host on the internet, while the average moved by more than a hundred on both — one delayed reply drags a mean of five and moves a minimum not at all. The first explanation for that was wrong and four more measurements killed it.</li>
+<li><strong>Counters are read at 64 bits.</strong> The 32-bit form wraps, and a wrapped counter turns a healthy link into an astronomical number on a screen. A counter that goes backwards is refused rather than subtracted.</li>
+<li><strong>The threshold for a slow first hop is a named constant with its calibration beside it</strong> — about eight times the floor measured on one machine, which is "generous enough not to cry wolf" rather than "the boundary of healthy".</li>
+<li><strong>Nothing new is asked of you.</strong> The physical link, the radio and the counters are all read without a privilege, a permission prompt or a helper. The only traffic this feature generates is the latency measurement, and that is behind the switch you already have.</li>
+<li><strong>Six languages, in step.</strong> 858/858 in Italian, French, German, Spanish, Portuguese and Dutch, plus 89/89 in the framework catalog.</li>
+<li><strong>774 tests, green.</strong></li>
+</ul>
+<h2>Install</h2>
+<ol>
+<li>Download <code class="notranslate">Netfox-0.18.0.dmg</code></li>
+<li>Open the DMG and drag Netfox into Applications</li>
+<li>Launch normally — the app is signed with Apple Developer ID and notarized by Apple</li>
+</ol>
+<h2>Requirements</h2>
+<p>macOS 15.6 or later.</p>
+</body>
+</html>

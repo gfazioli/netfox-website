@@ -11,27 +11,22 @@ The **Overview** is the landing tool — it's what you see the first time you op
 
 ![Netfox Overview](/screenshot-overview.png)
 
-## Hero card
-
-The top of the page tells you the most important thing first: the headline of the network's posture. The hero card adapts:
-
-- **All clear** — every probed device is low risk
-- **N device(s) worth a look** — there are medium-risk findings to triage
-- **N device(s) need attention** — there are high-risk findings, deal with them
-- **Run your first scan** — nothing has been probed yet
-
-The blue **Run Smart Scan** button takes you to the [Security](/docs/tools/security) tool and kicks off a scan across every untested device on your LAN. Convenient because the same button works whether you've never scanned or want to re-scan everything.
-
 ## At a glance
 
-Four KPI cards sit under the hero. Each one is clickable and switches to the relevant tool when you tap it. The two cards that track a proportion — Devices and Risk — show it as a **ring gauge**, the same reading as the [menu bar popover](/docs/menu-bar):
+Four cards across the top. Each is clickable and switches to the relevant tool. The two that track a proportion — Risk posture and Devices — show it as a **ring gauge**, the same reading as the [menu bar popover](/docs/menu-bar):
 
 | Card | What it shows | Click target |
 |---|---|---|
+| **Risk posture** | A ring filling to the share of devices flagged high or medium, tinted by severity (green when all clear), with the breakdown underneath and the **Run Smart Scan** button | [Security tool](/docs/tools/security) |
 | **Devices** | A ring filling to how many are online out of the total Netfox knows about | [Devices tool](/docs/tools/devices) |
-| **Risk posture** | A ring filling to the share of devices flagged high or medium, tinted by severity (green when all clear) | [Security tool](/docs/tools/security) |
 | **Public IP** | Your network's outward IPv4 + a live chip when a VPN tunnel is active. Inline refresh button | [Devices tool](/docs/tools/devices) |
 | **Alerts inbox** | Count of unread alerts since you last opened the bell | [Devices tool](/docs/tools/devices) |
+
+Risk posture leads because it is the one card that asks you to do something. **Run Smart Scan** starts a scan across every untested device on your LAN, and works the same whether you have never scanned or want to re-check everything.
+
+<Callout type="info">
+Until v0.18.0 this number appeared twice — once in a banner across the top of the screen and again in the card below it, in two sizes a hundred points apart. The banner is gone and its button came down into the card.
+</Callout>
 
 <Callout type="info">
 The **Public IP** card is opt-in. It's off by default; enable it from **Settings → Privacy → Show my public IP**. When on, Netfox queries a public-IP lookup service over HTTPS — that's the only outbound traffic the Overview generates.
@@ -60,6 +55,50 @@ Netfox reads this from the lease **this Mac** holds. It never asks another devic
 
 If this Mac is set to use name servers the network didn't nominate — a manual entry, a VPN, or a filtering service — an extra **This Mac uses** row appears, so you can see at a glance that your Mac and the rest of the network disagree.
 
+## Link
+
+Underneath the address is the physical layer: what the cable negotiated, what the radio is doing, and whether either of them is dropping anything. The **Network** panel above says how your connection is *configured*; this one says how it is *performing*.
+
+On a wide window the two sit side by side. Narrow the window and they stack.
+
+### Wired
+
+Shown when an Ethernet interface is actually up — on a laptop with nothing plugged in, the section says so rather than disappearing.
+
+| What you see | What it means |
+| --- | --- |
+| The negotiated speed | What the link settled on, in orange when it is below what the port can do |
+| **Negotiated 1 Gb/s on a port that does 10 Gb/s** | The warning worth having. Nothing in macOS tells you this happened, and the cause is almost always the cable or the switch — Cat 5e runs 1 Gb/s, and 10 needs Cat 6a and a switch that speaks it |
+| Full duplex · Flow control | Coloured, because there is a right answer |
+| Auto | Plain, because auto-negotiation is how the link was configured rather than a grade — a hand-pinned link is unusual, not wrong |
+
+### Wireless
+
+| What you see | What it means |
+| --- | --- |
+| The generation and the rate | Wi-Fi 7 at 1.2 Gb/s, say |
+| Band · width · channel | Only when the radio is associated. A radio that is switched off has no band, so those are left out rather than filled in with "Unknown" |
+| **39 dB of headroom — signal −58 dBm against −97 dBm of noise** | How much room you have, not just how strong the signal is |
+| **Steady at 1.2 Gb/s across two samples 2s apart** | The rate is what the link is doing now, not a property of it. Netfox takes two samples and says whether it held, rose or fell — during development it moved by half a gigabit in two seconds, on the same network, in the same room |
+
+### Whether anything is being dropped
+
+Two separate claims, because neither implies the other: what crossed the link **in the last two seconds** and whether any of it faulted, and the same question **since boot**. A link that has been clean for weeks can start dropping frames this second, and one that dropped a handful during a cable swap last month is clean now.
+
+A link nothing crossed gets no clean bill of health. It says *idle* instead — it has not been shown to be fine, it has not been shown anything.
+
+### How far away the delay starts
+
+**First hop 2.9 ms, then 12 ms more past the router.** The first number is your own link; the second is everything beyond it. That split is the difference between a problem you can fix and one you can only wait out.
+
+- A router that ignores pings is reported as untimeable rather than as a fault — plenty drop them by policy.
+- Packet loss outranks speed. A flaky cable is quick right up until the packet that vanishes.
+- Every figure is a **minimum**, never an average: one delayed reply drags a mean of five readings by a hundred milliseconds and moves the minimum by less than one.
+
+<Callout type="info">
+The first hop never leaves your network, so it is measured whether or not Netfox may reach the internet. The comparison past the router uses a public resolver and rides the same **Settings → Privacy** switch as the public-IP lookup — turn it off and the panel reports the first hop alone rather than inventing a comparison.
+</Callout>
+
 ## Demo Mode
 
 ![Devices with Demo Mode active](/screenshot-demo-mode.png)
@@ -68,4 +107,4 @@ If you ever screenshot or screen-share the Overview, flip on **Demo Mode** with 
 
 ## Roadmap teaser
 
-A small footer card at the bottom of the Overview links to the public [Roadmap](/docs/roadmap), which lays out the modules ahead. You can dismiss it once you've seen it — it doesn't pop again.
+A small footer card at the bottom of the Overview links to the public [Roadmap](/docs/roadmap), which lays out the modules still ahead. A module that has shipped leaves that list — it answers *what is not built yet*, not *what happened*.
