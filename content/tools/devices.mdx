@@ -186,6 +186,30 @@ A database reachable **with no password** is the one you want to catch: right no
 Live inspection is **off by default** and strictly read-only — Netfox opens an outgoing connection only when you ask it to (or, with **Inspect automatically during scans**, as part of a scan you started), and never sends a password or a command. It's suppressed entirely in [Demo Mode](/docs/settings#privacy).
 </Callout>
 
+### Reading a certificate
+
+A port that speaks encrypted from the first byte — 443, 8443, a mail port like 993 or 995 — presents a **certificate** before anything else happens. It says who the server claims to be, who vouches for that claim, and until when. The Overview tab gains a **Read certificate** button for those ports, behind the same Live inspection switch.
+
+What comes back is three lines and, when there is something to say, a warning:
+
+- **Issued to** — the name the certificate is for. On a home device this is usually the device's own hostname.
+- **Issued by** — who signed it. A public authority, or the device itself.
+- **Expires** — the date it stops being valid.
+
+Two of those combinations are worth knowing about, and Netfox names them rather than leaving you to compare dates and strings:
+
+**It has expired.** Browsers and apps will refuse it or nag about it, and the fix is usually a renewal nobody remembers to do. A NAS or a camera quietly serving an expired certificate is a common find on a home network.
+
+**It is signed by itself.** The certificate vouches for nothing except its own claim, because whoever issued it *is* the server. That is completely normal on a home device that generated its own on first boot, and it is worth a second look anywhere you did not expect it — a self-signed certificate is exactly what something impersonating a device on your network would also present.
+
+Netfox also flags a certificate that is **not valid yet**, which almost always means the clock on the device is wrong rather than anything sinister, and one that **expires within three weeks**, so a renewal can happen before something breaks.
+
+<Callout type="info">
+Netfox reads the certificate and then **deliberately hangs up without completing the connection**. It has what it came for by then, so there is no reason to finish: nothing further is exchanged and no session is established. Reading is not the same as trusting — an expired or self-signed certificate is precisely what this is for, so Netfox looks at what the server presents without judging whether to accept it.
+</Callout>
+
+Certificate details are hidden in [Demo Mode](/docs/settings#privacy), for the same reason hostnames are: the name on a certificate is very often the name of the device.
+
 ## Local Services — what's listening on your own Mac
 
 Select **This Mac** in the device list and you get a tab no other device has: **Local Services**.
@@ -286,5 +310,6 @@ When [Demo Mode](/docs/settings#privacy) is on:
 - MAC addresses lose the last three octets (vendor OUI survives)
 - IPv6 addresses lose everything past the first hextet
 - IPv4 stays visible — RFC 1918 ranges don't leak anything network-specific
+- Certificate details are hidden entirely — the name on a certificate is usually the device's own
 
 The render-only masking is enough for safe screenshots; the underlying store is never touched.
