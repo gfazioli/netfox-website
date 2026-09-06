@@ -78,11 +78,19 @@
   <h1>Netfox 0.18.1</h1>
   <p class="subtitle">Release notes</p>
 </header>
-<p>Netfox 0.18.1 fixes how the app is signed. Nothing in it behaves differently.</p>
+<p>Netfox 0.18.1 closes a signing hole, and ships the link-panel work that landed after 0.18.0.</p>
+<h2>Wi-Fi and the link panel</h2>
+<ul>
+<li><strong>A weak radio no longer reads as a healthy one.</strong> The wired half of the panel graded its rate and the wireless half did not, so a radio sitting close to the noise floor rendered in the same neutral grey as a good one, above a green "no errors" tick — a clean bill of health for a link the Wi-Fi tool already calls weak. It is now graded against the same threshold that tool uses, so the two screens cannot disagree about one radio.</li>
+<li><strong>The route row names the link it crossed.</strong> It said "first hop 0.6 ms" under both sections with nothing saying which one carried it, so on a Mac with a cable and a radio live at once you could be reading a number about the other link.</li>
+<li><strong>The panel says what it has ruled out, not only what to suspect.</strong> When a port negotiates below what it advertises, nobody pinned it to that speed — so the cable and the switch are where to start looking.</li>
+<li><strong>A router that ignores pings is told apart from one that is down</strong>, when something answers from past it. Plenty of routers drop pings by policy, and calling that a fault was the misleading diagnosis this panel exists to avoid.</li>
+</ul>
 <h2>Security</h2>
 <ul>
-<li>The shipped app no longer allows other programs on your Mac to attach to it and read its memory. Every release up to 0.18.0 was signed with a setting that belongs to a development build, which left that possible — the device names and addresses Netfox holds, and the key protecting your metrics if you use them, were readable by anything running as you.</li>
-<li>Nothing in the application changed. If you are on 0.18.0 the features are identical; this build differs only in how it is signed.</li>
+<li><strong>The shipped app no longer allows other programs on your Mac to attach to it and read its memory.</strong> Every release up to 0.18.0 was signed with a setting that belongs to a development build, which left that possible — the device names and addresses Netfox holds, and the key protecting your metrics if you use them, were readable by anything running as you.</li>
 </ul>
+<hr>
+<p><strong>Correction.</strong> These notes originally said this release changed nothing but the signing. That was wrong: the link-panel work above shipped in it too. The What's New panel inside the app still carries the original wording and is corrected in the next release.</p>
 </body>
 </html>
