@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.19.0 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.19.0</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p>The certificate card: for a port that speaks TLS from the first byte, Netfox now reads what the server presents about itself and says what is wrong with it.</p>
+<h2>Service inspection</h2>
+<ul>
+<li><strong>A TLS port's certificate, read on demand.</strong> Who it was issued to, who issued it, and when it expires, read from the certificate the server presents when Netfox says hello, on ports that speak TLS from the first byte (443, 8443, 993, 995, 465, 636 and the like). Ports that start in plain text and upgrade later are deliberately left alone: a greeting aimed at them is not a greeting.</li>
+<li><strong>Two verdicts stated outright: expired, and self-signed.</strong> An expired certificate is named as such. One signed by itself is called out with the context that matters: normal on a home device that generated its own, worth a second look anywhere else. Self-signed is decided on the names, not on the length of the chain, so a device that also sends a stray intermediate does not get a pass it has not earned.</li>
+<li><strong>Two warnings before they bite.</strong> A certificate that runs out within three weeks, and one that is not valid yet, which on a home network almost always means the clock on the device is wrong.</li>
+<li><strong>Behind the same switch as the service lookup, and hidden in Demo Mode.</strong> The read happens only when you press the button, under the privacy setting that already governs looking up service info; Netfox never starts a conversation unasked. In Demo Mode the card is not shown at all, since a certificate's name on a home network is very often the device's hostname, which is exactly what that mode exists to keep off a screenshot.</li>
+</ul>
+<h2>Also</h2>
+<ul>
+<li>The What's New panel of this version corrects the 0.18.1 entry, which said nothing in the app had changed. That release also graded the radio's headroom by the same threshold the Wi-Fi tool uses, named the interface the route leaves through, and rewrote two sentences of the link panel. The 0.18.1 release notes were corrected on the day; the panel inside the app could only be corrected here.</li>
+</ul>
+</body>
+</html>
