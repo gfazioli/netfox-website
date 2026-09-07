@@ -186,11 +186,11 @@ A database reachable **with no password** is the one you want to catch: right no
 Live inspection is **off by default** and strictly read-only — Netfox opens an outgoing connection only when you ask it to (or, with **Inspect automatically during scans**, as part of a scan you started), and never sends a password or a command. It's suppressed entirely in [Demo Mode](/docs/settings#privacy).
 </Callout>
 
-### Reading a certificate
+### Reading a TLS port
 
-A port that speaks encrypted from the first byte — 443, 8443, a mail port like 993 or 995 — presents a **certificate** before anything else happens. It says who the server claims to be, who vouches for that claim, and until when. The Overview tab gains a **Read certificate** button for those ports, behind the same Live inspection switch.
+A port that speaks encrypted from the first byte — 443, 8443, a mail port like 993 or 995 — has to introduce itself before anything else happens. It presents a **certificate**, and it settles with your Mac on a **protocol version** and a **cipher suite**. The Overview tab gains a **Read TLS details** button for those ports, behind the same Live inspection switch, and one handshake answers all of it.
 
-What comes back is three lines and, when there is something to say, a warning:
+**The certificate** says who the server claims to be, who vouches for that claim, and until when:
 
 - **Issued to** — the name the certificate is for. On a home device this is usually the device's own hostname.
 - **Issued by** — who signed it. A public authority, or the device itself.
@@ -204,11 +204,24 @@ Two of those combinations are worth knowing about, and Netfox names them rather 
 
 Netfox also flags a certificate that is **not valid yet**, which almost always means the clock on the device is wrong rather than anything sinister, and one that **expires within three weeks**, so a renewal can happen before something breaks.
 
+**The connection** says what the two ends actually agreed on:
+
+- **Protocol** — the version of TLS in use, from the current 1.3 down to the versions that were retired years ago.
+- **Cipher suite** — the exact set of algorithms protecting the session, under its standard name.
+
+Two of those are worth naming as well:
+
+**The version is obsolete.** TLS 1.0 and 1.1 were retired in 2021, so a server still speaking one of them has not been updated in a long time. Netfox deliberately accepts a version it would never use for its own traffic — refusing, which is what every browser now does, would report the oldest servers on your network as though they were not encrypted at all, and those are exactly the ones worth finding.
+
+**The key exchange has no forward secrecy.** With the older static-RSA suites, traffic recorded today could be read later if the server's key ever leaks. Anything ECDHE, and everything in TLS 1.3, is safe from that.
+
+One line under those two rows keeps them honest: what you see is what that server chose *for this connection*, not the full set it supports. A server that also accepts something older or weaker will not say so here — finding that out means offering it one thing at a time, over and over, which is a different and far noisier kind of tool.
+
 <Callout type="info">
-Netfox reads the certificate and then **deliberately hangs up without completing the connection**. It has what it came for by then, so there is no reason to finish: nothing further is exchanged and no session is established. Reading is not the same as trusting — an expired or self-signed certificate is precisely what this is for, so Netfox looks at what the server presents without judging whether to accept it.
+Netfox reads what it came for and then **deliberately hangs up without completing the connection**. It has what it came for by then, so there is no reason to finish: nothing further is exchanged and no session is established. Reading is not the same as trusting — an expired or self-signed certificate is precisely what this is for, so Netfox looks at what the server presents without judging whether to accept it.
 </Callout>
 
-Certificate details are hidden in [Demo Mode](/docs/settings#privacy), for the same reason hostnames are: the name on a certificate is very often the name of the device.
+TLS details are hidden in [Demo Mode](/docs/settings#privacy), for the same reason hostnames are: the name on a certificate is very often the name of the device.
 
 ## Local Services — what's listening on your own Mac
 
