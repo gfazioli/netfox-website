@@ -91,6 +91,9 @@ A link nothing crossed gets no clean bill of health. It says *idle* instead — 
 
 **First hop 2.9 ms, then 12 ms more past the router.** The first number is your own link; the second is everything beyond it. That split is the difference between a problem you can fix and one you can only wait out.
 
+On a Mac holding a cable and a radio at once, the first number is measured **on each link separately** and shown inside that link's own card — *2.9 ms to the router over this link*. Before, it was measured once and labelled with whichever link the Mac happened to be routing through, so a slow radio could hide behind a fast wire: if the Wi-Fi was the thing you were worried about, you were reading the cable. With two links the sentence below the two sections drops the first hop, since each card now carries its own, and keeps the half that belongs to the Mac rather than to a cable — what the path adds past the router. With one link nothing changes.
+
+- A link Netfox cannot measure from here produces no row rather than a zero or a fault. A link it measured that stayed silent says so, as a footnote: a router declining to answer on one link is not a broken link.
 - A router that ignores pings is reported as untimeable rather than as a fault — plenty drop them by policy.
 - Packet loss outranks speed. A flaky cable is quick right up until the packet that vanishes.
 - Every figure is a **minimum**, never an average: one delayed reply drags a mean of five readings by a hundred milliseconds and moves the minimum by less than one.

@@ -43,7 +43,7 @@ On a Mac with a notch, Netfox can grow a small live HUD out of it — devices, r
 
 ## Alerts
 
-Netfox can raise five kinds of alert. Each one has its own toggle so you can mute the noisy ones while keeping the signal that matters.
+Netfox can raise six kinds of alert. Each one has its own toggle so you can mute the noisy ones while keeping the signal that matters.
 
 ![Settings — Alerts tab](/screenshot-settings-alerts.png)
 
@@ -65,6 +65,14 @@ Netfox can raise five kinds of alert. Each one has its own toggle so you can mut
 - **Notify when a port opens** — fires when a port that was previously closed or filtered comes back as open on a device you've already seen. Both the scheduled port probe and the manual one-shot *Probe Ports* feed this check.
 - **Off by default**: the first sweep on a fresh install is silent (no baseline yet), but the second can carpet-bomb you with alerts for every legitimately-open service that was discovered in sweep one. Opt in once you've seen what the first sweep finds.
 - **Include this Mac** — your own Mac is exempt from the other alert types (new-device, returning, risky arrival), but for port-open alerts it's included by default via this toggle: an unexpected listener on your own machine is worth knowing about. Flip it off if you run local dev servers that open and close ports all day. The device [History](/docs/tools/devices#port-state-changes) records port changes on this Mac either way.
+
+### A server left running on this Mac
+
+- **Notify when a server is left running on this Mac** — fires when a local server is still holding a port after the shell or agent that started it has exited: the dev server a test run left behind.
+- It reports only listeners bound to the loopback address. Those are the ones the network probe structurally cannot reach — it hits this Mac over its LAN address, and a loopback-only socket has none — so nothing else in Netfox would find them. It also reports only listeners every process of which is yours, because one you cannot act on is noise.
+- It waits **fifteen minutes from the moment the process was orphaned**, not from when the server started. Closing a terminal on a server you have been using all afternoon does not fire it; walking away from one does.
+- One alert per listener rather than one per check. A listener you deal with and then abandon again is announced again — that is a new event, not a repeat.
+- **Off by default**: it reads local process state once a minute, which is a thing to opt into rather than discover. See [Local Services](/docs/tools/devices#local-services) for the list it draws on, and the *Kill* action for freeing the port once you are looking at it.
 
 ### New service
 
