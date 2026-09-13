@@ -223,6 +223,29 @@ Netfox reads what it came for and then **deliberately hangs up without completin
 
 TLS details are hidden in [Demo Mode](/docs/settings#privacy), for the same reason hostnames are: the name on a certificate is very often the name of the device.
 
+### Reading a file-sharing port
+
+Port 445 is file sharing — a NAS, a Windows PC, another Mac with sharing switched on. Which *version* of it a device speaks turns out to matter more than most protocol trivia, because one of them should not be running at all. The Overview tab gains a **Check the SMB version** button for that port, behind the same Live inspection switch.
+
+Netfox asks two questions rather than one, and it has to:
+
+- **Which version will you use?** The answer is the newest one your Mac and that device have in common — SMB 3.1.1 on anything current, something older on a device that has not been updated in a while.
+- **Will you still accept SMB 1?** A separate question, asked separately, because the modern conversation cannot answer it. A device that speaks *only* SMB 1 does not reply to a modern request at all — so a single check would report it as nothing at all, which is the exact opposite of the truth.
+
+Two answers get named:
+
+**It still accepts SMB 1.** Microsoft retired that version and turned it off by default in 2017. It is the protocol the WannaCry outbreak spread over, and it is still quietly switched on in the corner of plenty of home networks — an old NAS, a printer with a scan-to-folder share, a router's USB disk. Turning it off is almost always a setting on the device itself. This can appear *alongside* a perfectly modern version on the line above, and that pairing is not a contradiction: it means the device offers both, and the old one is still there for anything that asks.
+
+**This version cannot encrypt.** SMB 2.0.2 and 2.1 have no encryption to offer at all, so anything sitting between your Mac and that device can read what passes over it. Encryption arrives with SMB 3.
+
+If Netfox cannot settle the SMB 1 question — the device stops answering, something on the path swallows the request — it says nothing at all rather than telling you it is off. A reassuring line about a question nobody managed to ask would be worse than no line.
+
+<Callout type="info">
+Both questions are the opening line of an ordinary file-sharing conversation, the part that happens before any login. Netfox sends no user name, no password and no share name, and it hangs up on the answer — nothing is mounted and nothing is listed.
+</Callout>
+
+The file-sharing card is hidden in [Demo Mode](/docs/settings#privacy). It never shows a name — but *this machine still answers SMB 1* is a fact about a real device on a real network, which is exactly what Demo Mode is there to keep off a screen.
+
 ## Local Services — what's listening on your own Mac
 
 Select **This Mac** in the device list and you get a tab no other device has: **Local Services**.

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.21.0 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.21.0</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p>0.21.0 asks a question about file sharing that most tools do not, and stops the landing screen from quietly costing you a processor.</p>
+<h2>Security</h2>
+<ul>
+<li><strong>Which version of file sharing a device speaks, and whether it still accepts the retired one.</strong> Port 445 gains a check in the port inspector that asks two questions rather than one: the version your Mac and that device would actually negotiate, and — separately — whether the device still accepts the version withdrawn in 2017. They have to be separate, because a device speaking only the old one does not answer a modern request at all, so a single check would report it as nothing rather than as the thing worth knowing. A version with no encryption to offer is named as such, and a reply that settled nothing is no longer reported as a refusal.</li>
+</ul>
+<h2>Performance</h2>
+<ul>
+<li><strong>The Overview no longer keeps a processor busy while you look at it.</strong> Its radar animated without end, redrawing the whole screen sixty times a second whether or not anything had moved — measured at 9.6% of a processor on that screen against 0.6% on any other. It now runs its sweep and stops.</li>
+<li><strong>The menus stop rebuilding themselves.</strong> What sits behind the menu bar is now compared before being republished, so a network that has not changed no longer causes work.</li>
+</ul>
+<h2>Privacy</h2>
+<ul>
+<li><strong>An opt-out that was not being obeyed.</strong> The Overview builds its link panel three ways depending on how wide the window is, and the arrangement the default size lands in skipped the guard — so with the outbound lookup switched off, that panel still reached outside your network. The two arrangements that were correct are the rare ones, which is why it lasted.</li>
+</ul>
+<h2>Languages</h2>
+<ul>
+<li>Three things were showing English to people who do not read it: the Ports tab described every service in English, the Settings search showed a setting's name in English beside its own translated section heading, and a port number was formatted as though it were a quantity — port 8,080 in English, 8.080 in German and Dutch, 8 080 in French. All fixed in all six languages, with a check that now looks for the whole class of mistake rather than for the instances somebody remembered.</li>
+</ul>
+<h2>Fixes</h2>
+<ul>
+<li>The explanatory (i) beside a figure is legible again.</li>
+</ul>
+</body>
+</html>
