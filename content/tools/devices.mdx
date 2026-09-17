@@ -27,6 +27,20 @@ Five providers run in parallel and merge their results into one record per physi
 Discovery is **read-only by default**. The only outbound traffic the device list generates on its own is the ICMP echo from the active probe — no port scans, no DHCP poking, nothing intrusive. Port scanning only happens when you ask for it, from the [Security](/docs/tools/security) tool.
 </Callout>
 
+### Finding devices that never speak
+
+Every provider above waits to be told. Bonjour and SSDP listen for whatever announces itself, the ARP cache holds whatever has already exchanged a packet with something, and the active probe only pings addresses one of the others has already produced. A device that is powered on, silent, and has never talked to this Mac is therefore invisible — not hard to find, but unreachable by construction.
+
+**Find silent devices**, in the range control beside the search box, asks instead of listening. Give it a range of addresses and Netfox sends one echo request to each; whatever answers arrives through the ordinary pipeline, with its identity, its history and its alerts intact.
+
+It doesn't invent rows. A reply proves a device is *there* and nothing else about it, so everything you then see on the row still comes from the providers above — a sweep makes a device discoverable, it doesn't describe it.
+
+The range has to lie inside this Mac's own subnet, and Netfox **refuses** one that reaches outside rather than trimming it to fit: a clamped range sweeps a different set of addresses from the one you typed, and nothing on screen would say so. The menu offers your own subnet as a preset, named for the interface it belongs to, so the common case is one click.
+
+<Callout type="info">
+No password, no helper, no special privileges. A sweep is capped at 1,024 addresses per run; a typical home subnet is 254 of them, which takes roughly fifteen seconds. Netfox shows how many have answered while it runs, and you can stop it at any point.
+</Callout>
+
 ## The device list
 
 This Mac sits at the top, pinned, with its current Wi-Fi/Ethernet badge. Below: online devices first, then offline. Each row shows hostname / IP / vendor (or your custom tag) plus a dot — green online, gray offline.
@@ -34,6 +48,7 @@ This Mac sits at the top, pinned, with its current Wi-Fi/Ethernet badge. Below: 
 ### Search and filter
 - The **search box**, pinned to the toolbar's trailing edge, filters by hostname, IPv4, IPv6, or MAC. Matches narrow the list live.
 - The **status filter pill** scopes the list to *All / Online / Offline* without clearing the search. Your choice sticks — across switching tools and across restarts — so a list you've scoped to *Online* stays that way. The search box deliberately doesn't persist: a forgotten search term hides devices with nothing on screen to explain why.
+- The **range control** scopes the list to a block of addresses. Set it to `192.168.1.1`–`192.168.1.2` and the list shows those two devices and nothing else: a range says which part of the network you care about, not only which part to ask. Sweeping sets it; **Filter only** sets it without the probe, for when you want the narrower list rather than a fresh look at it. While a range is active the control itself states it and offers to dismiss it, and the footer reads *2 in range — 33 on the network*. Naming that second number is the point, because a filter you have forgotten looks exactly like a network that has lost thirty devices. Like the search box, and unlike the status pill, it doesn't survive a restart.
 
 ![Searching the device list](/screenshot-device-search.png)
 
@@ -128,6 +143,16 @@ A picker above the list narrows it to one state, and each segment carries its co
 | **Filtered** | no answer at all, the probe timed out | something is dropping the packets; whether a service is behind it is unknown |
 
 Closed is a *no*. Filtered is a *silence*. A device that returns mostly closed ports is being straightforward with you; one that returns mostly filtered has a firewall in the way, and its real state is hidden.
+
+#### Who is holding the port
+
+On **This Mac**, each row also names what holds the port: the process, the user it runs as, and its process ID. Everything beyond that is in the sheet, one click away — three more sentences on every row would make this a control panel rather than a list.
+
+The sheet says how the port is managed, whether closing it can be undone, and either the action or the reason there isn't one.
+
+**Whether it comes back is read, not assumed**, and that distinction is the whole reason the line exists. A managed service set to stay running returns by itself after you stop it. One the system merely knows where to find does *not*: it stays stopped until something asks for it again. On the Mac this was measured on, 2 of 36 running services were set to restart themselves — so "it'll come back" would have been wrong about the other 34.
+
+Where Netfox can't offer the action it says why rather than hiding the button, and the two refusals get different sentences. *Owned by another user* leaves you guessing; *a system service holds it, and below 1024 that needs an administrator* tells you that no amount of clicking will help.
 
 ### Recent activity
 The last few transitions — online ↔ offline, IPv4 learned/changed, hostname changed, vendor learned, kind refined, ports opened/closed. *View Full History…* opens the complete timeline.

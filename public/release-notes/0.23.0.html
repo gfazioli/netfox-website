@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.23.0 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.23.0</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p>Netfox has always found devices by listening. This release lets it ask — and turns the range you ask about into a way of narrowing what you are looking at.</p>
+<h2>Find the devices that never speak</h2>
+<p>A device that is powered on, silent, and has never talked to your Mac was invisible by construction: everything Netfox knew came from what announces itself or from what has already exchanged a packet with something. <strong>Find silent devices</strong> sweeps a range of addresses and asks each one directly. Whatever answers arrives as an ordinary device, with its identity, its history and its alerts.</p>
+<p>It does not invent rows — a reply proves a device is <em>there</em> and nothing else about it, so the rest still comes from the usual sources. The range has to be inside your Mac's own subnet, and a range that reaches outside is refused rather than trimmed to fit, because a trimmed range sweeps a different set from the one you typed and nothing on screen would say so. Your own subnet is offered as a preset. No password, no helper, no privileges.</p>
+<h2>The range is also a filter</h2>
+<p>Set it to two addresses and the list shows those two. A range says which part of the network you care about, not only which part to ask about — so <strong>Filter only</strong> sits beside <strong>Sweep</strong> for when you want the narrower list without waiting for a probe.</p>
+<p>While a range is active, the control that set it says so and offers to clear it, and the footer reads <em>2 in range · 33 on the network</em>. That second number is the point: a filter you have forgotten looks exactly like a network that has lost thirty devices.</p>
+<h2>Who is holding a port on this Mac</h2>
+<p>The Ports tab now names what holds each port on your own machine — the process, the user it runs as, its ID — and a click deeper says how it is managed and <strong>whether closing it can be undone</strong>.</p>
+<p>That last answer is read from your Mac rather than assumed. Most services do not come back on their own once stopped: on the machine this was measured on, only 2 of 36 running services were set to restart themselves. So the sheet distinguishes the ones that return by themselves from the ones your Mac merely knows where to find again, instead of promising a restart it cannot deliver. Where the action is not available it says which of the two reasons applies, because <em>owned by another user</em> leaves you guessing where <em>a system service holds it, and below 1024 that needs an administrator</em> tells you that clicking will not help.</p>
+<h2>Faster answers</h2>
+<p>Inspecting a port that has closed since the last scan no longer keeps you waiting. A refusal is an answer and it arrives in about a millisecond; it was being read as a silence, so every inspection paid its full timeout behind a spinner, on something you had just clicked.</p>
+<h2>Fixes</h2>
+<ul>
+<li>The Overview's summary cards reach the right edge of the window instead of leaving an empty column beside them.</li>
+<li>The line under the Wi-Fi chips keeps one height whether the rate is holding, has just renegotiated, or has not been measured twice yet — a fast radio moving between 864 Mb/s and 1.4 Gb/s was resizing the whole card every couple of seconds.</li>
+<li>A sweep's replies now reach the device list. The first version of the feature ran to completion and could not move a single row.</li>
+<li>Opening a device from a search or an alert works even when a filter would otherwise hide it: the row is revealed rather than silently skipped.</li>
+</ul>
+</body>
+</html>
