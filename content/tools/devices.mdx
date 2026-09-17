@@ -52,6 +52,12 @@ This Mac sits at the top, pinned, with its current Wi-Fi/Ethernet badge. Below: 
 
 ![Searching the device list](/screenshot-device-search.png)
 
+### Opening a device is something only you do
+
+A scan finishing in the background used to be able to push a detail panel in front of you that you had never asked for. It cannot any more: the panel opens when you open it.
+
+The other half of that rule is the one that matters once you are filtering. Ask for a specific device — from the search box, from an alert, from the History window — and Netfox shows it to you even when the current scope would hide it, relaxing whatever stands in the way rather than silently doing nothing. An explicit request outranks a filter you set earlier and have stopped thinking about.
+
 ### Bell badge
 The bell in the toolbar carries a count of unread alerts. Click to open the inbox; click *Done* to mark them read and reset the badge to zero. The persistent **Alert History** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>A</Kbd>) keeps every alert ever raised, even after you've cleared the inbox.
 
@@ -67,6 +73,10 @@ MAC address, device kind (computer / phone / speaker / tablet / TV / printer / r
 0.17.0 widened that list after measuring what a real network answers for, and one of the additions fixes a blind spot rather than adding a nicety: HomeKit accessories advertise the Accessory Protocol, which Netfox was not looking for, so they were arriving as **Unknown** while the label existed and was unreachable. Screen sharing, scanning (both the modern and older spellings that multifunction printers use), Matter and Spotify Connect are recognised too.
 
 **Model** is the one identity signal on the network that isn't inferred. Where *Kind* and *Manufacturer* are worked out from the device's behaviour and its address, many devices state their model outright — `AppleTV5,3`, `Mac14,15`, `BRAVIA 4K GB ATV3` — and Netfox trusts that over everything else when deciding what a device is. It's what stops an Apple TV named "Living Room" from being filed as a phone: the name gives nothing away, and the services it speaks are the same ones a HomePod and a Mac use, but the model is unambiguous. Not everything publishes one; when nothing does, Netfox falls back to the services and the name as before.
+
+**System** says which operating system a device runs, read from the same record it states its Model in — so Apple hardware only, and only when the device answers. A sleeping device publishes nothing, and most rows simply never grow one.
+
+What the device actually states is an internal build number rather than the version you see in System Settings, so Netfox shows a name only where it can translate that number with certainty. Where it cannot, **the row is absent rather than showing a number that looks like a version and is not one**. That honesty has a cost worth knowing about: when a new macOS ships, its build number is one Netfox has not learned yet, so the row quietly disappears for Macs that have updated — which is why there is now a check that asks the Mac Netfox is running on whether it can name its own system, turning the next gap into something visible instead of a row that is silently not there.
 
 **Manufacturer** comes from the registered block a MAC address belongs to, matched against the full public IEEE registry — around 53,000 assignments, so nearly every real device resolves. Where it doesn't, the reason is usually not a gap:
 
