@@ -34,7 +34,7 @@ export function BuiltForMacSection() {
         <Text size="sm" fw={700} tt="uppercase" style={{ letterSpacing: 3 }} c="orange">
           Built for macOS
         </Text>
-        <Title order={2} ta="center" fz={{ base: 32, sm: 42 }} fw={900} c="white">
+        <Title order={2} ta="center" fz={{ base: 32, sm: 42 }} fw={900}>
           100% native SwiftUI. Fast. Familiar. Yours.
         </Title>
 
@@ -59,7 +59,7 @@ export function BuiltForMacSection() {
           ))}
         </Group>
 
-        <Text c="white" ta="center" size="lg" maw={600} mt="lg">
+        <Text c="dimmed" ta="center" size="lg" maw={600} mt="lg">
           No Electron. No web views. A real macOS app that feels like it belongs on your Mac.
         </Text>
       </Stack>

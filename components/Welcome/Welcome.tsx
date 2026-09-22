@@ -228,7 +228,11 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
   return (
     <>
       {/* ─── Hero ─── */}
-      <Box pos="relative" style={{ overflow: 'hidden' }}>
+      <Box
+        pos="relative"
+        className="nf-feather"
+        style={{ overflow: 'hidden', ['--nf-feather-top' as string]: '0px' }}
+      >
         {/*
           Logo-anchored mesh: the Netfox icon's foxhead pulls warm
           (orange/yellow) on a deep-blue backdrop, so the hero palette
@@ -522,20 +526,22 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
       <SolutionSection />
 
       {/* ─── Validation / testimonial (Chris Messina) ─── */}
+      {/*
+        A warm glow on the page's own surface, feathered at both edges, in
+        place of the dark slab between two rules it used to be.
+      */}
       <Box
         py={80}
+        className="nf-feather"
         style={{
           background:
-            'radial-gradient(60% 120% at 50% 0%, rgba(247, 103, 7, 0.1), transparent 70%), var(--mantine-color-dark-8)',
-          borderTop: '1px solid var(--mantine-color-dark-6)',
-          borderBottom: '1px solid var(--mantine-color-dark-6)',
+            'radial-gradient(60% 90% at 50% 50%, rgba(247, 103, 7, 0.12), transparent 70%)',
         }}
       >
-        <Container size="sm">
+        <Container size="sm" pos="relative" style={{ zIndex: 1 }}>
           <Stack align="center" gap="lg">
             <IconQuoteFilled size={44} color="var(--mantine-color-orange-5)" />
             <Text
-              c="gray.0"
               ta="center"
               fz={{ base: 24, sm: 30 }}
               fw={700}
@@ -543,13 +549,13 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
               style={{ lineHeight: 1.4 }}
             >
               If you take machine speak and convert it into humanese,{' '}
-              <Text span inherit c="orange.4">
+              <Text span inherit c="orange.7">
                 that&apos;s valuable.
               </Text>
             </Text>
             <Group gap="sm" justify="center" mt={4}>
               <Avatar src="/chris-messina.jpg" alt="Chris Messina" size="md" radius="xl" />
-              <Text c="gray.5" size="sm" fw={600}>
+              <Text c="dimmed" size="sm" fw={600}>
                 Chris Messina &middot; inventor of the hashtag
               </Text>
             </Group>
@@ -582,7 +588,7 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
                 <AccentCard accent={feature.accent} h="100%">
                   <Stack gap="md" align="flex-start">
                     <GradientIcon icon={feature.icon} />
-                    <Text fw={700} size="lg" c="white">
+                    <Text fw={700} size="lg">
                       {feature.title}
                     </Text>
                     <Text c="dimmed" size="sm">
@@ -598,7 +604,7 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
 
       {/* ─── Built for macOS  ⇣  Get Started CTA — one continuous Scene ─── */}
       {/*
-        These two sections share a single dark canvas with one Scene
+        These two sections share a single canvas with one Scene
         composition: the logo-anchored mesh drifts across both halves
         (warm anchors top where "Built for macOS" sits, cool anchors
         bottom where the CTA sits), Aurora bands stay warm-only on
@@ -608,26 +614,18 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
         it visually competed with the mesh and felt like a separate
         world from the section above.
       */}
-      <Box
-        pos="relative"
-        style={{
-          backgroundColor: 'var(--mantine-color-dark-8)',
-          overflow: 'hidden',
-        }}
-      >
+      <Box pos="relative" className="nf-feather" style={{ overflow: 'hidden' }}>
         <Scene lazy>
           <Scene.Mesh
             stops={[
               { color: 'orange', position: '15% 15%', spread: 50 },
               { color: 'yellow', position: '82% 12%', spread: 45 },
               { color: 'red', position: '50% 40%', spread: 55 },
-              // Cool anchors use brand-deep custom hex instead of
-              // Mantine theme `violet`/`blue` — `#6d6585` is the
-              // muted slate-purple bridge between the warm anchors
-              // and the deep navy `#0b183e` which echoes the
-              // Netfox logo backdrop.
-              { color: '#6d6585', position: '22% 78%', spread: 55 },
-              { color: '#0b183e', position: '80% 75%', spread: 60 },
+              // Cool anchors are the hero's own violet and blue. The
+              // deep navy they replaced echoed the logo's backdrop on a
+              // dark canvas; on the light page it painted a bruise.
+              { color: 'violet', position: '22% 78%', spread: 55 },
+              { color: 'blue', position: '80% 75%', spread: 60 },
             ]}
             opacity={0.22}
             animate
@@ -645,7 +643,7 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
         <BuiltForMacSection />
 
         {/* CTA sits in the lower half of the shared canvas, where the
-            cool mesh anchors (#6d6585 + #0b183e) take over from the
+            cool mesh anchors (violet + blue) take over from the
             warm top. The extra `py={80}` separates it from the
             BuiltForMac content above. */}
         <Box pos="relative" py={80}>
@@ -654,10 +652,10 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
               <Text size="sm" fw={700} tt="uppercase" style={{ letterSpacing: 3 }} c="orange">
                 Get Started
               </Text>
-              <Title order={2} ta="center" fz={{ base: 36, sm: 48 }} fw={900} c="white">
+              <Title order={2} ta="center" fz={{ base: 36, sm: 48 }} fw={900}>
                 Know your network. Always.
               </Title>
-              <Text c="white" ta="center" size="lg" maw={500}>
+              <Text c="dimmed" ta="center" size="lg" maw={500}>
                 Download Netfox and see who&apos;s really connected.
               </Text>
 
@@ -673,7 +671,7 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
               >
                 Download for macOS
               </Button>
-              <Text c="white" size="sm">
+              <Text c="dimmed" size="sm">
                 Free &middot; macOS 15.6 Sequoia or later
               </Text>
             </Stack>

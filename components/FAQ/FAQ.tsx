@@ -94,7 +94,18 @@ const faqItems = [
 
 export function FAQ() {
   return (
-    <Accordion variant="separated" radius="md">
+    // White items, like every other card on the page: the separated variant's
+    // own gray-0 read as a third surface between the page and the cards.
+    <Accordion
+      variant="separated"
+      radius="md"
+      styles={{
+        item: {
+          backgroundColor: 'var(--mantine-color-white)',
+          border: '1px solid var(--mantine-color-gray-3)',
+        },
+      }}
+    >
       {faqItems.map((item) => (
         <Accordion.Item key={item.value} value={item.value}>
           <Accordion.Control>{item.question}</Accordion.Control>
