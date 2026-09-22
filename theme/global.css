@@ -1,18 +1,35 @@
-* {
-  --marquee-fade-edge-color: var(--mantine-color-gray-1);
+/*
+ * Light-only. `color-scheme: light` is what keeps every `light-dark()` still
+ * in a module resolving to its light branch, and native controls light too.
+ */
+html {
+  color-scheme: light;
+}
 
-  @mixin dark {
-    --marquee-fade-edge-color: var(--mantine-color-dark-9);
-    --mantine-color-body: var(--mantine-color-dark-9);
-  }
+/*
+ * The page's own surface. One token, so everything that has to dissolve INTO
+ * the page (the marquee's fade, a section's feathered edge) names the same
+ * colour the body is painted with. gray-2 rather than gray-1: a shade under
+ * white is what lets the white cards read as objects on it.
+ *
+ * `dimmed` moves one step down the ladder with it. Mantine's own is gray-6,
+ * about 3:1 on this surface, which fails AA for body text; gray-7 clears it.
+ * The selector matches Mantine's own, or its rule wins on specificity.
+ */
+:root {
+  --nf-page: var(--mantine-color-gray-2);
+}
+
+:root[data-mantine-color-scheme='light'] {
+  --mantine-color-dimmed: var(--mantine-color-gray-7);
+}
+
+* {
+  --marquee-fade-edge-color: var(--nf-page);
 }
 
 body {
-  background-color: var(--mantine-color-gray-1);
-
-  @mixin dark {
-    background-color: var(--mantine-color-dark-9);
-  }
+  background-color: var(--nf-page);
 }
 
 .mantine-Button-root {

@@ -120,7 +120,7 @@ export const MantineFooter = () => {
           </Grid.Col>
         </Grid>
 
-        <Divider my="xl" className={classes.lastDivider} />
+        <Divider my="xl" />
 
         {/* Sponsors wall */}
         <Stack gap="md" align="center" id="sponsors" className={classes.sponsorsSection}>
@@ -217,7 +217,7 @@ export const MantineFooter = () => {
           <ShareButtons />
         </Stack>
 
-        <Divider my={16} className={classes.lastDivider} />
+        <Divider my={16} />
 
         <Group justify="center">
           <Group justify="center">

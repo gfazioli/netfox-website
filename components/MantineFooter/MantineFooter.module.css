@@ -1,7 +1,12 @@
+/*
+ * The footer sits on the page's own surface, with one hairline where it
+ * starts: a white slab under an inset shadow was a seam at the bottom of a
+ * page that otherwise has none.
+ */
 .contentFooter {
   padding-top: 32px;
-  background: var(--mantine-color-body);
-  box-shadow: inset 0px 4px 32px 0px #00000032;
+  background: var(--nf-page);
+  border-top: 1px solid var(--mantine-color-gray-3);
 }
 
 .footer {
@@ -16,16 +21,6 @@
 .columnAnchor {
   font-size: 12.8px !important;
   font-weight: 500 !important;
-}
-
-.lastDivider {
-  @mixin light {
-    box-shadow: 0 0px 20px 2px rgb(0, 0, 0, 0.2);
-  }
-
-  @mixin dark {
-    box-shadow: 0 3px 8px 2px rgb(0, 0, 0, 0.5);
-  }
 }
 
 .sponsorsSection {

@@ -57,7 +57,9 @@ The website serves as:
 ### Layout & Theme Integration
 
 - `app/layout.tsx` wraps the entire app in both `MantineProvider` and Nextra's `Layout`
-- Dark mode sync between Mantine and Nextra is handled by `MantineNextraThemeObserver`
+- **The site is LIGHT-ONLY** (2026-09-22, following lancetta-website): Mantine is `forceColorScheme="light"` on both `ColorSchemeScript` and `MantineProvider`, Nextra takes `darkMode={false}` and a forced `nextThemes` theme, and `html { color-scheme: light }` keeps any `light-dark()` on its light branch. The scheme switch and the Mantine/Nextra observer are gone. Forcing `ColorSchemeScript` matters: without it a visitor who used the old toggle stays on `dark` out of their own local storage.
+- **One surface, no bands.** The page colour is `--nf-page` (gray-2) in `theme/global.css`; sections sit on it rather than painting their own slab, and a section that does carry a wash (the hero, the Built-for-macOS + CTA canvas, the quote) takes `className="nf-feather"` (`app/global.css`), which dissolves the wash back into the page at its top and bottom edge. `--nf-feather-top: 0px` where a side meets nothing. Cards are white on it. The one dark object left is the mock app window in `SolutionSection`, on purpose: it is a picture of the app, which is always dark.
+- `--mantine-color-dimmed` is gray-7, not Mantine's gray-6, which is about 3:1 on gray-2 and fails AA.
 - Mantine theme overrides go in `theme.ts` (client-side `createTheme`)
 - Global site configuration (metadata, GitHub API, search, Nextra layout) lives in `config/index.ts`
 - Primary color: orange (matching Netfox app icon)
@@ -68,7 +70,6 @@ The website serves as:
 - `MantineNavBar` — top navigation with Netfox logo + GitHub link
 - `MantineFooter` — 4-column footer with highlights, resources, ecosystem links
 - `Welcome` — hero section with animated title, features grid, download CTA
-- `ColorSchemeControl` / `ColorSchemeToggle` — dark mode toggle
 - `ReleaseNotes` — fetches GitHub releases via `/api/github-releases`
 - `ProblemSection` / `SolutionSection` / `BuiltForMacSection` — marketing sections used by `Welcome`
 - `FAQ` — accordion-style FAQ, content driven by an array prop
@@ -125,3 +126,13 @@ Reasoning: end users care about what the feature does for them, not which vendor
 - **Linter**: oxlint + stylelint
 - **TypeScript**: 6.x
 - **Package Manager**: Yarn 4 (Berry). Do not use npm or pnpm.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

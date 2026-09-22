@@ -3,14 +3,11 @@
 import { Navbar } from 'nextra-theme-docs';
 import { ActionIcon, Group, Text, Tooltip } from '@mantine/core';
 import { IconCoffee, IconHeartFilled } from '@tabler/icons-react';
-import { ColorSchemeControl } from '../ColorSchemeControl/ColorSchemeControl';
 import { Logo } from '../Logo/Logo';
-import { MantineNextraThemeObserver } from '../MantineNextraThemeObserver/MantineNextraThemeObserver';
 
 export const MantineNavBar = () => {
   return (
     <>
-      <MantineNextraThemeObserver />
       <Navbar
         logo={
           <Group align="center" gap={8}>
@@ -30,7 +27,6 @@ export const MantineNavBar = () => {
           key prop" warning. Passing one concrete element neutralises it.
         */}
         <Group gap="sm" wrap="nowrap">
-          <ColorSchemeControl />
           <Tooltip label="Sponsor" withArrow>
             <ActionIcon
               component="a"

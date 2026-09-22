@@ -58,6 +58,37 @@
       }
     }
   }
+
+  /*
+   * A full-bleed section wash, feathered back to the page colour at its own
+   * top and bottom edge (ported from lancetta-website, where the same seams
+   * were measured). A wash at full strength exactly where its section begins
+   * draws a hard line across the page, and a line across the page reads as a
+   * rule: the page looks ruled into strips. This restores the page colour at
+   * the boundary and dissolves it inward, so two sections meet through a
+   * stretch of page rather than at an edge.
+   *
+   * An overlay rather than a `mask-image`, because the washes are painted by
+   * <Scene>, whose layers are CHILDREN of the section: masking the section
+   * would mask its copy too. `z-index: 0` sits above the wash and below the
+   * content, which these sections pin at `zIndex: 1`. Lengths, not
+   * percentages: a percentage of a tall section dissolves the section, not
+   * its edge. Set `--nf-feather-top: 0` where a side has nothing to meet.
+   */
+  .nf-feather {
+    position: relative;
+  }
+
+  .nf-feather::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background:
+      linear-gradient(to bottom, var(--nf-page) 0, transparent var(--nf-feather-top, 110px)),
+      linear-gradient(to top, var(--nf-page) 0, transparent var(--nf-feather-bottom, 110px));
+    pointer-events: none;
+  }
 }
 
 @layer components, mantine, nextra, overwrite;

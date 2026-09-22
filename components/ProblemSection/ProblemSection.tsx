@@ -11,7 +11,7 @@ import accentClasses from '@/components/AccentCard/AccentCard.module.css';
  * the card surface, the icon chip gradient, and the hover glow.
  *
  * Mantine theme tokens (`*-5`) sit in the middle of the shade ramp
- * — saturated enough to read on the dark backdrop without going
+ * — saturated enough to read on the white card without going
  * neon at the gentle mix percentages the CSS uses.
  */
 const problems = [
@@ -59,7 +59,7 @@ export function ProblemSection() {
             <AccentCard key={item.title} accent={item.accent}>
               <Stack gap="md">
                 <GradientIcon icon={item.icon} />
-                <Text fw={700} size="lg" c="white">
+                <Text fw={700} size="lg">
                   {item.title}
                 </Text>
                 <Text c="dimmed" size="sm">

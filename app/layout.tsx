@@ -29,10 +29,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" dir="ltr" {...mantineHtmlProps}>
       <Head>
-        <ColorSchemeScript
-          nonce={head.mantine.nonce}
-          defaultColorScheme={head.mantine.defaultColorScheme}
-        />
+        {/*
+          Forced, not defaulted. The site is light-only: `forceColorScheme`
+          makes the pre-hydration script write `light` whatever is in local
+          storage, so a visitor who toggled the old switch is not left on a
+          dark scheme the stylesheets no longer carry.
+        */}
+        <ColorSchemeScript nonce={head.mantine.nonce} forceColorScheme="light" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -44,7 +47,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </Head>
       <body>
         <StructuredData />
-        <MantineProvider theme={theme} defaultColorScheme={head.mantine.defaultColorScheme}>
+        <MantineProvider theme={theme} forceColorScheme="light">
           <Layout
             banner={
               <Banner storageKey={`netfox-release-${config.app.version}`}>
@@ -67,12 +70,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             footer={<MantineFooter />}
             sidebar={nextraLayout.sidebar}
             /*
-              First visit defaults to dark (the brand scheme); the toggle still
-              works. Mantine's defaultColorScheme already says 'dark', but the
-              theme observer follows Nextra, whose own default is 'system' — so
-              without this the site silently tracked the OS. Pin Nextra to dark too.
+              Light-only, on both sides. Mantine is forced above; Nextra is
+              forced here, or its own default ('system') would follow the OS
+              and paint the docs chrome dark under a light page.
             */
-            nextThemes={{ defaultTheme: 'dark' }}
+            darkMode={false}
+            nextThemes={{ defaultTheme: 'light', forcedTheme: 'light' }}
           >
             {children}
           </Layout>

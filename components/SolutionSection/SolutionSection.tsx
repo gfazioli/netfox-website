@@ -152,21 +152,18 @@ export function SolutionSection() {
   }, []);
 
   return (
-    <Box
-      py={80}
-      style={{
-        backgroundColor: 'var(--mantine-color-dark-8)',
-      }}
-    >
+    // No band of its own: the section sits on the page's surface, so the hero
+    // runs straight into it without a seam.
+    <Box py={80}>
       <Container size="lg">
         <Stack align="center" gap="md" mb={48}>
           <Text size="sm" fw={700} tt="uppercase" style={{ letterSpacing: 3 }} c="orange">
             The Solution
           </Text>
-          <Title order={2} ta="center" fz={{ base: 32, sm: 42 }} fw={900} c="white">
+          <Title order={2} ta="center" fz={{ base: 32, sm: 42 }} fw={900}>
             The same network — finally readable.
           </Title>
-          <Text c="gray.5" ta="center" size="lg" maw={620} mx="auto">
+          <Text c="dimmed" ta="center" size="lg" maw={620} mx="auto">
             Netfox enriches every device — vendor, real identity, and what it’s exposing — and flags
             what your router never would. See it in a full window or right from the menu bar.
           </Text>
@@ -186,9 +183,9 @@ export function SolutionSection() {
               key={t.before}
               radius="lg"
               p="lg"
-              bg="var(--mantine-color-dark-7)"
+              bg="var(--mantine-color-white)"
               style={{
-                border: '1px solid var(--mantine-color-dark-5)',
+                border: '1px solid var(--mantine-color-gray-3)',
                 ['--reveal-delay' as string]: `${i * 120}ms`,
               }}
             >
@@ -199,7 +196,7 @@ export function SolutionSection() {
                     size="xs"
                     tt="uppercase"
                     fw={700}
-                    c="gray.6"
+                    c="dimmed"
                     style={{ letterSpacing: 2 }}
                     mb={6}
                   >
@@ -210,7 +207,7 @@ export function SolutionSection() {
                       ones (dev-server.local, the MAC) — keeps the arrow
                       marker aligned across all four cards. */}
                   <Text
-                    c="gray.5"
+                    c="gray.7"
                     fz={14}
                     style={{
                       fontFamily: 'monospace',
@@ -226,13 +223,13 @@ export function SolutionSection() {
                 {/* transform marker */}
                 <Group gap="xs" align="center" wrap="nowrap">
                   <Box
-                    style={{ flex: 1, height: 1, backgroundColor: 'var(--mantine-color-dark-4)' }}
+                    style={{ flex: 1, height: 1, backgroundColor: 'var(--mantine-color-gray-3)' }}
                   />
                   <ThemeIcon size="sm" radius="xl" variant="light" color="orange">
                     <IconArrowDown size={14} />
                   </ThemeIcon>
                   <Box
-                    style={{ flex: 1, height: 1, backgroundColor: 'var(--mantine-color-dark-4)' }}
+                    style={{ flex: 1, height: 1, backgroundColor: 'var(--mantine-color-gray-3)' }}
                   />
                 </Group>
 
@@ -252,13 +249,7 @@ export function SolutionSection() {
                       height as the longest (the exposed-Postgres card) —
                       keeps the "Netfox tells you" label and the pill aligned
                       across all four cards. */}
-                  <Text
-                    c="white"
-                    fw={600}
-                    fz={15}
-                    style={{ lineHeight: 1.4, minHeight: '4.2em' }}
-                    mb={10}
-                  >
+                  <Text fw={600} fz={15} style={{ lineHeight: 1.4, minHeight: '4.2em' }} mb={10}>
                     {t.after}
                   </Text>
                   <Badge variant="light" color={t.pillColor} size="sm" radius="sm">

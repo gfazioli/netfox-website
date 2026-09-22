@@ -1,11 +1,10 @@
 /*
  * Raycast-inspired card surface, shared between ProblemSection's
  * "what's wrong with the alternatives" trio and Welcome.tsx's
- * "Features" grid. The visual is identical across both: the dark
+ * "Features" grid. The visual is identical across both: the white
  * card gets a per-card accent color (passed via `--card-accent`)
  * that radiates from the top-left corner, fades to neutral by
- * mid-card, and intensifies on hover. The 1px top-edge highlight
- * (`inset 0 1px 0 …`) simulates light catching the lifted surface.
+ * mid-card, and intensifies on hover.
  *
  * Hosting both effects in one module avoids drift — when someone
  * tweaks the accent strength or hover glow, every accent card on
@@ -16,14 +15,12 @@
   background:
     radial-gradient(
       140% 90% at 0% 0%,
-      color-mix(in srgb, var(--card-accent) 18%, transparent),
+      color-mix(in srgb, var(--card-accent) 12%, transparent),
       transparent 55%
     ),
-    var(--mantine-color-dark-7);
-  border: 1px solid color-mix(in srgb, var(--mantine-color-dark-3) 60%, transparent);
-  box-shadow:
-    inset 0 1px 0 0 rgb(255 255 255 / 6%),
-    0 1px 2px rgb(0 0 0 / 40%);
+    var(--mantine-color-white);
+  border: 1px solid var(--mantine-color-gray-3);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 6%);
   transition:
     transform 200ms ease,
     box-shadow 200ms ease,
@@ -32,11 +29,10 @@
 
 .card:hover {
   transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--card-accent) 40%, var(--mantine-color-dark-3));
+  border-color: color-mix(in srgb, var(--card-accent) 45%, var(--mantine-color-gray-3));
   box-shadow:
-    inset 0 1px 0 0 rgb(255 255 255 / 8%),
-    0 12px 32px -12px color-mix(in srgb, var(--card-accent) 35%, transparent),
-    0 2px 4px rgb(0 0 0 / 50%);
+    0 12px 32px -12px color-mix(in srgb, var(--card-accent) 40%, transparent),
+    0 2px 4px rgb(0 0 0 / 8%);
 }
 
 /*
@@ -79,8 +75,8 @@
  * surrounding paragraph instead of jumping to a new line.
  */
 .highlightPill {
-  background-color: color-mix(in srgb, var(--mantine-color-orange-5) 18%, transparent);
-  color: var(--mantine-color-orange-3);
+  background-color: color-mix(in srgb, var(--mantine-color-orange-5) 14%, transparent);
+  color: var(--mantine-color-orange-9);
   padding: 1px 8px;
   border-radius: 4px;
   font-weight: 600;
