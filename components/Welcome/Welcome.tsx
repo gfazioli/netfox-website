@@ -1,13 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
-import { DepthSelect, type DepthSelectItem } from '@gfazioli/mantine-depth-select';
 import { Scene } from '@gfazioli/mantine-scene';
 import { TextAnimate } from '@gfazioli/mantine-text-animate';
 import {
   IconDownload,
-  IconArrowLeft,
   IconArrowRight,
   IconBell,
   IconClock,
@@ -21,7 +18,6 @@ import {
   IconQuoteFilled,
 } from '@tabler/icons-react';
 import {
-  ActionIcon,
   Avatar,
   Badge,
   Box,
@@ -35,6 +31,7 @@ import {
   Title,
 } from '@mantine/core';
 import config from '@/config';
+import { ScreenshotGallery } from '@/components/ScreenshotGallery/ScreenshotGallery';
 import { ShareButtons } from '@/components/ShareButtons/ShareButtons';
 import { ReleaseCadence } from '@/components/ReleaseCadence/ReleaseCadence';
 import {
@@ -50,13 +47,9 @@ import accentClasses from '../AccentCard/AccentCard.module.css';
 import classes from './Welcome.module.css';
 
 /**
- * Hero screenshots, one per top-level tool. Kept as a flat data array
- * so it drives two things from one source: the `DepthSelect` card stack
- * (`heroSlides`) and the custom controls below it (which need the human
- * label + position). The screenshots are 3072×1886 PNGs — that ratio is
- * mirrored on the slideshow wrapper so each image fills its card exactly,
- * which is what lets the depth-stack peek read (a shorter card would hide
- * the scaled-down cards behind the front one).
+ * Hero screenshots, one per top-level tool, shown side by side by
+ * `ScreenshotGallery`. The captures are 3072×1886 PNGs, and that ratio is
+ * applied to every tile so the two rows keep one height.
  */
 const HERO_SCREEN_RATIO = '3072 / 1886';
 
@@ -74,7 +67,6 @@ const FEATURE_LINK_STYLE = {
 
 const heroScreens = [
   {
-    value: 'overview',
     label: 'Overview',
     src: '/screenshot-overview.png',
     alt: 'Netfox — Overview dashboard',
@@ -83,36 +75,21 @@ const heroScreens = [
   // ratio); the docs Wi-Fi page keeps the fuller detail-panel
   // screenshot (`/screenshot-wifi.png`).
   {
-    value: 'wifi',
     label: 'Wi-Fi',
     src: '/screenshot-hero-wifi.png',
     alt: 'Netfox — Wi-Fi diagnostics',
   },
   {
-    value: 'devices',
     label: 'Devices',
     src: '/screenshot-devices.png',
     alt: 'Netfox — Devices and history',
   },
   {
-    value: 'security',
     label: 'Security',
     src: '/screenshot-security.png',
     alt: 'Netfox — Security findings',
   },
 ];
-
-const heroSlides: DepthSelectItem[] = heroScreens.map((screen) => ({
-  value: screen.value,
-  view: (
-    <Image
-      src={screen.src}
-      alt={screen.alt}
-      display="block"
-      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-    />
-  ),
-}));
 
 /**
  * Each feature's `accent` is consumed by `AccentCard` as the
@@ -211,20 +188,6 @@ const features = [
  * mounts the hero without the server fetch.
  */
 export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cadence }) {
-  // Slideshow is controlled so the custom controls below the stack can
-  // drive it (the built-in controls are turned off). Prev/Next wrap
-  // around the four screens.
-  const [activeScreen, setActiveScreen] = useState(heroScreens[0].value);
-  const activeIndex = Math.max(
-    0,
-    heroScreens.findIndex((s) => s.value === activeScreen)
-  );
-  const stepScreen = (delta: number) => {
-    const count = heroScreens.length;
-    const next = (activeIndex + delta + count) % count;
-    setActiveScreen(heroScreens[next].value);
-  };
-
   return (
     <>
       {/* ─── Hero ─── */}
@@ -440,76 +403,14 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
             </Group>
           </Stack>
 
-          {/* ─── Hero slideshow ─── */}
+          {/* ─── Hero screens ─── */}
           {/*
-            Four-deep stack showing Overview → Wi-Fi → Devices →
-            Security, driven by `@gfazioli/mantine-depth-select` (the
-            3D-stack component the user maintains as a Mantine extension).
-
-            Layout notes:
-            - The wrapper mirrors the screenshots' 3072×1886 aspect ratio
-              and the DepthSelect runs `h="100%"`, so each image fills its
-              card exactly. This is what makes the depth peek read — with a
-              taller fixed height the image sat top-aligned inside the card
-              and the scaled-down cards behind hid entirely behind the front.
-            - `translateYStep={72}` overrides the component default (30, tuned
-              for short ~200px cards). At our ~675px card height the default
-              offset was smaller than the per-level scale shrink, so nothing
-              peeked; 72 restores a clear, monotonic upward fan (~31/48/50px
-              peeks) that stays within the `mt` headroom above.
-            - Built-in controls are off; custom Prev/Next controls sit below
-              the stack (the docs' "Custom controls" pattern), driven by the
-              controlled `value`/`onChange`.
-            - `mt` leaves headroom for the cards that peek above the front one.
+            The four tools side by side, each one opening full size. It
+            replaces a 3D card stack, which showed one screen and hid three
+            behind it, and which read as a dark block on the light page.
           */}
           <Box mt={72} mb={80} maw={1100} mx="auto">
-            {/*
-              position:relative + the DepthSelect pinned inset:0 inside an
-              aspect-ratio box. A bare `h="100%"` doesn't resolve against a
-              height that itself comes from `aspect-ratio`, so the stack
-              collapsed to 0 — pinning with inset sidesteps the percentage
-              chain entirely while still tracking the box's responsive height.
-            */}
-            <Box style={{ aspectRatio: HERO_SCREEN_RATIO, position: 'relative' }}>
-              <DepthSelect
-                data={heroSlides}
-                value={activeScreen}
-                onChange={(value) => setActiveScreen(String(value))}
-                visibleCards={4}
-                loop
-                ariaLabel="Netfox screenshots"
-                withControls={false}
-                translateYStep={72}
-                w="100%"
-                h="100%"
-                style={{ position: 'absolute', inset: 0 }}
-              />
-            </Box>
-
-            {/* Custom controls — Prev · label · Next */}
-            <Group justify="center" gap="md" mt="xl">
-              <ActionIcon
-                variant="default"
-                radius="xl"
-                size="lg"
-                onClick={() => stepScreen(-1)}
-                aria-label="Previous screenshot"
-              >
-                <IconArrowLeft size={18} />
-              </ActionIcon>
-              <Text fw={600} c="dimmed" ta="center" w={110}>
-                {heroScreens[activeIndex].label}
-              </Text>
-              <ActionIcon
-                variant="default"
-                radius="xl"
-                size="lg"
-                onClick={() => stepScreen(1)}
-                aria-label="Next screenshot"
-              >
-                <IconArrowRight size={18} />
-              </ActionIcon>
-            </Group>
+            <ScreenshotGallery screens={heroScreens} ratio={HERO_SCREEN_RATIO} />
           </Box>
         </Container>
       </Box>
@@ -525,15 +426,16 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
 
       {/* ─── Validation / testimonial (Chris Messina) ─── */}
       {/*
-        A warm glow on the page's own surface, feathered at both edges, in
-        place of the dark slab between two rules it used to be.
+        An azure glow (the top of the icon's plate) on the page's own surface,
+        feathered at both edges, in place of the dark slab between two rules it
+        used to be. Not orange: a warm wash on this cool page turned to mud.
       */}
       <Box
         py={80}
         className="nf-feather"
         style={{
           background:
-            'radial-gradient(60% 90% at 50% 50%, rgba(247, 103, 7, 0.12), transparent 70%)',
+            'radial-gradient(60% 90% at 50% 50%, rgba(179, 201, 252, 0.55), transparent 70%)',
         }}
       >
         <Container size="sm" pos="relative" style={{ zIndex: 1 }}>

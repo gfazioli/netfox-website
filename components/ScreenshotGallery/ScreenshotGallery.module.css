@@ -1,0 +1,77 @@
+.tile {
+  display: block;
+  border-radius: var(--mantine-radius-lg);
+
+  &:focus-visible {
+    outline: 2px solid var(--mantine-color-orange-6);
+    outline-offset: 4px;
+  }
+}
+
+/*
+ * A white mat around each capture, the same object as every card on the
+ * page, so a dark screen sits on the light page as a picture rather than as
+ * a hole in it.
+ */
+.frame {
+  position: relative;
+  overflow: hidden;
+  padding: 8px;
+  border-radius: var(--mantine-radius-lg);
+  background: var(--mantine-color-white);
+  border: 1px solid var(--nf-rule);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 6%);
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  border-radius: calc(var(--mantine-radius-lg) - 6px);
+}
+
+.zoom {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: var(--mantine-color-white);
+  background: rgb(0 0 0 / 45%);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.tile:hover .frame,
+.tile:focus-visible .frame {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px -14px rgb(83 68 168 / 45%);
+}
+
+.tile:hover .zoom,
+.tile:focus-visible .zoom {
+  opacity: 1;
+}
+
+.modalTitle {
+  font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frame {
+    transition: none;
+  }
+
+  .tile:hover .frame {
+    transform: none;
+  }
+}
