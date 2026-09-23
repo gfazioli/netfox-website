@@ -7,21 +7,31 @@ html {
 }
 
 /*
- * The page's own surface. One token, so everything that has to dissolve INTO
- * the page (the marquee's fade, a section's feathered edge) names the same
- * colour the body is painted with. gray-2 rather than gray-1: a shade under
- * white is what lets the white cards read as objects on it.
+ * The page's own surface, and the two values cut from it. They are sampled
+ * from the app icon, not picked: its plate runs from periwinkle at the top
+ * (#B3C9FC) to indigo at the bottom (#5344A8), all of it on a hue of about
+ * 235°, and these three sit on that hue so the page reads as the icon's
+ * backdrop seen in daylight rather than as a neutral grey beside it.
  *
- * `dimmed` moves one step down the ladder with it. Mantine's own is gray-6,
- * about 3:1 on this surface, which fails AA for body text; gray-7 clears it.
- * The selector matches Mantine's own, or its rule wins on specificity.
+ * - `--nf-page`   hsl(235 55% 95%), the plate lightened almost to white.
+ * - `--nf-rule`   hsl(235 45% 88%), the same hue a step down, for every
+ *                 hairline and card edge.
+ * - `dimmed`      hsl(235 20% 35%), the icon's navy fur muted to text weight:
+ *                 about 7:1 on the page. Mantine's own gray-6 is about 3:1 on
+ *                 a surface this dark, and fails AA. The selector matches
+ *                 Mantine's own, or its rule wins on specificity.
+ *
+ * One token each, so everything that has to dissolve INTO the page (the
+ * marquee's fade, a section's feathered edge) names the colour the body is
+ * painted with.
  */
 :root {
-  --nf-page: var(--mantine-color-gray-2);
+  --nf-page: #ebecf9;
+  --nf-rule: #d3d5ee;
 }
 
 :root[data-mantine-color-scheme='light'] {
-  --mantine-color-dimmed: var(--mantine-color-gray-7);
+  --mantine-color-dimmed: #474a6b;
 }
 
 * {
