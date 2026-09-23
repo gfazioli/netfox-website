@@ -15,9 +15,8 @@ html {
  * than as a neutral grey beside it.
  *
  * - `--nf-page`   hsl(222 70% 89%), the azure lightened, well off white.
- * - `--nf-top`    #afc4fa, the icon's own azure (its top edge, #b3c9fc, a
- *                 hair deeper): where the home page starts, fading to
- *                 --nf-page.
+ * - `--nf-top`    the colour the home page starts with (the fur's navy),
+ *                 which the navbar takes there so the two read as one.
  * - `--nf-rule`   hsl(222 55% 80%), the same hue a step down, for every
  *                 hairline and card edge.
  * - `dimmed`      hsl(222 25% 33%), the icon's navy fur muted to text weight:
@@ -29,8 +28,28 @@ html {
  * painted with.
  */
 :root {
+  /*
+   * The logo's palette, sampled by k-means over the icon, in its three
+   * families. Every colour on the site is one of these or cut from one.
+   *
+   *   plate   #abbef4 azure · #8f97d5 periwinkle · #706ebb · #5b51ac indigo
+   *   fur     #364471 · #151d41 navy · #050314 near-black
+   *   fox     #fc9f1b amber · #da5b06 orange · #8b2f08 rust · #eae2d8 cream
+   */
+  --nf-azure: #abbef4;
+  --nf-periwinkle: #8f97d5;
+  --nf-lavender: #706ebb;
+  --nf-indigo: #5b51ac;
+  --nf-fur: #364471;
+  --nf-navy: #151d41;
+  --nf-night: #050314;
+  --nf-amber: #fc9f1b;
+  --nf-orange: #da5b06;
+  --nf-rust: #8b2f08;
+  --nf-cream: #eae2d8;
+
   --nf-page: #cfdbf7;
-  --nf-top: #afc4fa;
+  --nf-top: var(--nf-navy);
   --nf-rule: #b0c1e8;
 }
 
@@ -51,19 +70,17 @@ html:root[data-mantine-color-scheme='light'] {
    * orange-6 read 1.6-1.9:1 as text on the page and white on it read 2.6:1,
    * against 4.5 needed. Each role is cut darker until it passes:
    *
-   * - `--nf-ink`      #9a3412, text and links: 5.2:1 on --nf-page.
-   * - `--nf-fill`     #c2410c, buttons and badges under white text: 5.2:1.
-   * - `--nf-display`  #c2410c, text at display size, which needs 3:1: 3.7:1.
+   * - `--nf-ink`      the logo's rust, text and links on the light page.
+   * - fill            the logo's amber, which theme.ts makes orange-6: buttons
+   *                   and badges, dark text on it through autoContrast.
+   * - `--nf-display`  rust again on the light page; the dark hero uses amber.
    *
-   * Mantine's own orange variables point at them, so every `c="orange"`,
-   * every filled or light orange control and every anchor follows.
+   * Mantine's own orange text, light and anchor variables point at them, so
+   * every `c="orange"` and every anchor follows.
    */
-  --nf-ink: #9a3412;
-  --nf-fill: #c2410c;
-  --nf-display: #c2410c;
+  --nf-ink: var(--nf-rust);
+  --nf-display: var(--nf-rust);
   --mantine-color-orange-text: var(--nf-ink);
-  --mantine-color-orange-filled: var(--nf-fill);
-  --mantine-color-orange-filled-hover: var(--nf-ink);
   --mantine-color-orange-light-color: var(--nf-ink);
   --mantine-color-anchor: var(--nf-ink);
 }
@@ -77,8 +94,13 @@ body {
 }
 
 /*
- * The home page starts dark and lightens as it goes down, the way the icon's
- * plate does. On the BODY rather than on the hero, so it also runs behind the
+ * The home page starts at night and lightens as it goes down: the fox's navy
+ * fur, then the plate from indigo through periwinkle into the page. The
+ * hero's copy sits on the dark half, which is what lets its title be white
+ * and its accent the fox's amber. Stops are placed from measured positions:
+ * every line of the hero's copy, down to the share icons, sits above 1240 on
+ * navy-to-fur, and the tool tour's first copy starts below 1450, on the light
+ * page, because its text is dark. The turn happens in the gap between them. On the BODY rather than on the hero, so it also runs behind the
  * translucent navbar instead of starting under it with a seam. It lands on
  * --nf-page at a fixed length and stays there: every feathered section below
  * dissolves into --nf-page, and a page still changing colour there would give
@@ -88,7 +110,15 @@ body {
  */
 body:has(.nf-home) {
   background:
-    linear-gradient(to bottom, var(--nf-top) 0, var(--nf-page) 1800px) no-repeat,
+    linear-gradient(
+        to bottom,
+        var(--nf-navy) 0,
+        var(--nf-fur) 1000px,
+        var(--nf-indigo) 1240px,
+        var(--nf-periwinkle) 1340px,
+        var(--nf-page) 1450px
+      )
+      no-repeat,
     var(--nf-page);
 }
 

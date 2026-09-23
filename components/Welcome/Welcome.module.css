@@ -1,10 +1,33 @@
+/*
+ * The hero's copy sits on the night half of the page gradient (the fox's navy
+ * fur), so it is written in the night's colours. Redefining Mantine's own
+ * variables here rather than colouring each element: every c="dimmed",
+ * c="orange", subtle orange button and anchor inside follows by itself.
+ *
+ * Measured on the navy: white 13:1, the white-86% lead about 10:1, the
+ * fox's amber 7.8:1, and 4.7:1 where the night is lightest.
+ */
+.night {
+  --mantine-color-text: var(--mantine-color-white);
+  --mantine-color-dimmed: rgb(255 255 255 / 86%);
+  --mantine-color-orange-text: var(--nf-amber);
+  --mantine-color-orange-light-color: var(--nf-amber);
+  --mantine-color-orange-light-hover: rgb(252 159 27 / 14%);
+  /* A lighter cut of the amber for small links: the release strip's link
+     sits where the navy has begun turning to indigo, under a glass pill,
+     and the amber itself measured 3.96:1 there. */
+  --mantine-color-anchor: #ffc066;
+
+  color: var(--mantine-color-white);
+}
+
 .title {
-  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
-  font-size: rem(100px);
+  color: var(--mantine-color-white);
+  font-size: rem(84px);
   font-weight: 900;
   letter-spacing: rem(-2px);
 
   @media (max-width: $mantine-breakpoint-md) {
-    font-size: rem(50px);
+    font-size: rem(44px);
   }
 }

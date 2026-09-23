@@ -289,7 +289,7 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
           <Scene.Noise opacity={0.022} />
         </Scene>
         <Container size="lg" pos="relative" style={{ zIndex: 1 }}>
-          <Stack align="center" gap="xl" py={80}>
+          <Stack align="center" gap="xl" py={80} className={classes.night}>
             <Badge
               size="lg"
               variant="filled"
@@ -334,9 +334,9 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
                   duration={1.5}
                   animation="scale"
                   animateProps={{ scaleAmount: 2 }}
-                  // Rust to burnt orange, not orange to yellow: yellow on this azure
-                  // measured about 1.3:1, and a display line needs 3.
-                  gradient={{ from: 'var(--nf-ink)', to: 'var(--nf-display)' }}
+                  // The fox's amber into its orange, on the night half of the
+                  // page: 7.8:1 and 4.2:1 on navy, against 3 needed at this size.
+                  gradient={{ from: 'var(--nf-amber)', to: 'var(--nf-orange)' }}
                 >
                   in plain English.
                 </TextAnimate>
@@ -434,9 +434,11 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
           </Stack>
 
           {/* ─── The four tools, screen beside copy ─── */}
-          {/* mt 16: the stack above already ends on 80px of padding, and the
-              first capture adds its own transparent margin on top. */}
-          <Box mt={16} mb={96}>
+          {/* The room between the share icons and the first tool is where the
+              page turns from night to day (see the gradient's stops in
+              theme/global.css): the tour's copy is dark and must start on the
+              light page. */}
+          <Box mt={120} mb={96}>
             <ToolTour frames={tourFrames} />
           </Box>
         </Container>

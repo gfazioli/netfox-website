@@ -32,6 +32,38 @@
     background-color: color-mix(in srgb, var(--nf-top) 78%, transparent);
   }
 
+  /* On the home page the bar is on the night: its text goes light with it. */
+  body:has(.nf-home) .nextra-navbar nav {
+    --mantine-color-text: var(--mantine-color-white);
+
+    color: var(--mantine-color-white);
+
+    & > div a,
+    & > div button {
+      color: rgb(255 255 255 / 82%);
+
+      &:hover,
+      &[aria-current='true'] {
+        color: var(--mantine-color-white);
+      }
+    }
+
+    & input {
+      background-color: rgb(255 255 255 / 10%);
+      color: var(--mantine-color-white);
+
+      &::placeholder {
+        color: rgb(255 255 255 / 65%);
+      }
+    }
+
+    & kbd {
+      background-color: rgb(255 255 255 / 12%);
+      border-color: rgb(255 255 255 / 18%);
+      color: rgb(255 255 255 / 80%);
+    }
+  }
+
   .x\:text-sm {
     font-size: var(--x-text-sm) !important;
     line-height: var(--tw-leading, var(--x-text-sm--line-height)) !important;
