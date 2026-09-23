@@ -131,8 +131,79 @@
   }
 }
 
-.modalTitle {
+/* ---------------------------------------------------------- the lightbox */
+
+.lightbox {
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+  max-width: none;
+}
+
+.lightboxBody {
+  padding: 0;
+}
+
+.stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: rem(12px);
+  width: 96vw;
+  outline: none;
+}
+
+/*
+ * The largest the viewport holds, whichever way it is short: the bar below
+ * and the modal's own inset are what the height leaves out.
+ */
+.full {
+  display: block;
+  max-width: min(96vw, rem(1680px));
+  max-height: calc(100dvh - rem(150px));
+  width: auto;
+  height: auto;
+}
+
+.close,
+.nav {
+  color: var(--mantine-color-white);
+  background: rgb(255 255 255 / 12%);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgb(255 255 255 / 18%);
+
+  &:hover {
+    background: rgb(255 255 255 / 22%);
+  }
+}
+
+.close {
+  position: fixed;
+  top: rem(20px);
+  right: rem(20px);
+  z-index: 2;
+}
+
+.caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: rem(120px);
+  color: var(--mantine-color-white);
+}
+
+.captionName {
+  font-size: rem(15px);
   font-weight: 700;
+  letter-spacing: rem(2px);
+  text-transform: uppercase;
+}
+
+.captionCount {
+  color: rgb(255 255 255 / 65%);
+  font-size: rem(13px);
+  font-variant-numeric: tabular-nums;
 }
 
 /* One column below 62em: screen over copy, in reading order. */

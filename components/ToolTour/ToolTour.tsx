@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { IconArrowLeft, IconArrowRight, IconArrowsMaximize } from '@tabler/icons-react';
-import { ActionIcon, Box, Group, Image, Modal, Text, UnstyledButton } from '@mantine/core';
+import { IconArrowLeft, IconArrowRight, IconArrowsMaximize, IconX } from '@tabler/icons-react';
+import { ActionIcon, Group, Image, Modal, Text, UnstyledButton } from '@mantine/core';
 import classes from './ToolTour.module.css';
 
 export interface TourFrame {
@@ -98,43 +98,79 @@ export function ToolTour({ frames }: { frames: TourFrame[] }) {
         ))}
       </div>
 
+      {/*
+        A lightbox, not a dialog: no panel, no header, the screen floating on
+        the dimmed page at the largest size the viewport holds, with its name
+        and the paging under it. A white panel around a dark window was a
+        second frame for a picture that already carries its own shadow.
+        Clicking anywhere but the screen and its controls closes it, as the
+        overlay alone did before.
+      */}
       <Modal
         opened={current !== null}
         onClose={() => setOpen(null)}
-        size="90rem"
+        withCloseButton={false}
+        size="auto"
         centered
-        radius="lg"
-        title={current?.eyebrow}
-        classNames={{ title: classes.modalTitle }}
-        overlayProps={{ backgroundOpacity: 0.6, blur: 6 }}
+        padding={0}
+        classNames={{ content: classes.lightbox, body: classes.lightboxBody }}
+        overlayProps={{ backgroundOpacity: 0.72, blur: 10 }}
+        aria-label={current ? `${current.eyebrow} screenshot` : undefined}
       >
         {current && (
-          <Box>
-            <Image src={current.src} alt={current.alt} />
-            <Group justify="center" gap="md" mt="md">
+          // `data-autofocus` + tabIndex -1: the focus trap otherwise lands on
+          // the close button, and Chrome draws that programmatic focus as a
+          // ring, so every open showed the X outlined in orange.
+          <div
+            className={classes.stage}
+            data-autofocus
+            tabIndex={-1}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setOpen(null);
+            }}
+          >
+            <ActionIcon
+              className={classes.close}
+              variant="transparent"
+              radius="xl"
+              size="xl"
+              onClick={() => setOpen(null)}
+              aria-label="Close"
+            >
+              <IconX size={20} />
+            </ActionIcon>
+
+            <img src={current.src} alt={current.alt} className={classes.full} />
+
+            <Group justify="center" gap="lg" className={classes.bar}>
               <ActionIcon
-                variant="default"
+                className={classes.nav}
+                variant="transparent"
                 radius="xl"
-                size="lg"
+                size="xl"
                 onClick={() => step(-1)}
                 aria-label="Previous screenshot"
               >
-                <IconArrowLeft size={18} />
+                <IconArrowLeft size={20} />
               </ActionIcon>
-              <Text c="dimmed" size="sm" w={60} ta="center">
-                {`${(open ?? 0) + 1} / ${frames.length}`}
-              </Text>
+              <div className={classes.caption}>
+                <span className={classes.captionName}>{current.eyebrow}</span>
+                <span
+                  className={classes.captionCount}
+                >{`${(open ?? 0) + 1} / ${frames.length}`}</span>
+              </div>
               <ActionIcon
-                variant="default"
+                className={classes.nav}
+                variant="transparent"
                 radius="xl"
-                size="lg"
+                size="xl"
                 onClick={() => step(1)}
                 aria-label="Next screenshot"
               >
-                <IconArrowRight size={18} />
+                <IconArrowRight size={20} />
               </ActionIcon>
             </Group>
-          </Box>
+          </div>
         )}
       </Modal>
     </>
