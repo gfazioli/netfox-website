@@ -18,6 +18,20 @@
     --x-color-nextra-bg: var(--nf-page);
   }
 
+  /*
+   * The navbar is part of the page, not a bar laid over it: no rule under it,
+   * and on the home page its translucent layer takes the colour the page
+   * STARTS with, so at the top it cannot be told from the gradient behind
+   * it, and once scrolled it stays the page's top colour over the content.
+   */
+  .nextra-navbar-blur {
+    border-bottom-color: transparent;
+  }
+
+  body:has(.nf-home) .nextra-navbar-blur {
+    background-color: color-mix(in srgb, var(--nf-top) 78%, transparent);
+  }
+
   .x\:text-sm {
     font-size: var(--x-text-sm) !important;
     line-height: var(--tw-leading, var(--x-text-sm--line-height)) !important;
