@@ -143,6 +143,8 @@ Open services from the most recent security probe, grouped by category. Each por
 
 ![The Ports tab, grouped by category](/screenshot-device-ports.png)
 
+**The list is the last thing each port said, and it is honest about that.** Readings are kept across relaunches, so on their own they could be days old — a database you stopped since then would still read as open. Opening the tab asks again every port it lists as **open** once that answer is more than a minute old, and a line above the list says how old the list is (**Last probed …**, counted from its oldest reading). The re-check only records an answer: a port that refuses is marked **Closed**, while one that simply doesn't reply keeps its reading, because a silence is not a close. **Probe Ports** asks everything again, including any port a Full Scan found outside the catalog.
+
 A picker above the list narrows it to one state, and each segment carries its count — **All**, **Open**, **Closed**, **Filtered**. The counts are worth reading on their own: *Filtered 3* on a device that answers everything else means something is dropping probes for exactly those three ports, which is a finding before you click anything.
 
 **Closed and filtered are not the same thing**, and the difference is the useful part:
@@ -290,6 +292,8 @@ Select **This Mac** in the device list and you get a tab no other device has: **
 There's a blind spot it exists to close. Netfox checks every device by connecting to it over the network, at its address on your Wi-Fi. That is the right way to check a printer, a NAS or a phone — and the wrong way to check the Mac you're sitting at. A development server on `127.0.0.1:3000` genuinely refuses connections from anywhere else, so the check reports it closed. Accurately, and uselessly: the most interesting services on the machine you care most about are precisely the ones a network check structurally cannot see.
 
 So this list doesn't probe anything. It asks macOS directly which ports are listening, which means it sees all of them.
+
+It keeps itself current: while its window is in front the list is read again every few seconds, so a server you stop leaves it on its own and one you start appears without a click. Behind another window it stops reading, and catches up the moment you come back. **Refresh** is still there for when you'd rather not wait.
 
 ### The two groups
 
