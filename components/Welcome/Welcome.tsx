@@ -334,7 +334,9 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
                   duration={1.5}
                   animation="scale"
                   animateProps={{ scaleAmount: 2 }}
-                  gradient={{ from: 'orange', to: 'yellow' }}
+                  // Rust to burnt orange, not orange to yellow: yellow on this azure
+                  // measured about 1.3:1, and a display line needs 3.
+                  gradient={{ from: 'var(--nf-ink)', to: 'var(--nf-display)' }}
                 >
                   in plain English.
                 </TextAnimate>
@@ -474,7 +476,7 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
               style={{ lineHeight: 1.4 }}
             >
               If you take machine speak and convert it into humanese,{' '}
-              <Text span inherit c="orange.7">
+              <Text span inherit c="var(--nf-display)">
                 that&apos;s valuable.
               </Text>
             </Text>

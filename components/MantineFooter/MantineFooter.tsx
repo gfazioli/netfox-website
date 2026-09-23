@@ -199,9 +199,11 @@ export const MantineFooter = () => {
               color="yellow"
               leftSection={<IconCoffee size={16} />}
               radius="xl"
+              // Dark ink on the yellow, not white: white on yellow-6 measured
+              // 1.9:1; this is about 8:1.
               styles={{
-                label: { color: 'var(--mantine-color-white)' },
-                section: { color: 'var(--mantine-color-white)' },
+                label: { color: '#3b2600' },
+                section: { color: '#3b2600' },
               }}
             >
               Buy me a coffee

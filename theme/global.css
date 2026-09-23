@@ -22,8 +22,7 @@ html {
  *                 hairline and card edge.
  * - `dimmed`      hsl(222 25% 33%), the icon's navy fur muted to text weight:
  *                 about 7:1 on the page. Mantine's own gray-6 is about 3:1 on
- *                 a surface this dark, and fails AA. The selector matches
- *                 Mantine's own, or its rule wins on specificity.
+ *                 a surface this dark, and fails AA.
  *
  * One token each, so everything that has to dissolve INTO the page (the
  * marquee's fade, a section's feathered edge) names the colour the body is
@@ -35,8 +34,38 @@ html {
   --nf-rule: #b0c1e8;
 }
 
-:root[data-mantine-color-scheme='light'] {
+/*
+ * `html:root`, one step more specific than Mantine's own selector: the
+ * provider injects its variables later in the cascade under the SAME selector,
+ * so an equal-specificity override silently loses for any variable it also
+ * sets. --mantine-color-anchor did: every footer link stayed #fd7e14 while
+ * the orange-text override beside it worked.
+ */
+html:root[data-mantine-color-scheme='light'] {
   --mantine-color-dimmed: #3f4c69;
+
+  /*
+   * The orange, in three roles, because one orange cannot serve them all on
+   * an azure page. Orange and this blue sit at nearly the same luminance, so
+   * they vibrate without contrasting: measured on the home page, Mantine's
+   * orange-6 read 1.6-1.9:1 as text on the page and white on it read 2.6:1,
+   * against 4.5 needed. Each role is cut darker until it passes:
+   *
+   * - `--nf-ink`      #9a3412, text and links: 5.2:1 on --nf-page.
+   * - `--nf-fill`     #c2410c, buttons and badges under white text: 5.2:1.
+   * - `--nf-display`  #c2410c, text at display size, which needs 3:1: 3.7:1.
+   *
+   * Mantine's own orange variables point at them, so every `c="orange"`,
+   * every filled or light orange control and every anchor follows.
+   */
+  --nf-ink: #9a3412;
+  --nf-fill: #c2410c;
+  --nf-display: #c2410c;
+  --mantine-color-orange-text: var(--nf-ink);
+  --mantine-color-orange-filled: var(--nf-fill);
+  --mantine-color-orange-filled-hover: var(--nf-ink);
+  --mantine-color-orange-light-color: var(--nf-ink);
+  --mantine-color-anchor: var(--nf-ink);
 }
 
 * {
