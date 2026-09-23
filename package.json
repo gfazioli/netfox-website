@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "@gfazioli/mantine-depth-select": "^2.0.11",
     "@gfazioli/mantine-marquee": "^4.1.5",
     "@gfazioli/mantine-scene": "^2.2.9",
     "@gfazioli/mantine-text-animate": "^4.0.9",
