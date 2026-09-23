@@ -51,6 +51,73 @@ html {
   --nf-page: #cfdbf7;
   --nf-top: var(--nf-navy);
   --nf-rule: #b0c1e8;
+  --nf-card: var(--mantine-color-white);
+}
+
+/*
+ * THE HOME PAGE IS AT NIGHT, top to bottom (user, 2026-09-23: darker going
+ * down, not lighter). It used to turn to day under the Product Hunt badge,
+ * and that turn was a band across the page right where the contrast of
+ * everything on it collapsed. Now it starts on the fox's navy, lifts to the
+ * fur behind the hero, and sinks to a deeper navy that holds to the footer.
+ *
+ * The night's colours are declared on the BODY, so every section, card, the
+ * FAQ and the footer inherit them. Mantine's own variables are redeclared here
+ * rather than pointed at a token from :root, because a var() in a custom
+ * property resolves where it is DECLARED: `--mantine-color-orange-text:
+ * var(--nf-ink)` on html is already rust by the time a body override of
+ * --nf-ink arrives. The docs keep the light page.
+ *
+ * Accent: the fox's amber, the colour the headline starts with (user: the
+ * eyebrows, the links and the social icons in the title's orange).
+ */
+body:has(.nf-home) {
+  --nf-page: #0d1230;
+  --nf-top: var(--nf-navy);
+  --nf-rule: rgb(255 255 255 / 11%);
+  --nf-card: rgb(255 255 255 / 5%);
+  --nf-ink: var(--nf-amber);
+  --nf-display: var(--nf-amber);
+  --mantine-color-text: var(--mantine-color-white);
+  --mantine-color-dimmed: rgb(255 255 255 / 74%);
+  --mantine-color-orange-text: var(--nf-amber);
+  --mantine-color-orange-light-color: var(--nf-amber);
+  --mantine-color-anchor: var(--nf-amber);
+  --mantine-color-bright: var(--mantine-color-white);
+  --mantine-color-orange-light: rgb(252 159 27 / 15%);
+  --mantine-color-orange-light-hover: rgb(252 159 27 / 22%);
+  --mantine-color-gray-light: rgb(255 255 255 / 8%);
+  --mantine-color-gray-light-color: rgb(255 255 255 / 88%);
+
+  color: var(--mantine-color-white);
+
+  /*
+   * The night's own gradient: the fox's navy at the top, the fur behind the
+   * hero (lifted, so the headline has air), then back down to navy and on to
+   * the deeper --nf-page, which it reaches at a fixed length and holds. It
+   * holds because every feathered section below dissolves into --nf-page, and
+   * a page still changing colour there would give each one a visible edge. On
+   * the BODY rather than on the hero, so it also runs behind the translucent
+   * navbar instead of starting under it with a seam. `.nf-home` is on the hero.
+   */
+  background:
+    linear-gradient(
+        to bottom,
+        var(--nf-navy) 0,
+        var(--nf-fur) 1000px,
+        var(--nf-navy) 1700px,
+        var(--nf-page) 2800px
+      )
+      no-repeat,
+    var(--nf-page);
+}
+
+/*
+ * Mantine's light scheme lights an Accordion row with gray-0 on hover: a white
+ * flash on the night.
+ */
+body:has(.nf-home) .mantine-Accordion-control:hover {
+  background-color: rgb(255 255 255 / 6%);
 }
 
 /*
@@ -91,35 +158,6 @@ html:root[data-mantine-color-scheme='light'] {
 
 body {
   background-color: var(--nf-page);
-}
-
-/*
- * The home page starts at night and lightens as it goes down: the fox's navy
- * fur, then the plate from indigo through periwinkle into the page. The
- * hero's copy sits on the dark half, which is what lets its title be white
- * and its accent the fox's amber. Stops are placed from measured positions:
- * every line of the hero's copy, down to the share icons, sits above 1240 on
- * navy-to-fur, and the tool tour's first copy starts below 1450, on the light
- * page, because its text is dark. The turn happens in the gap between them. On the BODY rather than on the hero, so it also runs behind the
- * translucent navbar instead of starting under it with a seam. It lands on
- * --nf-page at a fixed length and stays there: every feathered section below
- * dissolves into --nf-page, and a page still changing colour there would give
- * each of them a visible edge. `.nf-home` is on the hero; the docs keep the
- * flat surface, because their sidebar paints --nf-page and would stand out
- * against a darker top.
- */
-body:has(.nf-home) {
-  background:
-    linear-gradient(
-        to bottom,
-        var(--nf-navy) 0,
-        var(--nf-fur) 1000px,
-        var(--nf-indigo) 1240px,
-        var(--nf-periwinkle) 1340px,
-        var(--nf-page) 1450px
-      )
-      no-repeat,
-    var(--nf-page);
 }
 
 .mantine-Button-root {

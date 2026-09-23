@@ -455,16 +455,16 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
 
       {/* ─── Validation / testimonial (Chris Messina) ─── */}
       {/*
-        An azure glow (the top of the icon's plate) on the page's own surface,
-        feathered at both edges, in place of the dark slab between two rules it
-        used to be. Not orange: a warm wash on this cool page turned to mud.
+        An indigo glow (the icon's plate) on the page's own surface, feathered
+        at both edges, in place of the slab between two rules it used to be.
+        Not orange: a warm wash on this cool page turned to mud.
       */}
       <Box
         py={80}
         className="nf-feather"
         style={{
           background:
-            'radial-gradient(60% 90% at 50% 50%, rgba(179, 201, 252, 0.55), transparent 70%)',
+            'radial-gradient(60% 90% at 50% 50%, rgba(91, 81, 172, 0.45), transparent 70%)',
         }}
       >
         <Container size="sm" pos="relative" style={{ zIndex: 1 }}>
