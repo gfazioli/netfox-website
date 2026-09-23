@@ -5,6 +5,13 @@ export default {
   index: {
     display: 'hidden',
   },
+  // The home page's feature grid. A root-relative href, so it works from a
+  // docs page too; `#features` alone would look for the anchor there.
+  features: {
+    type: 'page',
+    title: 'Features',
+    href: '/#features',
+  },
   docs: {
     type: 'page',
     title: 'Documentation',

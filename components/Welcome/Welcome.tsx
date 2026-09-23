@@ -311,8 +311,10 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
               w={{ base: 120, sm: 160, md: 200 }}
               h={{ base: 120, sm: 160, md: 200 }}
               style={{
+                // The plate's own indigo (#5344A8) rather than an orange glow:
+                // the shadow reads as the icon's depth, not as a second light.
                 filter:
-                  'drop-shadow(0 18px 26px rgba(247, 103, 7, 0.32)) drop-shadow(0 6px 10px rgba(0, 0, 0, 0.18))',
+                  'drop-shadow(0 22px 32px rgba(83, 68, 168, 0.42)) drop-shadow(0 6px 10px rgba(30, 27, 75, 0.2))',
               }}
             />
 
@@ -490,7 +492,12 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
       <ProblemSection />
 
       {/* ─── Features ─── */}
-      <Box className={accentClasses.sectionBackdrop} py={80}>
+      <Box
+        id="features"
+        className={accentClasses.sectionBackdrop}
+        py={80}
+        style={{ scrollMarginTop: 64 }}
+      >
         <Container size="lg" pos="relative" style={{ zIndex: 1 }}>
           <Stack align="center" gap="md" mb={48}>
             <Text size="sm" fw={700} tt="uppercase" style={{ letterSpacing: 3 }} c="orange">
