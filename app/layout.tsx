@@ -29,10 +29,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en" dir="ltr" {...mantineHtmlProps}>
       <Head>
         {/*
-          Forced, not defaulted. The site is light-only: `forceColorScheme`
-          makes the pre-hydration script write `light` whatever is in local
-          storage, so a visitor who toggled the old switch is not left on a
-          dark scheme the stylesheets no longer carry.
+          Forced, not defaulted, and forced LIGHT although the site is at
+          night: the night is written over Mantine's light scheme in
+          variables (theme/global.css), which is what every component reads.
+          `forceColorScheme` makes the pre-hydration script write `light`
+          whatever is in local storage, so a visitor who toggled the old
+          switch is not left on Mantine's dark scheme, which nothing here
+          is written against.
         */}
         <ColorSchemeScript nonce={head.mantine.nonce} forceColorScheme="light" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -69,12 +72,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             footer={<MantineFooter />}
             sidebar={nextraLayout.sidebar}
             /*
-              Light-only, on both sides. Mantine is forced above; Nextra is
-              forced here, or its own default ('system') would follow the OS
-              and paint the docs chrome dark under a light page.
+              Nextra runs its DARK theme, forced, with no switch: the site is
+              at night (theme/global.css), and its tables, callouts and code
+              blocks then use the variants drawn for a dark ground. Mantine
+              stays forced light above and the night is written over it in
+              variables, which is what every component already reads.
             */
             darkMode={false}
-            nextThemes={{ defaultTheme: 'light', forcedTheme: 'light' }}
+            nextThemes={{ defaultTheme: 'dark', forcedTheme: 'dark' }}
           >
             {children}
           </Layout>

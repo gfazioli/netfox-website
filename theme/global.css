@@ -1,33 +1,19 @@
 /*
- * Light-only. `color-scheme: light` is what keeps every `light-dark()` still
- * in a module resolving to its light branch, and native controls light too.
+ * The whole site is at night (user, 2026-09-23: the home page first, then
+ * "mi provi sfondo scuro nella docs"). Mantine stays forced to its LIGHT
+ * scheme and the night is written over it in variables, which is how the
+ * home page was built and what every component already reads; Nextra runs
+ * its own DARK theme (app/layout.tsx), so its tables, callouts and code
+ * blocks use the variants they were drawn with rather than a light design
+ * on a dark ground.
+ *
+ * `color-scheme: dark` makes native controls and scrollbars dark, and sends
+ * every `light-dark()` still in a module to its dark branch.
  */
 html {
-  color-scheme: light;
+  color-scheme: dark;
 }
 
-/*
- * The LIGHT page, which since the home page went to night is the docs' page
- * (and any other page that is not the home). Near-white with a breath of the
- * icon's azure (hue ~222°) rather than the mid azure it was: Nextra's own
- * components (striped tables, callouts, code blocks) are drawn for white or
- * for black, and on a half-tone azure they looked like a different site
- * (user, 2026-09-23: "o andiamo sullo scuro o sul chiaro"). Long reading
- * wants the light page; the showcase is the night.
- *
- * - `--nf-page`   #f6f8fe, white with the azure's hue in it.
- * - `--nf-top`    the colour the home page starts with (the fur's navy),
- *                 which the navbar takes there so the two read as one.
- * - `--nf-rule`   #dde4f5, the same hue a step down, for every hairline and
- *                 card edge.
- * - `--nf-footer` #e8edfa, the footer's ground, a step under the page.
- * - `dimmed`      hsl(222 25% 33%), the icon's navy fur muted to text weight:
- *                 about 9:1 on the page.
- *
- * One token each, so everything that has to dissolve INTO the page (the
- * marquee's fade, a section's feathered edge) names the colour the body is
- * painted with.
- */
 :root {
   /*
    * The logo's palette, sampled by k-means over the icon, in its three
@@ -49,31 +35,24 @@ html {
   --nf-rust: #8b2f08;
   --nf-cream: #eae2d8;
 
-  --nf-page: #f6f8fe;
-  --nf-top: var(--nf-navy);
-  --nf-rule: #dde4f5;
-  --nf-card: var(--mantine-color-white);
-  --nf-footer: #e8edfa;
-}
-
-/*
- * THE HOME PAGE IS AT NIGHT, top to bottom (user, 2026-09-23: darker going
- * down, not lighter). It used to turn to day under the Product Hunt badge,
- * and that turn was a band across the page right where the contrast of
- * everything on it collapsed. Now it starts on the fox's navy, lifts to the
- * fur behind the hero, and sinks to a deeper navy that holds to the footer.
- *
- * The night's colours are declared on the BODY, so every section, card, the
- * FAQ and the footer inherit them. Mantine's own variables are redeclared here
- * rather than pointed at a token from :root, because a var() in a custom
- * property resolves where it is DECLARED: `--mantine-color-orange-text:
- * var(--nf-ink)` on html is already rust by the time a body override of
- * --nf-ink arrives. The docs keep the light page.
- *
- * Accent: the fox's amber, the colour the headline starts with (user: the
- * eyebrows, the links and the social icons in the title's orange).
- */
-body:has(.nf-home) {
+  /*
+   * The night's surfaces. One token each, so everything that has to dissolve
+   * INTO the page (the marquee's fade, a section's feathered edge, Nextra's
+   * own chrome) names the colour the body is painted with. They are declared
+   * on :root, not on the body: a var() inside a custom property resolves
+   * where it is declared, so a token Nextra reads from html
+   * (`--x-color-nextra-bg: var(--nf-page)`) would keep the root's value
+   * whatever the body said.
+   *
+   * - `--nf-page`   #0d1230, deeper than the fur's navy: the page.
+   * - `--nf-top`    the navy the home page starts with; its navbar takes it.
+   * - `--nf-rule`   white at 11%, every hairline and card edge.
+   * - `--nf-card`   white at 5%, the glass every card is made of.
+   * - `--nf-footer` #070a1f, the footer's ground, a step under the page.
+   * - `--nf-ink` / `--nf-display`  the fox's amber, the colour the headline
+   *   starts with (user: eyebrows, links and social icons in the title's
+   *   orange). Amber on the page measures well over 4.5:1.
+   */
   --nf-page: #0d1230;
   --nf-top: var(--nf-navy);
   --nf-rule: rgb(255 255 255 / 11%);
@@ -81,28 +60,45 @@ body:has(.nf-home) {
   --nf-footer: #070a1f;
   --nf-ink: var(--nf-amber);
   --nf-display: var(--nf-amber);
+}
+
+/*
+ * Mantine's own variables, written for the night. `html:root`, one step more
+ * specific than Mantine's own selector: the provider injects its variables
+ * later in the cascade under the SAME selector, so an equal-specificity
+ * override silently loses for any variable it also sets. --mantine-color-
+ * anchor did, once: every footer link stayed #fd7e14 while the orange-text
+ * override beside it worked. `bright` is what an Accordion's rows read; with
+ * it left dark the FAQ questions were black on navy at 1.15:1.
+ */
+html:root[data-mantine-color-scheme='light'] {
   --mantine-color-text: var(--mantine-color-white);
   --mantine-color-dimmed: rgb(255 255 255 / 74%);
+  --mantine-color-bright: var(--mantine-color-white);
   --mantine-color-orange-text: var(--nf-amber);
   --mantine-color-orange-light-color: var(--nf-amber);
-  --mantine-color-anchor: var(--nf-amber);
-  --mantine-color-bright: var(--mantine-color-white);
   --mantine-color-orange-light: rgb(252 159 27 / 15%);
   --mantine-color-orange-light-hover: rgb(252 159 27 / 22%);
+  --mantine-color-anchor: var(--nf-amber);
   --mantine-color-gray-light: rgb(255 255 255 / 8%);
   --mantine-color-gray-light-color: rgb(255 255 255 / 88%);
+  --mantine-color-default: rgb(255 255 255 / 6%);
+  --mantine-color-default-hover: rgb(255 255 255 / 10%);
+  --mantine-color-default-color: var(--mantine-color-white);
+  --mantine-color-default-border: rgb(255 255 255 / 14%);
+  --mantine-color-body: var(--nf-page);
+}
 
-  color: var(--mantine-color-white);
-
-  /*
-   * The night's own gradient: the fox's navy at the top, the fur behind the
-   * hero (lifted, so the headline has air), then back down to navy and on to
-   * the deeper --nf-page, which it reaches at a fixed length and holds. It
-   * holds because every feathered section below dissolves into --nf-page, and
-   * a page still changing colour there would give each one a visible edge. On
-   * the BODY rather than on the hero, so it also runs behind the translucent
-   * navbar instead of starting under it with a seam. `.nf-home` is on the hero.
-   */
+/*
+ * THE HOME PAGE'S OWN GRADIENT: the fox's navy at the top, the fur behind the
+ * hero (lifted, so the headline has air), then back down to navy and on to
+ * --nf-page, which it reaches at a fixed length and holds. It holds because
+ * every feathered section below dissolves into --nf-page, and a page still
+ * changing colour there would give each one a visible edge. On the BODY
+ * rather than on the hero, so it also runs behind the translucent navbar
+ * instead of starting under it with a seam. `.nf-home` is on the hero.
+ */
+body:has(.nf-home) {
   background:
     linear-gradient(
         to bottom,
@@ -119,40 +115,26 @@ body:has(.nf-home) {
  * Mantine's light scheme lights an Accordion row with gray-0 on hover: a white
  * flash on the night.
  */
-body:has(.nf-home) .mantine-Accordion-control:hover {
+.mantine-Accordion-control:hover {
   background-color: rgb(255 255 255 / 6%);
 }
 
 /*
- * `html:root`, one step more specific than Mantine's own selector: the
- * provider injects its variables later in the cascade under the SAME selector,
- * so an equal-specificity override silently loses for any variable it also
- * sets. --mantine-color-anchor did: every footer link stayed #fd7e14 while
- * the orange-text override beside it worked.
+ * The same for a Table: its light-scheme hover is gray-1, which turned a row
+ * of white text into a white bar with the text gone. These variables are
+ * declared on the table element itself, so they are overridden there.
  */
-html:root[data-mantine-color-scheme='light'] {
-  --mantine-color-dimmed: #3f4c69;
+.mantine-Table-table {
+  --table-hover-color: rgb(255 255 255 / 6%);
+  --table-striped-color: rgb(255 255 255 / 3%);
+  --table-border-color: var(--nf-rule);
+}
 
-  /*
-   * The orange, in three roles, because one orange cannot serve them all on
-   * an azure page. Orange and this blue sit at nearly the same luminance, so
-   * they vibrate without contrasting: measured on the home page, Mantine's
-   * orange-6 read 1.6-1.9:1 as text on the page and white on it read 2.6:1,
-   * against 4.5 needed. Each role is cut darker until it passes:
-   *
-   * - `--nf-ink`      the logo's rust, text and links on the light page.
-   * - fill            the logo's amber, which theme.ts makes orange-6: buttons
-   *                   and badges, dark text on it through autoContrast.
-   * - `--nf-display`  rust again on the light page; the dark hero uses amber.
-   *
-   * Mantine's own orange text, light and anchor variables point at them, so
-   * every `c="orange"` and every anchor follows.
-   */
-  --nf-ink: var(--nf-rust);
-  --nf-display: var(--nf-rust);
-  --mantine-color-orange-text: var(--nf-ink);
-  --mantine-color-orange-light-color: var(--nf-ink);
-  --mantine-color-anchor: var(--nf-ink);
+/* Keys as glass on the night, not the light scheme's pale caps. */
+.mantine-Kbd-root {
+  border-color: rgb(255 255 255 / 18%);
+  background-color: rgb(255 255 255 / 8%);
+  color: rgb(255 255 255 / 90%);
 }
 
 * {
@@ -161,6 +143,7 @@ html:root[data-mantine-color-scheme='light'] {
 
 body {
   background-color: var(--nf-page);
+  color: var(--mantine-color-text);
 }
 
 .mantine-Button-root {
