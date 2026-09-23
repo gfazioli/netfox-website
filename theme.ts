@@ -5,23 +5,26 @@ import { createTheme } from '@mantine/core';
 export const theme = createTheme({
   primaryColor: 'orange',
   colors: {
-    // Foxy orange palette derived from the app icon. Ten shades
-    // ordered light → dark so Mantine can pick per-component
-    // intensities (filled, light, outline, etc.) without
-    // hand-holding.
-    netfox: [
-      '#fff4e6',
-      '#ffe8cc',
-      '#ffd8a8',
-      '#ffc078',
-      '#ffa94d',
-      '#ff922b',
-      '#fd7e14',
-      '#f76707',
-      '#e8590c',
-      '#d9480f',
+    // The fox, sampled from the app icon (k-means over public/icon-512x512.png):
+    // amber #FC9F1B at 6, orange #DA5B06 at 7, rust #8B2F08 at 9. Overriding
+    // Mantine's own `orange` rather than adding a colour, so every
+    // color="orange" and every c="orange" on the site takes the logo's fire.
+    // 6 is the FILLED shade: amber, which carries dark text (autoContrast)
+    // at about 11:1, where white on the old orange-6 read 2.6.
+    orange: [
+      '#fff4e3',
+      '#ffe6c2',
+      '#ffd497',
+      '#ffc066',
+      '#fdae3e',
+      '#fca22a',
+      '#fc9f1b',
+      '#da5b06',
+      '#b04407',
+      '#8b2f08',
     ],
   },
+  autoContrast: true,
   headings: {
     fontWeight: '600',
   },

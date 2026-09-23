@@ -1,12 +1,13 @@
 /*
  * Sits on the hero's Scene wash (mesh + two glows + dotgrid), so the surface
  * is translucent with a blur behind it rather than a flat fill: an opaque
- * pill would punch a hole in the atmosphere it sits on. light-dark() keeps
- * it legible on the white light-mode page and on dark-7.
+ * pill would punch a hole in the atmosphere it sits on. Glass on the night:
+ * the hero's copy is on the page's navy half, and its text follows the hero's
+ * night variables (white, amber link).
  */
 .strip {
-  background: light-dark(rgb(255 255 255 / 65%), rgb(255 255 255 / 4%));
-  border-color: light-dark(rgb(0 0 0 / 8%), rgb(255 255 255 / 8%));
+  background: rgb(255 255 255 / 8%);
+  border-color: rgb(255 255 255 / 16%);
   backdrop-filter: blur(6px);
 }
 
