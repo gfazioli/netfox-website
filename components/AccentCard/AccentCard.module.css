@@ -1,8 +1,8 @@
 /*
  * Raycast-inspired card surface, shared between ProblemSection's
  * "what's wrong with the alternatives" trio and Welcome.tsx's
- * "Features" grid. The visual is identical across both: the white
- * card gets a per-card accent color (passed via `--card-accent`)
+ * "Features" grid. The visual is identical across both: the card
+ * (on the page's --nf-card surface) gets a per-card accent color (passed via `--card-accent`)
  * that radiates from the top-left corner, fades to neutral by
  * mid-card, and intensifies on hover.
  *
@@ -18,7 +18,7 @@
       color-mix(in srgb, var(--card-accent) 12%, transparent),
       transparent 55%
     ),
-    var(--mantine-color-white);
+    var(--nf-card);
   border: 1px solid var(--nf-rule);
   box-shadow: 0 1px 2px rgb(0 0 0 / 6%);
   transition:

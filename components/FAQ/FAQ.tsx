@@ -94,14 +94,14 @@ const faqItems = [
 
 export function FAQ() {
   return (
-    // White items, like every other card on the page: the separated variant's
+    // The page's card surface, like every other card: the separated variant's
     // own gray-0 read as a third surface between the page and the cards.
     <Accordion
       variant="separated"
       radius="md"
       styles={{
         item: {
-          backgroundColor: 'var(--mantine-color-white)',
+          backgroundColor: 'var(--nf-card)',
           border: '1px solid var(--nf-rule)',
         },
       }}

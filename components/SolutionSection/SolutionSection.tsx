@@ -183,7 +183,7 @@ export function SolutionSection() {
               key={t.before}
               radius="lg"
               p="lg"
-              bg="var(--mantine-color-white)"
+              bg="var(--nf-card)"
               style={{
                 border: '1px solid var(--nf-rule)',
                 ['--reveal-delay' as string]: `${i * 120}ms`,
@@ -207,7 +207,7 @@ export function SolutionSection() {
                       ones (dev-server.local, the MAC) — keeps the arrow
                       marker aligned across all four cards. */}
                   <Text
-                    c="gray.7"
+                    c="dimmed"
                     fz={14}
                     style={{
                       fontFamily: 'monospace',
