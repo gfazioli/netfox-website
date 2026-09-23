@@ -13,22 +13,22 @@ import {
 } from '@tabler/icons-react';
 import { nav } from '@/lib/nav-helper';
 
-// Colored to echo the app's palette (the Tools submenu already maps its
-// entries to the per-tool gradient hues). Utility pages — Settings,
-// Keyboard Shortcuts — stay uncolored so the feature pages read first,
-// mirroring the FinderGit docs sidebar.
+// Each entry is a coloured tile in the app's palette (the Tools submenu
+// maps its entries to the per-tool hues). Utility pages — Settings,
+// Keyboard Shortcuts — take the neutral tile so the feature pages read
+// first; see lib/nav-helper.tsx for why tiles.
 export default {
-  index: nav(IconBook2, 'Introduction', 'var(--mantine-color-blue-5)'),
+  index: nav(IconBook2, 'Introduction', 'blue'),
   '---': { type: 'separator' },
-  'getting-started': nav(IconRocket, 'Getting Started', 'var(--mantine-color-orange-5)'),
-  tools: nav(IconTool, 'Tools', 'var(--mantine-color-grape-5)'),
-  'menu-bar': nav(IconLayoutNavbar, 'Menu Bar', 'var(--mantine-color-cyan-5)'),
-  notch: nav(IconLayoutNavbarExpand, 'Notch HUD', 'var(--mantine-color-violet-5)'),
+  'getting-started': nav(IconRocket, 'Getting Started', 'orange'),
+  tools: nav(IconTool, 'Tools', 'grape'),
+  'menu-bar': nav(IconLayoutNavbar, 'Menu Bar', 'cyan'),
+  notch: nav(IconLayoutNavbarExpand, 'Notch HUD', 'violet'),
   settings: nav(IconSettings, 'Settings'),
-  integrations: nav(IconChartLine, 'Integrations', 'var(--mantine-color-teal-5)'),
+  integrations: nav(IconChartLine, 'Integrations', 'teal'),
   'keyboard-shortcuts': nav(IconKeyboard, 'Keyboard Shortcuts'),
   '----': { type: 'separator' },
-  faq: nav(IconHelpCircle, 'FAQ', 'var(--mantine-color-blue-5)'),
-  'release-notes': nav(IconHistory, 'Release Notes', 'var(--mantine-color-green-5)'),
-  roadmap: nav(IconRoute, 'Roadmap', 'var(--mantine-color-pink-5)'),
+  faq: nav(IconHelpCircle, 'FAQ', 'blue'),
+  'release-notes': nav(IconHistory, 'Release Notes', 'green'),
+  roadmap: nav(IconRoute, 'Roadmap', 'pink'),
 };
