@@ -51,7 +51,8 @@ export const MantineNavBar = () => {
               variant="filled"
               color="yellow"
               aria-label="Buy me a coffee"
-              styles={{ root: { color: 'var(--mantine-color-white)' } }}
+              // Dark ink on the yellow: white on yellow-6 is 1.9:1.
+              styles={{ root: { color: '#3b2600' } }}
             >
               <IconCoffee size={16} />
             </ActionIcon>

@@ -74,7 +74,7 @@
 }
 
 .eyebrow {
-  color: var(--mantine-color-orange-9);
+  color: var(--nf-ink);
   font-size: rem(13px);
   font-weight: 700;
   letter-spacing: rem(3px);
@@ -121,7 +121,7 @@
   align-items: center;
   gap: rem(4px);
   margin-top: rem(20px);
-  color: var(--mantine-color-orange-9);
+  color: var(--nf-ink);
   font-size: rem(15px);
   font-weight: 600;
   text-decoration: none;

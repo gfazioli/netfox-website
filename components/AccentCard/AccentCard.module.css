@@ -76,7 +76,7 @@
  */
 .highlightPill {
   background-color: color-mix(in srgb, var(--mantine-color-orange-5) 14%, transparent);
-  color: var(--mantine-color-orange-9);
+  color: var(--nf-ink);
   padding: 1px 8px;
   border-radius: 4px;
   font-weight: 600;
