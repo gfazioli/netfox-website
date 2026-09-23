@@ -234,31 +234,29 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
         style={{ overflow: 'hidden', ['--nf-feather-top' as string]: '0px' }}
       >
         {/*
-          Logo-anchored mesh: the Netfox icon's foxhead pulls warm
-          (orange/yellow) on a deep-blue backdrop, so the hero palette
-          mirrors that pairing — warm anchors top-of-frame, cool
-          anchors bottom — with `violet` as the bridging hue between
-          red and blue. `animate` rotates the whole mesh's hue slowly
-          over 40s; the long duration keeps the brand colors
-          recognisable instead of devolving into a rainbow. Two
-          glows (warm top-left, violet bottom-right) + DotGrid +
-          Noise stay as the secondary chrome.
+          The icon's own plate, read top-down: azure along the top edge
+          (#B3C9FC), periwinkle through the middle (#868CD4), indigo at the
+          bottom (#5344A8), with the fox's orange (#FE961E) as the one warm
+          light, behind the icon. Sampled from public/icon-512x512.png.
+
+          Not animated. `animate` on a Mesh is a hue-rotate over the whole
+          layer, and on the light page a full turn walks the orange through
+          green: the hero was seen mint-green in a live browser while a
+          capture taken at another point of the cycle looked right.
         */}
         <Scene lazy>
           <Scene.Mesh
             stops={[
-              { color: 'orange', position: '15% 20%', spread: 50 },
-              { color: 'yellow', position: '82% 18%', spread: 45 },
-              { color: 'red', position: '50% 50%', spread: 55 },
-              { color: 'violet', position: '22% 82%', spread: 50 },
-              { color: 'blue', position: '80% 78%', spread: 55 },
+              { color: '#B3C9FC', position: '15% 12%', spread: 55 },
+              { color: '#B3C9FC', position: '85% 15%', spread: 50 },
+              { color: '#FE961E', position: '50% 30%', spread: 32 },
+              { color: '#868CD4', position: '20% 80%', spread: 50 },
+              { color: '#5344A8', position: '80% 85%', spread: 55 },
             ]}
-            opacity={0.24}
-            animate
-            duration={40}
+            opacity={0.3}
           />
-          <Scene.Glow color="orange" size={560} blur={140} opacity={0.4} top="5%" left="-10%" />
-          <Scene.Glow color="violet" size={460} blur={120} opacity={0.28} top="65%" left="85%" />
+          <Scene.Glow color="#B3C9FC" size={560} blur={140} opacity={0.45} top="5%" left="-10%" />
+          <Scene.Glow color="#5344A8" size={460} blur={120} opacity={0.2} top="65%" left="85%" />
           <Scene.DotGrid color="gray" opacity={0.14} spacing={32} />
           {/*
             Wi-Fi pulse — concentric arcs blooming upward from the
@@ -605,37 +603,28 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
       {/* ─── Built for macOS  ⇣  Get Started CTA — one continuous Scene ─── */}
       {/*
         These two sections share a single canvas with one Scene
-        composition: the logo-anchored mesh drifts across both halves
-        (warm anchors top where "Built for macOS" sits, cool anchors
-        bottom where the CTA sits), Aurora bands stay warm-only on
-        top (the macOS-wallpaper cue for the section identity), and
-        Noise adds texture across the whole canvas. The earlier
-        StarField + ShootingStar composition under the CTA is removed:
-        it visually competed with the mesh and felt like a separate
-        world from the section above.
+        composition: one mesh in the icon's colours spans both halves
+        (the fox's orange on top where "Built for macOS" sits, the
+        plate's indigo below where the CTA sits), and Noise adds texture
+        across the whole canvas. One Scene rather than two, because
+        splitting it produced a visible seam between the sections.
       */}
       <Box pos="relative" className="nf-feather" style={{ overflow: 'hidden' }}>
         <Scene lazy>
+          {/*
+            The same plate as the hero, the other way up: the fox's orange
+            leads under "Built for macOS", the indigo takes over under the
+            CTA. Not animated, for the reason the hero gives.
+          */}
           <Scene.Mesh
             stops={[
-              { color: 'orange', position: '15% 15%', spread: 50 },
-              { color: 'yellow', position: '82% 12%', spread: 45 },
-              { color: 'red', position: '50% 40%', spread: 55 },
-              // Cool anchors are the hero's own violet and blue. The
-              // deep navy they replaced echoed the logo's backdrop on a
-              // dark canvas; on the light page it painted a bruise.
-              { color: 'violet', position: '22% 78%', spread: 55 },
-              { color: 'blue', position: '80% 75%', spread: 60 },
+              { color: '#FE961E', position: '50% 12%', spread: 40 },
+              { color: '#B3C9FC', position: '15% 25%', spread: 50 },
+              { color: '#B3C9FC', position: '85% 30%', spread: 50 },
+              { color: '#868CD4', position: '22% 78%', spread: 55 },
+              { color: '#5344A8', position: '80% 80%', spread: 55 },
             ]}
-            opacity={0.22}
-            animate
-            duration={40}
-          />
-          <Scene.Aurora
-            colors={['orange', 'yellow', 'red']}
-            bands={3}
-            position="top"
-            opacity={0.22}
+            opacity={0.26}
           />
           <Scene.Noise opacity={0.018} />
         </Scene>
@@ -643,8 +632,8 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
         <BuiltForMacSection />
 
         {/* CTA sits in the lower half of the shared canvas, where the
-            cool mesh anchors (violet + blue) take over from the
-            warm top. The extra `py={80}` separates it from the
+            plate's periwinkle and indigo take over from the warm
+            top. The extra `py={80}` separates it from the
             BuiltForMac content above. */}
         <Box pos="relative" py={80}>
           <Container size="lg" pos="relative" style={{ zIndex: 1 }}>
