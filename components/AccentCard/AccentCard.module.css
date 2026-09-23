@@ -19,7 +19,7 @@
       transparent 55%
     ),
     var(--mantine-color-white);
-  border: 1px solid var(--mantine-color-gray-3);
+  border: 1px solid var(--nf-rule);
   box-shadow: 0 1px 2px rgb(0 0 0 / 6%);
   transition:
     transform 200ms ease,
@@ -29,7 +29,7 @@
 
 .card:hover {
   transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--card-accent) 45%, var(--mantine-color-gray-3));
+  border-color: color-mix(in srgb, var(--card-accent) 45%, var(--nf-rule));
   box-shadow:
     0 12px 32px -12px color-mix(in srgb, var(--card-accent) 40%, transparent),
     0 2px 4px rgb(0 0 0 / 8%);

@@ -185,7 +185,7 @@ export function SolutionSection() {
               p="lg"
               bg="var(--mantine-color-white)"
               style={{
-                border: '1px solid var(--mantine-color-gray-3)',
+                border: '1px solid var(--nf-rule)',
                 ['--reveal-delay' as string]: `${i * 120}ms`,
               }}
             >
@@ -222,15 +222,11 @@ export function SolutionSection() {
 
                 {/* transform marker */}
                 <Group gap="xs" align="center" wrap="nowrap">
-                  <Box
-                    style={{ flex: 1, height: 1, backgroundColor: 'var(--mantine-color-gray-3)' }}
-                  />
+                  <Box style={{ flex: 1, height: 1, backgroundColor: 'var(--nf-rule)' }} />
                   <ThemeIcon size="sm" radius="xl" variant="light" color="orange">
                     <IconArrowDown size={14} />
                   </ThemeIcon>
-                  <Box
-                    style={{ flex: 1, height: 1, backgroundColor: 'var(--mantine-color-gray-3)' }}
-                  />
+                  <Box style={{ flex: 1, height: 1, backgroundColor: 'var(--nf-rule)' }} />
                 </Group>
 
                 {/* after — Netfox's plain-English read */}

@@ -6,7 +6,7 @@
 .contentFooter {
   padding-top: 32px;
   background: var(--nf-page);
-  border-top: 1px solid var(--mantine-color-gray-3);
+  border-top: 1px solid var(--nf-rule);
 }
 
 .footer {
