@@ -8,15 +8,16 @@ html {
 
 /*
  * The page's own surface, and the two values cut from it. They are sampled
- * from the app icon, not picked: its plate runs from periwinkle at the top
- * (#B3C9FC) to indigo at the bottom (#5344A8), all of it on a hue of about
- * 235°, and these three sit on that hue so the page reads as the icon's
- * backdrop seen in daylight rather than as a neutral grey beside it.
+ * from the app icon, not picked: its plate runs from azure at the top
+ * (#B3C9FC, a hue of about 222°) to indigo at the bottom (#5344A8), and
+ * these three are cut from the TOP of it (user, 2026-09-23: start from the
+ * azure), so the page reads as the icon's backdrop seen in daylight rather
+ * than as a neutral grey beside it.
  *
- * - `--nf-page`   hsl(235 55% 95%), the plate lightened almost to white.
- * - `--nf-rule`   hsl(235 45% 88%), the same hue a step down, for every
+ * - `--nf-page`   hsl(222 70% 95%), the azure lightened almost to white.
+ * - `--nf-rule`   hsl(222 55% 87%), the same hue a step down, for every
  *                 hairline and card edge.
- * - `dimmed`      hsl(235 20% 35%), the icon's navy fur muted to text weight:
+ * - `dimmed`      hsl(222 25% 33%), the icon's navy fur muted to text weight:
  *                 about 7:1 on the page. Mantine's own gray-6 is about 3:1 on
  *                 a surface this dark, and fails AA. The selector matches
  *                 Mantine's own, or its rule wins on specificity.
@@ -26,12 +27,12 @@ html {
  * painted with.
  */
 :root {
-  --nf-page: #ebecf9;
-  --nf-rule: #d3d5ee;
+  --nf-page: #e9effb;
+  --nf-rule: #ccd7f0;
 }
 
 :root[data-mantine-color-scheme='light'] {
-  --mantine-color-dimmed: #474a6b;
+  --mantine-color-dimmed: #3f4c69;
 }
 
 * {
