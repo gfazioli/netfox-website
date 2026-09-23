@@ -137,6 +137,16 @@ body:has(.nf-home) {
   color: rgb(255 255 255 / 90%);
 }
 
+/*
+ * A Skeleton's shimmer is the light scheme's gray-3: a bright slab on the
+ * night. A faint white wash instead, the same family as the glass cards.
+ * It has to live here, unlayered like Mantine's own sheet: in app/global.css's
+ * `overwrite` layer it lost to it, because unlayered rules beat every layer.
+ */
+.mantine-Skeleton-root[data-visible]::after {
+  background-color: var(--nf-rule);
+}
+
 * {
   --marquee-fade-edge-color: var(--nf-page);
 }

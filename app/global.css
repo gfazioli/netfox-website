@@ -28,6 +28,15 @@
     border-bottom-color: transparent;
   }
 
+  /*
+   * The release banner above the bar. Nextra paints it a grey gradient,
+   * which reads as a strip of some other site laid over this one; the
+   * logo's darkest colour instead, so it sits on the night with the rest.
+   */
+  .nextra-banner {
+    background: var(--nf-night);
+  }
+
   body:has(.nf-home) .nextra-navbar-blur {
     background-color: color-mix(in srgb, var(--nf-top) 78%, transparent);
   }
