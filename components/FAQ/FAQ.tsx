@@ -1,6 +1,15 @@
 'use client';
 
+import {
+  IconDeviceLaptop,
+  IconGift,
+  IconInfoCircle,
+  IconRouter,
+  IconShieldLock,
+  type Icon,
+} from '@tabler/icons-react';
 import { Accordion, Anchor, Text } from '@mantine/core';
+import classes from './FAQ.module.css';
 
 const faqItems = [
   {
@@ -92,23 +101,43 @@ const faqItems = [
   },
 ];
 
+/*
+ * A small icon on the questions a visitor most likely came with (user,
+ * 2026-09-23: on the most important ones, not on every one). Keyed by the
+ * item's `value`, so the list the JSON-LD mirrors stays exactly as it is.
+ */
+const faqIcons: Partial<Record<string, Icon>> = {
+  what: IconInfoCircle,
+  free: IconGift,
+  macos: IconDeviceLaptop,
+  privacy: IconShieldLock,
+  modify: IconRouter,
+};
+
+function faqIcon(value: string) {
+  const ItemIcon = faqIcons[value];
+  return (
+    ItemIcon && (
+      <span className={classes.icon} aria-hidden>
+        <ItemIcon size={16} stroke={1.8} />
+      </span>
+    )
+  );
+}
+
 export function FAQ() {
   return (
-    // The page's card surface, like every other card: the separated variant's
-    // own gray-0 read as a third surface between the page and the cards.
+    // The page's card surface with a real edge, like every other card
+    // (FAQ.module.css): the separated variant's own gray-0 read as a third
+    // surface between the page and the cards.
     <Accordion
       variant="separated"
       radius="md"
-      styles={{
-        item: {
-          backgroundColor: 'var(--nf-card)',
-          border: '1px solid var(--nf-rule)',
-        },
-      }}
+      classNames={{ root: classes.root, item: classes.item }}
     >
       {faqItems.map((item) => (
         <Accordion.Item key={item.value} value={item.value}>
-          <Accordion.Control>{item.question}</Accordion.Control>
+          <Accordion.Control icon={faqIcon(item.value)}>{item.question}</Accordion.Control>
           <Accordion.Panel>
             {item.answer === 'sponsor' ? (
               <Text c="dimmed" size="sm">
