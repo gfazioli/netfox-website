@@ -13,10 +13,9 @@ import {
 } from '@tabler/icons-react';
 import { nav } from '@/lib/nav-helper';
 
-// Each entry is a coloured tile in the app's palette (the Tools submenu
-// maps its entries to the per-tool hues). Utility pages — Settings,
-// Keyboard Shortcuts — take the neutral tile so the feature pages read
-// first; see lib/nav-helper.tsx for why tiles.
+// Coloured to echo the app's palette (the Tools submenu maps its entries
+// to the per-tool hues). Utility pages — Settings, Keyboard Shortcuts —
+// stay uncoloured so the feature pages read first.
 export default {
   index: nav(IconBook2, 'Introduction', 'blue'),
   '---': { type: 'separator' },
