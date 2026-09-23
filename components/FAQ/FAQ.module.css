@@ -1,0 +1,51 @@
+/*
+ * The FAQ as separate cards with a real edge (user, 2026-09-23: the
+ * accordion's edges were barely visible; picked from three candidates on
+ * lancetta.app, then "fai lo stesso su tutti i siti web"). Mantine's `separated`
+ * variant fills a closed item with a surface behind a transparent border;
+ * here it had been given the night's card and hairline, and at 11% white the
+ * hairline was the edge the user could barely see.
+ *
+ * The same file on all four sibling sites; only the tokens on `.root` differ.
+ * Selectors go through `.root` so they outrank Mantine's own (`.m_…` for the
+ * item, `.m_…[data-active]` for the open one).
+ */
+/* The night's glass with a real edge; the fox's amber marks the open one. */
+.root {
+  --faq-card: var(--nf-card);
+  --faq-edge: rgb(255 255 255 / 15%);
+  --faq-accent: var(--nf-amber);
+  --faq-shadow: none;
+}
+
+.root .item {
+  margin-top: rem(12px);
+  border: 1px solid var(--faq-edge);
+  border-radius: rem(14px);
+  background: var(--faq-card);
+  box-shadow: var(--faq-shadow);
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--faq-accent) 30%, var(--faq-edge));
+  }
+}
+
+.root .item[data-active] {
+  border-color: color-mix(in srgb, var(--faq-accent) 45%, transparent);
+  background: var(--faq-card);
+  box-shadow: 0 10px 28px -14px color-mix(in srgb, var(--faq-accent) 45%, transparent);
+}
+
+/* The small tile on the questions that matter most: the accent, tinted. */
+.icon {
+  display: grid;
+  place-items: center;
+  width: rem(28px);
+  height: rem(28px);
+  border-radius: rem(8px);
+  color: var(--faq-accent);
+  background: color-mix(in srgb, var(--faq-accent) 13%, transparent);
+}
