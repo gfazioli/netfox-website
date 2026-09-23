@@ -219,7 +219,7 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
       {/* ─── Hero ─── */}
       <Box
         pos="relative"
-        className="nf-feather"
+        className="nf-feather nf-home"
         style={{ overflow: 'hidden', ['--nf-feather-top' as string]: '0px' }}
       >
         {/*
@@ -430,7 +430,9 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
           </Stack>
 
           {/* ─── The four tools, screen beside copy ─── */}
-          <Box mt={96} mb={96}>
+          {/* mt 16: the stack above already ends on 80px of padding, and the
+              first capture adds its own transparent margin on top. */}
+          <Box mt={16} mb={96}>
             <ToolTour frames={tourFrames} />
           </Box>
         </Container>
