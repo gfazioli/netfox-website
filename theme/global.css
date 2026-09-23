@@ -7,21 +7,22 @@ html {
 }
 
 /*
- * The page's own surface, and the two values cut from it. They are sampled
- * from the app icon, not picked: its plate runs from azure at the top
- * (#B3C9FC, a hue of about 222°) to indigo at the bottom (#5344A8), and
- * these three are cut from the TOP of it (user, 2026-09-23: start from the
- * azure), so the page reads as the icon's backdrop seen in daylight rather
- * than as a neutral grey beside it.
+ * The LIGHT page, which since the home page went to night is the docs' page
+ * (and any other page that is not the home). Near-white with a breath of the
+ * icon's azure (hue ~222°) rather than the mid azure it was: Nextra's own
+ * components (striped tables, callouts, code blocks) are drawn for white or
+ * for black, and on a half-tone azure they looked like a different site
+ * (user, 2026-09-23: "o andiamo sullo scuro o sul chiaro"). Long reading
+ * wants the light page; the showcase is the night.
  *
- * - `--nf-page`   hsl(222 70% 89%), the azure lightened, well off white.
+ * - `--nf-page`   #f6f8fe, white with the azure's hue in it.
  * - `--nf-top`    the colour the home page starts with (the fur's navy),
  *                 which the navbar takes there so the two read as one.
- * - `--nf-rule`   hsl(222 55% 80%), the same hue a step down, for every
- *                 hairline and card edge.
+ * - `--nf-rule`   #dde4f5, the same hue a step down, for every hairline and
+ *                 card edge.
+ * - `--nf-footer` #e8edfa, the footer's ground, a step under the page.
  * - `dimmed`      hsl(222 25% 33%), the icon's navy fur muted to text weight:
- *                 about 7:1 on the page. Mantine's own gray-6 is about 3:1 on
- *                 a surface this dark, and fails AA.
+ *                 about 9:1 on the page.
  *
  * One token each, so everything that has to dissolve INTO the page (the
  * marquee's fade, a section's feathered edge) names the colour the body is
@@ -48,11 +49,11 @@ html {
   --nf-rust: #8b2f08;
   --nf-cream: #eae2d8;
 
-  --nf-page: #cfdbf7;
+  --nf-page: #f6f8fe;
   --nf-top: var(--nf-navy);
-  --nf-rule: #b0c1e8;
+  --nf-rule: #dde4f5;
   --nf-card: var(--mantine-color-white);
-  --nf-footer: #c3d1f3;
+  --nf-footer: #e8edfa;
 }
 
 /*
