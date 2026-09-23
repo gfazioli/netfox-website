@@ -31,7 +31,7 @@ import {
   Title,
 } from '@mantine/core';
 import config from '@/config';
-import { ScreenshotGallery } from '@/components/ScreenshotGallery/ScreenshotGallery';
+import { ToolTour, type TourFrame } from '@/components/ToolTour/ToolTour';
 import { ShareButtons } from '@/components/ShareButtons/ShareButtons';
 import { ReleaseCadence } from '@/components/ReleaseCadence/ReleaseCadence';
 import {
@@ -47,13 +47,6 @@ import accentClasses from '../AccentCard/AccentCard.module.css';
 import classes from './Welcome.module.css';
 
 /**
- * Hero screenshots, one per top-level tool, shown side by side by
- * `ScreenshotGallery`. The captures are 3072×1886 PNGs, and that ratio is
- * applied to every tile so the two rows keep one height.
- */
-const HERO_SCREEN_RATIO = '3072 / 1886';
-
-/**
  * Anchor chrome for the clickable feature cards: kill the default
  * underline/colour and fill the grid cell. Module-level so the seven
  * cards share one allocation instead of recreating the object per
@@ -65,29 +58,62 @@ const FEATURE_LINK_STYLE = {
   display: 'block',
 } as const;
 
-const heroScreens = [
+/**
+ * The four tools, as `ToolTour` rows. Every sentence and every figure here is
+ * taken from that tool's own docs page (content/tools/*.mdx), which is what
+ * the link under it opens: a claim on the homepage that the docs page does not
+ * make is a claim nobody has checked.
+ */
+const tourFrames: TourFrame[] = [
   {
-    label: 'Overview',
     src: '/screenshot-overview.png',
-    alt: 'Netfox — Overview dashboard',
+    alt: 'Netfox — the Overview: risk posture, devices online, public IP and the alert inbox as four cards, with the network settings and the link below',
+    eyebrow: 'Overview',
+    title: 'Your whole network, on one screen.',
+    body: 'Four cards answer the four things you open it for: what is on the network, what looks risky, what your network looks like from outside, and what happened while you were away. Each card opens the tool behind it, and the one that asks you to act carries the Smart Scan that checks every device you have not tested yet.',
+    figures: [
+      { value: '4', label: 'cards, each one a door into its tool' },
+      { value: 'Opt-in', label: 'public IP lookup, the only traffic it sends' },
+    ],
+    href: '/docs/tools/overview',
+    linkLabel: 'Tour the Overview',
   },
-  // Hero uses a cleaner, glance-friendly Wi-Fi shot (hero aspect
-  // ratio); the docs Wi-Fi page keeps the fuller detail-panel
-  // screenshot (`/screenshot-wifi.png`).
   {
-    label: 'Wi-Fi',
+    // A cleaner, glance-friendly Wi-Fi shot; the docs page keeps the fuller
+    // detail-panel screenshot (`/screenshot-wifi.png`).
     src: '/screenshot-hero-wifi.png',
-    alt: 'Netfox — Wi-Fi diagnostics',
+    alt: 'Netfox — the Wi-Fi tool: every network in range with its security, channel and signal, and a live signal chart for the selected one',
+    eyebrow: 'Wi-Fi',
+    title: 'Every network in range, and how yours is holding up.',
+    body: 'Every network your Mac can hear, its security graded by colour, its channel and band, and a live signal history for each one. A hidden network still tells you who made the access point. Location is asked for once, because macOS keeps network names behind it, and is used for nothing else.',
+    href: '/docs/tools/wifi',
+    linkLabel: 'How the Wi-Fi tool reads',
   },
   {
-    label: 'Devices',
     src: '/screenshot-devices.png',
-    alt: 'Netfox — Devices and history',
+    alt: 'Netfox — the Devices tool: every device on the network in one list, with its name, vendor and state',
+    eyebrow: 'Devices',
+    title: 'Every device, named in plain English.',
+    body: 'Bonjour, the ARP cache, SSDP, NetBIOS and an active ping run together and merge into one row per physical device, so the quiet ones show up beside the chatty ones — each with its identity, its history and the services it exposes. And when a device never speaks at all, Find silent devices asks your subnet instead of waiting.',
+    figures: [
+      { value: '5', label: 'discovery sources, one row per device' },
+      { value: 'Read-only', label: 'discovery, until you ask for a scan' },
+    ],
+    href: '/docs/tools/devices',
+    linkLabel: 'How devices are found',
   },
   {
-    label: 'Security',
     src: '/screenshot-security.png',
-    alt: 'Netfox — Security findings',
+    alt: 'Netfox — the Security tool: findings grouped by risk, each one explained in plain English',
+    eyebrow: 'Security',
+    title: 'What looks wrong, and why it matters.',
+    body: 'A quick check of every device you can reach, against the ports that matter at home: remote access, file sharing, databases, smart-home control, and the dev server you forgot was open to the LAN. Every finding comes in plain English, and every device it has checked earns a risk badge. Plain TCP connections, no root, and never anything outside your network.',
+    figures: [
+      { value: '6', label: 'families of port, from SSH to Redis' },
+      { value: 'LAN only', label: 'it refuses to probe anything outside' },
+    ],
+    href: '/docs/tools/security',
+    linkLabel: 'What gets checked',
   },
 ];
 
@@ -403,14 +429,9 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
             </Group>
           </Stack>
 
-          {/* ─── Hero screens ─── */}
-          {/*
-            The four tools side by side, each one opening full size. It
-            replaces a 3D card stack, which showed one screen and hid three
-            behind it, and which read as a dark block on the light page.
-          */}
-          <Box mt={72} mb={80} maw={1100} mx="auto">
-            <ScreenshotGallery screens={heroScreens} ratio={HERO_SCREEN_RATIO} />
+          {/* ─── The four tools, screen beside copy ─── */}
+          <Box mt={96} mb={96}>
+            <ToolTour frames={tourFrames} />
           </Box>
         </Container>
       </Box>
