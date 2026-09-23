@@ -52,6 +52,7 @@ html {
   --nf-top: var(--nf-navy);
   --nf-rule: #b0c1e8;
   --nf-card: var(--mantine-color-white);
+  --nf-footer: #c3d1f3;
 }
 
 /*
@@ -76,6 +77,7 @@ body:has(.nf-home) {
   --nf-top: var(--nf-navy);
   --nf-rule: rgb(255 255 255 / 11%);
   --nf-card: rgb(255 255 255 / 5%);
+  --nf-footer: #070a1f;
   --nf-ink: var(--nf-amber);
   --nf-display: var(--nf-amber);
   --mantine-color-text: var(--mantine-color-white);
