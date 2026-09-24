@@ -3,6 +3,14 @@ title: Release Notes
 ---
 
 import { ReleaseNotes } from "@/components/ReleaseNotes/ReleaseNotes";
+import { loadReleases } from "@/components/ReleaseNotes/load-releases";
+
+{/*
+  Fetched and compiled at build time, so the releases are in the served HTML:
+  fetched in the browser, Googlebot got a 403 from the API route and saw only the
+  loading skeleton.
+*/}
+export const releases = await loadReleases();
 
 # Release Notes
 
@@ -10,4 +18,4 @@ Auto-fetched from the [Netfox releases on GitHub](https://github.com/gfazioli/ne
 
 The same history is inside the app: **Help → Release Notes…** opens the whole history, newest first, offline and in your language.
 
-<ReleaseNotes />
+<ReleaseNotes initialReleases={releases} />
