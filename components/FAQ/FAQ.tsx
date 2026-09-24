@@ -11,7 +11,7 @@ import {
 import { Accordion, Anchor, Text } from '@mantine/core';
 import classes from './FAQ.module.css';
 
-const faqItems = [
+export const faqItems = [
   {
     value: 'what',
     question: 'What is Netfox?',
@@ -134,6 +134,12 @@ export function FAQ() {
       variant="separated"
       radius="md"
       classNames={{ root: classes.root, item: classes.item }}
+      // Mantine 9 keeps a closed panel in a React <Activity>, which renders
+      // nothing on the server: the served markup carried the 15 questions and
+      // not one answer, and Google left the page "Crawled - currently not
+      // indexed" (2026-09-24). `display-none` renders every answer and only
+      // hides it.
+      keepMountedMode="display-none"
     >
       {faqItems.map((item) => (
         <Accordion.Item key={item.value} value={item.value}>
