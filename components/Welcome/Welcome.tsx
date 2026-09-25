@@ -404,7 +404,7 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
               <ReleaseCadence cadence={cadence} />
             </Stack>
 
-            {/* ─── Launch badges (Product Hunt, Fazier) ─── */}
+            {/* ─── Launch badges (Product Hunt, Fazier, LaunchVault) ─── */}
             {/*
               Featured badge from our Product Hunt launch. Rendered as a
               plain anchor wrapping the Mantine Image (not next/image) so
@@ -419,9 +419,16 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
               and the light one is #1A5CFF glyphs that measure 1.26:1
               against this hero (#515c81 behind it), the white ones 6.57:1.
 
-              `justify="center"`: the two do not fit side by side on a
+              LaunchVault's SVG is 139×44 on a white plate of its own, so
+              it reads on the night as it is; at the 195px its embed asks
+              for it is 62px tall. It is also 1.3 MB (972 KB over the wire,
+              a base64 PNG inside) and revalidated on every visit, hence
+              `loading="lazy"`: the size is pinned, so deferring it moves
+              nothing.
+
+              `justify="center"`: the badges do not fit on one row on a
               phone, and a wrapped Group spans the full width, so without
-              it both badges hug the left edge under a centred hero.
+              it they hug the left edge under a centred hero.
             */}
             <Group align="center" justify="center" gap="md">
               <a
@@ -450,6 +457,22 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
                   w={120}
                   h={51}
                   fit="contain"
+                />
+              </a>
+              <a
+                href="https://www.launchvault.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Featured on LaunchVault"
+                aria-label="Netfox on LaunchVault"
+              >
+                <Image
+                  src="https://www.launchvault.dev/images/badges/launch-valut-badge.svg"
+                  alt="Featured on LaunchVault"
+                  w={195}
+                  h={62}
+                  fit="contain"
+                  loading="lazy"
                 />
               </a>
             </Group>
