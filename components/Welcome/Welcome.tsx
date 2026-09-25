@@ -459,11 +459,12 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
           </Stack>
 
           {/* ─── The four tools, screen beside copy ─── */}
-          {/* The room between the share icons and the first tool is where the
-              page turns from night to day (see the gradient's stops in
-              theme/global.css): the tour's copy is dark and must start on the
-              light page. */}
-          <Box mt={120} mb={96}>
+          {/* 32 on top of the hero Stack's 80px of bottom padding puts the
+              first tool 112px under the share icons: the same step the tour
+              takes between its own frames. This room used to be 200px, while
+              the page turned from night to day here; the night now holds to
+              the footer and the tour's copy is light, so nothing needs it. */}
+          <Box mt={32} mb={96}>
             <ToolTour frames={tourFrames} />
           </Box>
         </Container>
