@@ -404,15 +404,26 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
               <ReleaseCadence cadence={cadence} />
             </Stack>
 
-            {/* ─── Product Hunt launch badge ─── */}
+            {/* ─── Launch badges (Product Hunt, Fazier) ─── */}
             {/*
               Featured badge from our Product Hunt launch. Rendered as a
               plain anchor wrapping the Mantine Image (not next/image) so
               the externally-hosted SVG with its cache-busting `t=` query
               param is served as-is, untouched by Next's optimizer. Fixed
               250×54 to match Product Hunt's canonical badge dimensions.
+
+              Fazier's badge follows the same pattern. Its SVG is 103×44;
+              at the 120px width Fazier's embed asks for that is 51px tall,
+              pinned so the badge reserves its box before it loads. It is
+              the `theme=dark` variant: the badge has no plate of its own,
+              and the light one is #1A5CFF glyphs that measure 1.26:1
+              against this hero (#515c81 behind it), the white ones 6.57:1.
+
+              `justify="center"`: the two do not fit side by side on a
+              phone, and a wrapped Group spans the full width, so without
+              it both badges hug the left edge under a centred hero.
             */}
-            <Group align="center" gap="md">
+            <Group align="center" justify="center" gap="md">
               <a
                 href="https://www.producthunt.com/products/netfox?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-netfox"
                 target="_blank"
@@ -424,6 +435,20 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
                   alt="Netfox - A native local macOS network monitor | Product Hunt"
                   w={250}
                   h={54}
+                  fit="contain"
+                />
+              </a>
+              <a
+                href="https://fazier.com/launches/netfox.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Netfox on Fazier"
+              >
+                <Image
+                  src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=dark"
+                  alt="Fazier badge"
+                  w={120}
+                  h={51}
                   fit="contain"
                 />
               </a>
