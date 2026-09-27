@@ -70,7 +70,7 @@ const tourFrames: TourFrame[] = [
     alt: 'Netfox — the Overview: risk posture, devices online, public IP and the alert inbox as four cards, with the network settings and the link below',
     eyebrow: 'Overview',
     title: 'Your whole network, on one screen.',
-    body: 'Four cards answer the four things you open it for: what is on the network, what looks risky, what your network looks like from outside, and what happened while you were away. Each card opens the tool behind it, and the one that asks you to act carries the Smart Scan that checks every device you have not tested yet.',
+    body: 'Four cards answer the four things you open it for: what is on the network, what looks risky, what your network looks like from outside, and what happened while you were away. Each card opens the tool behind it, and the one that asks you to act carries the Smart Scan that checks every device you have not tested yet. On macOS 27 you pull it down to refresh it, as in Mail, and the rings and figures fill in again as you watch.',
     figures: [
       { value: '4', label: 'cards, each one a door into its tool' },
       { value: 'Opt-in', label: 'public IP lookup, the only traffic it sends' },
