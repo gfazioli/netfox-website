@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { IconArrowLeft, IconArrowRight, IconArrowsMaximize, IconX } from '@tabler/icons-react';
 import { ActionIcon, Group, Image, Modal, Text, UnstyledButton } from '@mantine/core';
+import { revealItem, revealScope } from '@/components/Motion/Reveal';
+import { ScrollNumber } from '@/components/Motion/ScrollNumber';
+import { useReveal } from '@/components/Motion/useReveal';
 import classes from './ToolTour.module.css';
 
 export interface TourFrame {
@@ -57,44 +60,7 @@ export function ToolTour({ frames }: { frames: TourFrame[] }) {
     <>
       <div className={classes.frames}>
         {frames.map((frame, i) => (
-          <section key={frame.src} className={classes.frame} aria-label={frame.title}>
-            <UnstyledButton
-              className={classes.shotButton}
-              onClick={() => setOpen(i)}
-              aria-label={`Enlarge: ${frame.eyebrow}`}
-            >
-              <Image src={frame.src} alt={frame.alt} className={classes.shot} />
-              <span className={classes.zoom} aria-hidden>
-                <IconArrowsMaximize size={16} />
-              </span>
-            </UnstyledButton>
-
-            <div className={classes.copy}>
-              <Text className={classes.eyebrow}>{frame.eyebrow}</Text>
-              <Text className={classes.title} fz={{ base: 26, md: 34 }} lh={1.15} mt={8}>
-                {frame.title}
-              </Text>
-              <Text c="dimmed" fz="lg" lh={1.6} mt={12}>
-                {frame.body}
-              </Text>
-
-              {frame.figures && (
-                <div className={classes.figures}>
-                  {frame.figures.map((figure) => (
-                    <div key={figure.label} className={classes.figure}>
-                      <span className={classes.figureValue}>{figure.value}</span>
-                      <span className={classes.figureLabel}>{figure.label}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              <Link href={frame.href} className={classes.link}>
-                {frame.linkLabel}
-                <IconArrowRight size={15} />
-              </Link>
-            </div>
-          </section>
+          <TourRow key={frame.src} frame={frame} index={i} onOpen={() => setOpen(i)} />
         ))}
       </div>
 
@@ -174,5 +140,93 @@ export function ToolTour({ frames }: { frames: TourFrame[] }) {
         )}
       </Modal>
     </>
+  );
+}
+
+/**
+ * One row of the tour, revealed as it scrolls into view: the screen slides in
+ * from the side it sits on, the copy lifts in after it, and the figures pop in
+ * last, their numbers rolling up from zero.
+ */
+function TourRow({
+  frame,
+  index,
+  onOpen,
+}: {
+  frame: TourFrame;
+  index: number;
+  onOpen: () => void;
+}) {
+  const { ref, revealed } = useReveal<HTMLElement>({ threshold: 0.25 });
+  const scope = revealScope(revealed);
+  // Even rows put the screen on the left, odd rows on the right (the CSS
+  // alternates the grid); below 62em it is one column and either reads fine.
+  const shot = revealItem(index % 2 === 0 ? 'left' : 'right');
+  const copy = revealItem('rise', 140);
+
+  return (
+    <section
+      ref={ref}
+      className={`${classes.frame} ${scope.className}`}
+      data-revealed={scope['data-revealed']}
+      aria-label={frame.title}
+    >
+      <UnstyledButton
+        className={classes.shotButton}
+        onClick={onOpen}
+        aria-label={`Enlarge: ${frame.eyebrow}`}
+      >
+        <Image
+          src={frame.src}
+          alt={frame.alt}
+          className={`${classes.shot} ${shot.className}`}
+          data-reveal={shot['data-reveal']}
+          style={shot.style}
+        />
+        <span className={classes.zoom} aria-hidden>
+          <IconArrowsMaximize size={16} />
+        </span>
+      </UnstyledButton>
+
+      <div
+        className={`${classes.copy} ${copy.className}`}
+        data-reveal={copy['data-reveal']}
+        style={copy.style}
+      >
+        <Text className={classes.eyebrow}>{frame.eyebrow}</Text>
+        <Text className={classes.title} fz={{ base: 26, md: 34 }} lh={1.15} mt={8}>
+          {frame.title}
+        </Text>
+        <Text c="dimmed" fz="lg" lh={1.6} mt={12}>
+          {frame.body}
+        </Text>
+
+        {frame.figures && (
+          <div className={classes.figures}>
+            {frame.figures.map((figure, k) => {
+              const pop = revealItem('pop', 420 + k * 140);
+              return (
+                <div
+                  key={figure.label}
+                  className={`${classes.figure} ${pop.className}`}
+                  data-reveal={pop['data-reveal']}
+                  style={pop.style}
+                >
+                  <span className={classes.figureValue}>
+                    <ScrollNumber value={figure.value} delay={560 + k * 140} />
+                  </span>
+                  <span className={classes.figureLabel}>{figure.label}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        <Link href={frame.href} className={classes.link}>
+          {frame.linkLabel}
+          <IconArrowRight size={15} />
+        </Link>
+      </div>
+    </section>
   );
 }

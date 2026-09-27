@@ -21,7 +21,8 @@
     opacity 0.6s ease,
     transform 0.6s ease,
     filter 0.6s ease;
-  transition-delay: var(--reveal-delay, 0ms);
+  /* After the card itself has landed (components/Motion), not with it. */
+  transition-delay: calc(var(--reveal-delay, 0ms) + 450ms);
 }
 
 .revealed .before {

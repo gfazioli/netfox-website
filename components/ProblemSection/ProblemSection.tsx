@@ -3,6 +3,7 @@
 import { IconRouter, IconTerminal2, IconCloud } from '@tabler/icons-react';
 import { Box, Container, SimpleGrid, Stack, Text, Title } from '@mantine/core';
 import { AccentCard, GradientIcon, HighlightPill } from '@/components/AccentCard/AccentCard';
+import { Reveal } from '@/components/Motion/Reveal';
 import accentClasses from '@/components/AccentCard/AccentCard.module.css';
 
 /**
@@ -45,30 +46,34 @@ export function ProblemSection() {
   return (
     <Box py={80} className={accentClasses.sectionBackdrop}>
       <Container size="lg" pos="relative" style={{ zIndex: 1 }}>
-        <Stack align="center" gap="md" mb={48}>
-          <Text size="sm" fw={700} tt="uppercase" style={{ letterSpacing: 3 }} c="orange">
-            The Problem
-          </Text>
-          <Title order={2} ta="center" fz={{ base: 32, sm: 42 }} fw={900}>
-            Seeing your network is easy. Understanding it is the hard part.
-          </Title>
-        </Stack>
+        <Reveal variant="rise">
+          <Stack align="center" gap="md" mb={48}>
+            <Text size="sm" fw={700} tt="uppercase" style={{ letterSpacing: 3 }} c="orange">
+              The Problem
+            </Text>
+            <Title order={2} ta="center" fz={{ base: 32, sm: 42 }} fw={900}>
+              Seeing your network is easy. Understanding it is the hard part.
+            </Title>
+          </Stack>
+        </Reveal>
 
         <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="lg">
-          {problems.map((item) => (
-            <AccentCard key={item.title} accent={item.accent}>
-              <Stack gap="md">
-                <GradientIcon icon={item.icon} />
-                <Text fw={700} size="lg">
-                  {item.title}
-                </Text>
-                <Text c="dimmed" size="sm">
-                  {item.description}
-                  <HighlightPill>{item.highlight}</HighlightPill>
-                  {item.rest}
-                </Text>
-              </Stack>
-            </AccentCard>
+          {problems.map((item, i) => (
+            <Reveal key={item.title} delay={i * 120}>
+              <AccentCard accent={item.accent} h="100%">
+                <Stack gap="md">
+                  <GradientIcon icon={item.icon} />
+                  <Text fw={700} size="lg">
+                    {item.title}
+                  </Text>
+                  <Text c="dimmed" size="sm">
+                    {item.description}
+                    <HighlightPill>{item.highlight}</HighlightPill>
+                    {item.rest}
+                  </Text>
+                </Stack>
+              </AccentCard>
+            </Reveal>
           ))}
         </SimpleGrid>
       </Container>

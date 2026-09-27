@@ -9,6 +9,9 @@ import {
   IconCode,
 } from '@tabler/icons-react';
 import { Badge, Container, Group, Stack, Text, Title } from '@mantine/core';
+import { revealItem, revealScope } from '@/components/Motion/Reveal';
+import { ScrollNumber } from '@/components/Motion/ScrollNumber';
+import { useReveal } from '@/components/Motion/useReveal';
 
 const techPills = [
   { label: 'SwiftUI', icon: IconCode },
@@ -28,20 +31,50 @@ const techPills = [
  * two components produced a visible seam between sections.
  */
 export function BuiltForMacSection() {
+  // The heading lifts in, the 100 rolls up from zero, and the pills pop in one
+  // after another, as if the list were being ticked off.
+  const { ref, revealed } = useReveal<HTMLDivElement>({ threshold: 0.3 });
+  const scope = revealScope(revealed);
+  const heading = revealItem('rise');
+  const closing = revealItem('rise', 300 + techPills.length * 70);
+
   return (
     <Container size="lg" pos="relative" style={{ zIndex: 1 }} py={80}>
-      <Stack align="center" gap="md">
-        <Text size="sm" fw={700} tt="uppercase" style={{ letterSpacing: 3 }} c="orange">
+      <Stack
+        ref={ref}
+        align="center"
+        gap="md"
+        className={scope.className}
+        data-revealed={scope['data-revealed']}
+      >
+        <Text
+          size="sm"
+          fw={700}
+          tt="uppercase"
+          style={{ letterSpacing: 3, ...heading.style }}
+          c="orange"
+          className={heading.className}
+          data-reveal={heading['data-reveal']}
+        >
           Built for macOS
         </Text>
-        <Title order={2} ta="center" fz={{ base: 32, sm: 42 }} fw={900}>
-          100% native SwiftUI. Fast. Familiar. Yours.
+        <Title
+          order={2}
+          ta="center"
+          fz={{ base: 32, sm: 42 }}
+          fw={900}
+          className={heading.className}
+          data-reveal={heading['data-reveal']}
+          style={heading.style}
+        >
+          <ScrollNumber value="100" delay={250} />% native SwiftUI. Fast. Familiar. Yours.
         </Title>
 
         <Group justify="center" gap="sm" mt="lg" maw={700}>
-          {techPills.map((pill) => (
+          {techPills.map((pill, k) => (
             <Badge
               key={pill.label}
+              {...revealItem('pop', 300 + k * 70)}
               size="xl"
               variant="light"
               color="gray"
@@ -59,7 +92,16 @@ export function BuiltForMacSection() {
           ))}
         </Group>
 
-        <Text c="dimmed" ta="center" size="lg" maw={600} mt="lg">
+        <Text
+          c="dimmed"
+          ta="center"
+          size="lg"
+          maw={600}
+          mt="lg"
+          className={closing.className}
+          data-reveal={closing['data-reveal']}
+          style={closing.style}
+        >
           No Electron. No web views. A real macOS app that feels like it belongs on your Mac.
         </Text>
       </Stack>
