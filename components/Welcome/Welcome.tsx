@@ -44,6 +44,7 @@ import { SolutionSection } from '../SolutionSection/SolutionSection';
 import { BuiltForMacSection } from '../BuiltForMacSection/BuiltForMacSection';
 import { AccentCard, GradientIcon } from '../AccentCard/AccentCard';
 import accentClasses from '../AccentCard/AccentCard.module.css';
+import { Reveal } from '../Motion/Reveal';
 import classes from './Welcome.module.css';
 
 /**
@@ -56,6 +57,9 @@ const FEATURE_LINK_STYLE = {
   textDecoration: 'none',
   color: 'inherit',
   display: 'block',
+  // The grid cell is now the Reveal wrapper, so the link has to fill it for
+  // the cards in a row to keep one height.
+  height: '100%',
 } as const;
 
 /**
@@ -518,25 +522,31 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
       >
         <Container size="sm" pos="relative" style={{ zIndex: 1 }}>
           <Stack align="center" gap="lg">
-            <IconQuoteFilled size={44} color="var(--mantine-color-orange-5)" />
-            <Text
-              ta="center"
-              fz={{ base: 24, sm: 30 }}
-              fw={700}
-              fs="italic"
-              style={{ lineHeight: 1.4 }}
-            >
-              If you take machine speak and convert it into humanese,{' '}
-              <Text span inherit c="var(--nf-display)">
-                that&apos;s valuable.
+            <Reveal variant="pop">
+              <IconQuoteFilled size={44} color="var(--mantine-color-orange-5)" />
+            </Reveal>
+            <Reveal variant="rise" delay={140}>
+              <Text
+                ta="center"
+                fz={{ base: 24, sm: 30 }}
+                fw={700}
+                fs="italic"
+                style={{ lineHeight: 1.4 }}
+              >
+                If you take machine speak and convert it into humanese,{' '}
+                <Text span inherit c="var(--nf-display)">
+                  that&apos;s valuable.
+                </Text>
               </Text>
-            </Text>
-            <Group gap="sm" justify="center" mt={4}>
-              <Avatar src="/chris-messina.jpg" alt="Chris Messina" size="md" radius="xl" />
-              <Text c="dimmed" size="sm" fw={600}>
-                Chris Messina &middot; inventor of the hashtag
-              </Text>
-            </Group>
+            </Reveal>
+            <Reveal variant="rise" delay={300}>
+              <Group gap="sm" justify="center" mt={4}>
+                <Avatar src="/chris-messina.jpg" alt="Chris Messina" size="md" radius="xl" />
+                <Text c="dimmed" size="sm" fw={600}>
+                  Chris Messina &middot; inventor of the hashtag
+                </Text>
+              </Group>
+            </Reveal>
           </Stack>
         </Container>
       </Box>
@@ -552,34 +562,39 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
         style={{ scrollMarginTop: 64 }}
       >
         <Container size="lg" pos="relative" style={{ zIndex: 1 }}>
-          <Stack align="center" gap="md" mb={48}>
-            <Text size="sm" fw={700} tt="uppercase" style={{ letterSpacing: 3 }} c="orange">
-              Features
-            </Text>
-            <Title order={2} ta="center" fz={{ base: 32, sm: 42 }} fw={900}>
-              Everything you need, nothing you don&apos;t
-            </Title>
-          </Stack>
+          <Reveal variant="rise">
+            <Stack align="center" gap="md" mb={48}>
+              <Text size="sm" fw={700} tt="uppercase" style={{ letterSpacing: 3 }} c="orange">
+                Features
+              </Text>
+              <Title order={2} ta="center" fz={{ base: 32, sm: 42 }} fw={900}>
+                Everything you need, nothing you don&apos;t
+              </Title>
+            </Stack>
+          </Reveal>
 
           <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="xl">
-            {features.map((feature) => (
+            {features.map((feature, i) => (
               // The whole card is the link target (not just the title):
               // the card's hover-lift + accent glow already signal
               // interactivity, so the anchor only needs to kill the
-              // default underline/colour and fill the grid cell.
-              <Link key={feature.title} href={feature.href} style={FEATURE_LINK_STYLE}>
-                <AccentCard accent={feature.accent} h="100%">
-                  <Stack gap="md" align="flex-start">
-                    <GradientIcon icon={feature.icon} />
-                    <Text fw={700} size="lg">
-                      {feature.title}
-                    </Text>
-                    <Text c="dimmed" size="sm">
-                      {feature.description}
-                    </Text>
-                  </Stack>
-                </AccentCard>
-              </Link>
+              // default underline/colour and fill the grid cell. Each card
+              // watches itself, so a row lands as it scrolls in, left to right.
+              <Reveal key={feature.title} delay={(i % 3) * 110}>
+                <Link href={feature.href} style={FEATURE_LINK_STYLE}>
+                  <AccentCard accent={feature.accent} h="100%">
+                    <Stack gap="md" align="flex-start">
+                      <GradientIcon icon={feature.icon} />
+                      <Text fw={700} size="lg">
+                        {feature.title}
+                      </Text>
+                      <Text c="dimmed" size="sm">
+                        {feature.description}
+                      </Text>
+                    </Stack>
+                  </AccentCard>
+                </Link>
+              </Reveal>
             ))}
           </SimpleGrid>
         </Container>
@@ -622,50 +637,54 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
             BuiltForMac content above. */}
         <Box pos="relative" py={80}>
           <Container size="lg" pos="relative" style={{ zIndex: 1 }}>
-            <Stack align="center" gap="lg">
-              <Text size="sm" fw={700} tt="uppercase" style={{ letterSpacing: 3 }} c="orange">
-                Get Started
-              </Text>
-              <Title order={2} ta="center" fz={{ base: 36, sm: 48 }} fw={900}>
-                Know your network. Always.
-              </Title>
-              <Text c="dimmed" ta="center" size="lg" maw={500}>
-                Download Netfox and see who&apos;s really connected.
-              </Text>
+            <Reveal variant="rise">
+              <Stack align="center" gap="lg">
+                <Text size="sm" fw={700} tt="uppercase" style={{ letterSpacing: 3 }} c="orange">
+                  Get Started
+                </Text>
+                <Title order={2} ta="center" fz={{ base: 36, sm: 48 }} fw={900}>
+                  Know your network. Always.
+                </Title>
+                <Text c="dimmed" ta="center" size="lg" maw={500}>
+                  Download Netfox and see who&apos;s really connected.
+                </Text>
 
-              <Button
-                href="/download"
-                component="a"
-                leftSection={<IconDownload size={20} />}
-                size="xl"
-                radius="xl"
-                px={48}
-                color="orange"
-                mt="md"
-              >
-                Download for macOS
-              </Button>
-              <Text c="dimmed" size="sm">
-                Free &middot; macOS 15.6 Sequoia or later
-              </Text>
-            </Stack>
+                <Button
+                  href="/download"
+                  component="a"
+                  leftSection={<IconDownload size={20} />}
+                  size="xl"
+                  radius="xl"
+                  px={48}
+                  color="orange"
+                  mt="md"
+                >
+                  Download for macOS
+                </Button>
+                <Text c="dimmed" size="sm">
+                  Free &middot; macOS 15.6 Sequoia or later
+                </Text>
+              </Stack>
+            </Reveal>
           </Container>
         </Box>
       </Box>
 
       {/* ─── FAQ ─── */}
       <Container size="lg">
-        <Stack align="center" gap="md" my={64}>
-          <Text size="sm" fw={700} tt="uppercase" style={{ letterSpacing: 3 }} c="orange">
-            FAQ
-          </Text>
-          <Title order={2} ta="center">
-            Frequently Asked Questions
-          </Title>
-          <Box w="100%" maw={700} mt="md">
-            <FAQ />
-          </Box>
-        </Stack>
+        <Reveal variant="rise">
+          <Stack align="center" gap="md" my={64}>
+            <Text size="sm" fw={700} tt="uppercase" style={{ letterSpacing: 3 }} c="orange">
+              FAQ
+            </Text>
+            <Title order={2} ta="center">
+              Frequently Asked Questions
+            </Title>
+            <Box w="100%" maw={700} mt="md">
+              <FAQ />
+            </Box>
+          </Stack>
+        </Reveal>
       </Container>
     </>
   );
