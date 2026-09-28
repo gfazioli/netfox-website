@@ -147,7 +147,7 @@ Open services from the most recent security probe, grouped by category. Each por
 
 **The list is the last thing each port said, and it is honest about that.** Readings are kept across relaunches, so on their own they could be days old — a database you stopped since then would still read as open. Opening the tab asks again every port it lists as **open** once that answer is more than a minute old, and a line above the list says how old the list is (**Last probed …**, counted from its oldest reading). The re-check only records an answer: a port that refuses is marked **Closed**, while one that simply doesn't reply keeps its reading, because a silence is not a close. **Probe Ports** asks everything again, including any port a Full Scan found outside the catalog, and it is the one probe that records a silence over an answer, so a port whose firewall has started dropping gets corrected there. The scheduled probe and **Scan All** keep a port's answer through a silence, because a device asleep during the sweep answers nothing at all.
 
-A picker above the list narrows it to one state, and each segment carries its count — **All**, **Open**, **Closed**, **Filtered**. The counts are worth reading on their own: *Filtered 3* on a device that answers everything else means something is dropping probes for exactly those three ports, which is a finding before you click anything.
+A picker above the list narrows it to one state, and each segment carries its count — **All**, **Open**, **Closed**, **Filtered**. The counts are worth reading on their own: *Filtered 3* on a device whose other ports answered in the same probe means something is dropping probes for exactly those three ports, which is a finding before you click anything.
 
 **Closed and filtered are not the same thing**, and the difference is the useful part:
 
@@ -156,7 +156,7 @@ A picker above the list narrows it to one state, and each segment carries its co
 | **Closed** | the device answered, refusing the connection | normally nothing is listening there — a definite answer, and proof the device is awake |
 | **Filtered** | no answer at all, neither a connection nor a refusal | a firewall is dropping the probe, or the device is asleep or off; from here they look the same, and whether a service is behind it is unknown |
 
-Closed is a *no*. Filtered is a *silence*. A device that returns mostly closed ports is being straightforward with you; one that returns only filtered is asleep, off or gone, or behind a firewall that drops every probe, and its real state is hidden. A few filtered ports on a device that answers everything else is the telling case: something is dropping probes for exactly those.
+Closed is a *no*. Filtered is a *silence*. A device that returns mostly closed ports is being straightforward with you; one that returns only filtered is asleep, off or gone, or behind a firewall that drops every probe, and its real state is hidden.
 
 #### Who is holding the port
 
