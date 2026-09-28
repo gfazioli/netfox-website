@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.26.0 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.26.0</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p>Netfox 0.26.0 is about telling the truth about ports: a device that goes to sleep no longer rewrites what its ports said, and every place that sums up your network now gives the same risk reading.</p>
+<h2>Ports</h2>
+<ul>
+<li><strong>A sleeping device keeps its answers.</strong> When the scheduled scan or Scan All got no answer from a device, it recorded every port as Filtered. A risk such as an open Telnet port disappeared, the History logged the ports as closed, and when the device woke up each one raised an alert. A silence during a scan now keeps the port's last answer, with its time. Probe Ports on a single device still records the silence, for a firewall that has really started dropping.</li>
+<li><strong>The filter stays in reach.</strong> The Ports tab's state filter and the line saying how old the list is stay in place while the list scrolls. In a short window they scroll with it, to leave the list room.</li>
+<li><strong>"Oldest reading".</strong> That line now says what it measures: the age of the oldest reading on the list.</li>
+<li><strong>What Closed and Filtered mean.</strong> Closed is a refusal. Filtered is no answer at all, from a firewall or from a device that is asleep or off, and the app no longer says more than that. The texts about local services, plain HTTP, the TLS and SMB checks and scan progress were corrected the same way.</li>
+<li><strong>Readings survive housekeeping.</strong> The 30-day cleanup no longer deletes a port's only reading, so a device nobody has probed for a month keeps its ports. When Netfox merges two records of the same device, their alerts keep their details and a scan's silence no longer overrules an answer.</li>
+</ul>
+<h2>Risk</h2>
+<ul>
+<li><strong>One reading everywhere.</strong> The menu bar, the notch, the Overview and Security could judge the same devices differently, and showed a green OK before anything had been scanned. OK now means that every device Netfox can reach has been scanned and none is at risk. Devices it has never scanned and can't reach (offline, on another network or without an IPv4 address) are counted apart and never called checked.</li>
+<li><strong>This Mac in By Service.</strong> Security's By Service view now counts the services this Mac exposes, as By Device already did.</li>
+</ul>
+<h2>Metrics</h2>
+<ul>
+<li><strong><code class="notranslate">netfox_port_state</code></strong> tells a closed port from a filtered one, with one series per state and the recorded one at 1. An alert rule can now fire when a service stops without firing every time a device goes to sleep. <code class="notranslate">netfox_port_open</code> keeps its labels.</li>
+<li>The alert count no longer includes Demo Mode's sample alerts.</li>
+</ul>
+<h2>Look and feel</h2>
+<ul>
+<li>The light that crossed the cards as they landed now runs along their edges, and the entrance plays a little faster.</li>
+</ul>
+<h2>Fixes</h2>
+<ul>
+<li>Counts agree with their number in Italian, French, Spanish and Portuguese, where the risk card read "1 non testati" and "3 medio".</li>
+<li>Demo Mode's sample "risky arrival" alert now names a finding the sample device really has, in your language.</li>
+</ul>
+</body>
+</html>
