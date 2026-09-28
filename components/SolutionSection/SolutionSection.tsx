@@ -97,7 +97,7 @@ const devices = [
     name: 'ESP-8A2F',
     detail: 'Espressif · web server on :80 · “lighttpd”',
     state: 'Open :80',
-    stateColor: 'red',
+    stateColor: 'yellow',
     online: true,
     risk: true,
   },

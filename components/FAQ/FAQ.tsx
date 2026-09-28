@@ -69,7 +69,7 @@ export const faqItems = [
     value: 'modify',
     question: 'Does Netfox change anything on my network?',
     answer:
-      "Read-only by default. Discovery uses ICMP echo (standard ping) for active probing — that's the only outbound traffic the regular passes generate. The Security tool, when you run it, opens short TCP connections to well-known ports and closes them immediately; no scanning, no exploitation, nothing intrusive. Both checks only fire against devices on your own LAN (verified twice, in the UI and in the engine).",
+      "Read-only by default. Discovery uses ICMP echo (standard ping) for active probing — that's the only outbound traffic the regular passes generate. The Security tool, when you run it (or on the schedule you can turn on), opens short TCP connections to well-known ports and closes them: a light port scan, with no exploitation and nothing changed on the device. Both checks only fire against devices on your own LAN (verified twice, in the UI and in the engine).",
   },
   {
     value: 'cross-network',

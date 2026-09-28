@@ -47,15 +47,16 @@ A `GET /metrics` scrape returns these series:
 | `netfox_device_online{host}` | `1` if the device is online, `0` otherwise |
 | `netfox_device_last_seen_timestamp_seconds{host}` | When the device was last observed |
 | `netfox_host_open_ports{host}` | Number of open ports observed on the host |
-| `netfox_port_open{host,port}` | `1` if the port was last observed open, `0` otherwise |
-| `netfox_port_last_observed_timestamp_seconds{host,port}` | When that port's state was last probed |
+| `netfox_port_open{host,port}` | `1` if the port's recorded state is open, `0` if it is closed or filtered |
+| `netfox_port_state{host,port,state}` | One series per state (`open`, `closed`, `filtered`): `1` for the port's recorded state, `0` for the others |
+| `netfox_port_last_observed_timestamp_seconds{host,port}` | When the reading behind the port's recorded state was taken |
 | `netfox_throughput_bytes_per_second{direction}` | This Mac's network throughput, `rx` and `tx` |
 | `netfox_alerts_total{kind}` | Persisted alert counts, by kind |
 
 The `host` label is the device's IPv4 (the address you'll recognise in Grafana), falling back to its MAC then an internal id for a device without one.
 
 <Callout type="info">
-The port series (`netfox_port_open`, `netfox_port_last_observed_timestamp_seconds`) only appear for devices that have been **scanned at least once** — run a scan from the [Security](/docs/tools/security) tool first. And `..._last_observed_..._seconds` is when Netfox last *probed* the port's state, not when a client last connected to it — Netfox probes on a schedule, it doesn't packet-capture per-port traffic.
+The port series (`netfox_port_open`, `netfox_port_state`, `netfox_port_last_observed_timestamp_seconds`) only appear for devices that have been **scanned at least once** — run a scan from the [Security](/docs/tools/security) tool first. `netfox_port_open` reads `0` for a port that refused and for one that did not answer at all; `netfox_port_state` tells them apart, so a rule can fire on a service that stopped without firing on a device that went to sleep. And `..._last_observed_..._seconds` is when the reading behind the port's state was taken, not when a client last connected to it — Netfox probes on a schedule, it doesn't packet-capture per-port traffic. Nor is it always the last probe: a scheduled sweep that gets no answer keeps the answer the port had, with its time.
 </Callout>
 
 ## Pointing Prometheus at it
