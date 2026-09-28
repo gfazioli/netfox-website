@@ -180,7 +180,7 @@ const features = [
     icon: IconBell,
     title: 'Five Kinds of Alert',
     description:
-      'New device, returning after long absence, risky arrival, port-state change, new service. Inbox + persistent log + per-device mute.',
+      'New device, returning after long absence, risky arrival, port opened, new service. Inbox + persistent log + per-device mute.',
     accent: 'var(--mantine-color-yellow-5)',
     href: '/docs/settings#alerts',
   },
