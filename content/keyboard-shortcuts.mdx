@@ -7,7 +7,7 @@ import { Callout } from 'nextra/components';
 
 # Keyboard Shortcuts
 
-Netfox keeps the keyboard surface small on purpose — most discovery happens passively, so there's not much you need to trigger by hand. Every shortcut below either switches tools, opens a window, flips an app-wide mode, or refreshes the device list.
+Netfox keeps the keyboard surface small on purpose — most discovery happens passively, so there's not much you need to trigger by hand. Every shortcut below either switches tools, opens a window, flips an app-wide mode, refreshes the device list, or moves through the releases in the Release Notes window.
 
 ## Switch tools
 
@@ -57,4 +57,13 @@ Closing the main window (<Kbd>⌘</Kbd> <Kbd>W</Kbd>) doesn't quit Netfox — th
 
 <ShortcutsTable shortcuts={[
   { keys: ['⌘', '?'], action: 'Open the live online docs in your default browser (replaces the macOS default Help menu, which has no docs to surface)' },
+]} />
+
+## Release Notes window
+
+Opened from **Help → Release Notes…**, or from **Learn More…** on the card that appears after an update.
+
+<ShortcutsTable shortcuts={[
+  { keys: ['⌘', '['], action: 'Back — the release you were reading before this one' },
+  { keys: ['⌘', ']'], action: 'Forward — the release you came back from' },
 ]} />
