@@ -58,7 +58,7 @@ Netfox can raise six kinds of alert. Each one has its own toggle so you can mute
 
 ### Risky arrival
 
-- **Notify on risky-host arrival** — when a device that earned a high or medium risk badge has been silent and then reconnects, Netfox raises an alert so you don't miss the return of a known weak link.
+- **Notify on risky-host arrival** — when a device first seen in the last 48 hours finishes a port scan with a high-risk verdict (Telnet exposed, a database open to the LAN, FTP), Netfox raises an alert: the new-device alert tells you someone joined, this one that the someone has a service worth checking. Off by default.
 
 ### Port-state changes
 

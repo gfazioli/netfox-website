@@ -58,7 +58,7 @@ Open the **Security** tab in the left sidebar (or press <Kbd>⌘</Kbd> <Kbd>4</K
 - Severity pills (high / medium / low / untested)
 - One section per severity, with the affected devices
 
-The blue **Scan All Devices** button kicks off probes across every untested device in parallel. The Security tool is rate-limited under the hood, so it can't flood your router. While a scan is running, the button reads "Scanning…" and devices migrate out of "Untested" into their real severity bucket as their results come in.
+A device counts as untested when it has never been scanned and Netfox can reach it now; one that is offline or on another network is left out of the counts and never called checked. The blue **Scan All Devices** button kicks off probes across every untested device in parallel. The Security tool is rate-limited under the hood, so it can't flood your router. While a scan is running, the button reads "Scanning…" and devices migrate out of "Untested" into their real severity bucket as their results come in.
 
 Once everything has been scanned at least once, the button flips to **Rescan All Devices** — port state ages (services start, firewalls get reconfigured), and re-running the sweep picks up anything that's changed.
 
@@ -84,7 +84,7 @@ A full scan is heavier than the catalog walk by design, so it's always something
 
 ## By device or by service
 
-The **By Device** / **By Service** toggle at the top flips the dashboard between two ways of reading the same scan. *By Device* (above) groups findings under each host. *By Service* inverts it — one row per exposed service across the whole network, with how many devices expose it and how many of those are at risk. It answers "what's reachable on my LAN, and where?" instead of "which device is risky?".
+The **By Device** / **By Service** toggle at the top flips the dashboard between two ways of reading the same scan. *By Device* (above) groups findings under each host. *By Service* inverts it — one row per exposed service across the whole network, This Mac included, with how many devices expose it and how many of those are at risk. It answers "what's reachable on my LAN, and where?" instead of "which device is risky?".
 
 ![Security, grouped by service](/screenshot-security-services.png)
 
