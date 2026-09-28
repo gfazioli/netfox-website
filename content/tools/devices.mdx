@@ -145,7 +145,7 @@ Open services from the most recent security probe, grouped by category. Each por
 
 ![The Ports tab, grouped by category](/screenshot-device-ports.png)
 
-**The list is the last thing each port said, and it is honest about that.** Readings are kept across relaunches, so on their own they could be days old — a database you stopped since then would still read as open. Opening the tab asks again every port it lists as **open** once that answer is more than a minute old, and a line above the list says how old the list is (**Last probed …**, counted from its oldest reading). The re-check only records an answer: a port that refuses is marked **Closed**, while one that simply doesn't reply keeps its reading, because a silence is not a close. **Probe Ports** asks everything again, including any port a Full Scan found outside the catalog.
+**The list is the last thing each port said, and it is honest about that.** Readings are kept across relaunches, so on their own they could be days old — a database you stopped since then would still read as open. Opening the tab asks again every port it lists as **open** once that answer is more than a minute old, and a line above the list says how old the list is (**Last probed …**, counted from its oldest reading). The re-check only records an answer: a port that refuses is marked **Closed**, while one that simply doesn't reply keeps its reading, because a silence is not a close. **Probe Ports** asks everything again, including any port a Full Scan found outside the catalog, and it is the one probe that records a silence over an answer, so a port whose firewall has started dropping gets corrected there. The scheduled probe and **Scan All** keep a port's answer through a silence, because a device asleep during the sweep answers nothing at all.
 
 A picker above the list narrows it to one state, and each segment carries its count — **All**, **Open**, **Closed**, **Filtered**. The counts are worth reading on their own: *Filtered 3* on a device that answers everything else means something is dropping probes for exactly those three ports, which is a finding before you click anything.
 
@@ -153,10 +153,10 @@ A picker above the list narrows it to one state, and each segment carries its co
 
 | | what happened | what you know |
 |---|---|---|
-| **Closed** | the device answered, refusing the connection | nothing is listening there — a definite answer |
-| **Filtered** | no answer at all, the probe timed out | something is dropping the packets; whether a service is behind it is unknown |
+| **Closed** | the device answered, refusing the connection | normally nothing is listening there — a definite answer, and proof the device is awake |
+| **Filtered** | no answer at all, neither a connection nor a refusal | a firewall is dropping the probe, or the device is asleep or off; from here they look the same, and whether a service is behind it is unknown |
 
-Closed is a *no*. Filtered is a *silence*. A device that returns mostly closed ports is being straightforward with you; one that returns mostly filtered has a firewall in the way, and its real state is hidden.
+Closed is a *no*. Filtered is a *silence*. A device that returns mostly closed ports is being straightforward with you; one that returns only filtered is asleep, off or gone, or behind a firewall that drops every probe, and its real state is hidden. A few filtered ports on a device that answers everything else is the telling case: something is dropping probes for exactly those.
 
 #### Who is holding the port
 
@@ -368,13 +368,13 @@ The detail panel's **History** tab shows the most recent transitions inline, wit
 Click *View Full History…* to open the per-device history sheet:
 
 - Every observation Netfox has ever recorded for that device, newest first
-- Categorised by kind (online/offline transition, hostname change, IP change, vendor change, port opened/closed, …)
+- Categorised by kind (online/offline transition, hostname change, IP change, vendor change, port opened, closed or stopped answering, …)
 - Filterable by event kind
 - Exportable as JSON for sharing or diffing
 
 ### Port-state changes
 
-When a probe — manual or scheduled — flips a port between **open** and not-open, the timeline records it: *"Port opened — 3000 (Node dev server)"* when a service appears, *"Port closed"* when it goes away. So the History captures how a device's **service exposure** changed over time, not just its presence: you can see that a dev server ran on port 3000 yesterday evening even though it's gone now. First-time observations don't record (learning a port's state isn't a change), and closed↔filtered flips are treated as reachability noise.
+When a probe — manual or scheduled — flips a port between **open** and not-open, the timeline records it: *"Port opened — 3000 (Node dev server)"* when a service appears, *"Port closed"* when the port starts refusing, and *"Port stopped answering"* when it goes silent instead, which is not a close: the device may simply be asleep. Only **Probe Ports** records that last one, since the scheduled probe keeps a port's answer through a silence. So the History captures how a device's **service exposure** changed over time, not just its presence: you can see that a dev server ran on port 3000 yesterday evening even though it's gone now. First-time observations don't record (learning a port's state isn't a change), and closed↔filtered flips are treated as reachability noise.
 
 ![Port opened and closed events at the top of a device's full History](/history-ports.png)
 

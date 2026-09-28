@@ -46,7 +46,7 @@ A `GET /metrics` scrape returns these series:
 | `netfox_device_info{host,mac,hostname,kind,local}` | Per-device metadata (value always `1`) — join other series on the `host` label |
 | `netfox_device_online{host}` | `1` if the device is online, `0` otherwise |
 | `netfox_device_last_seen_timestamp_seconds{host}` | When the device was last observed |
-| `netfox_host_open_ports{host}` | Number of open ports on the host |
+| `netfox_host_open_ports{host}` | Number of open ports observed on the host |
 | `netfox_port_open{host,port}` | `1` if the port was last observed open, `0` otherwise |
 | `netfox_port_last_observed_timestamp_seconds{host,port}` | When that port's state was last probed |
 | `netfox_throughput_bytes_per_second{direction}` | This Mac's network throughput, `rx` and `tx` |
