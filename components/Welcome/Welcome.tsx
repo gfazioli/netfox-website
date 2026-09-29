@@ -32,6 +32,7 @@ import {
 } from '@mantine/core';
 import config from '@/config';
 import { ToolTour, type TourFrame } from '@/components/ToolTour/ToolTour';
+import { HeroGuide } from '@/components/Mascot/HeroGuide';
 import { ShareButtons } from '@/components/ShareButtons/ShareButtons';
 import { ReleaseCadence } from '@/components/ReleaseCadence/ReleaseCadence';
 import {
@@ -354,29 +355,37 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
               Mac.
             </Text>
 
-            <Group justify="center" mt="md">
-              <Button
-                href="/download"
-                component="a"
-                leftSection={<IconDownload size={20} />}
-                size="xl"
-                radius="xl"
-                px={40}
-                color="orange"
-              >
-                Download for macOS
-              </Button>
-              <Button
-                href="/docs"
-                component="a"
-                rightSection={<IconArrowRight size={18} />}
-                variant="subtle"
-                size="xl"
-                color="orange"
-              >
-                See what it does
-              </Button>
-            </Group>
+            {/*
+              The row is the fox's anchor: it stops just right of it, and the
+              room it measures for its bubble starts at the row's right edge.
+              The Stack centres the row and sizes it to its buttons.
+            */}
+            <Box className={classes.ctaRow} mt="md">
+              <Group justify="center">
+                <Button
+                  href="/download"
+                  component="a"
+                  leftSection={<IconDownload size={20} />}
+                  size="xl"
+                  radius="xl"
+                  px={40}
+                  color="orange"
+                >
+                  Download for macOS
+                </Button>
+                <Button
+                  href="/docs"
+                  component="a"
+                  rightSection={<IconArrowRight size={18} />}
+                  variant="subtle"
+                  size="xl"
+                  color="orange"
+                >
+                  See what it does
+                </Button>
+              </Group>
+              <HeroGuide />
+            </Box>
 
             <Stack gap={4} align="center" mt={8}>
               <Text c="dimmed" ta="center" size="sm">

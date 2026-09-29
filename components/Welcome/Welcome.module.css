@@ -21,6 +21,11 @@
   color: var(--mantine-color-white);
 }
 
+/* The download buttons' row, which the fox (`components/Mascot`) stands beside. */
+.ctaRow {
+  position: relative;
+}
+
 .title {
   color: var(--mantine-color-white);
   font-size: rem(84px);
