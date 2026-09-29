@@ -63,8 +63,8 @@ function roomBeside(row: Element) {
  * `sprite.ts` for the drawing and why it is ours -- and it comes in from the
  * right once the buttons are in view, stops beside them, pings the radar on
  * its forehead as the icon's does, then raises a paw and says what a piece of
- * machine speak means (`translations.ts`). A click on it, or on what it says,
- * pings again and translates the next one. lancetta.app's mascot points at the
+ * machine speak means (`translations.ts`). A click on it, or on Next, pings
+ * again and translates the next one. lancetta.app's mascot points at the
  * reading that opens its panel, findergit.app's narrates the hero carousel;
  * this one is the hero's own sentence, demonstrated.
  *
@@ -291,21 +291,31 @@ export function HeroGuide() {
           </button>
           {phase === 'pointing' && (
             <div className={classes.bubble}>
-              {/* Named for what it says AND for what it does: the visible
-                  "Next" has to be in the name (WCAG 2.5.3), and the arrow is
-                  not worth reading out. */}
-              <button
-                type="button"
-                className={classes.say}
-                aria-label={`${said.raw}: ${said.plain} Next`}
-                onClick={next}
-              >
-                <span key={index} className={classes.caption}>
-                  <code className={classes.raw}>{said.raw}</code>
-                  <span>{said.plain}</span>
-                </span>
-                <span className={classes.next}>Next →</span>
-              </button>
+              <div className={classes.say}>
+                {/* Said out loud as it changes: a polite live region, mounted
+                    with the bubble and never keyed, around the caption, which
+                    is keyed for its fade. The translation used to be the name
+                    of the button it sat in, and screen readers do not
+                    reliably announce a name that changes under the focus
+                    (CodeRabbit on #82). Out of any button, too: inside one it
+                    would be part of the button's name rather than a region. */}
+                <div aria-live="polite" aria-atomic="true">
+                  <span key={index} className={classes.caption}>
+                    <code className={classes.raw}>{said.raw}</code> <span>{said.plain}</span>
+                  </span>
+                </div>
+                {/* One name for every translation, so the region is the only
+                    thing that says the new one; it starts with the visible
+                    "Next" (WCAG 2.5.3), and the arrow is not worth reading. */}
+                <button
+                  type="button"
+                  className={classes.next}
+                  aria-label="Next translation"
+                  onClick={next}
+                >
+                  Next →
+                </button>
+              </div>
               <button
                 type="button"
                 className={classes.dismiss}
