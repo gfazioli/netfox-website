@@ -1,5 +1,6 @@
 import { Kbd } from '@mantine/core';
 import { useMDXComponents as getDocsMDXComponents } from 'nextra-theme-docs';
+import { DocsImage } from '@/components/DocsImage/DocsImage';
 import { MascotNote } from '@/components/Mascot/MascotNote';
 import { ShortcutsTable } from '@/components/ShortcutsTable/ShortcutsTable';
 
@@ -10,5 +11,6 @@ export const useMDXComponents = (components?: any): any => ({
   Kbd,
   ShortcutsTable,
   MascotNote,
+  img: DocsImage,
   ...components,
 });
