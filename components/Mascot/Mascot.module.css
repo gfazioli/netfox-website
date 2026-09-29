@@ -1,0 +1,312 @@
+/*
+ * The fox and where it stands: just right of the hero's two buttons, its feet
+ * on their bottom edge. Cross-ported from findergit.app's `Mascot.module.css`,
+ * itself from lancetta.app's `PanelHint.module.css`.
+ */
+
+.sprite {
+  display: block;
+}
+
+/* Two frames of legs and tail, alternating while it walks. */
+.stepA {
+  animation: step-a 320ms steps(1) infinite;
+}
+
+.stepB {
+  animation: step-b 320ms steps(1) infinite;
+}
+
+@keyframes step-a {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes step-b {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/*
+ * Laid over the row of buttons, and what the arrival watches. It takes no
+ * clicks, so the buttons under it keep theirs.
+ *
+ * No lane of its own, unlike findergit.app's: the walk starts half a window
+ * right of where it ends, and the hero around this row is `overflow: hidden`,
+ * so the page never widens while the fox is out there.
+ */
+.anchor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/*
+ * As big as the fox and no bigger, so its feet are the row's bottom edge: the
+ * bubble hangs off it, out of the flow. In the flow, a bubble taller than the
+ * fox lifted the fox by the difference (25 px, measured at 1440).
+ */
+.hint {
+  position: absolute;
+  bottom: 0;
+  left: calc(100% + rem(14px));
+  pointer-events: auto;
+  transition: opacity 240ms ease;
+}
+
+/* Fading out, it takes no pointer: a hover that starts on a fox about to
+   unmount would never be told the pointer left. */
+.hint[data-phase='leaving'] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* A block, not the button's default inline-block: on a line box it sat on the
+   baseline, 7 px above the row's bottom edge (measured at 1440). */
+.walker {
+  position: relative;
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  /* The navy outline sits on the hero's navy-to-indigo wash: a glow in the
+     fox's own amber separates it better than a drop shadow could. */
+  filter: drop-shadow(0 0 6px rgb(252 159 27 / 30%)) drop-shadow(0 3px 4px rgb(0 0 0 / 45%));
+}
+
+.walker:focus-visible {
+  outline: 2px solid var(--nf-amber);
+  outline-offset: 4px;
+}
+
+/*
+ * The walk: in from the right edge of the window, slowing to a stop. `both`
+ * on purpose: this is decoration, and an engine that never runs it should
+ * show nothing rather than a fox standing beside the buttons mid-walk.
+ */
+.hint[data-phase='walking'] .walker {
+  animation: walk-in 2200ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.hint[data-phase='walking'] .sprite {
+  animation: bob 320ms steps(1) infinite;
+}
+
+/* One hop on arrival and one on every new translation, then still. Every
+   effect here ends. */
+.hint[data-phase='sniffing'] .sprite,
+.hint[data-phase='pointing'] .sprite {
+  animation: hop 420ms ease-out 1;
+}
+
+@keyframes walk-in {
+  from {
+    transform: translateX(50vw);
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+@keyframes bob {
+  50% {
+    transform: translateY(rem(-2px));
+  }
+}
+
+@keyframes hop {
+  40% {
+    transform: translateY(rem(-8px));
+  }
+}
+
+/*
+ * The ping: two rings from the radar dot on its forehead, the icon's radar
+ * made to work, and the hero's own arcs in small. Placed on the dot by
+ * `HeroGuide` (the cell times the scale); each ring starts as a point there.
+ */
+.pings {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.ring {
+  position: absolute;
+  top: rem(-60px);
+  left: rem(-60px);
+  width: rem(120px);
+  height: rem(120px);
+  border: 2px solid var(--nf-amber);
+  border-radius: 50%;
+  opacity: 0;
+  animation: ping 1000ms ease-out both;
+}
+
+.ring + .ring {
+  animation-delay: 260ms;
+}
+
+/* Held bright past half its growth: fading from the start, a ring on the
+   hero's wash was hard to see by the time it was big enough to read as one. */
+@keyframes ping {
+  0% {
+    opacity: 1;
+    transform: scale(0.06);
+  }
+
+  60% {
+    opacity: 0.6;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/*
+ * What it says, level with the fox's ears, with its tail towards it: the
+ * fox's navy, rimmed in its amber, so it reads as a bubble over the hero
+ * rather than as one more card. No wider than the room `HeroGuide` measured
+ * right of the fox.
+ */
+.bubble {
+  position: absolute;
+  top: rem(-4px);
+  left: calc(100% + rem(10px));
+  display: flex;
+  align-items: flex-start;
+  gap: rem(4px);
+  width: max-content;
+  max-width: min(rem(260px), var(--nf-guide-room, rem(260px)));
+  padding: rem(8px) rem(6px) rem(9px) rem(12px);
+  border-radius: rem(12px);
+  background: var(--nf-navy);
+  box-shadow:
+    0 0 0 1px rgb(252 159 27 / 38%),
+    0 12px 28px -10px rgb(0 0 0 / 55%);
+  animation: pop 220ms ease-out both;
+}
+
+.bubble::before {
+  position: absolute;
+  top: rem(14px);
+  left: rem(-5px);
+  width: rem(10px);
+  height: rem(10px);
+  border-bottom: 1px solid rgb(252 159 27 / 38%);
+  border-left: 1px solid rgb(252 159 27 / 38%);
+  background: var(--nf-navy);
+  content: '';
+  transform: rotate(45deg);
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateX(rem(-6px)) scale(0.96);
+  }
+}
+
+.say {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: rem(4px);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--mantine-color-white);
+  font: inherit;
+  font-size: rem(13px);
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* Keyed on the translation, so each new one fades in rather than swapping. */
+.caption {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: rem(3px);
+  animation: speak 260ms ease-out both;
+}
+
+@keyframes speak {
+  from {
+    opacity: 0;
+    transform: translateY(rem(3px));
+  }
+}
+
+/* The machine speak, as the machine writes it. */
+.raw {
+  padding: rem(1px) rem(6px);
+  border-radius: rem(5px);
+  background: rgb(252 159 27 / 12%);
+  color: var(--nf-amber);
+  font-family: var(--mantine-font-family-monospace);
+  font-size: rem(12px);
+}
+
+.next {
+  color: var(--nf-amber);
+  font-size: rem(12px);
+  font-weight: 600;
+}
+
+.say:hover .next {
+  text-decoration: underline;
+}
+
+.say:focus-visible,
+.dismiss:focus-visible {
+  outline: 2px solid var(--nf-amber);
+  outline-offset: 2px;
+  border-radius: rem(4px);
+}
+
+.dismiss {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: rem(20px);
+  height: rem(20px);
+  padding: 0;
+  border: 0;
+  border-radius: rem(6px);
+  background: none;
+  color: rgb(255 255 255 / 60%);
+  cursor: pointer;
+}
+
+.dismiss:hover {
+  background: rgb(255 255 255 / 8%);
+  color: var(--mantine-color-white);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hint,
+  .bubble,
+  .caption,
+  .ring,
+  .hint[data-phase] .walker,
+  .hint[data-phase] .sprite,
+  .stepA,
+  .stepB {
+    transition: none;
+    animation: none;
+  }
+}
