@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.28.0 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.28.0</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p>Netfox 0.28.0 lists each machine once and recognises more of the devices that say nothing about themselves.</p>
+<h2>One row per machine</h2>
+<ul>
+<li>A Mac on a cable and on Wi-Fi at the same time is one row instead of two. Its other connections are listed in its details, under <em>Other connections</em>: pick one to see its own ports and history.</li>
+<li>A device that changes its private Wi-Fi address no longer comes back as a second row when it answers to the same name, and its History no longer gains a second <em>First seen</em>.</li>
+<li>Risk, alerts and the device counts are per machine: a port open on the cable counts for the machine even while it is listed under its Wi-Fi.</li>
+</ul>
+<h2>Devices that say nothing</h2>
+<ul>
+<li>An Amazon Echo is named and drawn as a speaker from what it answers when asked. Those answers show on its Ports tab and are not a scan: it still reads <em>Not scanned</em> until you probe it.</li>
+<li>A device whose kind Netfox cannot tell shows its maker's picture where the maker makes one kind of thing: a house for Electrolux, a TV for Sony. A maker whose name covers several kinds of product, such as TP-Link or Belkin, keeps the question mark.</li>
+<li>A TV or speaker with Google Cast shows the name you gave it, and whether it is on a cable or on Wi-Fi, which it says itself.</li>
+</ul>
+<h2>Cable or Wi-Fi</h2>
+<ul>
+<li>For any other device you can now say how it is attached: the tag has a <em>Connection</em> choice beside <em>Kind</em>, and the row shows the cable or Wi-Fi icon beside its dot, as This Mac's row does. Useful for a mesh repeater on a cable, which answers nothing at all.</li>
+</ul>
+<h2>The device list</h2>
+<ul>
+<li>With the list and the details side by side, click a device and the arrow keys move through the list. They used to move the sidebar to the next tool.</li>
+<li>Search finds a device by the name you gave it in its tag, and by the name a Cast device gives itself.</li>
+<li>A row's second line stays on one line instead of wrapping and being cut off.</li>
+</ul>
+<h2>Fixes</h2>
+<ul>
+<li>Netfox now waits two minutes after launch before asking devices for their names. After an update it asked at once, while macOS was still letting the new version onto the network, so the questions failed and waited a quarter of an hour.</li>
+<li>Editing the tag of a muted device no longer turns its alerts back on.</li>
+<li>The tag menu item and the connection icon's tooltip are translated. They read in English in every language.</li>
+</ul>
+</body>
+</html>

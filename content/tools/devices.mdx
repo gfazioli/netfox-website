@@ -43,12 +43,14 @@ No password, no helper, no special privileges. A sweep is capped at 1,024 addres
 
 ## The device list
 
-This Mac sits at the top, pinned, with its current Wi-Fi/Ethernet badge. Below: online devices first, then offline. Each row shows the device's name — your custom tag, the name it announces, or the [local name](#local-name) it answers to — with its vendor and IP, plus a dot: green online, gray offline. The icon says what kind of device it is, and an Apple device whose kind Netfox cannot work out shows the Apple logo rather than a question mark.
+This Mac sits at the top, pinned, with its current Wi-Fi/Ethernet badge. Below: online devices first, then offline. **One row is one machine**: a Mac on a cable and on Wi-Fi at the same time is listed once, with its [other connections](#other-connections) in its details. A device that changes its private Wi-Fi address stays on its row too, once the new address answers to the same [local name](#local-name).
 
-On macOS 27 you can pull the list down to refresh it, the same as <Kbd>⌘</Kbd> <Kbd>R</Kbd>.
+Each row shows the device's name — your custom tag, the name a [Google Cast device](#google-cast-devices) gives itself, the name it announces, or the local name it answers to — with its vendor and IP, plus a dot: green online, gray offline. The icon says what kind of device it is, and an Apple device whose kind Netfox cannot work out shows the Apple logo rather than a question mark; [Devices that say nothing](#devices-that-say-nothing) covers the rest. A cable or Wi-Fi icon beside the dot says how a device is attached, where that is known: see [Network](#network).
+
+On macOS 27 you can pull the list down to refresh it, the same as <Kbd>⌘</Kbd> <Kbd>R</Kbd>. With the list and the detail side by side, click a device and the arrow keys move through the list, with the detail following.
 
 ### Search and filter
-- The **search box**, pinned to the toolbar's trailing edge, filters by name (the one a device announces or its local name), vendor, IPv4, IPv6, or MAC. Matches narrow the list live.
+- The **search box**, pinned to the toolbar's trailing edge, filters by name (the one you gave it in a tag, the one it announces, its local name, or the name a Cast device gives itself), vendor, IPv4, IPv6, or MAC. Matches narrow the list live.
 - The **status filter pill** scopes the list to *All / Online / Offline* without clearing the search. Your choice sticks — across switching tools and across restarts — so a list you've scoped to *Online* stays that way. The search box deliberately doesn't persist: a forgotten search term hides devices with nothing on screen to explain why.
 - The **range control** scopes the list to a block of addresses. Set it to `192.168.1.1`–`192.168.1.2` and the list shows those two devices and nothing else: a range says which part of the network you care about, not only which part to ask. Sweeping sets it; **Filter only** sets it without the probe, for when you want the narrower list rather than a fresh look at it. While a range is active the control itself states it and offers to dismiss it, and the footer reads *2 in range — 33 on the network*. Naming that second number is the point, because a filter you have forgotten looks exactly like a network that has lost thirty devices. Like the search box, and unlike the status pill, it doesn't survive a restart.
 
@@ -91,9 +93,22 @@ Netfox composes these into a one-line **plain-English identity** — *vendor · 
 
 Plenty of devices announce no name of their own, and a network full of them used to read as a column of manufacturers: three rows reading *Apple, Inc.*, each with a question mark for an icon. So when a device on your network has no name, Netfox asks it for the one it answers to on the local network — the name ending in `.local` — and most Apple devices, printers and Linux machines reply. It is the name the owner gave the device, so the row now reads *Annas MacBook Pro* instead, with the laptop icon, because the name says what the device is.
 
-The name appears as **Local name** in the Identity section, written the way the device publishes it (`Annas-MacBook-Pro.local`: spaces become hyphens and apostrophes disappear), and you can copy it — it is an address, so `ssh Annas-MacBook-Pro.local` works. Netfox remembers it while the device is off, for up to 90 days after its last answer, and asks a device that has answered at most once a day. It never uses the name to decide that two rows are the same device: a Mac answers with the same name on its cable and on its Wi-Fi, so the name alone would merge two connections into one.
+The name appears as **Local name** in the Identity section, written the way the device publishes it (`Annas-MacBook-Pro.local`: spaces become hyphens and apostrophes disappear), and you can copy it — it is an address, so `ssh Annas-MacBook-Pro.local` works. Netfox remembers it while the device is off, for up to 90 days after its last answer, and asks a device that has answered at most once a day. After a launch it waits two minutes before asking anything: a new version of the app cannot reach the network for about a minute while macOS lets it on, and a question sent then would fail and wait a quarter of an hour to be asked again. It never uses the name to decide that two rows are the same device: a Mac answers with the same name on its cable and on its Wi-Fi, so the name alone would merge two connections into one.
 
 An Apple device whose kind Netfox cannot work out — no model, and no name or service that says what it is — shows the **Apple logo** instead of a question mark. That takes an address Apple registered: a device using a [private address](#identity) names no manufacturer at all, so it keeps the question mark.
+
+#### Devices that say nothing
+
+Some devices announce nothing at all: no name, no service, nothing to answer a name with. Netfox knows them only by their address, so all it can say is who made them, and the row reads as the maker with a question mark. Two things narrow that down.
+
+- **What a device answers when asked.** An Amazon Echo announces nothing, but it answers on the two ports Alexa uses. Netfox asks those ports of devices whose address Amazon registered, and one that answers on both is named **Amazon Echo** and drawn as a speaker. The answers appear on its Ports tab, labelled Alexa (and Spotify, when that port answers too). They are not a scan: the device still reads *Not scanned* until you probe it, and no other device is asked anything.
+- **The maker's picture.** Where a maker makes essentially one kind of thing, a device of unknown kind gets that picture instead of a question mark: a house for an Electrolux appliance, a TV for Sony's TV business. A maker whose name covers several kinds of product keeps the question mark, because a wrong picture says more than none: TP-Link makes routers, extenders, plugs and cameras, and Belkin's registered name covers smart plugs and mesh routers alike.
+
+When you know better, a [tag](#tagging) says so: its kind replaces the picture, and its connection adds the cable or Wi-Fi icon.
+
+#### Google Cast devices
+
+A TV or speaker with Google Cast built in announces itself as a model and an id (`BRAVIA-4K-GB-ATV3-7b9b…`), which is no name for a row. Asked, it says without a password the name you gave it and whether it is on a cable or on Wi-Fi. Netfox asks every half hour, titles the row with that name and draws the cable or Wi-Fi icon beside the dot. It is the device's own word, so a [tag](#tagging) you give it still wins.
 
 In **Advanced Mode** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>M</Kbd>) an extra *Engine ID* row appears — useful for cross-referencing logs.
 
@@ -109,7 +124,7 @@ It reads SSH the same way — here it identifies the SSH service running on anot
 ![The Service inspector reading a device's SSH service](/screenshot-device-inspector-ssh.png)
 
 ### Network
-IPv4, IPv6, and connection type. The IPv4 row carries the size of the address range after it — `192.168.1.14` `/24` — which is a fact about the network the device sits on, not about the device. Copying the row still gives you the bare address. For this Mac, the connection type reflects the active interface (Wi-Fi / Ethernet / etc.). For other devices the value is blank — see the [FAQ](/docs/faq) for why we can't tell from the outside.
+IPv4, IPv6, and connection type. The IPv4 row carries the size of the address range after it — `192.168.1.14` `/24` — which is a fact about the network the device sits on, not about the device. Copying the row still gives you the bare address. For this Mac, the connection type reflects the active interface (Wi-Fi / Ethernet / etc.). For any other device it is usually blank, because from the outside a cable and Wi-Fi look the same: the router bridges both into one network, and nothing on it says which way a device came in. Two exceptions fill it in: a [Google Cast device](#google-cast-devices) says it itself, and Netfox shows its latest answer; and you can say it for any device in its [tag](#tagging). Either way the row shows the matching icon beside its dot.
 
 A device that does a job for the network says so here, as **Roles**:
 
@@ -122,6 +137,14 @@ On most home networks one box is all three. The interesting case is a resolver t
 Under those, a collapsed **Network context** group holds the lease itself — subnet mask, router, name servers, domain, DHCP server. It's folded away because it is identical for every device on the network; expanding it here saves a trip to the [Overview](/docs/tools/overview#network) when you're already looking at a device.
 
 ![The Network context group expanded on a device](/screenshot-network-context.png)
+
+### Other connections
+
+A machine with more than one connection — a Mac on a cable and on Wi-Fi, say — is one row, and the detail shows the connection it is listed under. The others are on the General tab under **Other connections**: where each one answers, the MAC it uses, and whether it is up now or when it last was. Pick one and the detail shows that connection instead, with its own ports and history; the one you came from is then in the same list.
+
+Netfox treats two connections as one machine when both answered to the same [local name](#local-name) while both were there, which only one machine on a network can do at a time. The name alone is not enough, since a name can pass to another machine later, so connections whose answers never overlapped stay separate rows.
+
+Risk, alerts and the device counts are per machine: a port open on the cable counts for the machine even while it is listed under its Wi-Fi.
 
 ### Link quality
 How long a small packet takes to reach the device and come back, measured from your Mac.
@@ -353,16 +376,17 @@ Right-click any row in the device list:
 |---|---|
 | **Probe This Device** | Sends an ICMP echo and refreshes online state immediately |
 | **Probe Ports** | Runs the [Security](/docs/tools/security) port scan against this device only |
-| **Edit Tag** | Opens a sheet to assign a custom name + icon (overrides hostname and vendor in the UI) |
+| **Add Tag…** | Opens a sheet to assign a custom name, kind and connection (overrides the name, icon and connection the device shows); **Edit Tag…** once it has one |
 | **Mute Alerts** | Stops the bell from firing for this device. Useful for noisy IoT that re-connects every few minutes |
 | **Reveal in Wi-Fi** | If the device is on Wi-Fi, jumps to the [Wi-Fi](/docs/tools/wifi) tool with the matching network selected |
 
 ## Tagging
 
-Click **Edit Tag** on a device whose hostname is meaningless ("Espressif Inc.", "Computer-1") and assign:
+Click **Add Tag…** on a device whose hostname is meaningless ("Espressif Inc.", "Computer-1") and assign:
 
 - A custom name — replaces hostname everywhere in the UI
 - A custom kind — overrides the auto-detected device kind
+- A connection — Ethernet or Wi-Fi, for a device the network cannot tell you about, such as a mesh repeater on a cable; the row then shows the cable or Wi-Fi icon, and the detail's Network section says the same
 - A mute toggle — silences alerts for that device
 
 Tags survive across launches and are masked when [Demo Mode](/docs/settings#privacy) is on. Wipe them from **Settings → Privacy → Clear custom tags** if you ever want a fresh slate.
@@ -391,7 +415,7 @@ When a probe — manual or scheduled — flips a port between **open** and not-o
 ![Devices with Demo Mode active](/screenshot-demo-mode.png)
 
 When [Demo Mode](/docs/settings#privacy) is on:
-- Hostnames, local names and custom tag names collapse to `Computer #1`, `Phone #2`, etc., numbered by device kind; the **Local name** row is hidden, and the search no longer matches it
+- Hostnames, local names, the names Cast devices give themselves and custom tag names collapse to `Computer #1`, `Phone #2`, etc., numbered by device kind; the **Local name** row is hidden, and the search no longer matches it
 - MAC addresses lose the last three octets (vendor OUI survives)
 - IPv6 addresses lose everything past the first hextet
 - IPv4 stays visible — RFC 1918 ranges don't leak anything network-specific
