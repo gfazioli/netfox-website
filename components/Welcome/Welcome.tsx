@@ -33,6 +33,7 @@ import {
 import config from '@/config';
 import { ToolTour, type TourFrame } from '@/components/ToolTour/ToolTour';
 import { HeroGuide } from '@/components/Mascot/HeroGuide';
+import { ScrollGuide } from '@/components/Mascot/ScrollGuide';
 import { ShareButtons } from '@/components/ShareButtons/ShareButtons';
 import { ReleaseCadence } from '@/components/ReleaseCadence/ReleaseCadence';
 import {
@@ -695,6 +696,10 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
           </Stack>
         </Reveal>
       </Container>
+
+      {/* The fox past the hero: in the window's corner, then on the footer's
+          Support card. After the page's content, so a keyboard meets it last. */}
+      <ScrollGuide />
     </>
   );
 }

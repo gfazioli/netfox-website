@@ -1,5 +1,6 @@
 import { act, fireEvent, render, screen } from '@/test-utils';
-import { DELAY_MS, guideMemory, HeroGuide, RESIZE_SETTLE_MS, SNIFF_MS, WALK_MS } from './HeroGuide';
+import { dismissGuide, guideMemory } from './guide';
+import { DELAY_MS, HeroGuide, RESIZE_SETTLE_MS, SNIFF_MS, WALK_MS } from './HeroGuide';
 import { TRANSLATIONS } from './translations';
 
 describe('HeroGuide', () => {
@@ -10,6 +11,7 @@ describe('HeroGuide', () => {
 
   beforeEach(() => {
     guideMemory.dismissed = false;
+    guideMemory.said = -1;
     observers = [];
     windowWidth = 1440;
     // jsdom has none. This one only records its callback, so a test can say
@@ -258,14 +260,25 @@ describe('HeroGuide', () => {
     expect(walker()).toBeNull();
   });
 
-  it('comes back on the way home if it was never dismissed', () => {
+  it('goes when the fox is dismissed in the corner of the window', () => {
+    // One character in three places (`guide.ts`): sent away from one, it goes
+    // from all of them.
+    render(<HeroGuide />);
+    arrived();
+    act(() => dismissGuide());
+    wait(400);
+    expect(walker()).toBeNull();
+  });
+
+  it('comes back on the way home if it was never dismissed, and goes on from there', () => {
     const page = render(<HeroGuide />);
     arrived();
     page.unmount();
 
+    // One fox for the life of the page: back home, it says the next one.
     render(<HeroGuide />);
     arrived();
-    expect(said(first.plain)).toBeInTheDocument();
+    expect(said(second.plain)).toBeInTheDocument();
   });
 
   it('arrives after the delay where nothing can say the buttons are in view', () => {
