@@ -1,5 +1,6 @@
 'use client';
 
+import NextImage from 'next/image';
 import Link from 'next/link';
 import { Scene } from '@gfazioli/mantine-scene';
 import { TextAnimate } from '@gfazioli/mantine-text-animate';
@@ -72,6 +73,8 @@ const FEATURE_LINK_STYLE = {
 const tourFrames: TourFrame[] = [
   {
     src: '/screenshot-overview.png',
+    width: 2000,
+    height: 1304,
     alt: 'Netfox — the Overview: risk posture, devices online, public IP and the alert inbox as four cards, with the network settings and the link below',
     eyebrow: 'Overview',
     title: 'Your whole network, on one screen.',
@@ -87,6 +90,8 @@ const tourFrames: TourFrame[] = [
     // A cleaner, glance-friendly Wi-Fi shot; the docs page keeps the fuller
     // detail-panel screenshot (`/screenshot-wifi.png`).
     src: '/screenshot-hero-wifi.png',
+    width: 2000,
+    height: 1310,
     alt: 'Netfox — the Wi-Fi tool: every network in range with its security, channel and signal, and a live signal chart for the selected one',
     eyebrow: 'Wi-Fi',
     title: 'Every network in range, and how yours is holding up.',
@@ -96,6 +101,8 @@ const tourFrames: TourFrame[] = [
   },
   {
     src: '/screenshot-devices.png',
+    width: 2000,
+    height: 1310,
     alt: 'Netfox — the Devices tool: every device on the network in one list, with its name, vendor and state',
     eyebrow: 'Devices',
     title: 'Every device, named in plain English.',
@@ -109,6 +116,8 @@ const tourFrames: TourFrame[] = [
   },
   {
     src: '/screenshot-security.png',
+    width: 2000,
+    height: 1310,
     alt: 'Netfox — the Security tool: findings grouped by risk, each one explained in plain English',
     eyebrow: 'Security',
     title: 'What looks wrong, and why it matters.',
@@ -306,13 +315,22 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
               Free for macOS 15.6+
             </Badge>
 
+            {/*
+              The hero logo, and the page's LCP candidate: through next/image,
+              so the 292 KB PNG is served as a WebP of the size it is drawn at,
+              11 KB on a laptop and 19 KB on a phone at 3x. Eager and high
+              priority: next/image is lazy by default, and `priority` is
+              deprecated in Next 16 in favour of exactly these two.
+            */}
             <Image
+              component={NextImage}
               src="/icon-512x512.png"
               alt="Netfox"
-              // Hero logo is the above-the-fold LCP candidate — hint the
-              // browser to fetch it eagerly and at high priority.
-              fetchPriority="high"
+              width={512}
+              height={512}
               loading="eager"
+              fetchPriority="high"
+              sizes="(max-width: 48em) 120px, (max-width: 62em) 160px, 200px"
               w={{ base: 120, sm: 160, md: 200 }}
               h={{ base: 120, sm: 160, md: 200 }}
               style={{
@@ -437,7 +455,10 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
               for it is 62px tall. It is also 1.3 MB (972 KB over the wire,
               a base64 PNG inside) and revalidated on every visit, hence
               `loading="lazy"`: the size is pinned, so deferring it moves
-              nothing.
+              nothing. The other two are lazy for the same reason: an eager
+              <img> is preloaded from the <head>, so they were fetched beside
+              the hero's logo while sitting under the fold on a laptop and on
+              a phone alike (2026-09-29 audit).
 
               `justify="center"`: the badges do not fit on one row on a
               phone, and a wrapped Group spans the full width, so without
@@ -456,6 +477,7 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
                   w={250}
                   h={54}
                   fit="contain"
+                  loading="lazy"
                 />
               </a>
               <a
@@ -470,6 +492,7 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
                   w={120}
                   h={51}
                   fit="contain"
+                  loading="lazy"
                 />
               </a>
               <a
@@ -550,7 +573,13 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
             </Reveal>
             <Reveal variant="rise" delay={300}>
               <Group gap="sm" justify="center" mt={4}>
-                <Avatar src="/chris-messina.jpg" alt="Chris Messina" size="md" radius="xl" />
+                <Avatar
+                  src="/chris-messina.jpg"
+                  alt="Chris Messina"
+                  size="md"
+                  radius="xl"
+                  imageProps={{ loading: 'lazy', decoding: 'async' }}
+                />
                 <Text c="dimmed" size="sm" fw={600}>
                   Chris Messina &middot; inventor of the hashtag
                 </Text>
