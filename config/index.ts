@@ -10,7 +10,7 @@ export default {
       template: '%s | Netfox',
     },
     description:
-      'Netfox turns raw network data into plain English on your Mac: decode every device, see what it exposes, and catch the services you didn’t mean to leave open. No cloud, no account.',
+      'Netfox turns raw network data into plain English on your Mac: decode every device, see what it exposes, and catch services left open. No cloud, no account.',
     metadataBase: new URL('https://netfox.app/'),
     keywords: [
       'Netfox',
