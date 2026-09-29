@@ -23,7 +23,7 @@ The website serves as:
 
 - **Framework**: Next.js 16 + Nextra 4 (docs/MDX)
 - **UI Library**: Mantine 9
-- **Animations**: @gfazioli/mantine-scene, @gfazioli/mantine-text-animate, @gfazioli/mantine-marquee
+- **Animations**: @gfazioli/mantine-scene, @gfazioli/mantine-text-animate, @gfazioli/mantine-marquee, and the site's own scroll reveals and fox (`components/Motion`, `components/Mascot`; see **Motion** and **The fox** below)
 - **Icons**: @tabler/icons-react
 - **Analytics**: @vercel/analytics
 - **Hosting**: Vercel
@@ -72,6 +72,7 @@ The website serves as:
 - `MantineNavBar` — top navigation with Netfox logo + GitHub link
 - `MantineFooter` — 4-column footer with highlights, resources, ecosystem links
 - `Welcome` — hero section with animated title, features grid, download CTA
+- `Mascot` — the pixel fox that stands beside the hero's buttons and translates machine speak (**The fox**, below)
 - `ReleaseNotes` — renders the releases `content/release-notes.mdx` fetched and compiled at BUILD time (`load-releases.ts`); only when the build got none does it fall back to fetching `/api/github-releases` in the browser
 - `ProblemSection` / `SolutionSection` / `BuiltForMacSection` — marketing sections used by `Welcome`
 - `FAQ` — accordion-style FAQ, content driven by an array prop
@@ -119,6 +120,18 @@ All of it is `components/Motion`, first built here (#77), taken by lancetta.app,
 - **An armed item's `getBoundingClientRect` is its starting pose** (0.9 x 0.7 and 48 px down for a card): read layout sizes with `offsetWidth` / `offsetHeight`.
 
 **To see it**, `scripts/shot.mjs` (cross-ported from findergit-website): `--no-wake`, or the page-wide wake scroll fires every one-shot reveal before the first frame; `--rate 0.4` slows the page's animations; `--frames 12 --every 200` for a strip; `--at <fraction>` for a section; `--reduce` for Reduce Motion; `--block` for a page whose scripts never arrive; `--eval` runs after the strip, with `awaitPromise`, so an expression can scroll the page itself and time what happens.
+
+### The fox: a mascot that translates
+
+Asked for on 2026-09-29, *"come fatto per Lancetta, octoscope e findergit, manca una mascotte, un pupazzetto per Netfox"*. Three sketches were shown (an orange chibi fox, this one, a fox in profile); the user picked the night fox, *"è quello che si avvicina di più al logo"*. It is this site's counterpart of lancetta.app's `PanelHint` and findergit.app's `CarouselGuide`, from which the stylesheet and the behaviour are ported.
+
+- **The drawing is the grids in `sprite.ts`**, 22 x 18 cells at 4 px, in the icon's own colouring: navy fur at the edges, orange down the middle of the face, cream muzzle, amber eyes, and the icon's radar as an amber dot on the forehead. `sprite.test.ts` holds its colours to the `--nf-*` tokens, puts the ping on that dot, and checks that the raised arm is a staircase whose every step shares an edge and never touches the head (a diagonal of single cells reads as dots; an arm against the outline merges into it).
+- **Its job is the hero's sentence, demonstrated.** Once the buttons come into view it walks in from the right, stops beside them, hops and pings its forehead radar, then raises a paw and says what a piece of machine speak means: `ESP-8A2F`, `_hap._tcp`, an Amazon device answering on 55442 and 55443, `0.0.0.0:5432`, two MACs answering one `.local` name. A click on it or on what it says pings again and translates the next one. **The translations are public claims**: each was checked against the app's source at 0.28.0 (`translations.ts` says where each comes from), so a release that changes one changes it there.
+- **Every load**, like its siblings; dismissed, it stays away for the life of the page (module state) and hands the keyboard focus to "See what it does". Reduce Motion: it arrives already pointing, no walk, no rings. Nothing of it is in the served HTML, so a page whose scripts never run is unchanged (measured with `--block`).
+- **It comes only where there is room for what it says.** It measures the room right of the row of buttons when it sets out, gives the bubble that width (`--nf-guide-room`, at most 260 px), and does not come with less than 200: below about 1230 px of window. A resize that takes the room away sends it off. Measured on the built page: 306 px of room at 1440, 234 at 1280; no horizontal scroll at 1280, 1440 or 1920 during the walk, because the hero is `overflow: hidden`.
+- **Its feet are the row's bottom edge**, measured to the pixel at 1280, 1440 and 1920. Two things had lifted it, both measured before the fix: the button's default `inline-block` sat on a line box's baseline, 7 px up, and a bubble in the flow, taller than the fox, lifted it by the difference, 25 px. The walker is a block and the bubble hangs off the fox, out of the flow.
+
+**To see it**: the row sits just below the fold at 1440 x 900 and the fox points about 4 s after the row comes into view, so `scripts/shot.mjs <url> <out> --at 0.09 --frames 2 --every 5000 --no-wake` (the first frame is taken on arrival, before it has set out). `--eval` can click it: `document.querySelector('[class*=say]').click()`.
 
 ## Content Guidelines
 
