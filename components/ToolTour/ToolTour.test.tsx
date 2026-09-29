@@ -3,6 +3,8 @@ import { ToolTour } from './ToolTour';
 
 const frame = (src: string, eyebrow: string) => ({
   src,
+  width: 2000,
+  height: 1310,
   alt: `${eyebrow} screen`,
   eyebrow,
   title: `${eyebrow} title`,
