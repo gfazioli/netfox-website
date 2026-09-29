@@ -1,7 +1,10 @@
 /*
- * The fox and where it stands: just right of the hero's two buttons, its feet
- * on their bottom edge. Cross-ported from findergit.app's `Mascot.module.css`,
- * itself from lancetta.app's `PanelHint.module.css`.
+ * The fox, in every place it stands: just right of the hero's two buttons,
+ * its feet on their bottom edge (`HeroGuide`); in the corner of the window and
+ * on the footer's Support card (`ScrollGuide`); beside a note in the docs
+ * (`MascotNote`, whose styles are in `app/global.css`). The hero's part is
+ * cross-ported from findergit.app's
+ * `Mascot.module.css`, itself from lancetta.app's `PanelHint.module.css`.
  */
 
 .sprite {
@@ -299,6 +302,212 @@
   color: var(--mantine-color-white);
 }
 
+/*
+ * The fox that follows the scroll (`ScrollGuide`): in the corner of the
+ * window, and standing on the footer's Support card. It shares the hero's
+ * button, rings and bubble text above.
+ */
+
+/* Pixels per cell: four, as beside the buttons; three on a phone, still whole
+   pixels, so every edge stays on the grid. */
+.corner,
+.card {
+  --cell: 4px;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    --cell: 3px;
+  }
+}
+
+.corner .sprite,
+.card .sprite {
+  width: calc(var(--cell) * 22);
+  height: auto;
+}
+
+/*
+ * In the corner of the window. Above the page's sections and below anything
+ * that opens over them: Nextra's menu on a phone and Mantine's overlays.
+ */
+.corner {
+  position: fixed;
+  right: max(rem(16px), env(safe-area-inset-right));
+  bottom: max(rem(16px), env(safe-area-inset-bottom));
+  z-index: 10;
+  transition:
+    opacity 240ms ease,
+    transform 240ms ease;
+}
+
+.corner[data-phase='leaving'] {
+  opacity: 0;
+  transform: translateX(rem(24px));
+  pointer-events: none;
+}
+
+/* In from the right edge of the window, slowing to a stop. `both`, as beside
+   the buttons: an engine that never runs it shows nothing mid-walk. */
+.corner[data-phase='arriving'] .walker {
+  animation: corner-in 900ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* While the page scrolls it walks: the legs are `Mascot`'s, the bob is here,
+   on the button, so the drawing's own hop is not restarted when it stops. */
+.corner[data-moving] .walker {
+  animation: bob 320ms steps(1) infinite;
+}
+
+/* One hop as it arrives and one on every new translation, then still. */
+.corner[data-phase='here'] .sprite,
+.card[data-phase='here'] .sprite {
+  animation: hop 420ms ease-out 1;
+}
+
+@keyframes corner-in {
+  from {
+    transform: translateX(calc(100% + rem(40px)));
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+/* The rings sized by the cell, from the same dot. */
+.corner .ring,
+.card .ring {
+  top: calc(var(--cell) * -15);
+  left: calc(var(--cell) * -15);
+  width: calc(var(--cell) * 30);
+  height: calc(var(--cell) * 30);
+}
+
+/* What the reader asked for, said to a screen reader and to no one else. */
+.announcer {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* The bubble in the corner, above the fox and flush with its right edge, its
+   tail down at the fox's head. No wider than the window leaves. */
+.cornerBubble {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + rem(10px));
+  display: flex;
+  align-items: flex-start;
+  gap: rem(4px);
+  width: max-content;
+  max-width: min(rem(260px), calc(100vw - rem(32px)));
+  padding: rem(8px) rem(6px) rem(9px) rem(12px);
+  border-radius: rem(12px);
+  background: var(--nf-navy);
+  box-shadow:
+    0 0 0 1px rgb(252 159 27 / 38%),
+    0 12px 28px -10px rgb(0 0 0 / 55%);
+  animation: pop-up 220ms ease-out both;
+  transform-origin: bottom right;
+}
+
+.cornerBubble::before {
+  position: absolute;
+  right: calc(var(--cell) * 12);
+  bottom: rem(-5px);
+  width: rem(10px);
+  height: rem(10px);
+  border-right: 1px solid rgb(252 159 27 / 38%);
+  border-bottom: 1px solid rgb(252 159 27 / 38%);
+  background: var(--nf-navy);
+  content: '';
+  transform: rotate(45deg);
+}
+
+@keyframes pop-up {
+  from {
+    opacity: 0;
+    transform: translateY(rem(6px)) scale(0.96);
+  }
+}
+
+/*
+ * On the Support card: standing on its top edge near the right, its bubble to
+ * its left with the tail at its face, the raised paw reaching up toward it.
+ * `MantineFooter.module.css` makes the card the box this is placed in.
+ */
+.card {
+  position: absolute;
+  right: rem(28px);
+  bottom: 100%;
+  transition: opacity 240ms ease;
+}
+
+.card[data-phase='leaving'] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sitter {
+  position: relative;
+  display: block;
+  filter: drop-shadow(0 0 6px rgb(252 159 27 / 30%)) drop-shadow(0 3px 4px rgb(0 0 0 / 45%));
+}
+
+.card[data-phase='arriving'] .sitter {
+  animation: card-in 420ms cubic-bezier(0.3, 0.7, 0.3, 1) both;
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(rem(14px));
+  }
+}
+
+.cardBubble {
+  position: absolute;
+  top: rem(-4px);
+  right: calc(100% + rem(10px));
+  display: flex;
+  align-items: flex-start;
+  gap: rem(4px);
+  width: max-content;
+  max-width: min(rem(300px), calc(100vw - rem(150px)));
+  padding: rem(8px) rem(6px) rem(9px) rem(12px);
+  border-radius: rem(12px);
+  background: var(--nf-navy);
+  box-shadow:
+    0 0 0 1px rgb(252 159 27 / 38%),
+    0 12px 28px -10px rgb(0 0 0 / 55%);
+  animation: pop-up 220ms ease-out both;
+  transform-origin: top right;
+}
+
+.cardBubble::before {
+  position: absolute;
+  top: rem(14px);
+  right: rem(-5px);
+  width: rem(10px);
+  height: rem(10px);
+  border-top: 1px solid rgb(252 159 27 / 38%);
+  border-right: 1px solid rgb(252 159 27 / 38%);
+  background: var(--nf-navy);
+  content: '';
+  transform: rotate(45deg);
+}
+
+.cardLine {
+  margin: 0;
+  color: var(--mantine-color-white);
+  font-size: rem(13px);
+  line-height: 1.4;
+  text-align: left;
+}
+
+/* As specific as the rules they undo, and after them. */
 @media (prefers-reduced-motion: reduce) {
   .hint,
   .bubble,
@@ -307,8 +516,24 @@
   .hint[data-phase] .walker,
   .hint[data-phase] .sprite,
   .stepA,
-  .stepB {
+  .stepB,
+  .corner,
+  .card,
+  .cornerBubble,
+  .cardBubble,
+  .corner[data-phase] .walker,
+  .corner[data-moving] .walker,
+  .card[data-phase] .sitter,
+  .corner[data-phase] .sprite,
+  .card[data-phase] .sprite {
     transition: none;
     animation: none;
+  }
+}
+
+@media print {
+  .corner,
+  .card {
+    display: none;
   }
 }

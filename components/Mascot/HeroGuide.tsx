@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { IconX } from '@tabler/icons-react';
 import { useReducedMotion } from '@mantine/hooks';
+import { dismissGuide, guideMemory, onGuideDismissed, sayNext } from './guide';
 import { Mascot, SCALE } from './Mascot';
 import { PING, WIDTH } from './sprite';
 import { TRANSLATIONS } from './translations';
@@ -30,23 +31,18 @@ const EDGE_PX = 24;
 /**
  * The narrowest bubble worth drawing: a translation still reads as a sentence
  * at this width. With less room than this right of the buttons, the fox does
- * not come at all: below about 1230 px of window (the row of buttons is 556
- * px wide), measured on the built page.
+ * not come beside them: below about 1230 px of window (the row of buttons is
+ * 556 px wide), measured on the built page. The one in the corner of the
+ * window does its job there instead (`ScrollGuide`).
  */
 export const MIN_BUBBLE_PX = 200;
 
 /**
- * What the guide remembers, for the life of the page: module state survives a
- * client navigation and is gone on a reload. Once dismissed it does not walk in
- * again when the reader comes back to the home page through a link; a reload
- * brings it back, as lancetta.app's and findergit.app's do (user, 2026-09-24,
- * on lancetta.app: "facciamolo apparire sempre ad ogni reload della pagina").
- * Exported for the tests.
+ * The width left for the bubble right of the buttons and the fox, in px.
+ * `ScrollGuide` asks the same question, so the two never both come, or both
+ * stay away.
  */
-export const guideMemory = { dismissed: false };
-
-/** The width left for the bubble right of the buttons and the fox, in px. */
-function roomBeside(row: Element) {
+export function roomBeside(row: Element) {
   return (
     document.documentElement.clientWidth -
     row.getBoundingClientRect().right -
@@ -72,8 +68,9 @@ function roomBeside(row: Element) {
  * markup carries none of it. A reader who asked for reduced motion gets it
  * standing in place, already pointing: settled, not skipped. Where the window
  * leaves no room for what it says right of the buttons (`MIN_BUBBLE_PX`), it
- * does not come; a resize that takes the room away sends it off, and one that
- * gives it back brings it in again.
+ * does not come, and the fox in the window's corner says it instead; a resize
+ * that takes the room away sends it off, and one that gives it back brings it
+ * in again. Dismissed here or anywhere else, it goes (`guide.ts`).
  */
 export function HeroGuide() {
   const reduced = useReducedMotion();
@@ -101,6 +98,12 @@ export function HeroGuide() {
   // Which walk the pending timers belong to. A walk cut short by a resize and
   // started again must not be moved on by the timers of the first one.
   const walk = useRef(0);
+
+  /** The paw goes up with the next translation: the one after the last it said anywhere. */
+  const point = useCallback(() => {
+    setIndex(sayNext(TRANSLATIONS.length));
+    move('pointing');
+  }, [move]);
 
   const later = useCallback((fn: () => void, ms: number) => {
     const id = window.setTimeout(() => {
@@ -143,7 +146,7 @@ export function HeroGuide() {
       return;
     }
     if (reducedNow.current) {
-      move('pointing');
+      point();
       return;
     }
     walk.current += 1;
@@ -156,11 +159,11 @@ export function HeroGuide() {
       move('sniffing');
       later(() => {
         if (walk.current === mine && phaseNow.current === 'sniffing') {
-          move('pointing');
+          point();
         }
       }, SNIFF_MS);
     }, WALK_MS);
-  }, [later, measure, move]);
+  }, [later, measure, move, point]);
 
   useEffect(() => {
     const el = anchor.current;
@@ -226,9 +229,9 @@ export function HeroGuide() {
   useEffect(() => {
     reducedNow.current = reduced;
     if (reduced && (phaseNow.current === 'walking' || phaseNow.current === 'sniffing')) {
-      move('pointing');
+      point();
     }
-  }, [reduced, move]);
+  }, [reduced, point]);
 
   /** A click mid-walk lands it; once it points, each click translates the next one. */
   const next = () => {
@@ -238,23 +241,34 @@ export function HeroGuide() {
       return;
     }
     if (phaseNow.current !== 'pointing') {
-      move('pointing');
+      point();
       return;
     }
-    setIndex((now) => (now + 1) % TRANSLATIONS.length);
+    setIndex(sayNext(TRANSLATIONS.length));
     setPings((now) => now + 1);
   };
 
-  const dismiss = () => {
-    guideMemory.dismissed = true;
-    handFocusBack();
-    move('leaving');
-    later(() => move('hidden'), LEAVE_MS);
-  };
+  // Dismissed here or wherever else the fox is (`guide.ts`), it goes from here
+  // too, handing back the keyboard's focus if it was on it.
+  useEffect(
+    () =>
+      onGuideDismissed(() => {
+        if (phaseNow.current === 'hidden' || phaseNow.current === 'leaving') {
+          return;
+        }
+        handFocusBack();
+        cancelTimers();
+        move('leaving');
+        later(() => move('hidden'), LEAVE_MS);
+      }),
+    [handFocusBack, cancelTimers, move, later]
+  );
 
   const said = TRANSLATIONS[index];
   return (
-    <div ref={anchor} className={classes.anchor}>
+    // Marked for `ScrollGuide`, which watches the same row to know when the
+    // fox belongs here and when in the corner of the window.
+    <div ref={anchor} className={classes.anchor} data-guide-anchor="">
       {phase !== 'hidden' && (
         <div
           ref={hint}
@@ -320,7 +334,7 @@ export function HeroGuide() {
                 type="button"
                 className={classes.dismiss}
                 aria-label="Dismiss"
-                onClick={dismiss}
+                onClick={dismissGuide}
               >
                 <IconX size={12} stroke={2.2} />
               </button>
