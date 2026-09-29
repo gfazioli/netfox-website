@@ -256,11 +256,20 @@ export function HeroGuide() {
   return (
     <div ref={anchor} className={classes.anchor}>
       {phase !== 'hidden' && (
-        <div ref={hint} className={classes.hint} data-phase={phase}>
+        <div
+          ref={hint}
+          className={classes.hint}
+          data-phase={phase}
+          // Fading out, it is out of reach: a Tab during the fade would
+          // otherwise land on a fox about to unmount and drop the focus
+          // again (review of #82, round 2).
+          inert={phase === 'leaving'}
+        >
           <button
             type="button"
             className={classes.walker}
-            aria-label="Show another translation"
+            // Until it points, a click lands it with the first one.
+            aria-label={phase === 'pointing' ? 'Show another translation' : 'Show the translation'}
             onClick={next}
           >
             {/* Keyed on the ping, so every new translation replays the hop. */}
