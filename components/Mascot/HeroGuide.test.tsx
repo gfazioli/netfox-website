@@ -158,13 +158,13 @@ describe('HeroGuide', () => {
     expect(document.activeElement).toBe(screen.getByRole('link', { name: 'See what it does' }));
   });
 
-  it('translates the next one on a click on it or on what it says, then starts over', () => {
+  it('translates the next one on a click on it or on Next, then starts over', () => {
     render(<HeroGuide />);
     arrived();
     fireEvent.click(walker()!);
     expect(said(second.plain)).toBeInTheDocument();
     expect(said(first.plain)).toBeNull();
-    fireEvent.click(screen.getByRole('button', { name: new RegExp(second.plain) }));
+    fireEvent.click(screen.getByRole('button', { name: 'Next translation' }));
     expect(said(TRANSLATIONS[2].plain)).toBeInTheDocument();
     for (let i = 3; i <= TRANSLATIONS.length; i += 1) {
       fireEvent.click(walker()!);
@@ -193,13 +193,26 @@ describe('HeroGuide', () => {
     expect(hint).toHaveAttribute('inert');
   });
 
-  it('names what it says for what it does too', () => {
-    // The visible "Next" has to be part of the button's name (WCAG 2.5.3).
+  it('says each new translation out loud, once, from a region that stays put', () => {
+    // CodeRabbit on #82: the translation was the name of the button it sat
+    // in, and a name changing under the focus is not announced everywhere.
     render(<HeroGuide />);
     arrived();
+    const region = said(first.plain)!.closest('[aria-live]');
+    expect(region).toHaveAttribute('aria-live', 'polite');
+    expect(region).toHaveAttribute('aria-atomic', 'true');
+    expect(region!.closest('button')).toBeNull();
+    const nextButton = screen.getByRole('button', { name: 'Next translation' });
+    // The visible "Next" starts the name (WCAG 2.5.3).
+    expect(nextButton).toHaveTextContent(/^Next/);
+    fireEvent.click(nextButton);
+    // The same region, saying the next one; the same name on Next, and on no
+    // button the translation, which the region alone says.
+    expect(said(second.plain)!.closest('[aria-live]')).toBe(region);
+    expect(screen.getByRole('button', { name: 'Next translation' })).toBe(nextButton);
     expect(
-      screen.getByRole('button', { name: `${first.raw}: ${first.plain} Next` })
-    ).toBeInTheDocument();
+      screen.queryByRole('button', { name: (name) => name.includes(second.plain) })
+    ).toBeNull();
   });
 
   it('lands at once when clicked on the way in', () => {

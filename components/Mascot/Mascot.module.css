@@ -218,20 +218,17 @@
   }
 }
 
+/* What it says, and Next under it. `text-align` because the hero around it
+   is centred. */
 .say {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: rem(4px);
-  padding: 0;
-  border: 0;
-  background: none;
   color: var(--mantine-color-white);
-  font: inherit;
   font-size: rem(13px);
   line-height: 1.4;
   text-align: left;
-  cursor: pointer;
 }
 
 /* Keyed on the translation, so each new one fades in rather than swapping. */
@@ -261,16 +258,21 @@
 }
 
 .next {
+  padding: 0;
+  border: 0;
+  background: none;
   color: var(--nf-amber);
+  font: inherit;
   font-size: rem(12px);
   font-weight: 600;
+  cursor: pointer;
 }
 
-.say:hover .next {
+.next:hover {
   text-decoration: underline;
 }
 
-.say:focus-visible,
+.next:focus-visible,
 .dismiss:focus-visible {
   outline: 2px solid var(--nf-amber);
   outline-offset: 2px;
