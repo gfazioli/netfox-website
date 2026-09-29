@@ -580,7 +580,7 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
               // interactivity, so the anchor only needs to kill the
               // default underline/colour and fill the grid cell. Each card
               // watches itself, so a row lands as it scrolls in, left to right.
-              <Reveal key={feature.title} delay={(i % 3) * 110}>
+              <Reveal key={feature.title} delay={(i % 3) * 110} radius="var(--mantine-radius-lg)">
                 <Link href={feature.href} style={FEATURE_LINK_STYLE}>
                   <AccentCard accent={feature.accent} h="100%">
                     <Stack gap="md" align="flex-start">

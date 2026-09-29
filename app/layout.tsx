@@ -26,7 +26,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const { nextraLayout, head } = config;
 
   return (
-    <html lang="en" dir="ltr" {...mantineHtmlProps}>
+    // `data-scroll-behavior`: app/global.css makes <html> scroll smoothly (for
+    // the page's own anchors), and without this attribute Next 16 keeps that
+    // on a route change too. The scroll reveals read the scroll at mount, so a
+    // way home that mounts the page near its bottom and then scrolls it to the
+    // top fires every one-shot reveal out of sight on the way up, and meets the
+    // hero's release count off screen, so it rolls from zeros in front of the
+    // reader. With it, Next jumps before any effect reads the scroll.
+    <html lang="en" dir="ltr" data-scroll-behavior="smooth" {...mantineHtmlProps}>
       <Head>
         {/*
           Forced, not defaulted, and forced LIGHT although the site is at

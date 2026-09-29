@@ -59,7 +59,7 @@ export function ProblemSection() {
 
         <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="lg">
           {problems.map((item, i) => (
-            <Reveal key={item.title} delay={i * 120}>
+            <Reveal key={item.title} delay={i * 120} radius="var(--mantine-radius-lg)">
               <AccentCard accent={item.accent} h="100%">
                 <Stack gap="md">
                   <GradientIcon icon={item.icon} />
