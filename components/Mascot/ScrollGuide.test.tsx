@@ -64,6 +64,7 @@ describe('ScrollGuide', () => {
   function Page() {
     return (
       <div>
+        <a href="/in-view">In view</a>
         <div data-guide-anchor="" />
         <a href="/docs">See what it does</a>
         <ScrollGuide />
@@ -155,6 +156,23 @@ describe('ScrollGuide', () => {
     wait(HERO_FOLD_MS);
     expect(screen.queryByText(first.plain)).toBeNull();
     expect(corner()).toHaveAttribute('data-phase', 'here');
+  });
+
+  it('keeps what a reader asked for before it could say the hero’s sentence', () => {
+    // Codex, round 1 of #83: a click in the beat before it spoke was replaced
+    // by the next translation, and folded on the hero's timer.
+    windowWidth = 1180;
+    render(<Page />);
+    wait(DELAY_MS);
+    rowOnScreen();
+    wait(CORNER_IN_MS);
+    fireEvent.click(fox()!);
+    expect(screen.getByText(first.plain)).toBeInTheDocument();
+    wait(SNIFF_MS);
+    expect(screen.getByText(first.plain)).toBeInTheDocument();
+    expect(screen.queryByText(second.plain)).toBeNull();
+    wait(HERO_FOLD_MS);
+    expect(screen.getByText(first.plain)).toBeInTheDocument();
   });
 
   it('folds the hero’s sentence as soon as the buttons are scrolled past', () => {
@@ -256,6 +274,23 @@ describe('ScrollGuide', () => {
     act(() => dismissGuide());
     wait(LEAVE_MS);
     expect(corner()).toBeNull();
+  });
+
+  it('hands the keyboard focus to a control in view rather than the one before it', () => {
+    // Codex, round 1 of #83: the fox rides in the corner at any height of the
+    // page, so the control before it in the markup is usually off screen.
+    inTheCorner();
+    const inView = screen.getByRole('link', { name: 'In view' });
+    jest.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function rect(
+      this: Element
+    ) {
+      return (
+        this === inView ? { top: 100, bottom: 120, left: 20, right: 200 } : { right: 990 }
+      ) as DOMRect;
+    });
+    act(() => fox()!.focus());
+    rowOnScreen();
+    expect(document.activeElement).toBe(inView);
   });
 
   it('hands the keyboard focus back when it goes', () => {

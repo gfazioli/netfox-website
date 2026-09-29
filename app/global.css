@@ -158,3 +158,142 @@
 }
 
 @layer components, mantine, nextra, overwrite;
+
+/*
+ * The fox's note in the docs (`MascotNote`): the sprite beside a speech
+ * bubble, in the home page's bubble language (`Mascot.module.css`), so it
+ * reads as the same character talking, not as one more callout. Global, not a
+ * CSS module: a module here put one more render-blocking stylesheet on every
+ * page of the site (5 on main, 6 with it; measured on #83).
+ */
+.nf-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+  margin-block: 1.75rem;
+}
+
+.nf-note[data-side='right'] {
+  flex-direction: row-reverse;
+}
+
+/* Its face level with the bubble's first line: the tail points at its mouth. */
+.nf-note-sprite {
+  flex: none;
+  margin-top: 0.125rem;
+}
+
+/* Three pixels a cell on a phone rather than four: still whole pixels, so
+   every edge stays on the grid, and the bubble keeps the width. */
+@media (max-width: 36em) {
+  .nf-note-sprite svg {
+    width: 4.125rem;
+    height: auto;
+  }
+}
+
+.nf-note-bubble {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.75rem 1rem;
+  border-radius: 0.875rem;
+  background: var(--nf-navy);
+  box-shadow:
+    0 0 0 1px rgb(252 159 27 / 38%),
+    0 12px 28px -14px rgb(0 0 0 / 55%);
+  line-height: 1.6;
+}
+
+.nf-note-bubble > :first-child {
+  margin-top: 0;
+}
+
+.nf-note-bubble > :last-child {
+  margin-bottom: 0;
+}
+
+.nf-note-bubble::before {
+  position: absolute;
+  top: 1.125rem;
+  left: -0.375rem;
+  width: 0.6875rem;
+  height: 0.6875rem;
+  border-bottom: 1px solid rgb(252 159 27 / 38%);
+  border-left: 1px solid rgb(252 159 27 / 38%);
+  background: var(--nf-navy);
+  content: '';
+  transform: rotate(45deg);
+}
+
+.nf-note[data-side='right'] .nf-note-bubble::before {
+  right: -0.375rem;
+  left: auto;
+  border: 0;
+  border-top: 1px solid rgb(252 159 27 / 38%);
+  border-right: 1px solid rgb(252 159 27 / 38%);
+}
+
+/*
+ * One hop as the page lands, and another whenever the pointer comes to it: a
+ * transform only, which the compositor runs on its own, and none at all under
+ * Reduce Motion. Two keyframe names, so the hover's animation is a change the
+ * browser starts rather than the landing one it has already finished.
+ */
+@media screen and (prefers-reduced-motion: no-preference) {
+  .nf-note-sprite {
+    animation: note-land 900ms cubic-bezier(0.3, 0.7, 0.3, 1) 250ms both;
+  }
+
+  .nf-note:hover .nf-note-sprite {
+    animation: note-hop 700ms cubic-bezier(0.3, 0.7, 0.3, 1) both;
+  }
+}
+
+@keyframes note-land {
+  0% {
+    transform: translateY(0);
+  }
+
+  30% {
+    transform: translateY(-7px);
+  }
+
+  55% {
+    transform: translateY(0);
+  }
+
+  72% {
+    transform: translateY(-2px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes note-hop {
+  0% {
+    transform: translateY(0);
+  }
+
+  35% {
+    transform: translateY(-6px);
+  }
+
+  65% {
+    transform: translateY(0);
+  }
+
+  80% {
+    transform: translateY(-2px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.nf-note-sprite svg {
+  display: block;
+}

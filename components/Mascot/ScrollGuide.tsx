@@ -9,7 +9,7 @@ import { DELAY_MS, MIN_BUBBLE_PX, roomBeside, SNIFF_MS } from './HeroGuide';
 import { Mascot } from './Mascot';
 import { PING } from './sprite';
 import { TRANSLATIONS } from './translations';
-import classes from './ScrollGuide.module.css';
+import classes from './Mascot.module.css';
 
 /** Where the fox is: nowhere, in the corner of the window, or on the Support card. */
 type Place = 'none' | 'corner' | 'card';
@@ -160,22 +160,31 @@ export function ScrollGuide() {
   }, []);
 
   /**
-   * The keyboard was on the fox, which is about to go: hand the focus to what
-   * comes before it on the page rather than let it drop. Without scrolling to
-   * it: the reader stays where they are.
+   * The keyboard was on the fox, which is about to go: hand the focus to a
+   * control on screen rather than let it drop, and without scrolling, so the
+   * reader stays where they are. The last one before the fox on the page that
+   * is in view; else any in view; else, with none in view, the last one before
+   * it. The fox rides in the corner at any height of the page, so the control
+   * before it in the markup is usually a screen or more away (Codex, round 1
+   * of #83).
    */
   const handFocusBack = useCallback(() => {
     const el = box.current;
     if (!el?.contains(document.activeElement)) {
       return;
     }
-    const before = [...document.querySelectorAll<HTMLElement>(FOCUSABLE)].filter(
-      (other) =>
-        !el.contains(other) &&
-        other.getClientRects().length > 0 &&
-        el.compareDocumentPosition(other) & Node.DOCUMENT_POSITION_PRECEDING
+    const others = [...document.querySelectorAll<HTMLElement>(FOCUSABLE)].filter(
+      (other) => !el.contains(other) && other.getClientRects().length > 0
     );
-    before.at(-1)?.focus({ preventScroll: true });
+    const before = others.filter(
+      (other) => el.compareDocumentPosition(other) & Node.DOCUMENT_POSITION_PRECEDING
+    );
+    const inView = (other: HTMLElement) => {
+      const { top, bottom, left, right } = other.getBoundingClientRect();
+      return bottom > 0 && top < window.innerHeight && right > 0 && left < window.innerWidth;
+    };
+    const target = before.filter(inView).at(-1) ?? others.find(inView) ?? before.at(-1);
+    target?.focus({ preventScroll: true });
   }, []);
 
   const ping = useCallback(() => setPings((count) => count + 1), []);
@@ -187,11 +196,16 @@ export function ScrollGuide() {
       if (place !== 'corner' || !seen.current.rowVisible || told.current) {
         return;
       }
+      // The reader may have clicked it in the meantime: what they asked for
+      // stays, and folds when they scroll on, not on this timer (Codex, round
+      // 1 of #83).
       const open = () => {
         if (
           now.current.at === 'corner' &&
           now.current.phase === 'here' &&
-          seen.current.rowVisible
+          seen.current.rowVisible &&
+          bubbleNow.current === 'closed' &&
+          !told.current
         ) {
           told.current = true;
           setIndex(sayNext(TRANSLATIONS.length));
@@ -394,6 +408,8 @@ export function ScrollGuide() {
    * that is theirs from now on, so it folds only once they scroll on.
    */
   const ask = () => {
+    // Asked for, the hero's sentence is no longer the fox's to open.
+    told.current = true;
     translate();
     if (bubbleNow.current !== 'asked') {
       openedAt.current = window.scrollY;
@@ -461,7 +477,7 @@ export function ScrollGuide() {
         {spoken}
       </div>
       {bubble !== 'closed' && phase === 'here' && (
-        <div className={classes.bubble}>
+        <div className={classes.cornerBubble}>
           <div className={classes.say}>
             <span key={index} className={classes.caption}>
               <code className={classes.raw}>{said.raw}</code> <span>{said.plain}</span>
