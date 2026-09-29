@@ -26,8 +26,9 @@
 
 /**
  * The icon's colours, the same values as the `--nf-*` tokens in
- * theme/global.css (`sprite.test.ts` holds them to it). Hex rather than
- * `var()`: an SVG presentation attribute is not a CSS declaration.
+ * theme/global.css, written out so the drawing is complete on its own: it is
+ * read by the tests as well as painted on the page. `sprite.test.ts` holds
+ * the two together.
  */
 export const PALETTE = {
   /** --nf-night: the outline, the pupils, the nose. */

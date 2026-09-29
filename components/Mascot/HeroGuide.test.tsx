@@ -41,7 +41,7 @@ describe('HeroGuide', () => {
     jest.restoreAllMocks();
   });
 
-  const walker = () => screen.queryByRole('button', { name: 'Show another translation' });
+  const walker = () => screen.queryByRole('button', { name: /^Show (another|the) translation$/ });
   const phase = () => walker()?.parentElement?.getAttribute('data-phase');
   const said = (text: string) => screen.queryByText(text);
   const [first, second] = TRANSLATIONS;
@@ -170,6 +170,27 @@ describe('HeroGuide', () => {
       fireEvent.click(walker()!);
     }
     expect(said(first.plain)).toBeInTheDocument();
+  });
+
+  it('names the fox for what a click on it does', () => {
+    // Round 2 of #82: before it points there is no translation to show
+    // "another" of; a click then lands it with the first one.
+    render(<HeroGuide />);
+    buttonsInView();
+    wait(DELAY_MS + 50);
+    expect(screen.getByRole('button', { name: 'Show the translation' })).toBeInTheDocument();
+    wait(WALK_MS + SNIFF_MS);
+    expect(screen.getByRole('button', { name: 'Show another translation' })).toBeInTheDocument();
+  });
+
+  it('is out of reach while it fades out', () => {
+    // Round 2 of #82: a Tab during the fade landed on a fox about to unmount.
+    const { container } = render(<HeroGuide />);
+    arrived();
+    fireEvent.click(screen.getByRole('button', { name: 'Dismiss' }));
+    const hint = container.querySelector('[data-phase]')!;
+    expect(hint.getAttribute('data-phase')).toBe('leaving');
+    expect(hint).toHaveAttribute('inert');
   });
 
   it('names what it says for what it does too', () => {
