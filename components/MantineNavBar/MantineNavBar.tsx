@@ -11,7 +11,7 @@ export const MantineNavBar = () => {
       <Navbar
         logo={
           <Group align="center" gap={8}>
-            <Logo />
+            <Logo eager />
             <Text size="lg" fw={600} visibleFrom="lg">
               Netfox
             </Text>

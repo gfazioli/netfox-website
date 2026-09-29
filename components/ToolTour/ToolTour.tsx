@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import NextImage from 'next/image';
 import Link from 'next/link';
 import { IconArrowLeft, IconArrowRight, IconArrowsMaximize, IconX } from '@tabler/icons-react';
 import { ActionIcon, Group, Image, Modal, Text, UnstyledButton } from '@mantine/core';
@@ -11,6 +12,9 @@ import classes from './ToolTour.module.css';
 
 export interface TourFrame {
   src: string;
+  /** The PNG's own pixel size: next/image reserves the box and picks the srcset from it. */
+  width: number;
+  height: number;
   alt: string;
   eyebrow: string;
   title: string;
@@ -179,9 +183,25 @@ function TourRow({
         onClick={onOpen}
         aria-label={`Enlarge: ${frame.eyebrow}`}
       >
+        {/*
+          Through next/image and lazy. A plain <img> here was eager, and
+          React 19 preloads every eager image it renders on the server: the
+          four 2000px PNGs (2.1 MB) were fetched from the <head> beside the
+          hero's logo, for screens that start 560px under the fold of a
+          laptop and 660px under a phone's (2026-09-29 audit). Drawn at most
+          540px wide beside the copy, and narrower than the viewport below
+          62em, so the srcset serves WebP at about that size: the 820 KB
+          Devices PNG is 59 KB at the width a 3x phone asks for. The lightbox
+          still opens the PNG itself.
+        */}
         <Image
           ref={shotReveal.ref}
+          component={NextImage}
           src={frame.src}
+          width={frame.width}
+          height={frame.height}
+          sizes="(max-width: 62em) 100vw, 540px"
+          loading="lazy"
           alt={frame.alt}
           className={`${classes.shot} ${shot.className} ${shot.item.className}`}
           data-armed={shot['data-armed']}
