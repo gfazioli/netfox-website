@@ -88,7 +88,7 @@
   /*
    * A screenshot: in from the side it sits on, narrowed, and grown back out of
    * that edge on the spring. No light on its rim: a screenshot is not a card,
-   * and its transparent margins would put the ring round nothing. Coming in
+   * and its transparent margins would put the light round nothing. Coming in
    * from the right it starts past its column, so whatever holds it has to clip
    * on x, or the page is wider for as long as it stays armed: the tour sits in
    * the hero's box, which does (`overflow: hidden` in Welcome.tsx).
@@ -123,17 +123,21 @@
    * reads; on lancetta.app's light page it would vanish, so there it is cyan
    * and magenta.
    *
-   * A ring, not a fill: the padding is the stroke and the mask cuts the rest
-   * away. `--glint` runs 0 -> 1 (registered in theme/global.css so it can be
-   * animated); the opacity is its sine, dark at both ends. The reach is the
-   * app's cap, 70 points; the app also holds it under 60% of the card's short
-   * side, which no card here reaches: the shortest side of any is 236 points
-   * (measured at 1440, 1024 and 390 wide). The radius comes from the card, or
-   * from `--reveal-radius` on a wrapper that has none.
+   * A glow held just inside the edge, not a line drawn on it (the user,
+   * 2026-09-29, choosing it on findergit.app, where it was made: "interno e
+   * sfumato"): inset shadows on a layer set 3px in from the card, so the light
+   * reads as the glass reflecting it rather than as a stroke on the border.
+   * Two per corner, a tight core and a wide bloom, each offset toward its own
+   * corner, so one lights only the top and right edges and the other only the
+   * bottom and left. The mask keeps each to its corner and lets it reach along
+   * the edges as it fades. `--glint` runs 0 -> 1 (registered in
+   * theme/global.css so it can be animated); the opacity is its sine, dark at
+   * both ends. The radius comes from the card, or from `--reveal-radius` on a
+   * wrapper that has none.
    *
    * Behind `@supports`, because an engine without `sin()` would find the
-   * opacity invalid at computed-value time, fall back to 1, and leave the ring
-   * lit for good.
+   * opacity invalid at computed-value time, fall back to 1, and leave the
+   * light on for good.
    */
   @supports (opacity: sin(0)) {
     .item[data-reveal='morph'] {
@@ -141,21 +145,22 @@
     }
 
     .item[data-reveal='morph']::after {
-      --reach: calc(70px * (0.45 + 0.55 * var(--glint)));
+      --reach: calc(104px * (0.45 + 0.55 * var(--glint)));
 
       position: absolute;
-      inset: 0;
-      padding: 1.5px;
+      inset: 3px;
       border-radius: var(--reveal-radius, inherit);
       pointer-events: none;
       content: '';
-      background:
-        radial-gradient(circle var(--reach) at 100% 0, rgb(255 255 255 / 80%), transparent),
-        radial-gradient(circle var(--reach) at 0 100%, rgb(255 255 255 / 80%), transparent);
-      opacity: sin(calc(var(--glint) * 180deg));
+      box-shadow:
+        inset -2px 2px 8px -2px rgb(255 255 255 / 80%),
+        inset -6px 6px 24px -6px rgb(255 255 255 / 38%),
+        inset 2px -2px 8px -2px rgb(255 255 255 / 80%),
+        inset 6px -6px 24px -6px rgb(255 255 255 / 38%);
+      opacity: calc(0.9 * sin(calc(var(--glint) * 180deg)));
       mask:
-        linear-gradient(#000 0 0) content-box exclude,
-        linear-gradient(#000 0 0);
+        radial-gradient(circle var(--reach) at 100% 0, #000, rgb(0 0 0 / 0.55) 40%, transparent),
+        radial-gradient(circle var(--reach) at 0 100%, #000, rgb(0 0 0 / 0.55) 40%, transparent);
     }
 
     .scope[data-revealed] .item[data-reveal='morph']::after,
