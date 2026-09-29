@@ -1,44 +1,98 @@
 /*
  * Scroll reveals.
  *
- * A *scope* is what an IntersectionObserver watches (`useReveal`): it gets
- * `data-revealed` once, the first time it comes into view. An *item* is what
- * moves: while its scope has not been revealed it waits in its variant's
- * starting pose, and on reveal it springs to where the layout put it. One
- * element can be both. Scopes are not nested: an item answers to the nearest
- * unrevealed scope above it, whichever that is.
+ * A *scope* is what an IntersectionObserver watches (`useReveal`); an *item*
+ * is what moves. One element can be both, and scopes can sit inside each other
+ * (a tour row's figures inside its copy): an item holds its starting pose
+ * while ANY scope above it is armed and not yet revealed, so it moves when the
+ * last of them is.
  *
- * The starting poses exist only on a screen, with scripting on and motion
- * allowed. Without JavaScript nothing would ever reveal them, with Reduce
- * Motion nothing should move, and on paper everything should be there: all
- * three get the page as it is laid out, at once.
+ * A scope has three states. At REST (no attribute) its items are where the
+ * layout put them: that is the served HTML, and it is what stays if the
+ * scripts never run, so a blocked chunk or a runtime error costs the motion and
+ * never the content. Once mounted, a scope entirely off screen is ARMED
+ * (`data-armed`): its items snap to their starting pose where nobody can see
+ * them do it. The first time it comes into view it is REVEALED
+ * (`data-revealed`), and they spring to where the layout put them. A scope on
+ * screen at mount is never armed, so it never moves: the hero paints as served.
+ *
+ * The first version of this file hid every pose from the first paint, behind
+ * `(scripting: enabled)`: the hero's release count read "00" until the bundle
+ * had hydrated, and with the scripts blocked the whole home page kept every
+ * one of its 49 items at opacity 0 and every figure at zeros (measured on the
+ * live site, 2026-09-29). lancetta.app took the first version from here, found
+ * the same in review, and this is its answer brought back.
+ *
+ * Only on a screen and without Reduce Motion: otherwise, and on paper,
+ * everything is simply there.
  */
 
 .item {
   --reveal-delay: 0ms;
 }
 
-@media screen and (scripting: enabled) and (prefers-reduced-motion: no-preference) {
-  /*
-   * Opacity and blur settle quickly and never overshoot; the transform runs
-   * on the spring, so the shape lands, overshoots and settles. That overshoot
-   * on a squashed shape is the morph.
-   */
+@media screen and (prefers-reduced-motion: no-preference) {
   .item {
     transform-origin: 50% 100%;
+  }
+
+  /*
+   * The way in. Only a revealed item has a transition, so arming snaps it into
+   * its starting pose instead of animating it there. Opacity and blur settle
+   * quickly and never overshoot; the transform runs on the spring, so the shape
+   * lands, overshoots and settles. That overshoot on a squashed shape is the
+   * morph.
+   */
+  .scope[data-revealed] .item,
+  .scope.item[data-revealed] {
     transition:
       opacity 520ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay),
       filter 640ms ease-out var(--reveal-delay),
       transform var(--nf-spring-duration) var(--nf-spring) var(--reveal-delay);
   }
 
-  .item[data-reveal='rise'] {
+  .scope[data-revealed] .item[data-reveal='rise'],
+  .scope.item[data-reveal='rise'][data-revealed] {
     transition:
       opacity 520ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay),
       filter 560ms ease-out var(--reveal-delay),
       transform var(--nf-spring-soft-duration) var(--nf-spring-soft) var(--reveal-delay);
   }
 
+  .scope[data-armed]:not([data-revealed]) .item,
+  .scope.item[data-armed]:not([data-revealed]) {
+    opacity: 0;
+    filter: blur(12px);
+  }
+
+  /* A card: squashed and low, it lands and wobbles into shape. */
+  .scope[data-armed]:not([data-revealed]) .item[data-reveal='morph'],
+  .scope.item[data-reveal='morph'][data-armed]:not([data-revealed]) {
+    transform: translate3d(0, 48px, 0) scale(0.9, 0.7);
+  }
+
+  /* Text: a short lift, almost no overshoot, so it stays readable as it lands. */
+  .scope[data-armed]:not([data-revealed]) .item[data-reveal='rise'],
+  .scope.item[data-reveal='rise'][data-armed]:not([data-revealed]) {
+    filter: blur(8px);
+    transform: translate3d(0, 28px, 0) scale(0.98);
+  }
+
+  /* A chip or a figure: from a point, past its size, back. */
+  .scope[data-armed]:not([data-revealed]) .item[data-reveal='pop'],
+  .scope.item[data-reveal='pop'][data-armed]:not([data-revealed]) {
+    filter: blur(6px);
+    transform: scale(0.4);
+  }
+
+  /*
+   * A screenshot: in from the side it sits on, narrowed, and grown back out of
+   * that edge on the spring. No light on its rim: a screenshot is not a card,
+   * and its transparent margins would put the ring round nothing. Coming in
+   * from the right it starts past its column, so whatever holds it has to clip
+   * on x, or the page is wider for as long as it stays armed: the tour sits in
+   * the hero's box, which does (`overflow: hidden` in Welcome.tsx).
+   */
   .item[data-reveal='left'] {
     transform-origin: 0% 50%;
   }
@@ -47,84 +101,77 @@
     transform-origin: 100% 50%;
   }
 
-  .scope:not([data-revealed]) .item,
-  .scope.item:not([data-revealed]) {
-    opacity: 0;
-    filter: blur(12px);
-  }
-
-  /* A card: squashed and low, it lands and wobbles into shape. */
-  .scope:not([data-revealed]) .item[data-reveal='morph'],
-  .scope.item[data-reveal='morph']:not([data-revealed]) {
-    transform: translate3d(0, 48px, 0) scale(0.9, 0.7);
-  }
-
-  /* Text: a short lift, almost no overshoot, so it stays readable as it lands. */
-  .scope:not([data-revealed]) .item[data-reveal='rise'],
-  .scope.item[data-reveal='rise']:not([data-revealed]) {
-    filter: blur(8px);
-    transform: translate3d(0, 28px, 0) scale(0.98);
-  }
-
-  /* A chip or a figure: from a point, past its size, back. */
-  .scope:not([data-revealed]) .item[data-reveal='pop'],
-  .scope.item[data-reveal='pop']:not([data-revealed]) {
-    filter: blur(6px);
-    transform: scale(0.4);
-  }
-
-  /* A screenshot: in from the side it sits on, stretched the other way. */
-  .scope:not([data-revealed]) .item[data-reveal='left'],
-  .scope.item[data-reveal='left']:not([data-revealed]) {
+  .scope[data-armed]:not([data-revealed]) .item[data-reveal='left'],
+  .scope.item[data-reveal='left'][data-armed]:not([data-revealed]) {
     transform: translate3d(-80px, 0, 0) scale(0.86, 0.94);
   }
 
-  .scope:not([data-revealed]) .item[data-reveal='right'],
-  .scope.item[data-reveal='right']:not([data-revealed]) {
+  .scope[data-armed]:not([data-revealed]) .item[data-reveal='right'],
+  .scope.item[data-reveal='right'][data-armed]:not([data-revealed]) {
     transform: translate3d(80px, 0, 0) scale(0.86, 0.94);
   }
 
   /*
-   * The light that passes over a card as it lands, as it passes over each
-   * card in the 0.25 film when the glass arrives. One sweep, once, a moment
-   * after the card starts to move; generated content, so nothing in the card
-   * changes size or text.
+   * The light, as a card lands: its RIM catches it at two opposite corners,
+   * the top right and the bottom left, and the light reaches a little further
+   * along the edges as it fades -- the app's `EdgeGlint` (Netfox 0.26.0),
+   * white at 80% on a 1.5-point stroke. It replaces the band that used to
+   * sweep across each card's face: on a card that read as a diagonal
+   * reflection, and the user asked for the light on the edges only
+   * ("solo sui bordi top-right / bottom-left opposti", on Lancetta first).
+   * White, as in the app: the cards here are glass on the night, where it
+   * reads; on lancetta.app's light page it would vanish, so there it is cyan
+   * and magenta.
+   *
+   * A ring, not a fill: the padding is the stroke and the mask cuts the rest
+   * away. `--glint` runs 0 -> 1 (registered in theme/global.css so it can be
+   * animated); the opacity is its sine, dark at both ends. The reach is the
+   * app's cap, 70 points; the app also holds it under 60% of the card's short
+   * side, which no card here reaches: the shortest side of any is 236 points
+   * (measured at 1440, 1024 and 390 wide). The radius comes from the card, or
+   * from `--reveal-radius` on a wrapper that has none.
+   *
+   * Behind `@supports`, because an engine without `sin()` would find the
+   * opacity invalid at computed-value time, fall back to 1, and leave the ring
+   * lit for good.
    */
-  .item[data-reveal='morph'] {
-    position: relative;
-  }
+  @supports (opacity: sin(0)) {
+    .item[data-reveal='morph'] {
+      position: relative;
+    }
 
-  .item[data-reveal='morph']::after {
-    position: absolute;
-    inset: 0;
-    border-radius: var(--mantine-radius-lg);
-    pointer-events: none;
-    content: '';
-    background: linear-gradient(
-        105deg,
-        transparent 38%,
-        rgb(255 255 255 / 16%) 48%,
-        rgb(255 255 255 / 4%) 56%,
-        transparent 62%
-      )
-      no-repeat;
-    background-position: 140% 0;
-    background-size: 260% 100%;
-  }
+    .item[data-reveal='morph']::after {
+      --reach: calc(70px * (0.45 + 0.55 * var(--glint)));
 
-  .scope[data-revealed] .item[data-reveal='morph']::after,
-  .scope.item[data-reveal='morph'][data-revealed]::after {
-    animation: sheen 1100ms cubic-bezier(0.3, 0.1, 0.2, 1) calc(var(--reveal-delay) + 220ms) both;
+      position: absolute;
+      inset: 0;
+      padding: 1.5px;
+      border-radius: var(--reveal-radius, inherit);
+      pointer-events: none;
+      content: '';
+      background:
+        radial-gradient(circle var(--reach) at 100% 0, rgb(255 255 255 / 80%), transparent),
+        radial-gradient(circle var(--reach) at 0 100%, rgb(255 255 255 / 80%), transparent);
+      opacity: sin(calc(var(--glint) * 180deg));
+      mask:
+        linear-gradient(#000 0 0) content-box exclude,
+        linear-gradient(#000 0 0);
+    }
+
+    .scope[data-revealed] .item[data-reveal='morph']::after,
+    .scope.item[data-reveal='morph'][data-revealed]::after {
+      animation: glint 900ms ease-out calc(var(--reveal-delay) + 220ms) both;
+    }
   }
 }
 
-@keyframes sheen {
+@keyframes glint {
   from {
-    background-position: 140% 0;
+    --glint: 0;
   }
 
   to {
-    background-position: -40% 0;
+    --glint: 1;
   }
 }
 
@@ -178,18 +225,26 @@
   content: '0\A 1\A 2\A 3\A 4\A 5\A 6\A 7\A 8\A 9\A 0';
 }
 
+/* A run of the characters between digits ("% left"), in one box so its
+   letters keep their kerning; `pre`, or its leading space is collapsed out of
+   the flex row. */
 .glyph::before {
+  white-space: pre;
   content: attr(data-ch);
 }
 
-@media screen and (scripting: enabled) and (prefers-reduced-motion: no-preference) {
-  /* The rightmost digit starts last, so a number fills in the way it is read. */
-  .strip {
+@media screen and (prefers-reduced-motion: no-preference) {
+  /*
+   * Armed and revealed as a scope is (above): zeros only once a script has
+   * found the number off screen, and a transition only on the way up. The
+   * rightmost digit starts last, so a number fills in the way it is read.
+   */
+  .number[data-revealed] .strip {
     transition: transform var(--nf-spring-roll-duration) var(--nf-spring-roll)
       calc(var(--reveal-delay, 0ms) + var(--i) * 110ms);
   }
 
-  .number:not([data-revealed]) .strip {
+  .number[data-armed]:not([data-revealed]) .strip {
     transform: translate3d(0, 0, 0);
   }
 }

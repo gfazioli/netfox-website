@@ -4,13 +4,20 @@ import type { CSSProperties, HTMLAttributes, ReactNode } from 'react';
 import { useReveal } from './useReveal';
 import classes from './Motion.module.css';
 
-/** How an item arrives. See Motion.module.css for each starting pose. */
+/**
+ * How an item arrives. See Motion.module.css for each starting pose. `left` and
+ * `right` are for a picture, and name the side it sits on: it comes in from there.
+ */
 export type RevealVariant = 'morph' | 'rise' | 'pop' | 'left' | 'right';
 
-/** Props that make an element a scope: the thing the observer watches. */
-export function revealScope(revealed: boolean) {
+/**
+ * Props that make an element a scope: the thing the observer watches. Pass it
+ * what `useReveal` returned; see there for what armed and revealed mean.
+ */
+export function revealScope({ armed, revealed }: { armed: boolean; revealed: boolean }) {
   return {
     className: classes.scope,
+    'data-armed': armed ? '' : undefined,
     'data-revealed': revealed ? '' : undefined,
   };
 }
@@ -27,33 +34,47 @@ export function revealItem(variant: RevealVariant, delay = 0) {
 type RevealProps = Omit<HTMLAttributes<HTMLDivElement>, 'children'> & {
   variant?: RevealVariant;
   delay?: number;
+  /**
+   * The corner of the card inside, for a `morph` wrapper: the light runs round
+   * the wrapper's rim, and a wrapper has no radius of its own.
+   */
+  radius?: number | string;
   children: ReactNode;
 };
 
 /**
  * A wrapper that is its own scope and item: it watches itself and moves
  * itself. A wrapper rather than props on the child, so it never fights a
- * transform the child already uses for hover.
+ * transform the child already uses for hover. For a `morph`, the wrapper has
+ * to be exactly the card's box, or the light on its rim lands round nothing.
  */
 export function Reveal({
   variant = 'morph',
   delay = 0,
+  radius,
   className,
   style,
   children,
   ...rest
 }: RevealProps) {
-  const { ref, revealed } = useReveal<HTMLDivElement>();
-  const scope = revealScope(revealed);
+  const reveal = useReveal<HTMLDivElement>();
+  const scope = revealScope(reveal);
   const item = revealItem(variant, delay);
+  const corner =
+    radius === undefined
+      ? undefined
+      : ({
+          '--reveal-radius': typeof radius === 'number' ? `${radius}px` : radius,
+        } as CSSProperties);
   return (
     <div
-      ref={ref}
+      ref={reveal.ref}
       {...rest}
       data-reveal={item['data-reveal']}
+      data-armed={scope['data-armed']}
       data-revealed={scope['data-revealed']}
       className={[scope.className, item.className, className].filter(Boolean).join(' ')}
-      style={{ ...item.style, ...style }}
+      style={{ ...item.style, ...corner, ...style }}
     >
       {children}
     </div>

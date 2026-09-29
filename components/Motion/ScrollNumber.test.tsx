@@ -22,6 +22,13 @@ describe('ScrollNumber', () => {
     expect(strips.map((s) => s.style.getPropertyValue('--i'))).toEqual(['0', '1']);
   });
 
+  it('keeps what sits between digits as one run, space and all', () => {
+    // One box per letter would cost the words their kerning ("left", "GB").
+    const { container } = render(<ScrollNumber value="59% left" />);
+    const still = [...container.querySelectorAll<HTMLElement>('[data-ch]')];
+    expect(still.map((s) => s.dataset.ch)).toEqual(['% left']);
+  });
+
   it('renders a value with no digits as plain text', () => {
     render(
       <div data-testid="n">
@@ -32,10 +39,19 @@ describe('ScrollNumber', () => {
     expect(screen.getByTestId('n').querySelector('[style*="--d"]')).toBeNull();
   });
 
-  it('is revealed at once where nothing can observe it scrolling in', () => {
+  it('takes its delay from where it sits unless given one', () => {
+    // An inline 0ms would override the `--reveal-delay` of whatever holds it.
+    const { container, rerender } = render(<ScrollNumber value="5" />);
+    const number = () => container.querySelector<HTMLElement>('[aria-hidden]')?.parentElement;
+    expect(number()?.style.getPropertyValue('--reveal-delay')).toBe('');
+    rerender(<ScrollNumber value="5" delay={150} />);
+    expect(number()?.style.getPropertyValue('--reveal-delay')).toBe('150ms');
+  });
+
+  it('is never parked at zero where nothing can observe it scrolling in', () => {
     // jsdom has no IntersectionObserver: a reveal that cannot fire must not
-    // leave the number parked at zero.
+    // arm the number, or it would read 0 for good.
     const { container } = render(<ScrollNumber value="5" />);
-    expect(container.querySelector('[data-revealed]')).not.toBeNull();
+    expect(container.querySelector('[data-armed]')).toBeNull();
   });
 });

@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
 import {
   IconArrowDown,
   IconBolt,
@@ -23,6 +22,7 @@ import {
   Title,
 } from '@mantine/core';
 import { Reveal, revealItem, revealScope } from '@/components/Motion/Reveal';
+import { useReveal } from '@/components/Motion/useReveal';
 import classes from './SolutionSection.module.css';
 
 // The before → after conversion, as a sequence of cards (Chris Messina's
@@ -121,37 +121,6 @@ const devices = [
 ];
 
 export function SolutionSection() {
-  // One-shot reveal: a single observer on the grid flips `revealed`, then
-  // CSS staggers each card's "after" via its inline --reveal-delay. Reveal
-  // immediately when IntersectionObserver is unavailable so the content is
-  // never stranded hidden.
-  const gridRef = useRef<HTMLDivElement>(null);
-  const [revealed, setRevealed] = useState(false);
-
-  useEffect(() => {
-    const el = gridRef.current;
-    if (!el) {
-      return;
-    }
-    if (typeof IntersectionObserver === 'undefined') {
-      setRevealed(true);
-      return;
-    }
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setRevealed(true);
-            observer.disconnect();
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     // No band of its own: the section sits on the page's surface, so the hero
     // runs straight into it without a seam.
@@ -175,107 +144,20 @@ export function SolutionSection() {
 
         {/* Before → after, as a sequence of cards: the literal
             "machine speak → humanese" translation, shown not told. */}
-        <SimpleGrid
-          ref={gridRef}
-          cols={{ base: 1, sm: 2, lg: 4 }}
-          spacing="lg"
-          mb={48}
-          className={[revealScope(revealed).className, revealed ? classes.revealed : '']
-            .filter(Boolean)
-            .join(' ')}
-          data-revealed={revealScope(revealed)['data-revealed']}
-        >
+        <SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }} spacing="lg" mb={48}>
           {transforms.map((t, i) => (
-            // The card morphs in on the grid's own reveal; its "after" then
-            // materialises once the card has landed (SolutionSection.module.css).
-            <Paper
-              key={t.before}
-              radius="lg"
-              p="lg"
-              bg="var(--nf-card)"
-              className={revealItem('morph').className}
-              data-reveal="morph"
-              style={{
-                border: '1px solid var(--nf-rule)',
-                ['--reveal-delay' as string]: `${i * 120}ms`,
-              }}
-            >
-              <Stack gap="md" h="100%">
-                {/* before — raw machine data, deliberately cryptic */}
-                <Box className={classes.before}>
-                  <Text
-                    size="xs"
-                    tt="uppercase"
-                    fw={700}
-                    c="dimmed"
-                    style={{ letterSpacing: 2 }}
-                    mb={6}
-                  >
-                    Your router shows
-                  </Text>
-                  {/* Reserve two lines so the one-line values (ESP-8A2F,
-                      HP ENVY) take the same height as the wrapping two-line
-                      ones (dev-server.local, the MAC) — keeps the arrow
-                      marker aligned across all four cards. */}
-                  <Text
-                    c="dimmed"
-                    fz={14}
-                    style={{
-                      fontFamily: 'monospace',
-                      wordBreak: 'break-word',
-                      lineHeight: 1.5,
-                      minHeight: '3em',
-                    }}
-                  >
-                    {t.before}
-                  </Text>
-                </Box>
-
-                {/* transform marker */}
-                <Group gap="xs" align="center" wrap="nowrap">
-                  <Box style={{ flex: 1, height: 1, backgroundColor: 'var(--nf-rule)' }} />
-                  <ThemeIcon size="sm" radius="xl" variant="light" color="orange">
-                    <IconArrowDown size={14} />
-                  </ThemeIcon>
-                  <Box style={{ flex: 1, height: 1, backgroundColor: 'var(--nf-rule)' }} />
-                </Group>
-
-                {/* after — Netfox's plain-English read */}
-                <Box className={classes.after} style={{ marginTop: 'auto' }}>
-                  <Text
-                    size="xs"
-                    tt="uppercase"
-                    fw={700}
-                    c="orange"
-                    style={{ letterSpacing: 2 }}
-                    mb={6}
-                  >
-                    Netfox tells you
-                  </Text>
-                  {/* Reserve three lines so the shorter reads take the same
-                      height as the longest (the exposed-Postgres card) —
-                      keeps the "Netfox tells you" label and the pill aligned
-                      across all four cards. */}
-                  <Text fw={600} fz={15} style={{ lineHeight: 1.4, minHeight: '4.2em' }} mb={10}>
-                    {t.after}
-                  </Text>
-                  <Badge variant="light" color={t.pillColor} size="sm" radius="sm">
-                    {t.pill}
-                  </Badge>
-                </Box>
-              </Stack>
-            </Paper>
+            <ConversionCard key={t.before} t={t} index={i} />
           ))}
         </SimpleGrid>
 
-        {/* Mock window */}
-        <Reveal>
+        {/* Mock window. The width is the wrapper's, not the window's: the light
+            runs round the wrapper's rim, and a full-width wrapper put it on
+            the corners of the container, out in the page beside the window. */}
+        <Reveal radius="var(--mantine-radius-lg)" style={{ maxWidth: 800, marginInline: 'auto' }}>
           <Paper
             radius="lg"
             bg="var(--mantine-color-dark-7)"
             style={{ overflow: 'hidden', border: '1px solid var(--mantine-color-dark-5)' }}
-            maw={800}
-            mx="auto"
           >
             {/* Title bar */}
             <Group
@@ -343,5 +225,82 @@ export function SolutionSection() {
         </Reveal>
       </Container>
     </Box>
+  );
+}
+
+/**
+ * One conversion, landing as a card as it scrolls into view; its "after" then
+ * materialises once the card has landed (SolutionSection.module.css). Each card
+ * is its own scope: in one column the four are taller than a phone's screen,
+ * and a reveal fired by the grid moved the lower three out of sight.
+ */
+function ConversionCard({ t, index }: { t: (typeof transforms)[number]; index: number }) {
+  const reveal = useReveal<HTMLDivElement>();
+  const scope = revealScope(reveal);
+  const item = revealItem('morph', index * 120);
+
+  return (
+    <Paper
+      ref={reveal.ref}
+      radius="lg"
+      p="lg"
+      bg="var(--nf-card)"
+      className={[classes.card, scope.className, item.className].join(' ')}
+      data-armed={scope['data-armed']}
+      data-revealed={scope['data-revealed']}
+      data-reveal={item['data-reveal']}
+      style={{ border: '1px solid var(--nf-rule)', ...item.style }}
+    >
+      <Stack gap="md" h="100%">
+        {/* before — raw machine data, deliberately cryptic */}
+        <Box className={classes.before}>
+          <Text size="xs" tt="uppercase" fw={700} c="dimmed" style={{ letterSpacing: 2 }} mb={6}>
+            Your router shows
+          </Text>
+          {/* Reserve two lines so the one-line values (ESP-8A2F,
+              HP ENVY) take the same height as the wrapping two-line
+              ones (dev-server.local, the MAC) — keeps the arrow
+              marker aligned across all four cards. */}
+          <Text
+            c="dimmed"
+            fz={14}
+            style={{
+              fontFamily: 'monospace',
+              wordBreak: 'break-word',
+              lineHeight: 1.5,
+              minHeight: '3em',
+            }}
+          >
+            {t.before}
+          </Text>
+        </Box>
+
+        {/* transform marker */}
+        <Group gap="xs" align="center" wrap="nowrap">
+          <Box style={{ flex: 1, height: 1, backgroundColor: 'var(--nf-rule)' }} />
+          <ThemeIcon size="sm" radius="xl" variant="light" color="orange">
+            <IconArrowDown size={14} />
+          </ThemeIcon>
+          <Box style={{ flex: 1, height: 1, backgroundColor: 'var(--nf-rule)' }} />
+        </Group>
+
+        {/* after — Netfox's plain-English read */}
+        <Box className={classes.after} style={{ marginTop: 'auto' }}>
+          <Text size="xs" tt="uppercase" fw={700} c="orange" style={{ letterSpacing: 2 }} mb={6}>
+            Netfox tells you
+          </Text>
+          {/* Reserve three lines so the shorter reads take the same
+              height as the longest (the exposed-Postgres card) —
+              keeps the "Netfox tells you" label and the pill aligned
+              across all four cards. */}
+          <Text fw={600} fz={15} style={{ lineHeight: 1.4, minHeight: '4.2em' }} mb={10}>
+            {t.after}
+          </Text>
+          <Badge variant="light" color={t.pillColor} size="sm" radius="sm">
+            {t.pill}
+          </Badge>
+        </Box>
+      </Stack>
+    </Paper>
   );
 }

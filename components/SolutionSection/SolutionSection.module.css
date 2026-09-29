@@ -1,53 +1,42 @@
 /*
-  Before → after reveal for the conversion cards. On scroll into view the
-  grid gets `.revealed`: each card's "before" (raw machine data) dims back
-  and its "after" (Netfox's plain-English read) materialises — fade +
-  slide + un-blur — one-shot, staggered per card via the inline
-  `--reveal-delay` custom property. prefers-reduced-motion skips the
-  animation but keeps the final, fully-legible state.
+  Before → after, on each conversion card. At REST -- the served HTML, and
+  what stays if the scripts never run or Reduce Motion is on -- the card shows
+  where it ends: the router's words dimmed, Netfox's read in full. Only a card
+  a script has found off screen (`data-armed`, components/Motion/useReveal)
+  starts from the router's words alone; as it lands (`data-revealed`) the
+  "before" dims back and the "after" materialises -- fade + slide + un-blur --
+  after the card itself, staggered per card by its `--reveal-delay`.
+
+  This used to hide every "after" in plain CSS until the section's own
+  observer added a class, so without the scripts the four reads -- the point
+  of the section -- were never there at all.
 */
 
 .before {
-  transition:
-    opacity 0.5s ease,
-    filter 0.5s ease;
-}
-
-.after {
-  opacity: 0;
-  transform: translateY(10px);
-  filter: blur(3px);
-  transition:
-    opacity 0.6s ease,
-    transform 0.6s ease,
-    filter 0.6s ease;
-  /* After the card itself has landed (components/Motion), not with it. */
-  transition-delay: calc(var(--reveal-delay, 0ms) + 450ms);
-}
-
-.revealed .before {
   opacity: 0.5;
 }
 
-.revealed .after {
-  opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .before,
-  .after {
-    transition: none;
-  }
-
-  .after {
+@media screen and (prefers-reduced-motion: no-preference) {
+  .card[data-armed]:not([data-revealed]) .before {
     opacity: 1;
-    transform: none;
-    filter: none;
   }
 
-  .before {
-    opacity: 0.5;
+  .card[data-armed]:not([data-revealed]) .after {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(3px);
+  }
+
+  .card[data-revealed] .before {
+    transition: opacity 0.5s ease;
+  }
+
+  .card[data-revealed] .after {
+    transition:
+      opacity 0.6s ease,
+      transform 0.6s ease,
+      filter 0.6s ease;
+    /* After the card itself has landed (components/Motion), not with it. */
+    transition-delay: calc(var(--reveal-delay, 0ms) + 450ms);
   }
 }

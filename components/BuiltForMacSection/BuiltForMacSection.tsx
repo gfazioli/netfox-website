@@ -33,18 +33,19 @@ const techPills = [
 export function BuiltForMacSection() {
   // The heading lifts in, the 100 rolls up from zero, and the pills pop in one
   // after another, as if the list were being ticked off.
-  const { ref, revealed } = useReveal<HTMLDivElement>({ threshold: 0.3 });
-  const scope = revealScope(revealed);
+  const reveal = useReveal<HTMLDivElement>();
+  const scope = revealScope(reveal);
   const heading = revealItem('rise');
   const closing = revealItem('rise', 300 + techPills.length * 70);
 
   return (
     <Container size="lg" pos="relative" style={{ zIndex: 1 }} py={80}>
       <Stack
-        ref={ref}
+        ref={reveal.ref}
         align="center"
         gap="md"
         className={scope.className}
+        data-armed={scope['data-armed']}
         data-revealed={scope['data-revealed']}
       >
         <Text

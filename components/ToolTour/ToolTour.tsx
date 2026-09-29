@@ -144,9 +144,17 @@ export function ToolTour({ frames }: { frames: TourFrame[] }) {
 }
 
 /**
- * One row of the tour, revealed as it scrolls into view: the screen slides in
- * from the side it sits on, the copy lifts in after it, and the figures pop in
- * last, their numbers rolling up from zero.
+ * One row of the tour: the screen slides in from the side it sits on, the copy
+ * lifts in, and the figures pop in last, their numbers rolling up from zero.
+ *
+ * Each part watches for itself rather than the row for all of them, as
+ * lancetta.app's frames do (its b090eba). Scrolled at 750 px/s, the row's
+ * reveal found its figures 366-416 px below the fold of a 390x844 phone and
+ * 182-223 px below at 1440x900, and on the phone the copy up to 66 px below:
+ * they moved before anyone could see them. With a scope per part, each starts
+ * at the reveal line. Side by side the order is not fixed: the taller part's
+ * top is higher and goes first, and the copy's 140 ms only orders the two when
+ * they cross the line together.
  */
 function TourRow({
   frame,
@@ -157,31 +165,29 @@ function TourRow({
   index: number;
   onOpen: () => void;
 }) {
-  const { ref, revealed } = useReveal<HTMLElement>({ threshold: 0.25 });
-  const scope = revealScope(revealed);
+  const shotReveal = useReveal<HTMLImageElement>();
+  const copyReveal = useReveal<HTMLDivElement>();
   // Even rows put the screen on the left, odd rows on the right (the CSS
   // alternates the grid); below 62em it is one column and either reads fine.
-  const shot = revealItem(index % 2 === 0 ? 'left' : 'right');
-  const copy = revealItem('rise', 140);
+  const shot = { ...revealScope(shotReveal), item: revealItem(index % 2 === 0 ? 'left' : 'right') };
+  const copy = { ...revealScope(copyReveal), item: revealItem('rise', 140) };
 
   return (
-    <section
-      ref={ref}
-      className={`${classes.frame} ${scope.className}`}
-      data-revealed={scope['data-revealed']}
-      aria-label={frame.title}
-    >
+    <section className={classes.frame} aria-label={frame.title}>
       <UnstyledButton
         className={classes.shotButton}
         onClick={onOpen}
         aria-label={`Enlarge: ${frame.eyebrow}`}
       >
         <Image
+          ref={shotReveal.ref}
           src={frame.src}
           alt={frame.alt}
-          className={`${classes.shot} ${shot.className}`}
-          data-reveal={shot['data-reveal']}
-          style={shot.style}
+          className={`${classes.shot} ${shot.className} ${shot.item.className}`}
+          data-armed={shot['data-armed']}
+          data-revealed={shot['data-revealed']}
+          data-reveal={shot.item['data-reveal']}
+          style={shot.item.style}
         />
         <span className={classes.zoom} aria-hidden>
           <IconArrowsMaximize size={16} />
@@ -189,9 +195,12 @@ function TourRow({
       </UnstyledButton>
 
       <div
-        className={`${classes.copy} ${copy.className}`}
-        data-reveal={copy['data-reveal']}
-        style={copy.style}
+        ref={copyReveal.ref}
+        className={`${classes.copy} ${copy.className} ${copy.item.className}`}
+        data-armed={copy['data-armed']}
+        data-revealed={copy['data-revealed']}
+        data-reveal={copy.item['data-reveal']}
+        style={copy.item.style}
       >
         <Text className={classes.eyebrow}>{frame.eyebrow}</Text>
         <Text className={classes.title} fz={{ base: 26, md: 34 }} lh={1.15} mt={8}>
@@ -201,26 +210,7 @@ function TourRow({
           {frame.body}
         </Text>
 
-        {frame.figures && (
-          <div className={classes.figures}>
-            {frame.figures.map((figure, k) => {
-              const pop = revealItem('pop', 420 + k * 140);
-              return (
-                <div
-                  key={figure.label}
-                  className={`${classes.figure} ${pop.className}`}
-                  data-reveal={pop['data-reveal']}
-                  style={pop.style}
-                >
-                  <span className={classes.figureValue}>
-                    <ScrollNumber value={figure.value} delay={560 + k * 140} />
-                  </span>
-                  <span className={classes.figureLabel}>{figure.label}</span>
-                </div>
-              );
-            })}
-          </div>
-        )}
+        {frame.figures && <Figures figures={frame.figures} />}
 
         <Link href={frame.href} className={classes.link}>
           {frame.linkLabel}
@@ -228,5 +218,42 @@ function TourRow({
         </Link>
       </div>
     </section>
+  );
+}
+
+/**
+ * A row's figures, popping in one after another as they come into view: a
+ * scope of their own, inside the copy's, so they wait for both. Each number
+ * rolls a beat after its figure starts to grow; it waits for its own way into
+ * view too (`ScrollNumber`), which comes a few pixels later.
+ */
+function Figures({ figures }: { figures: NonNullable<TourFrame['figures']> }) {
+  const reveal = useReveal<HTMLDivElement>();
+  const scope = revealScope(reveal);
+
+  return (
+    <div
+      ref={reveal.ref}
+      className={`${classes.figures} ${scope.className}`}
+      data-armed={scope['data-armed']}
+      data-revealed={scope['data-revealed']}
+    >
+      {figures.map((figure, k) => {
+        const pop = revealItem('pop', k * 140);
+        return (
+          <div
+            key={figure.label}
+            className={`${classes.figure} ${pop.className}`}
+            data-reveal={pop['data-reveal']}
+            style={pop.style}
+          >
+            <span className={classes.figureValue}>
+              <ScrollNumber value={figure.value} delay={140 + k * 140} />
+            </span>
+            <span className={classes.figureLabel}>{figure.label}</span>
+          </div>
+        );
+      })}
+    </div>
   );
 }
