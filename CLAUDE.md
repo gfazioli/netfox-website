@@ -106,6 +106,23 @@ Measured 2026-09-24, when Search Console listed pages as *Crawled - currently no
 
 Check a page the way a crawler gets it: `curl -A Googlebot` and count words in `<main>` with the scripts stripped. A number under a few hundred on a page that looks full in the browser is this class of defect.
 
+### Performance and SEO: what the pages cost, measured
+
+Audited 2026-09-29 with `~/Lavoro/GitHub/claude-global/scripts/site-audit/`.
+- The always-on rule `website-changes-measure-performance-and-seo` says when to run it: every significant change.
+- The workspace's `.claude/rules/websites.md` holds what the four sites share.
+
+Local production builds of `main` and the branch, measured with Lighthouse mobile and devtools throttling, base and branch passes alternating:
+- **Home: LCP 9.6–10.9 s → 1.8–2.7 s, perf 65–72 → 91–98, 4,389 → 1,594 KiB.** Ten images were preloaded from the `<head>`, because React 19 preloads every eager `<img>`; the four tour PNGs were among them. Two are preloaded now: the navbar logo and the hero icon, both next/image at the size drawn. The tour shots are lazy WebP.
+- **JavaScript: 773 → 370 KiB on every page.** The MDX compiler had been in each page's bundle.
+- **At rest for 10 s: 860 ms of main thread and 600 style recalcs → 62 ms and 50.** The cadence dot's box-shadow pulse caused them. `Scene.Radar` and `Scene.Glow` keep running, on transform and opacity.
+- **SEO:**
+  - the home page is in a `<main>`;
+  - four descriptions fit a snippet;
+  - the sitemap has no clone-time `lastmod`.
+- **Still 953 KiB on the home page: the LaunchVault badge.** It is a 1.3 MB SVG with a PNG inside, fetched from launchvault.dev. It is lazy, but on a slow connection Chrome's lazy-load distance reaches it during the load. A self-hosted copy at the drawn size would bring the home to about 640 KiB.
+- **Build with `GITHUB_TOKEN` set before measuring.** When the build cannot reach GitHub, `load-releases.ts` prerenders the fallback, and `/docs/release-notes` then compiles every release in the browser: locally that was 2.6 MB of script and a 37 s LCP, which measures the fallback instead of the page.
+
 ### Motion: the home page reveals itself as it is scrolled
 
 All of it is `components/Motion`, first built here (#77), taken by lancetta.app, fixed there in review, and brought back on 2026-09-29. Section headings rise; cards MORPH (squashed and low, then the landing spring), 110-120 ms apart; the tour's screens come in from the side they sit on, their copy rises and their figures pop, the numbers rolling (`ScrollNumber`); each conversion card lands and then its "Netfox tells you" materialises; the Built-for-macOS pills pop and its 100 rolls. The springs are `--nf-spring*` in `theme/global.css`, the film's closed-form spring sampled into `linear()` (lancetta-website's `springs.ts` regenerates all three to the last digit).
