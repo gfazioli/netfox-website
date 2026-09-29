@@ -18,6 +18,8 @@ export const WALK_MS = 2200;
 export const SNIFF_MS = 1100;
 /** Matches the fade on `.hint`. */
 const LEAVE_MS = 260;
+/** After the last resize event, before it walks in again. */
+export const RESIZE_SETTLE_MS = 400;
 
 /** How far right of the buttons it stands (`.hint`'s `left`). */
 const STAND_OFF_PX = 14;
@@ -70,7 +72,8 @@ function roomBeside(row: Element) {
  * markup carries none of it. A reader who asked for reduced motion gets it
  * standing in place, already pointing: settled, not skipped. Where the window
  * leaves no room for what it says right of the buttons (`MIN_BUBBLE_PX`), it
- * does not come, and it leaves if a resize takes the room away.
+ * does not come; a resize that takes the room away sends it off, and one that
+ * gives it back brings it in again.
  */
 export function HeroGuide() {
   const reduced = useReducedMotion();
@@ -92,6 +95,12 @@ export function HeroGuide() {
   const anchor = useRef<HTMLDivElement>(null);
   const hint = useRef<HTMLDivElement>(null);
   const timers = useRef(new Set<number>());
+  // Whether the buttons have come into view: from then on the room decides
+  // whether it is there.
+  const arrived = useRef(false);
+  // Which walk the pending timers belong to. A walk cut short by a resize and
+  // started again must not be moved on by the timers of the first one.
+  const walk = useRef(0);
 
   const later = useCallback((fn: () => void, ms: number) => {
     const id = window.setTimeout(() => {
@@ -99,6 +108,11 @@ export function HeroGuide() {
       fn();
     }, ms);
     timers.current.add(id);
+  }, []);
+
+  const cancelTimers = useCallback(() => {
+    timers.current.forEach((timer) => window.clearTimeout(timer));
+    timers.current.clear();
   }, []);
 
   /** The room for the bubble, handed to the stylesheet as its widest. */
@@ -112,42 +126,55 @@ export function HeroGuide() {
     return room;
   }, []);
 
+  /**
+   * The keyboard was on something of the fox's that is about to go: hand the
+   * focus to the button it was standing beside, rather than let it drop to
+   * the page.
+   */
+  const handFocusBack = useCallback(() => {
+    if (hint.current?.contains(document.activeElement)) {
+      const links = anchor.current?.parentElement?.querySelectorAll<HTMLElement>('a[href]');
+      links?.[links.length - 1]?.focus();
+    }
+  }, []);
+
+  const walkIn = useCallback(() => {
+    if (guideMemory.dismissed || phaseNow.current !== 'hidden' || measure() < MIN_BUBBLE_PX) {
+      return;
+    }
+    if (reducedNow.current) {
+      move('pointing');
+      return;
+    }
+    walk.current += 1;
+    const mine = walk.current;
+    move('walking');
+    later(() => {
+      if (walk.current !== mine || phaseNow.current !== 'walking') {
+        return;
+      }
+      move('sniffing');
+      later(() => {
+        if (walk.current === mine && phaseNow.current === 'sniffing') {
+          move('pointing');
+        }
+      }, SNIFF_MS);
+    }, WALK_MS);
+  }, [later, measure, move]);
+
   useEffect(() => {
     const el = anchor.current;
     if (!el || guideMemory.dismissed) {
       return undefined;
     }
-    const pending = timers.current;
-    const walkIn = () => {
-      if (guideMemory.dismissed || phaseNow.current !== 'hidden' || measure() < MIN_BUBBLE_PX) {
-        return;
-      }
-      if (reducedNow.current) {
-        move('pointing');
-        return;
-      }
-      move('walking');
-      later(() => {
-        if (phaseNow.current !== 'walking') {
-          return;
-        }
-        move('sniffing');
-        later(() => {
-          if (phaseNow.current === 'sniffing') {
-            move('pointing');
-          }
-        }, SNIFF_MS);
-      }, WALK_MS);
-    };
-    const arrive = () => later(walkIn, DELAY_MS);
-    const stop = () => {
-      pending.forEach((timer) => window.clearTimeout(timer));
-      pending.clear();
+    const arrive = () => {
+      arrived.current = true;
+      later(walkIn, DELAY_MS);
     };
     // Where nothing can say the buttons came into view, it comes after the delay.
     if (typeof IntersectionObserver === 'undefined') {
       arrive();
-      return stop;
+      return cancelTimers;
     }
     const observer = new IntersectionObserver(
       (entries) => {
@@ -161,24 +188,39 @@ export function HeroGuide() {
     observer.observe(el);
     return () => {
       observer.disconnect();
-      stop();
+      cancelTimers();
     };
-  }, [later, measure, move]);
+  }, [later, walkIn, cancelTimers]);
 
-  // A window made too narrow for what it says: it goes, rather than squeeze
-  // its bubble into a column.
+  // The room is the window's to give and take. Made too narrow for what it
+  // says, the fox goes, rather than squeeze its bubble into a column; given
+  // the room back -- or given it for the first time, where the buttons came
+  // into view in a narrow window -- it walks in again, from the start, once
+  // the resize has settled.
   useEffect(() => {
-    if (phase === 'hidden' || phase === 'leaving') {
-      return undefined;
-    }
+    let settle: number | undefined;
     const resized = () => {
+      window.clearTimeout(settle);
+      if (!arrived.current || guideMemory.dismissed) {
+        return;
+      }
+      const now = phaseNow.current;
       if (measure() < MIN_BUBBLE_PX) {
-        move('hidden');
+        if (now !== 'hidden' && now !== 'leaving') {
+          handFocusBack();
+          cancelTimers();
+          move('hidden');
+        }
+      } else if (now === 'hidden') {
+        settle = window.setTimeout(walkIn, RESIZE_SETTLE_MS);
       }
     };
     window.addEventListener('resize', resized);
-    return () => window.removeEventListener('resize', resized);
-  }, [phase, measure, move]);
+    return () => {
+      window.clearTimeout(settle);
+      window.removeEventListener('resize', resized);
+    };
+  }, [measure, handFocusBack, cancelTimers, move, walkIn]);
 
   // Reduce Motion switched on mid-way: land where it was going, now.
   useEffect(() => {
@@ -205,12 +247,7 @@ export function HeroGuide() {
 
   const dismiss = () => {
     guideMemory.dismissed = true;
-    // The keyboard was on the × that is about to go: hand the focus to the
-    // button the fox was standing beside, rather than let it drop to the page.
-    if (hint.current?.contains(document.activeElement)) {
-      const links = anchor.current?.parentElement?.querySelectorAll<HTMLElement>('a[href]');
-      links?.[links.length - 1]?.focus();
-    }
+    handFocusBack();
     move('leaving');
     later(() => move('hidden'), LEAVE_MS);
   };

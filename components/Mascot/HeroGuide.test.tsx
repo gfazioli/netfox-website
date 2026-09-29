@@ -1,5 +1,5 @@
 import { act, fireEvent, render, screen } from '@/test-utils';
-import { DELAY_MS, guideMemory, HeroGuide, SNIFF_MS, WALK_MS } from './HeroGuide';
+import { DELAY_MS, guideMemory, HeroGuide, RESIZE_SETTLE_MS, SNIFF_MS, WALK_MS } from './HeroGuide';
 import { TRANSLATIONS } from './translations';
 
 describe('HeroGuide', () => {
@@ -95,15 +95,67 @@ describe('HeroGuide', () => {
     expect(walker()).toBeNull();
   });
 
+  const resizeTo = (width: number) => {
+    windowWidth = width;
+    act(() => {
+      window.dispatchEvent(new Event('resize'));
+    });
+  };
+
   it('leaves when a resize takes that room away', () => {
     render(<HeroGuide />);
     arrived();
     expect(said(first.plain)).toBeInTheDocument();
-    windowWidth = 1100;
-    act(() => {
-      window.dispatchEvent(new Event('resize'));
-    });
+    resizeTo(1100);
     expect(walker()).toBeNull();
+  });
+
+  it('comes once a window that was too narrow is made wide enough', () => {
+    // Review of #82: the buttons came into view in a narrow window, and the
+    // observer had already let go, so widening it never brought the fox.
+    windowWidth = 1180;
+    render(<HeroGuide />);
+    buttonsInView();
+    wait(10_000);
+    expect(walker()).toBeNull();
+    resizeTo(1440);
+    wait(RESIZE_SETTLE_MS + 50);
+    expect(phase()).toBe('walking');
+    wait(WALK_MS + SNIFF_MS);
+    expect(said(first.plain)).toBeInTheDocument();
+  });
+
+  it('walks in again, from the start, when the room comes back mid-walk', () => {
+    render(<HeroGuide />);
+    buttonsInView();
+    wait(DELAY_MS + 1000);
+    expect(phase()).toBe('walking');
+    resizeTo(1100);
+    expect(walker()).toBeNull();
+    resizeTo(1440);
+    wait(RESIZE_SETTLE_MS + 50);
+    expect(phase()).toBe('walking');
+    // Where the first walk would have ended: this one is still on its way.
+    wait(WALK_MS - 1000);
+    expect(phase()).toBe('walking');
+    wait(1000 + SNIFF_MS);
+    expect(said(first.plain)).toBeInTheDocument();
+  });
+
+  it('hands the keyboard focus back before a resize sends it off', () => {
+    // Review of #82: the focused control unmounted and the focus fell to the page.
+    render(
+      <div>
+        <a href="/download">Download for macOS</a>
+        <a href="/docs">See what it does</a>
+        <HeroGuide />
+      </div>
+    );
+    arrived();
+    act(() => screen.getByRole('button', { name: 'Dismiss' }).focus());
+    resizeTo(1100);
+    expect(walker()).toBeNull();
+    expect(document.activeElement).toBe(screen.getByRole('link', { name: 'See what it does' }));
   });
 
   it('translates the next one on a click on it or on what it says, then starts over', () => {
