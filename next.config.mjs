@@ -6,7 +6,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 });
 
 const withNextra = nextra({
-  latex: true,
+  // No `latex`: no page on the site has any math (not one `$` in content/).
   search: {
     codeblocks: false
   },
