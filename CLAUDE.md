@@ -120,7 +120,7 @@ Local production builds of `main` and the branch, measured with Lighthouse mobil
   - the home page is in a `<main>`;
   - four descriptions fit a snippet;
   - the sitemap has no clone-time `lastmod`.
-- **Still 953 KiB on the home page: the LaunchVault badge.** It is a 1.3 MB SVG with a PNG inside, fetched from launchvault.dev. It is lazy, but on a slow connection Chrome's lazy-load distance reaches it during the load. A self-hosted copy at the drawn size would bring the home to about 640 KiB.
+- **The LaunchVault badge is served from here** (2026-09-30). Theirs, fetched from launchvault.dev, was a 1.3 MB SVG around a 1190 px PNG of the logo, 953 of the home page's 1,605 KiB: lazy, but Chrome's lazy-load distance reached it during the load on a slow connection. `public/launchvault-badge.svg` is their layout with their vector logo (`launchvault.dev/logo.svg`), 2.3 KB after ImageOptim, and it spells their name right where theirs read "Launch Valut". The link to launchvault.dev is unchanged: their free listing asks for a dofollow backlink, not for their image. Home 1,597 → 646 KiB (images 1,055 → 103); LCP did not move, pass for pass in the same cluster (2.71 → 2.69 s, 1.82 → 1.80 s), because the badge was already lazy.
 - **Build with `GITHUB_TOKEN` set before measuring.** When the build cannot reach GitHub, `load-releases.ts` prerenders the fallback, and `/docs/release-notes` then compiles every release in the browser: locally that was 2.6 MB of script and a 37 s LCP, which measures the fallback instead of the page.
 
 ### Motion: the home page reveals itself as it is scrolled
