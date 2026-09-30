@@ -453,13 +453,17 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
 
               LaunchVault's SVG is 139×44 on a white plate of its own, so
               it reads on the night as it is; at the 195px its embed asks
-              for it is 62px tall. It is also 1.3 MB (972 KB over the wire,
-              a base64 PNG inside) and revalidated on every visit, hence
-              `loading="lazy"`: the size is pinned, so deferring it moves
-              nothing. The other two are lazy for the same reason: an eager
-              <img> is preloaded from the <head>, so they were fetched beside
-              the hero's logo while sitting under the fold on a laptop and on
-              a phone alike (2026-09-29 audit).
+              for it is 62px tall. It is served from HERE, as a copy: theirs
+              was 1.3 MB (972 KB over the wire, a 1190px PNG of the logo
+              drawn at 20 units) and 953 of the home page's 1,605 KiB. The
+              copy is their layout with their vector logo
+              (launchvault.dev/logo.svg), 2 KB; their badge also read
+              "Launch Valut". The link is theirs unchanged, and it is what
+              their free listing asks for: a dofollow backlink. All three
+              are `loading="lazy"`: the size is pinned, so deferring moves
+              nothing, and an eager <img> is preloaded from the <head>, so
+              they were fetched beside the hero's logo while sitting under
+              the fold on a laptop and on a phone alike (2026-09-29 audit).
 
               `justify="center"`: the badges do not fit on one row on a
               phone, and a wrapped Group spans the full width, so without
@@ -504,7 +508,7 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
                 aria-label="Netfox on LaunchVault"
               >
                 <Image
-                  src="https://www.launchvault.dev/images/badges/launch-valut-badge.svg"
+                  src="/launchvault-badge.svg"
                   alt="Featured on LaunchVault"
                   w={195}
                   h={62}
