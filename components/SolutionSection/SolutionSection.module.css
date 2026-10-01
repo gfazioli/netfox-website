@@ -1,7 +1,9 @@
 /*
   Before → after, on each conversion card. At REST -- the served HTML, and
   what stays if the scripts never run or Reduce Motion is on -- the card shows
-  where it ends: the router's words dimmed, Netfox's read in full. Only a card
+  where it ends: the router's words dimmed, Netfox's read in full; with motion
+  on, a card at rest plays the change once from the first paint and ends
+  there, as its own entrance does (components/Motion). Only a card
   a script has found off screen (`data-armed`, components/Motion/useReveal)
   starts from the router's words alone; as it lands (`data-revealed`) the
   "before" dims back and the "after" materialises -- fade + slide + un-blur --
@@ -17,6 +19,30 @@
 }
 
 @media screen and (prefers-reduced-motion: no-preference) {
+  /* A card on screen from the start plays the same way in from the first
+     paint, as its own entrance does (components/Motion): the router's words
+     dim, then Netfox's read materialises once the card has landed. */
+  .before {
+    animation-name: before-dim;
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+    animation-delay: var(--reveal-hold, 400ms);
+    animation-fill-mode: backwards;
+  }
+
+  .after {
+    animation-name: after-in;
+    animation-duration: 0.6s;
+    animation-timing-function: ease;
+    animation-delay: calc(var(--reveal-hold, 400ms) + var(--reveal-delay, 0ms) + 450ms);
+    animation-fill-mode: backwards;
+  }
+
+  .card[data-armed] .before,
+  .card[data-armed] .after {
+    animation: none;
+  }
+
   .card[data-armed]:not([data-revealed]) .before {
     opacity: 1;
   }
@@ -38,5 +64,20 @@
       filter 0.6s ease;
     /* After the card itself has landed (components/Motion), not with it. */
     transition-delay: calc(var(--reveal-delay, 0ms) + 450ms);
+  }
+}
+
+/* From where the armed rules above start, to the layout's own values. */
+@keyframes before-dim {
+  from {
+    opacity: 1;
+  }
+}
+
+@keyframes after-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(3px);
   }
 }
