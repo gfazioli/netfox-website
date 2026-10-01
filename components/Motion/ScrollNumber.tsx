@@ -14,11 +14,13 @@ import classes from './Motion.module.css';
  * generated content, so crawlers, screen readers and copy-paste never see
  * the strip of 0-9 behind each one. A value with no digits renders as text.
  *
- * It rolls only if it was off screen when the page mounted (see `useReveal`):
- * one already in view is left as the server drew it, so a figure is never
- * painted as zeros where someone can read it. The hero's release count used
- * to read "00 releases" until the bundle had hydrated, and for good when a
- * chunk failed to load.
+ * Off screen when the page mounted, it waits armed and rolls as it comes into
+ * view (see `useReveal`). Already in view, it rolls up once from the first
+ * paint by CSS alone (Motion.module.css), after the hold, and ends on the
+ * value the server drew whether or not a script ever runs: its zeros last
+ * the hold and the roll, never longer. The hero's release count used to read
+ * "00 releases" until the bundle had hydrated, and for good when a chunk
+ * failed to load.
  *
  * `delay` is optional on purpose: left out, the number takes `--reveal-delay`
  * from whatever it sits in.
