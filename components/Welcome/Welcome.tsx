@@ -88,15 +88,13 @@ const tourFrames: TourFrame[] = [
     linkLabel: 'Tour the Overview',
   },
   {
-    // A cleaner, glance-friendly Wi-Fi shot; the docs page keeps the fuller
-    // detail-panel screenshot (`/screenshot-wifi.png`).
-    src: '/screenshot-hero-wifi.png',
+    src: '/screenshot-wifi.png',
     width: 2000,
     height: 1310,
     alt: 'Netfox — the Wi-Fi tool: every network in range with its security, channel and signal, and a live signal chart for the selected one',
     eyebrow: 'Wi-Fi',
     title: 'Every network in range, and how yours is holding up.',
-    body: 'Every network your Mac can hear, its security graded by colour, its channel and band, and a live signal history for each one. A hidden network still tells you who made the access point. Location is asked for once, because macOS keeps network names behind it, and is used for nothing else.',
+    body: 'Every network your Mac can hear, its security graded by colour, its channel and band, and a live signal history for each one. Pick one to join it from there, and when yours is struggling and a network your Mac already knows is clearly stronger where you are, Netfox says so. A hidden network still tells you who made the access point. Location is asked for once, because macOS keeps network names behind it, and is used for nothing else.',
     href: '/docs/tools/wifi',
     linkLabel: 'How the Wi-Fi tool reads',
   },
