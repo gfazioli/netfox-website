@@ -1,13 +1,13 @@
 ---
 title: "Wi-Fi Scanner"
-description: "Scan every Wi-Fi network your Mac can see with Netfox: live signal strength, channel, band, security mode and a per-network signal chart."
+description: "Scan every Wi-Fi network your Mac can see with Netfox, and join one: live signal, channel, band, security, filters, search and a signal chart."
 ---
 
 import { Callout } from 'nextra/components';
 
 # Wi-Fi
 
-The **Wi-Fi** tool shows every wireless network the Mac's radio can currently see, with live signal-strength history, channel/band info, and security mode at a glance.
+The **Wi-Fi** tool shows every wireless network the Mac's radio can currently see, with live signal-strength history, channel/band info, and security mode at a glance — and lets you join one of them without leaving Netfox.
 
 ![Netfox Wi-Fi tool](/screenshot-wifi.png)
 
@@ -21,25 +21,57 @@ Netfox uses location *only* to read the Wi-Fi neighbour list. It doesn't track o
 
 ## The network list
 
-Each row in the sidebar shows:
+Above the list, **Networks around you** sits over the network you're on: its name, its band and its signal, the way Devices shows your public IP. The list itself scrolls beneath that header, and the line between the list and the details can be dragged to make the list wider or narrower; Netfox remembers the width.
+
+Each row in the list shows:
 
 - **Security icon** — a lock coloured by encryption strength (green for WPA2/WPA3, yellow for legacy WPA/WEP, red for open networks)
 - **Wi-Fi icon** — coloured by signal-strength bucket (red weak → orange fair → yellow good → green excellent)
 - **SSID** — the broadcast network name, or `Hidden network` for non-broadcasting APs
 - **Connection badge** — a checkmark seal next to the network you're currently joined to
+- **Known** — on a network that's in your Mac's known networks, the ones it can join again. That list can include networks saved on your other devices through iCloud, so Known doesn't always mean this Mac has joined it
 - **Subtitle** — short security label + channel + band, e.g. `WPA2 · Ch 36 (5 GHz)`. On a hidden network it also carries **who made the access point**, e.g. `WPA2 · Ch 11 (2.4 GHz) · Belkin` — see below for why that's the useful bit
 - **Trailing dBm** — current RSSI in dBm, monospaced so the column scans
 
-Sorting is configurable from the bottom of the sidebar: signal strength (default), name, channel, or security type. The direction arrow flips the order.
+Sorting is configurable from the bottom of the list: signal strength (default), name, channel, or security type. The direction arrow flips the order.
+
+### Filter and search
+
+The toolbar carries the same controls as Devices:
+
+- **Filter** — the funnel button. Its menu narrows the list to **only your band** (the band of the network you're on), **Known** networks, or networks with **No password**: open ones, and Enhanced Open ones, which need no password yet still encrypt the traffic (their lock stays green). While a filter is on, the funnel is filled and names it.
+- **Search** (<Kbd>⌘</Kbd> <Kbd>F</Kbd>) — finds a network by name, BSSID, the maker of its access point, or its security. Type `fast` to see every network whose name starts with Fastweb; type a maker's name to pick out a hidden network.
+- **Scan now** — scans immediately, as <Kbd>⌘</Kbd> <Kbd>R</Kbd> does while Wi-Fi is in front.
+
+When a filter or a search narrows the list, the count at its foot says what it's out of — `11 of 21 networks` — so a short list never passes for a quiet neighbourhood.
+
+Click a network and the arrow keys move through the list. Right-click one to **Join…** it.
 
 On macOS 27 you can pull the list down to scan now instead of waiting for the next pass. A scan that is already under way counts as the fresh one, so the pull never starts a second scan on top of it: macOS limits how often an app may scan for networks.
+
+## Joining a network
+
+Select a network and choose **Join…** at the top of its details, or right-click it in the list. A sheet opens before anything changes:
+
+- it names the network your Mac will **leave** to join this one;
+- on an **open** network it says what that means: anything you send over it can be read by others nearby, unless the app or website encrypts it itself;
+- it asks for the **password**. Netfox hands it to macOS for this one join and never keeps it. A network in your Mac's known networks still needs it typed here: Netfox doesn't read the one macOS saved, while the Wi-Fi menu in the menu bar can use it;
+- if your Mac is set to require an administrator password to change networks, it says macOS may ask for one.
+
+Netfox joins the strongest access point of the network you picked among those with the same security, and the list updates as soon as the next scan lands: the network gets its seal, and the details say it's the network you're on. If it can't join, the sheet says why in plain words — the password wasn't accepted, the network is out of range, macOS didn't allow the change — and stays open so you can try again.
+
+**Join…** is greyed out, with the reason in its tooltip, for three kinds of network:
+
+- a **hidden** network, whose name has to be typed in — use the Wi-Fi menu;
+- an **enterprise** network that signs in with an account or a certificate rather than a password — use the Wi-Fi menu;
+- **another access point of the network you're on** — macOS picks which one it uses, and switches on its own.
 
 ## The detail panel
 
 Selecting any network opens a detail panel with:
 
 ### Header
-The SSID large + a *Last seen N seconds ago* line. If this is the network you're connected to, the seal badge appears here too.
+The SSID large + a *Last seen N seconds ago* line, and *In your Mac's known networks* when it is. If this is the network you're connected to, the seal badge appears here too; otherwise the **Join…** button sits on the right.
 
 ### Signal Overview
 A live chart of RSSI samples over time, with optional noise overlay when the radio reports noise data. Underneath, three metrics:
@@ -61,6 +93,8 @@ Beside the sentence are the three numbers behind it: how many networks share you
 The middle one is the one that decides the verdict, and it is not the same as the first. An access point 25 dB below yours overlaps your spectrum on paper but does not raise the channel's energy enough to hold you off — so counting it would call a good link crowded. Netfox counts a neighbour as competing when it is within 15 dB of your own signal, a figure measured against a real dense environment rather than picked: on a network with 33 access points visible at 5 GHz and a median of −85 dBm against a −58 dBm link, the count sat flat at 2 up to 15 dB and jumped to 11 by 25 dB.
 
 When a materially quieter channel exists, Netfox names it.
+
+When the link has a problem, Netfox also looks at the networks your Mac already knows. If one of them is clearly stronger where you are — at least 10 dB louder, and itself in the list's **Good** range — the card says so with both readings, for example *Your Mac also knows "Upstairs", and its signal is stronger here: −55 dBm against −76 dBm*, and offers **Switch…**, which opens the same join sheet. It's a measured fact, not a promise: a different network can be a different router or a phone's hotspot, so the choice stays yours. Nothing is suggested while your Wi-Fi looks fine.
 
 <Callout type="info">
 It stays quiet when it can't tell you honestly. A channel suggestion needs enough of the band to have been seen, and a "quieter" channel has to be quieter by a real margin — not by one access point. If macOS reports no noise measurement for the interface, the signal half is reported as unknown rather than assumed to be good: a verdict that treated a missing measurement as a clean bill of health would be worse than no verdict.
