@@ -17,7 +17,7 @@ The **Wi-Fi** tool shows every wireless network the Mac's radio can currently se
 The first time you open the Wi-Fi tool, macOS prompts for **Location permission**. SSID details (network names, BSSIDs, encryption modes) are gated behind that permission at the system level — without it, the system returns empty network names and the tool can't render anything useful.
 </Callout>
 
-Netfox uses location *only* to read the Wi-Fi neighbour list. It doesn't track or store your physical position, doesn't ship coordinates anywhere, and stops requesting the permission once granted. If you decline, the Wi-Fi tool shows a one-click *Open Location Settings* button and waits; flip the toggle and the scan starts immediately.
+Netfox uses location *only* to read the Wi-Fi neighbour list. It never reads your coordinates, so it has none to store or send. What it does keep, on your Mac and for 7 days, is the signal of each access point it saw, by hardware address (BSSID). It stops requesting the permission once granted. If you decline, the Wi-Fi tool shows a one-click *Open Location Settings* button and waits; flip the toggle and the scan starts immediately.
 
 ## The network list
 

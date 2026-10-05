@@ -105,9 +105,9 @@ const tourFrames: TourFrame[] = [
     alt: 'Netfox — the Devices tool: every device on the network in one list, with its name, vendor and state',
     eyebrow: 'Devices',
     title: 'Every device, named in plain English.',
-    body: 'Bonjour, the ARP cache, SSDP, NetBIOS and an active ping run together and merge into one row per physical device, so the quiet ones show up beside the chatty ones — each with its identity, its history and the services it exposes. And when a device never speaks at all, Find silent devices asks your subnet instead of waiting.',
+    body: 'Bonjour, the ARP cache, SSDP and an active ping run together and merge into one row per physical device, so the quiet ones show up beside the chatty ones — each with its identity, its history and the services it exposes. And when a device never speaks at all, Find silent devices asks your subnet instead of waiting.',
     figures: [
-      { value: '5', label: 'discovery sources, one row per device' },
+      { value: '4', label: 'discovery sources, one row per device' },
       { value: 'Read-only', label: 'discovery, until you ask for a scan' },
     ],
     href: '/docs/tools/devices',
@@ -156,7 +156,7 @@ const features = [
     icon: IconRadar,
     title: 'Multi-Source Discovery',
     description:
-      'Bonjour, ARP, SSDP, NetBIOS and active probing run together. Apple devices, smart-TVs, IoT, quiet hosts — all in the same list.',
+      'Bonjour, ARP, SSDP and active probing run together. Apple devices, smart-TVs, IoT, quiet hosts — all in the same list.',
     accent: 'var(--mantine-color-orange-5)',
     href: '/docs/tools/devices',
   },

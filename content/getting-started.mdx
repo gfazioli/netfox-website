@@ -55,8 +55,8 @@ When you open Netfox for the first time, you land on the **Overview**. Behind th
 1. **This Mac** appears first, pinned at the top of the Devices list, with its current Wi-Fi/Ethernet badge.
 2. Within a few seconds, Bonjour services (HomePods, Apple TVs, AirPlay receivers, printers advertising mDNS) show up.
 3. ARP-only devices (anything that has talked on the LAN recently — your phone, NAS, IoT plugs) come in shortly after.
-4. SSDP and NetBIOS pull in smart-TVs, media servers, and Windows shares.
-5. The active-ping pass fills in IPv4 addresses for devices the system ARP cache holds but Bonjour didn't reach.
+4. SSDP pulls in smart-TVs, media servers and UPnP routers.
+5. The active-ping pass pings every known address every five minutes, so a device that is on but quiet stays online.
 
 On a typical home network you'll see most of the picture within 30 seconds.
 
