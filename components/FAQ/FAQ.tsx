@@ -63,7 +63,7 @@ export const faqItems = [
     value: 'privacy',
     question: 'Does Netfox send my data anywhere?',
     answer:
-      'Nothing about you or what you do. Everything Netfox learns about your network stays on your Mac: no cloud account, no telemetry, no usage analytics. A few requests do leave your network: the public-IP lookup and a ping to a public DNS server for the link check (both on by default, both off with Settings → Privacy → Detect public IP), the update check, and a sponsor picture in the About window. The privacy page lists each one.',
+      "Not what Netfox learns about your network: that stays on your Mac, with no cloud account, no telemetry and no usage analytics. A few requests do leave your network, each carrying your IP address: the public-IP lookup and a ping to a public DNS server for the link check (both on by default, both off with Settings → Privacy → Detect public IP), the update check (with the app's version), and a sponsor picture in the About window. The privacy page lists each one.",
   },
   {
     value: 'modify',
