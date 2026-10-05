@@ -76,7 +76,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             navbar={<MantineNavBar />}
             pageMap={pageMap}
             docsRepositoryBase={nextraLayout.docsRepositoryBase}
-            footer={<MantineFooter />}
+            footer={<MantineFooter year={new Date().getFullYear()} />}
             sidebar={nextraLayout.sidebar}
             /*
               Nextra runs its DARK theme, forced, with no switch: the site is

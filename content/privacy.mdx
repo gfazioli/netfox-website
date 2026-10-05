@@ -1,0 +1,55 @@
+---
+description: "How netfox.app and the Netfox app handle personal data: what stays on your Mac, the few requests that leave it, and cookie-free visit statistics."
+---
+
+import config from "@/config";
+
+# Privacy policy
+
+_Last updated: 5 October 2026_
+
+The short version: everything Netfox learns about your network stays on your Mac. There is no account, no telemetry and no usage analytics. A few requests do leave your network, and each one is listed below, with the switch that stops it.
+
+## Who is responsible
+
+The data controller is **{config.legal.owner}** ({config.legal.brand}), an independent software developer in Italy, VAT number {`IT${config.legal.vatNumber}`}. Write to [hello@undolog.com](mailto:hello@undolog.com) about anything on this page. See also the [Legal notice](/docs/legal).
+
+## The Netfox app
+
+### What leaves your network
+
+- **Your public IP address.** To show the face your network presents to the internet, Netfox asks a public-IP lookup service over HTTPS at launch and when you refresh the Overview. On by default; **Settings → Privacy → Detect public IP** turns it off.
+- **The link check.** While the Overview's link panel is on screen, Netfox pings a public DNS server (1.1.1.1) every 15 seconds to measure the route to the internet. Only ping packets travel. The same switch turns it off.
+- **Update checks.** The app asks this website whether a new version exists, carrying the app's version. The scheduled check runs only after you allow it (the update framework asks you once, on the second launch), and *Check for updates on launch* is off by default; see [Settings → Updates](/docs/settings#updates). A new version's notes come from this website and its download from GitHub.
+- **The support window.** It opens at launch unless you turn it off (see [Settings → General](/docs/settings#support-window)), and in About. It shows a sponsor's picture, which is loaded from GitHub.
+
+Nothing else leaves your network. Netfox has no analytics, no crash reporter and no remote configuration, and its device-vendor database is built into the app rather than looked up online.
+
+### What stays on your local network
+
+Discovery, pings to your devices, port checks, the service details it reads and the Web Viewer all talk only to devices on networks your Mac is attached to. The [Devices](/docs/tools/devices) and [Security](/docs/tools/security) pages describe each of them.
+
+**Location permission.** macOS hides Wi-Fi network names from apps without it. Netfox asks for it only to read the networks around you, and never reads your coordinates.
+
+### What it stores on your Mac
+
+Your devices and the names and tags you give them, each device's timeline (30 days), alerts (90 days), port results (30 days), latency samples (7 days) and Wi-Fi samples, including the networks' hardware addresses (7 days). They stay on your Mac. [Settings → Privacy](/docs/settings#storage) clears them; the Wi-Fi samples age out on their own after 7 days. The optional metrics endpoint is off by default, answers only on this Mac unless you open it to your network, and then requires a token; see [Integrations](/docs/integrations).
+
+## This website
+
+- **No cookies, no tracking.** The site sets no cookies and does not follow you across other sites.
+- **Visit statistics.** Visits are counted by privacy-friendly analytics that use no cookies and build no profile of you: pages viewed, the referring site, country, and browser or device type, in aggregate.
+- **Server logs.** The hosting provider that serves these pages, and the app's update checks, processes your IP address and the details of each request to deliver the site and keep it secure, and keeps them for a limited time.
+- **Your browser's local storage** remembers, in your browser only, that you closed the release banner. None of it is sent to us.
+- **Pictures from other services.** The home page shows launch badges loaded from Product Hunt and Fazier, and the sponsor pictures at the bottom of every page are loaded from GitHub. Those services therefore see your IP address. Downloads also come from GitHub.
+- **Links.** The newsletter, GitHub Sponsors and donations through Stripe are on their own services. If you use them, their own privacy policies apply.
+
+## Why, and your rights
+
+We process the little personal data described here to run and protect the site and the app, and to answer you when you write: our legitimate interest, or the service you asked for. The hosting, lookup and download providers may process it outside the European Union, including in the United States, under the safeguards the GDPR requires.
+
+Under the GDPR you can ask to access, correct or delete your personal data, to restrict or object to its processing, and to receive it in a portable format: write to [hello@undolog.com](mailto:hello@undolog.com). You can also lodge a complaint with the Italian data protection authority, the [Garante per la protezione dei dati personali](https://www.garanteprivacy.it/).
+
+## Changes
+
+When this page changes, the date at the top changes with it.
