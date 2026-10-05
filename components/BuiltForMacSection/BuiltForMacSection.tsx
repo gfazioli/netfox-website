@@ -103,7 +103,7 @@ export function BuiltForMacSection() {
           data-reveal={closing['data-reveal']}
           style={closing.style}
         >
-          No Electron. No web views. A real macOS app that feels like it belongs on your Mac.
+          No Electron. No web wrapper. A real macOS app that feels like it belongs on your Mac.
         </Text>
       </Stack>
     </Container>

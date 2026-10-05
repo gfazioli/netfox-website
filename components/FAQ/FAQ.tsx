@@ -39,7 +39,7 @@ export const faqItems = [
     value: 'how-detects',
     question: 'How does Netfox find devices?',
     answer:
-      'Five discovery passes work in parallel: Bonjour/mDNS (Apple devices, AirPlay, HomeKit, printers), the system ARP cache (anything that has talked on the LAN recently), SSDP (smart-TVs, media servers, UPnP devices), NetBIOS (Windows shares), and active ICMP probing for known IPs (catches devices that are alive but quiet). Results merge into one device record per physical device.',
+      'Four discovery passes work in parallel: Bonjour/mDNS (Apple devices, AirPlay, HomeKit, printers), the system ARP cache (anything that has talked on the LAN recently), SSDP (smart-TVs, media servers, UPnP devices), and active ICMP probing for known IPs (catches devices that are alive but quiet). Results merge into one device record per physical device.',
   },
   {
     value: 'security',
@@ -57,7 +57,7 @@ export const faqItems = [
     value: 'wifi-location',
     question: 'Why does the Wi-Fi tool ask for Location permission?',
     answer:
-      "Apple gates SSID details behind Location permission at the macOS level — without it, the system returns empty network names. Netfox uses location only to read the Wi-Fi neighbour list; it doesn't track or store your physical position. If you decline, the Wi-Fi tool shows a one-click button to open Location Settings and waits.",
+      'Apple gates SSID details behind Location permission at the macOS level — without it, the system returns empty network names. Netfox uses location only to read the Wi-Fi neighbour list; it never reads your coordinates. It does keep the signal of each access point it saw, by hardware address (BSSID), for 7 days, on your Mac. If you decline, the Wi-Fi tool shows a one-click button to open Location Settings and waits.',
   },
   {
     value: 'privacy',
@@ -69,7 +69,7 @@ export const faqItems = [
     value: 'modify',
     question: 'Does Netfox change anything on my network?',
     answer:
-      "Read-only by default. Discovery uses ICMP echo (standard ping) for active probing — that's the only outbound traffic the regular passes generate. The Security tool, when you run it (or on the schedule you can turn on), opens short TCP connections to well-known ports and closes them: a light port scan, with no exploitation and nothing changed on the device. Both checks only fire against devices on your own LAN (verified twice, in the UI and in the engine).",
+      'Nothing is changed, and no port scan runs unless you ask. Discovery does send traffic on your LAN on its own: SSDP and mDNS queries, a ping to each known device every five minutes, a .local name query to each device (daily, once it has answered), and a short question to Google Cast and Amazon devices about what they are. The Devices page lists each one and how often. The Security tool, when you run it (or on the schedule you can turn on), opens short TCP connections to well-known ports and closes them: a light port scan, with no exploitation and nothing changed on the device. All of it goes only to devices on your own LAN, and the port checks verify that twice, in the UI and in the engine.',
   },
   {
     value: 'cross-network',

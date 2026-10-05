@@ -19,19 +19,33 @@ The **Devices** tool is the heart of Netfox — the live LAN device list, with a
 
 ## How devices are discovered
 
-Five providers run in parallel and merge their results into one record per physical device:
+Four providers run in parallel and merge their results into one record per physical device:
 
 | Provider | What it sees |
 |---|---|
 | **Bonjour / mDNS** | Apple devices (HomePods, Apple TVs), AirPlay receivers, AirPrint printers, anything advertising a `_*._tcp` service — including the model many of them declare about themselves |
 | **System ARP cache** | Anything that has exchanged a packet on the LAN recently — phones, NAS, IoT plugs that don't advertise |
 | **SSDP** | UPnP and DLNA devices — smart-TVs, media servers, some routers |
-| **NetBIOS** | Windows shares and legacy NAS that advertise NetBIOS names |
-| **Active ICMP** | Standard `ping` against IPs the system ARP cache holds but Bonjour didn't reach — catches devices that are alive but quiet |
+| **Active ICMP** | A standard `ping`, every five minutes, to each known address on the networks this Mac is on — catches devices that are alive but quiet |
 
 <Callout type="info">
-Discovery is **read-only by default**. The only outbound traffic the device list generates on its own is the ICMP echo from the active probe — no port scans, no DHCP poking, nothing intrusive. Port scanning only happens when you ask for it, from the [Security](/docs/tools/security) tool.
+Discovery is **read-only**: it changes nothing on a device, and the only ports it touches are the three that identify an Amazon Echo (below). Port scanning only happens when you ask for it, from the [Security](/docs/tools/security) tool.
 </Callout>
+
+### What discovery sends
+
+Read-only is not silent. With nothing clicked, the device list sends the following, and only to devices on the networks your Mac is attached to:
+
+| What | To | How often |
+|---|---|---|
+| An SSDP search (`M-SEARCH`) | the UPnP multicast group | at launch, then every two minutes |
+| mDNS queries | the Bonjour multicast group | while Bonjour browses, plus one model query (`_device-info`) per device it finds |
+| A `.local` name query | each device, directly, on port 5353 | once a day for a device that answers, every quarter of an hour for one that does not |
+| An ICMP echo (`ping`) | each known address | every five minutes |
+| An HTTPS request for its name and its connection | each Google Cast device | every half hour once it has answered, every five minutes until then |
+| A connection to ports 4070, 55442 and 55443 | Amazon devices that announce nothing about themselves | until one is identified as an Echo: every quarter of an hour, or once a day after it refused |
+
+The `.local`, Cast and Echo questions wait two minutes after launch, and none of them sends a password or changes a setting. Everything else — port checks, reading a service's banner, live inspection, the Web Viewer — happens only when you ask for it or turn it on. What leaves your network is listed on the [Privacy](/docs/privacy) page.
 
 ### Finding devices that never speak
 

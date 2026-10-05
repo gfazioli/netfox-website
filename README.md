@@ -32,7 +32,7 @@
 Netfox is a native macOS app that gives you a live, honest view of who's on your network. Instead of a vendor router app or a stale ARP table, you get five focused tools sharing the same store — a finding in one shows up everywhere it matters.
 
 - **Live device list** — every machine on your network, with hostname, MAC, IPv4/IPv6, vendor, and online state
-- **Multi-source discovery** — Bonjour/mDNS, the system ARP cache, SSDP, NetBIOS, and active ICMP probing run in parallel. Apple devices, smart-TVs, dumb IoT, quiet hosts — all in the same list
+- **Multi-source discovery** — Bonjour/mDNS, the system ARP cache, SSDP and active ICMP probing run in parallel. Apple devices, smart-TVs, dumb IoT, quiet hosts — all in the same list
 - **Per-device history** — first seen, last seen, every transition (online ↔ offline, IPv4 learned/changed, hostname changed, vendor learned) on a timeline that survives across launches
 - **Security checks** — one-click *Scan All Devices* probes every reachable host against a curated home-network port set (SSH, Telnet, RDP, VNC, SMB, HTTP, MQTT, MySQL/PostgreSQL/Redis, …) and shows risk badges per device. The Risk Inspector explains each finding in plain English
 - **Wi-Fi diagnostics** — every wireless network your Mac can see, with live signal-strength history, channel, band, and security mode. Cross-link to "devices on this network" when the selected row is the AP you're connected to
