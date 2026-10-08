@@ -35,6 +35,7 @@ import config from '@/config';
 import { ToolTour, type TourFrame } from '@/components/ToolTour/ToolTour';
 import { HeroGuide } from '@/components/Mascot/HeroGuide';
 import { ScrollGuide } from '@/components/Mascot/ScrollGuide';
+import { DirectoryBadges } from '@/components/DirectoryBadges/DirectoryBadges';
 import { DiscordCallToAction } from '@/components/Discord/DiscordCallToAction';
 import { ShareButtons } from '@/components/ShareButtons/ShareButtons';
 import { ReleaseCadence } from '@/components/ReleaseCadence/ReleaseCadence';
@@ -435,87 +436,8 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
               <ReleaseCadence cadence={cadence} />
             </Stack>
 
-            {/* ─── Launch badges (Product Hunt, Fazier, LaunchVault) ─── */}
-            {/*
-              Featured badge from our Product Hunt launch. Rendered as a
-              plain anchor wrapping the Mantine Image (not next/image) so
-              the externally-hosted SVG with its cache-busting `t=` query
-              param is served as-is, untouched by Next's optimizer. Fixed
-              250×54 to match Product Hunt's canonical badge dimensions.
-
-              Fazier's badge follows the same pattern. Its SVG is 103×44;
-              at the 120px width Fazier's embed asks for that is 51px tall,
-              pinned so the badge reserves its box before it loads. It is
-              the `theme=dark` variant: the badge has no plate of its own,
-              and the light one is #1A5CFF glyphs that measure 1.26:1
-              against this hero (#515c81 behind it), the white ones 6.57:1.
-
-              LaunchVault's SVG is 139×44 on a white plate of its own, so
-              it reads on the night as it is; at the 195px its embed asks
-              for it is 62px tall. It is served from HERE, as a copy: theirs
-              was 1.3 MB (972 KB over the wire, a 1190px PNG of the logo
-              drawn at 20 units) and 953 of the home page's 1,605 KiB. The
-              copy is their layout with their vector logo
-              (launchvault.dev/logo.svg), 2 KB; their badge also read
-              "Launch Valut". The link is theirs unchanged, and it is what
-              their free listing asks for: a dofollow backlink. All three
-              are `loading="lazy"`: the size is pinned, so deferring moves
-              nothing, and an eager <img> is preloaded from the <head>, so
-              they were fetched beside the hero's logo while sitting under
-              the fold on a laptop and on a phone alike (2026-09-29 audit).
-
-              `justify="center"`: the badges do not fit on one row on a
-              phone, and a wrapped Group spans the full width, so without
-              it they hug the left edge under a centred hero.
-            */}
-            <Group align="center" justify="center" gap="md">
-              <a
-                href="https://www.producthunt.com/products/netfox?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-netfox"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Netfox on Product Hunt"
-              >
-                <Image
-                  src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1156418&theme=light&t=1779880374909"
-                  alt="Netfox - A native local macOS network monitor | Product Hunt"
-                  w={250}
-                  h={54}
-                  fit="contain"
-                  loading="lazy"
-                />
-              </a>
-              <a
-                href="https://fazier.com/launches/netfox.app"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Netfox on Fazier"
-              >
-                <Image
-                  src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=dark"
-                  alt="Fazier badge"
-                  w={120}
-                  h={51}
-                  fit="contain"
-                  loading="lazy"
-                />
-              </a>
-              <a
-                href="https://www.launchvault.dev"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Featured on LaunchVault"
-                aria-label="Netfox on LaunchVault"
-              >
-                <Image
-                  src="/launchvault-badge.svg"
-                  alt="Featured on LaunchVault"
-                  w={195}
-                  h={62}
-                  fit="contain"
-                  loading="lazy"
-                />
-              </a>
-            </Group>
+            {/* The directories Netfox is listed on: config.directoryBadges. */}
+            <DirectoryBadges />
             <Group justify="center" mt="sm">
               <ShareButtons />
             </Group>
