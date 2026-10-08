@@ -1,3 +1,5 @@
+import config from '@/config';
+
 export const resources = [
   {
     key: 'docs',
@@ -13,6 +15,12 @@ export const resources = [
     key: 'faq',
     title: 'FAQ',
     href: '/docs/faq',
+  },
+  {
+    key: 'discord',
+    title: 'Discord',
+    href: config.community.discord,
+    newWindow: true,
   },
   {
     key: 'issues',

@@ -73,6 +73,7 @@ The website serves as:
 - `MantineFooter` — 4-column footer with highlights, resources, ecosystem links
 - `Welcome` — hero section with animated title, features grid, download CTA
 - `Mascot` — the pixel fox: beside the hero's buttons it translates machine speak, then it follows the scroll to the footer's Support card, and it leaves notes in the docs (**The fox**, below)
+- `Discord` — the home page's call to action under the FAQ (ported from findergit.app); the invite is `config.community.discord`, also in the navbar, the Community menu, the footer, the FAQ and `/docs/faq`. No Slack: it is being retired
 - `ReleaseNotes` — renders the releases `content/release-notes.mdx` fetched and compiled at BUILD time (`load-releases.ts`); only when the build got none does it fall back to fetching `/api/github-releases` in the browser
 - `ProblemSection` / `SolutionSection` / `BuiltForMacSection` — marketing sections used by `Welcome`
 - `FAQ` — accordion-style FAQ, content driven by an array prop
