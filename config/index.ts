@@ -125,11 +125,15 @@ export default {
     // with no one having to remember it.
     discordSince: '0.29.1',
   },
-  // The directories Netfox is listed on, as badges under the hero, in this
-  // order (`components/DirectoryBadges`, ported from findergit.app). A
-  // directory asks for its badge on the site in return for the listing, and
-  // some verify it by fetching the home page: the link has to be in the served
-  // HTML and carry no nofollow, sponsored or ugc. `width` and `height` are the
+  // The directories Netfox is listed on, as badges, in this order
+  // (`components/DirectoryBadges`, ported from findergit.app). `placement`
+  // says where each one goes: Product Hunt's alone stays under the hero, where
+  // its vote count is proof a visitor reads; the others go in the footer's
+  // "Listed on" row, under the Support card, on every page (the user,
+  // 2026-10-08: the hero was getting crowded, and more listings are coming).
+  // A directory asks for its badge on the site in return for the listing, and
+  // some verify it by fetching the home page: the footer is in its served HTML
+  // too. The link has to carry no nofollow, sponsored or ugc. `width` and `height` are the
   // badge's intrinsic size, its SVG's viewBox, and only their ratio is used:
   // the stylesheet draws every badge at one height.
   //
@@ -141,6 +145,7 @@ export default {
   directoryBadges: [
     {
       name: 'Product Hunt',
+      placement: 'hero',
       href: 'https://www.producthunt.com/products/netfox?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-netfox',
       src: 'https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1156418&theme=light&t=1779880374909',
       alt: 'Netfox - A native local macOS network monitor | Product Hunt',
@@ -149,10 +154,11 @@ export default {
     },
     {
       name: 'Fazier',
+      placement: 'footer',
       href: 'https://fazier.com/launches/netfox.app',
-      // The dark variant: the badge has no plate of its own, and the light
-      // one is #1A5CFF glyphs that measure 1.26:1 against the hero (#515c81
-      // behind it), the white ones 6.57:1.
+      // The dark variant: the badge has no plate of its own, and on the
+      // footer's night (#070a1f) its white glyphs measure 19.6:1, the light
+      // variant's #1A5CFF 3.7:1 (and 1.26:1 on the hero, where it used to be).
       src: 'https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=dark',
       alt: 'Netfox on Fazier',
       width: 103,
@@ -160,6 +166,7 @@ export default {
     },
     {
       name: 'LaunchVault',
+      placement: 'footer',
       href: 'https://www.launchvault.dev',
       // Served from here since 2026-09-30, when theirs was a 1.3 MB SVG
       // around a 1190px PNG (953 of the home page's 1,605 KiB). Theirs is
@@ -173,6 +180,7 @@ export default {
     },
     {
       name: 'ProgrammerNeeds',
+      placement: 'footer',
       href: 'https://programmerneeds.com/tools/netfox?utm_source=maker-site&utm_medium=badge&utm_campaign=netfox',
       src: 'https://programmerneeds.com/api/badge/netfox?v=9',
       alt: 'Find Netfox on ProgrammerNeeds',

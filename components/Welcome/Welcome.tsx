@@ -436,8 +436,8 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
               <ReleaseCadence cadence={cadence} />
             </Stack>
 
-            {/* The directories Netfox is listed on: config.directoryBadges. */}
-            <DirectoryBadges />
+            {/* Product Hunt's badge; the other directories are in the footer. */}
+            <DirectoryBadges placement="hero" />
             <Group justify="center" mt="sm">
               <ShareButtons />
             </Group>

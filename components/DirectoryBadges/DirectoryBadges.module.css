@@ -7,11 +7,13 @@
 }
 
 /*
- * One height for every badge, whatever size its directory drew it at
- * (Product Hunt's and ProgrammerNeeds' are 54px tall, Fazier's and
- * LaunchVault's 44, and their embeds asked for 51 and 62): side by side,
- * badges of different heights read as a ragged row. The width follows from
- * the `width`/`height` attributes, which are the badge's own.
+ * One height for every badge in a row, whatever size its directory drew it at
+ * (Product Hunt's and ProgrammerNeeds' are 54px tall, Fazier's and LaunchVault's 44): side by side, badges of
+ * different heights read as a ragged row. The width follows from the
+ * `width`/`height` attributes, which are the badge's own.
+ *
+ * Under the hero, Product Hunt's alone, at its own 54px: 250px wide, it fits
+ * a 320px screen as it is.
  */
 .badge {
   display: block;
@@ -20,18 +22,34 @@
 }
 
 /*
- * On a phone the row breaks anyway. At 36px the four are 167, 84, 114 and
- * 147px wide: two rows of two, 261 and 271px with the 10px gap, which fit the
- * 288px a 320px screen leaves. Measured on 2026-10-08: 82px of hero at 320,
- * 360 and 390, where the three badges at their embeds' sizes took 199px, in
- * three rows, at 360 and 320.
+ * In the footer the badges are an acknowledgement, not a pitch: 40px, below
+ * the Support card's buttons in weight. On a phone, 32px, so a row of two
+ * fits the 288px a 320px screen leaves.
  */
+.badges[data-placement='footer'] .badge {
+  height: rem(40px);
+}
+
 @media (max-width: $mantine-breakpoint-xs) {
   .badges {
     gap: var(--mantine-spacing-xs);
   }
 
-  .badge {
-    height: rem(36px);
+  .badges[data-placement='footer'] .badge {
+    height: rem(32px);
   }
+}
+
+/* The footer's row, between the Support card and the colophon. */
+.listedOn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: rem(12px);
+  margin-top: rem(40px);
+}
+
+/* The colophon's "Share" label, the same small caps. */
+.label {
+  letter-spacing: 2px;
 }
