@@ -125,4 +125,59 @@ export default {
     // with no one having to remember it.
     discordSince: '0.29.1',
   },
+  // The directories Netfox is listed on, as badges under the hero, in this
+  // order (`components/DirectoryBadges`, ported from findergit.app). A
+  // directory asks for its badge on the site in return for the listing, and
+  // some verify it by fetching the home page: the link has to be in the served
+  // HTML and carry no nofollow, sponsored or ugc. `width` and `height` are the
+  // badge's intrinsic size, its SVG's viewBox, and only their ratio is used:
+  // the stylesheet draws every badge at one height.
+  //
+  // `src` is the directory's own URL, exactly as its embed code gives it,
+  // never a copy served from here: a verifier may look for its badge IMAGE as
+  // well as the link. LaunchNest's refused a copy on findergit.app ("We
+  // couldn't find the badge image on that page", 2026-10-08). The one
+  // exception predates that lesson, and its test names it: LaunchVault.
+  directoryBadges: [
+    {
+      name: 'Product Hunt',
+      href: 'https://www.producthunt.com/products/netfox?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-netfox',
+      src: 'https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1156418&theme=light&t=1779880374909',
+      alt: 'Netfox - A native local macOS network monitor | Product Hunt',
+      width: 250,
+      height: 54,
+    },
+    {
+      name: 'Fazier',
+      href: 'https://fazier.com/launches/netfox.app',
+      // The dark variant: the badge has no plate of its own, and the light
+      // one is #1A5CFF glyphs that measure 1.26:1 against the hero (#515c81
+      // behind it), the white ones 6.57:1.
+      src: 'https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=dark',
+      alt: 'Netfox on Fazier',
+      width: 103,
+      height: 44,
+    },
+    {
+      name: 'LaunchVault',
+      href: 'https://www.launchvault.dev',
+      // Served from here since 2026-09-30, when theirs was a 1.3 MB SVG
+      // around a 1190px PNG (953 of the home page's 1,605 KiB). Theirs is
+      // 11 KB now (checked 2026-10-08) and still reads "Launch Valut"; the
+      // copy is their layout with their vector logo, 2.3 KB. Their listing
+      // went live with the copy, and links netfox.app with nofollow anyway.
+      src: '/launchvault-badge.svg',
+      alt: 'Featured on LaunchVault',
+      width: 139,
+      height: 44,
+    },
+    {
+      name: 'ProgrammerNeeds',
+      href: 'https://programmerneeds.com/tools/netfox?utm_source=maker-site&utm_medium=badge&utm_campaign=netfox',
+      src: 'https://programmerneeds.com/api/badge/netfox?v=9',
+      alt: 'Find Netfox on ProgrammerNeeds',
+      width: 220,
+      height: 54,
+    },
+  ],
 } as const;

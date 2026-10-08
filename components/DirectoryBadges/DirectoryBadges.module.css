@@ -1,0 +1,37 @@
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mantine-spacing-md);
+}
+
+/*
+ * One height for every badge, whatever size its directory drew it at
+ * (Product Hunt's and ProgrammerNeeds' are 54px tall, Fazier's and
+ * LaunchVault's 44, and their embeds asked for 51 and 62): side by side,
+ * badges of different heights read as a ragged row. The width follows from
+ * the `width`/`height` attributes, which are the badge's own.
+ */
+.badge {
+  display: block;
+  width: auto;
+  height: rem(54px);
+}
+
+/*
+ * On a phone the row breaks anyway. At 36px the four are 167, 84, 114 and
+ * 147px wide: two rows of two, 261 and 271px with the 10px gap, which fit the
+ * 288px a 320px screen leaves. Measured on 2026-10-08: 82px of hero at 320,
+ * 360 and 390, where the three badges at their embeds' sizes took 199px, in
+ * three rows, at 360 and 320.
+ */
+@media (max-width: $mantine-breakpoint-xs) {
+  .badges {
+    gap: var(--mantine-spacing-xs);
+  }
+
+  .badge {
+    height: rem(36px);
+  }
+}
