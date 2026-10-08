@@ -73,6 +73,11 @@
  * keeps the focus without the harsh red underline the previous
  * version used. `display: inline` so it wraps natively with the
  * surrounding paragraph instead of jumping to a new line.
+ *
+ * Its own words wrap too. It was `nowrap`, and at 768px, where the cards
+ * are three to a row, "ship your network to the cloud" (221px) ran out
+ * of its card, 6px past the window, so the page scrolled sideways (measured
+ * 2026-10-08). Each line keeps the pill's padding and corners (`clone`).
  */
 .highlightPill {
   background-color: color-mix(in srgb, var(--mantine-color-orange-5) 14%, transparent);
@@ -80,7 +85,8 @@
   padding: 1px 8px;
   border-radius: 4px;
   font-weight: 600;
-  white-space: nowrap;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 /*
