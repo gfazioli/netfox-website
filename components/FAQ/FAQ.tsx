@@ -9,6 +9,7 @@ import {
   type Icon,
 } from '@tabler/icons-react';
 import { Accordion, Anchor, Text } from '@mantine/core';
+import { discordLinkProps } from '@/components/Discord/discord';
 import classes from './FAQ.module.css';
 
 export const faqItems = [
@@ -90,6 +91,11 @@ export const faqItems = [
       "On Macs with a notch, a busy menu bar can push status icons behind the notch, where macOS simply stops showing them — Netfox included. The icon isn't gone, it's just hidden. To bring it back: hold Command and drag the menu bar icons to reorder them so Netfox sits clear of the notch; remove a few icons you don't use from System Settings → Control Center; or use a menu bar manager (such as Ice or Bartender) that tucks overflow icons into an expandable section. Picking the monochrome menu bar icon in Settings → General also helps, since it's narrower than the full-color fox.",
   },
   {
+    value: 'community',
+    question: 'Is there a Netfox community?',
+    answer: 'community',
+  },
+  {
     value: 'bug',
     question: 'I found a bug. How do I report it?',
     answer: 'bug-report',
@@ -153,6 +159,15 @@ export function FAQ() {
                 </Anchor>
                 .
               </Text>
+            ) : item.answer === 'community' ? (
+              <Text c="dimmed" size="sm">
+                Yes, on{' '}
+                <Anchor {...discordLinkProps} size="sm">
+                  Discord
+                </Anchor>
+                , where Netfox and its sibling apps live: get help, suggest features, vote on what
+                comes next and talk directly with the maker.
+              </Text>
             ) : item.answer === 'bug-report' ? (
               <Text c="dimmed" size="sm">
                 Please send us a{' '}
@@ -161,11 +176,20 @@ export function FAQ() {
                 </Anchor>{' '}
                 by email. Include your Netfox version, macOS version, and steps to reproduce the
                 issue. Screenshots are very helpful — flip Demo Mode (⌘⇧D) on first if the
-                screenshot would otherwise show your real device names.
+                screenshot would otherwise show your real device names. Not sure it&apos;s a bug?
+                Ask on{' '}
+                <Anchor {...discordLinkProps} size="sm">
+                  Discord
+                </Anchor>{' '}
+                first.
               </Text>
             ) : item.answer === 'feature-request' ? (
               <Text c="dimmed" size="sm">
-                We&apos;d love to hear your ideas! Send us a{' '}
+                We&apos;d love to hear your ideas! Share them on{' '}
+                <Anchor {...discordLinkProps} size="sm">
+                  Discord
+                </Anchor>
+                , where other users can weigh in, or send us a{' '}
                 <Anchor
                   href="mailto:feedback@netfox.app?subject=Netfox%20feature%20request"
                   size="sm"

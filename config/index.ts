@@ -114,4 +114,15 @@ export default {
     owner: 'Giovambattista Fazioli',
     vatNumber: '12343751009',
   },
+  // The community's home since 2026-10-08: the Undolog Discord server, shared
+  // by FinderGit, Netfox, Lancetta and octoscope. The invite never expires.
+  // The Undolog Slack it replaces is being retired: link nothing there. Every
+  // page reads the invite from here; no MDX page writes it out.
+  community: {
+    discord: 'https://discord.gg/rdWu5yFCR6',
+    // The app version current when the server opened. The home page's "Just
+    // opened" badge decays from it (`isRecent`): gone two minor releases on,
+    // with no one having to remember it.
+    discordSince: '0.29.1',
+  },
 } as const;

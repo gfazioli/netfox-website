@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  IconBrandDiscordFilled,
   IconBrandGithubFilled,
   IconBrandMantine,
   IconBrandVercel,
@@ -21,6 +22,7 @@ import {
   Stack,
   Text,
 } from '@mantine/core';
+import { discordLinkProps } from '@/components/Discord/discord';
 import { Logo } from '@/components/Logo/Logo';
 import { ShareButtons } from '@/components/ShareButtons/ShareButtons';
 import config from '@/config';
@@ -82,6 +84,10 @@ export const MantineFooter = ({ year }: { year: number }) => {
                 . Follow me on{' '}
                 <Anchor fz={13} href="https://twitter.com/gfazioli">
                   Twitter
+                </Anchor>
+                , join the{' '}
+                <Anchor fz={13} {...discordLinkProps}>
+                  Discord
                 </Anchor>{' '}
                 or{' '}
                 <Anchor fz={13} href="https://github.com/sponsors/gfazioli">
@@ -105,6 +111,14 @@ export const MantineFooter = ({ year }: { year: number }) => {
                   aria-label="X"
                 >
                   <IconBrandX size={20} />
+                </ActionIcon>
+                <ActionIcon
+                  variant="subtle"
+                  component="a"
+                  {...discordLinkProps}
+                  aria-label="Discord"
+                >
+                  <IconBrandDiscordFilled size={20} />
                 </ActionIcon>
                 <ActionIcon
                   variant="subtle"
