@@ -8,7 +8,6 @@ import {
   IconBrandX,
   IconCoffee,
   IconHeartFilled,
-  IconMailHeart,
   IconPlus,
 } from '@tabler/icons-react';
 import {
@@ -120,14 +119,6 @@ export const MantineFooter = ({ year }: { year: number }) => {
                   aria-label="Discord"
                 >
                   <IconBrandDiscordFilled size={20} />
-                </ActionIcon>
-                <ActionIcon
-                  variant="subtle"
-                  component="a"
-                  href="https://www.undolog.com/s/netfox"
-                  aria-label="Newsletter"
-                >
-                  <IconMailHeart size={20} />
                 </ActionIcon>
               </Group>
             </Stack>
