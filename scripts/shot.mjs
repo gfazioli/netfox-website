@@ -71,14 +71,35 @@
  * `--reduce` emulates Reduce Motion (`prefers-reduced-motion: reduce`): the
  * page is then simply there.
  *
- * `--block "<pattern>"` refuses every request whose URL matches (DevTools'
- * Network.setBlockedURLs, `*` as the wildcard), repeatable:
- * `--block "*_next/static/chunks/*"` is a page whose scripts never arrive --
- * a blocked chunk, a failed deploy -- with scripting still on, which is the
+ * `--block "<pattern>"` refuses every request whose URL matches, repeatable.
+ * A pattern must match the WHOLE URL (its fragment aside), `*` stands for any
+ * run of characters and everything else is literal:
+ * `--block "*_next/static/*chunks/*.js"` is a page whose scripts never arrive
+ * -- a blocked chunk, a failed deploy -- with scripting still on, which is the
  * state a starting pose hidden from the first paint turns into a blank page.
+ * Scripts only: the stylesheets are served from the same chunks folder, and
+ * without them the page comes back unstyled rather than broken. Should a deploy
+ * add a query to its assets (`?dpl=...`), `*_next/static/*chunks/*.js?*` is
+ * the same page.
+ *
+ * Chrome pauses each request a pattern names (DevTools' Fetch domain) and the
+ * script refuses it itself, counting it against the pattern that matched, so
+ * refusing and counting are one act. Every pattern must have refused at least
+ * one request by the last capture, or the run fails and keeps no capture: with
+ * `--block`, captures wait in a temporary folder and are copied to their real
+ * names only once every pattern has refused something, so a failed run neither
+ * leaves an image behind nor replaces one that was there. A pattern that
+ * matches nothing photographs a page whose scripts all arrived, and looks like
+ * a pass. That is how the first example, `*_next/static/chunks/*`, went stale
+ * unnoticed: the deployed site serves everything from
+ * `/_next/static/immutable/chunks/`, where it refused nothing, while a local
+ * `next start` serves `/_next/static/chunks/`, where it refused the
+ * stylesheets too. The example above matches the scripts on both. Only the
+ * page's own requests are paused: a worker or a cross-origin iframe loads
+ * through a target of its own, untouched.
  */
 import { spawn } from 'node:child_process';
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -94,6 +115,15 @@ function flag(name) {
 /** Every value of a flag that may repeat, in order. */
 function flags(name) {
   return rest.flatMap((value, i) => (value === name ? [rest[i + 1]] : []));
+}
+
+/**
+ * A `--block` pattern: the whole URL must match, `*` matches any run of
+ * characters, and everything else is literal and case-sensitive.
+ */
+function blockMatcher(pattern) {
+  const parts = pattern.split('*').map((part) => part.replace(/[.+?^${}()|[\]\\]/g, '\\$&'));
+  return new RegExp(`^${parts.join('.*')}$`);
 }
 
 if (!url || !prefix) {
@@ -114,7 +144,21 @@ const frames = Number(flag('--frames') ?? 0);
 const every = Number(flag('--every') ?? 200);
 const wake = !rest.includes('--no-wake');
 const reduce = rest.includes('--reduce');
-const blocked = flags('--block');
+const blocked = [...new Set(flags('--block'))];
+if (blocked.some((pattern) => !pattern || pattern.startsWith('--'))) {
+  console.error('--block needs a URL pattern after it');
+  process.exit(2);
+}
+const blockMatchers = blocked.map((pattern) => [pattern, blockMatcher(pattern)]);
+// Refusing the page itself would leave the run waiting for a load that never
+// comes.
+const blocksPage = blockMatchers.find(([, matches]) => matches.test(url.split('#')[0]));
+if (blocksPage) {
+  console.error(`--block "${blocksPage[0]}" matches the page itself, which would never load`);
+  process.exit(2);
+}
+// Printed beside each capture while it waits for the `--block` check.
+const held = blocked.length ? '  (held for the --block check)' : '';
 const at = flag('--at')
   ?.split(',')
   .map((value) => Number(value.trim()))
@@ -233,7 +277,13 @@ function waitFor(method, sessionId) {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+// With `--block`, each capture's real name and the temporary file it waits in
+// until every pattern has refused something.
+const pendingCaptures = new Map();
+let pendingDir;
+
 try {
+  pendingDir = blocked.length ? mkdtempSync(join(tmpdir(), 'shot-pending-')) : undefined;
   const { targetId } = await send('Target.createTarget', { url: 'about:blank' });
   const { sessionId } = await send('Target.attachToTarget', { targetId, flatten: true });
   await send('Page.enable', {}, sessionId);
@@ -254,9 +304,36 @@ try {
     sessionId
   );
 
+  // `--block`: Chrome pauses the requests the patterns name, by its own glob
+  // (where `?` would be a one-character wildcard, so it is escaped), and this
+  // matcher decides. A paused request it does not name is let through; one it
+  // would name that Chrome never paused is neither refused nor counted, so the
+  // two can only disagree towards a failure. Every other request goes straight
+  // through, without a round trip here. The URL carries no fragment, which
+  // never reaches a server.
+  const refusedBy = new Map(blocked.map((pattern) => [pattern, 0]));
+  // The counts when the last capture was taken: a refusal after it shows in no
+  // image, so it does not count.
+  let refusedByLastCapture = new Map(refusedBy);
   if (blocked.length) {
-    await send('Network.enable', {}, sessionId);
-    await send('Network.setBlockedURLs', { urls: blocked }, sessionId);
+    listeners.add((msg) => {
+      if (msg.method !== 'Fetch.requestPaused' || msg.sessionId !== sessionId) {
+        return;
+      }
+      const { requestId, request } = msg.params;
+      const hits = blockMatchers.filter(([, matches]) => matches.test(request.url));
+      for (const [pattern] of hits) {
+        refusedBy.set(pattern, refusedBy.get(pattern) + 1);
+      }
+      // Not awaited, and its failure ignored: a reply can lose the race with
+      // the page closing, and a rejection nobody waits for would end the run.
+      const [method, params] = hits.length
+        ? ['Fetch.failRequest', { requestId, errorReason: 'BlockedByClient' }]
+        : ['Fetch.continueRequest', { requestId }];
+      send(method, params, sessionId).catch(() => {});
+    });
+    const patterns = blocked.map((pattern) => ({ urlPattern: pattern.replace(/[\\?]/g, '\\$&') }));
+    await send('Fetch.enable', { patterns }, sessionId);
   }
 
   const loaded = waitFor('Page.loadEventFired', sessionId);
@@ -298,7 +375,14 @@ try {
       { format: 'png', captureBeyondViewport: Boolean(clip), ...(clip ? { clip } : {}) },
       sessionId
     );
-    writeFileSync(file, Buffer.from(data, 'base64'));
+    // The same name twice (`--at 0.5,0.5`) reuses its temporary file.
+    let target = file;
+    if (pendingDir) {
+      target = pendingCaptures.get(file) ?? join(pendingDir, `${pendingCaptures.size}.png`);
+      pendingCaptures.set(file, target);
+    }
+    writeFileSync(target, Buffer.from(data, 'base64'));
+    refusedByLastCapture = new Map(refusedBy);
     return file;
   }
 
@@ -312,7 +396,9 @@ try {
       const started = Date.now();
       const file = await capture(`${stem}-f${String(k).padStart(2, '0')}.png`);
       const t = started - t0;
-      console.log(`${file}  t=${t}ms${rate === 1 ? '' : `  page=${Math.round(t * rate)}ms`}`);
+      console.log(
+        `${file}  t=${t}ms${rate === 1 ? '' : `  page=${Math.round(t * rate)}ms`}${held}`
+      );
       await sleep(Math.max(0, every - (Date.now() - started)));
     }
   }
@@ -346,6 +432,19 @@ try {
     if (!clicked.result.value) {
       throw new Error(`--click: nothing matches ${click}`);
     }
+  }
+
+  // The `--block` patterns that had refused nothing by the last capture, after
+  // printing what each one had refused.
+  function staleBlocks() {
+    const stale = [];
+    for (const [pattern, count] of refusedByLastCapture) {
+      console.log(`--block "${pattern}": ${count} request(s) refused`);
+      if (count === 0) {
+        stale.push(`"${pattern}"`);
+      }
+    }
+    return stale;
   }
 
   const scheme = await send(
@@ -389,7 +488,7 @@ try {
         await strip(`${prefix}-at-${fraction}`);
       } else {
         const file = await capture(`${prefix}-at-${fraction}.png`);
-        console.log(`${file}  ${width}x${height}  y=${y}/${max}`);
+        console.log(`${file}  ${width}x${height}  y=${y}/${max}${held}`);
       }
       await readPage();
     }
@@ -400,7 +499,7 @@ try {
     const { contentSize } = await send('Page.getLayoutMetrics', {}, sessionId);
     const full = Math.ceil(contentSize.height);
     const file = await capture(`${prefix}.png`, { x: 0, y: 0, width, height: full, scale: 1 });
-    console.log(`${file}  ${width}x${full}`);
+    console.log(`${file}  ${width}x${full}${held}`);
     await readPage();
   }
 
@@ -428,7 +527,26 @@ try {
     );
     console.log(`  "${find}" at y=${pos.result.value}`);
   }
+
+  // Judged on the counts at the last capture, so a request made by the scroll
+  // to an `--at` fraction or a click before it has been counted too. Only a
+  // pass copies the captures to their real names; on any failure they stay in
+  // the temporary folder, which goes in `finally`.
+  if (blocked.length) {
+    const stale = staleBlocks();
+    if (stale.length) {
+      throw new Error(
+        `--block: ${stale.join(', ')} refused no request this page made (${pendingCaptures.size} capture(s) not kept)`
+      );
+    }
+    for (const [file, target] of pendingCaptures) {
+      copyFileSync(target, file);
+    }
+  }
 } finally {
   ws.close();
   await stopChrome();
+  if (pendingDir) {
+    rmSync(pendingDir, { recursive: true, force: true });
+  }
 }
