@@ -34,6 +34,26 @@ describe('MantineFooter publisher line', () => {
 });
 
 /**
+ * Netfox has no newsletter. The footer came from a sibling site's template
+ * with a newsletter icon pointing at a page that answered 404; a later
+ * cross-port of that template would bring it back.
+ */
+describe('MantineFooter social links', () => {
+  it('offers GitHub, X and Discord, and no newsletter', () => {
+    render(<MantineFooter year={2026} />);
+    // The icon row, found through its first icon: the text above it links to
+    // Discord too.
+    const icons = screen.getByRole('link', { name: 'GitHub' }).parentElement as HTMLElement;
+    expect(
+      within(icons)
+        .getAllByRole('link')
+        .map((link) => link.getAttribute('aria-label'))
+    ).toEqual(['GitHub', 'X', 'Discord']);
+    expect(screen.queryByRole('link', { name: /newsletter/i })).toBeNull();
+  });
+});
+
+/**
  * The footer's "Listed on" row carries every directory badge but Product
  * Hunt's (that one is under the hero). A directory verifies its badge on the
  * home page, which this footer closes.
