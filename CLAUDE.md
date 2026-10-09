@@ -1,170 +1,32 @@
-# CLAUDE.md
+# netfox-website
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+The Next.js site for Netfox at https://netfox.app: landing page, docs, release notes and downloads. What the four app sites share is in the workspace's `.claude/rules/websites.md`.
 
-## Project Overview
-
-This is the **marketing, presentation, and download website** for **Netfox**, a native macOS app that monitors your home network — devices, history, and alerts.
-
-**This is NOT a macOS application.** This is a Next.js web project deployed on Vercel.
-
-- **Live URL** (TBD): https://netfox-website.vercel.app/
-- **App repository** (private, Swift/SwiftUI): https://github.com/gfazioli/Netfox
-- **Website repository** (this): https://github.com/gfazioli/netfox-website
-
-The website serves as:
-1. **Landing page** — hero section, feature showcase, download CTA
-2. **Documentation** — user guides, getting started, FAQ
-3. **Release notes** — pulled automatically from GitHub Releases API
-4. **Download hub** — links to GitHub Releases for the macOS binary
-5. **Sparkle appcast host** — `public/appcast.xml` is the EdDSA-signed update feed the app polls
-
-## Tech Stack
-
-- **Framework**: Next.js 16 + Nextra 4 (docs/MDX)
-- **UI Library**: Mantine 9
-- **Animations**: @gfazioli/mantine-scene, @gfazioli/mantine-text-animate, @gfazioli/mantine-marquee, and the site's own scroll reveals and fox (`components/Motion`, `components/Mascot`; see **Motion** and **The fox** below)
-- **Icons**: @tabler/icons-react
-- **Analytics**: @vercel/analytics
-- **Hosting**: Vercel
-- **Package Manager**: Yarn 4 (Berry) — do not use npm or pnpm
-
-## Commands
-
-| Command | Purpose |
-|---------|---------|
-| `yarn dev` | Start Next.js dev server |
-| `yarn build` | Production build (Next.js + pagefind search index) |
-| `yarn test` | Full suite: typegen, oxfmt, lint, typecheck, jest |
-| `yarn jest` | Run Jest tests only |
-| `yarn typecheck` | TypeScript type checking (`tsc --noEmit`) |
-| `yarn lint` | oxlint + Stylelint |
-| `yarn format:write` | Auto-format all TS/TSX/CSS files (oxfmt) |
-| `yarn storybook` | Storybook dev server on port 6006 |
-| `yarn analyze` | Bundle analysis with `@next/bundle-analyzer` |
-
-> **If `yarn <cmd>` fails with `command not found: oxfmt` / `next`** the Yarn PATH shim isn't wired on this machine — run the binary directly instead: `./node_modules/.bin/oxfmt`, `./node_modules/.bin/next dev`, `./node_modules/.bin/next build`. `yarn test` / `yarn jest` route through the npm-run shim and work regardless.
+`public/appcast.xml` is the live, EdDSA-signed Sparkle feed the app polls; Netfox's `release.sh` prepends each release to it.
 
 ## Architecture
 
-### Routing & Content
+### Theme
 
-- **App Router** (`app/`): Next.js 16 app router with Nextra integration
-- **Docs content** (`content/`): MDX files rendered via Nextra at `/docs/[[...mdxPath]]`
-- Nextra is configured with `contentDirBasePath: '/docs'` — all MDX content is served under `/docs`
-- `content/_meta.ts` controls sidebar navigation order and labels
+- The site is at night with no switch: Mantine is forced LIGHT and the night is written over it in variables (`theme/global.css`); Nextra is forced DARK (`app/layout.tsx`). The comments there say why. Tokens go on `:root`, never on `body`.
+- A Mantine component can declare light-scheme values on its own element (Table hover, Kbd caps): override them by class, and measure contrast against the ground the text actually sits on.
 
-### Layout & Theme Integration
+### Environment
 
-- `app/layout.tsx` wraps the entire app in both `MantineProvider` and Nextra's `Layout`
-- **The site is AT NIGHT, with no switch** (2026-09-23, after a light-only stint that followed lancetta-website): the home page first, then the docs (user: *"con lo scuro la doc risulta più leggibile e c'è meno cambio con la home page"*). The mechanism is deliberately split. **Mantine stays forced LIGHT** (`forceColorScheme="light"` on both `ColorSchemeScript` and `MantineProvider`) and the night is written over it as variables in `theme/global.css` (`html:root[data-mantine-color-scheme='light']`: text, dimmed, bright, orange text/light/anchor, default, gray-light, body). **Nextra runs its own DARK theme**, forced (`nextThemes={{ forcedTheme: 'dark' }}`, `darkMode={false}`), so its tables, callouts and code blocks use the variants drawn for a dark ground. `html { color-scheme: dark }`. Forcing `ColorSchemeScript` matters: without it a visitor who used the old toggle lands on Mantine's dark scheme, which nothing is written against.
-- **The palette is the logo's**, sampled by k-means over `public/icon-512x512.png` and declared as tokens on `:root` (plate azure→indigo, fur navy→near-black, fox amber/orange/rust/cream). Surfaces: `--nf-page` #0d1230, `--nf-rule` and `--nf-card` as white at 11% and 5% (cards are glass), `--nf-footer` #070a1f. Accent is the fox's amber (`--nf-ink`); `theme.ts` overrides Mantine's `orange` scale with the fox's, amber as the filled shade, with `autoContrast` so a filled button carries dark text. **Tokens live on `:root`, not the body**: a `var()` inside a custom property resolves where it is declared, so a body-level override never reaches a variable html computed (Nextra's `--x-color-nextra-bg` did exactly that).
-- **The home page has its own gradient** (`body:has(.nf-home)`): navy, the fur behind the hero, back down to `--nf-page` by 2800px and flat after, because every feathered section below dissolves into `--nf-page`. A section carrying a wash takes `className="nf-feather"` (`app/global.css`); `--nf-feather-top: 0px` where a side meets nothing. The hero title is white, its accent amber; the docs' h1-h3 are amber.
-- **Every contrast claim here was measured element by element** against the background each text actually sits on (a DOM walk in a Chrome capture); the only thing under 4.5:1 is two 10px badges inside the mock app window. Things that looked fine and were not: Accordion rows read `--mantine-color-bright` (FAQ questions were black on navy), and a Table's hover and a Kbd's caps are light-scheme values declared on the element itself, so they are overridden by class, not on `:root`.
+- `GITHUB_TOKEN` (Vercel, build and runtime): `load-releases.ts` fetches the releases at build time, and `/api/github-releases` (the browser fallback) and `/download` use it at runtime; without it GitHub allows 60 requests an hour.
 
-- Mantine theme overrides go in `theme.ts` (client-side `createTheme`)
-- Global site configuration (metadata, GitHub API, search, Nextra layout) lives in `config/index.ts`
-- Primary color: orange (matching Netfox app icon)
-- Custom color palette: `netfox` (orange/foxy shades)
+### Performance
 
-### Key Components (`components/`)
+- **Baseline** (production build, Lighthouse mobile, devtools throttling): home perf 96-97, LCP 1.87-1.90 s, 644 KiB; docs 99, 622 KiB; SEO 100.
 
-- `MantineNavBar` — top navigation with Netfox logo + GitHub link
-- `MantineFooter` — 4-column footer with highlights, resources, ecosystem links
-- `Welcome` — hero section with animated title, features grid, download CTA
-- `Mascot` — the pixel fox: beside the hero's buttons it translates machine speak, then it follows the scroll to the footer's Support card, and it leaves notes in the docs (**The fox**, below)
-- `Discord` — the home page's call to action under the FAQ (ported from findergit.app); the invite is `config.community.discord`, also in the navbar, the Community menu, the footer, the FAQ and `/docs/faq`. No Slack: it is being retired
-- `DirectoryBadges` — the listing directories' badges, from `config.directoryBadges` (ported from findergit.app on 2026-10-08; the rules are in its comment and the config's), each in the place its `placement` names: Product Hunt's alone under the hero, the others in the footer's "Listed on" row under the Support card (`ListedOn`, on every page; the user, 2026-10-08: the hero was getting crowded). A new listing is one config entry, with `src` the directory's own badge URL: the test refuses a copy served from here, except LaunchVault's, which it names
-- `ReleaseNotes` — renders the releases `content/release-notes.mdx` fetched and compiled at BUILD time (`load-releases.ts`); only when the build got none does it fall back to fetching `/api/github-releases` in the browser
-- `ProblemSection` / `SolutionSection` / `BuiltForMacSection` — marketing sections used by `Welcome`
-- `FAQ` — accordion-style FAQ, content driven by an array prop
+### Motion
 
-### API Routes (`app/api/`)
+`components/Motion`: nothing waits on a script to be seen. Read the headers of `useReveal.ts` and `Motion.module.css` before touching a pose; `Motion.css.test.ts` holds the shape. To fake scripts that never arrive (`scripts/shot.mjs --block`), block the JS only, never the whole chunks folder: the CSS is served from it too, and the page comes back unstyled rather than broken.
 
-- `version/` — returns current package version
-- `github-releases/` — proxies GitHub Releases API for Netfox (configured in `config/index.ts`). Uses `GITHUB_TOKEN` env var when set to raise the rate limit from 60/hr to 5000/hr.
-- `search/` — pagefind-based full-text search endpoint
+### The fox
 
-### Environment variables
-
-- `GITHUB_TOKEN` (optional, recommended on Vercel) — fine-grained or classic token with `public_repo` read scope. Used by:
-  - The `/api/github-releases` proxy (runtime, now only the fallback).
-  - `content/release-notes.mdx`, which fetches the releases at build time, so Vercel needs the var available during deploys. (This line used to describe a build-time TOC fetch this page never had; it came over from findergit-website.)
-  Without the token the app still works but may hit 60 req/hr GitHub rate limit on shared IPs.
-
-### CSS Import Order
-
-In `app/layout.tsx`, CSS imports must follow this order:
-1. `@mantine/core/styles.css`
-2. Mantine extension styles (marquee, text-animate, scene)
-3. Global styles
-
-### What a crawler gets is the served HTML
-
-Measured 2026-09-24, when Search Console listed pages as *Crawled - currently not indexed*: two pages reached Google nearly empty, and neither looked wrong in a browser. Same defects, same fix, as findergit-website the same day.
-
-- **`/docs/release-notes` was 45 words.** The releases were fetched in the browser from `/api/github-releases`, and that route answers **403 to any user agent containing `bot`** -- Googlebot's rendering service included. The hook never checked the status, so the 403 body threw inside it and even the JavaScript-rendered page stayed on the *Loading releases...* skeleton. Now `load-releases.ts` fetches and compiles them at build time (release.sh publishes the GitHub release BEFORE pushing the website commit, so the deploy after a release sees it); the browser makes no request at all. Bodies compile as `md`, one `try` each: a body is written on GitHub after the build, and a brace in MDX is a JavaScript expression.
-- **`/docs/faq` was 174 words: the questions, no answers.** Mantine 9's Accordion keeps a closed panel in a React `<Activity>`, which renders nothing on the server. `keepMountedMode="display-none"` renders every answer and only hides it. The test for it uses `renderToString`, because a jsdom `render` mounts a hidden Activity's children and cannot see the defect.
-
-Check a page the way a crawler gets it: `curl -A Googlebot` and count words in `<main>` with the scripts stripped. A number under a few hundred on a page that looks full in the browser is this class of defect.
-
-### Performance and SEO: what the pages cost, measured
-
-Audited 2026-09-29 with `~/Lavoro/GitHub/claude-global/scripts/site-audit/`.
-- The always-on rule `website-changes-measure-performance-and-seo` says when to run it: every significant change.
-- The workspace's `.claude/rules/websites.md` holds what the four sites share.
-
-Local production builds of `main` and the branch, measured with Lighthouse mobile and devtools throttling, base and branch passes alternating:
-- **Home: LCP 9.6–10.9 s → 1.8–2.7 s, perf 65–72 → 91–98, 4,389 → 1,594 KiB.** Ten images were preloaded from the `<head>`, because React 19 preloads every eager `<img>`; the four tour PNGs were among them. Two are preloaded now: the navbar logo and the hero icon, both next/image at the size drawn. The tour shots are lazy WebP.
-- **JavaScript: 773 → 370 KiB on every page.** The MDX compiler had been in each page's bundle.
-- **At rest for 10 s: 860 ms of main thread and 600 style recalcs → 62 ms and 50.** The cadence dot's box-shadow pulse caused them. `Scene.Radar` and `Scene.Glow` keep running, on transform and opacity.
-- **SEO:**
-  - the home page is in a `<main>`;
-  - four descriptions fit a snippet;
-  - the sitemap has no clone-time `lastmod`.
-- **The four directory badges** (2026-10-08, `DirectoryBadges`): Product Hunt, Fazier and LaunchVault moved into `config.directoryBadges` and ProgrammerNeeds joined them, all at one height. Home perf 97-98 → 98, LCP 1.89 s → 1.88-1.92 s over 4 passes a side, 659 → 660 KiB, SEO 100 both; on a phone the row is two rows of two, 82 px tall where the three at their embeds' sizes took 199 px at 360 and 320.
-- **Three of them moved to the footer** the same day: home 661 → 644 KiB, perf 95-98 → 96-97, LCP 1.88-2.11 → 1.87-1.90 s, docs unchanged at 99 and 622 KiB; the fox on the Support card clears the "Listed on" row at 1440, 1024, 390, 360 and 320.
-- **The LaunchVault badge is served from here** (2026-09-30). Theirs, fetched from launchvault.dev, was a 1.3 MB SVG around a 1190 px PNG of the logo, 953 of the home page's 1,605 KiB: lazy, but Chrome's lazy-load distance reached it during the load on a slow connection. `public/launchvault-badge.svg` is their layout with their vector logo (`launchvault.dev/logo.svg`), 2.3 KB after ImageOptim, and it spells their name right where theirs read "Launch Valut". The link to launchvault.dev is unchanged: their free listing asks for a dofollow backlink, not for their image (and their listing, `launchvault.dev/projects/netfox`, links netfox.app with `nofollow`: checked 2026-10-08). Home 1,597 → 646 KiB (images 1,055 → 103); LCP did not move, pass for pass in the same cluster (2.71 → 2.69 s, 1.82 → 1.80 s), because the badge was already lazy.
-- **Build with `GITHUB_TOKEN` set before measuring.** When the build cannot reach GitHub, `load-releases.ts` prerenders the fallback, and `/docs/release-notes` then compiles every release in the browser: locally that was 2.6 MB of script and a 37 s LCP, which measures the fallback instead of the page.
-
-### Motion: the home page reveals itself as it is scrolled
-
-All of it is `components/Motion`, first built here (#77), taken by lancetta.app, fixed there in review, and brought back on 2026-09-29. Section headings rise; cards MORPH (squashed and low, then the landing spring), 110-120 ms apart; the tour's screens come in from the side they sit on, their copy rises and their figures pop, the numbers rolling (`ScrollNumber`); each conversion card lands and then its "Netfox tells you" materialises; the Built-for-macOS pills pop and its 100 rolls. The springs are `--nf-spring*` in `theme/global.css`, the film's closed-form spring sampled into `linear()` (lancetta-website's `springs.ts` regenerates all three to the last digit).
-
-- **Nothing waits on a script to be seen.** A scope (`useReveal`) is at REST as served, ARMED (`data-armed`, its starting pose) once mounted and entirely off screen, REVEALED on the way into view; only a revealed item has a transition. The first version hid every pose from the first paint behind `(scripting: enabled)`, and `SolutionSection` hid its four reads in plain CSS until its own observer ran. Measured on the live site with the scripts blocked (`scripts/shot.mjs <url> <out> --no-wake --block "*_next/static/chunks/*.js"`): 49 of 49 items at opacity 0, the four reads gone (the section was blank navy), every figure at zeros, *"00 releases since May 2026"* in the hero. Now 0, 0 and the values. Do not block on `*_next/static/chunks/*` alone: the CSS is served from the same folder, and the page comes back unstyled rather than broken.
-- **What is on screen from the start comes in too, by CSS alone** (2026-10-01, the user: *"dovrebbero vedersi anche quando l'elemento è già visibile dall'inizio"*, seen on a 27-inch display stood upright, where the tour and the release count sat still under the reader's eyes). An item at REST plays its entrance once from the first paint, after `--reveal-hold` (400 ms) and its own delay, on the transition's own curves; the odometer rolls up the same way and the conversion cards' reads follow their card. The keyframes name only the starting pose (`from`) and fill only `backwards`, so they end on the layout whether or not a script ever runs, and arming sets `animation: none`, so a script that runs takes an item over and a revealed one never plays both. `Motion.css.test.ts` holds that shape: only-`from` keyframes, no `both`/`forwards` fill, `animation: none` once armed, and the pose in the keyframes equal to the armed rules' (made to fail once by editing a keyframe). Measured on the built page: at 1440x2400 the six items on screen land within about 1.4 s and the count rolls to 59; with the scripts blocked all 49 items and all 8 digit strips end at rest after 3.5 s; scrolled through at 1440x900 and 390x844, the 42 armed scopes reveal with no keyframe animation on any of them and no horizontal overflow; a client navigation home from `/docs/faq` at 1440x2400 plays the entrance on screen and arms the other 35. At mount `useReveal` reads where a scope is LAID OUT (`layoutBox`: its offsets), never `getBoundingClientRect`, because during the hold an item at rest is drawn in its starting pose, 48 px down and squashed for a card: a card showing its top few dozen pixels at the bottom of the window measured as off screen, was armed and stayed blank until a scroll (Codex on netfox-website#87). A sweep of 36 heights from 1000 to 2575 at 1440 wide found 5 such scopes on netfox.app before the fix (up to 57 px showing, at 1440x1855), and after it none on any of the three sites, 40 window sizes each.
-- **`threshold` is 0.** At 0.15 a scope taller than about six viewports never fires; the FAQ is one at 500% zoom. `ScrollNumber` keeps 0.6, since a number is one line tall.
-- **`<html data-scroll-behavior="smooth">`, because the reveals read the scroll at mount.** Measured on the live site without it: from `/docs/faq` scrolled to its bottom, a click on the logo mounted the home at y=8753, it was still scrolling 3.5 s later (y=40), and 30 scopes had been revealed out of sight on the way up. With it the home mounts at 0 and nothing is revealed. The release count sits at y=1092, so on a 900-tall screen it waits armed below the fold and rolls when scrolled to; on an 1100-tall one it is on screen at mount and rolls from the first paint, by CSS.
-- **A scope per part where the parts do not arrive together.** The tour's screen, copy and figures each watch for themselves (the figures inside the copy: an item waits for every armed scope above it), and each conversion card is its own scope, since in one column the four are taller than a phone. Scrolled at 750 px/s, the old row-wide reveal found a row's copy up to 66 px and its figures 366-416 px below the fold on a 390x844 phone, and the figures 182-223 px below at 1440x900. Per part, every one starts 69-83 px above the bottom edge at both sizes (the `-8%` bottom margin, plus a frame of scroll).
-- **The light is on the rim, as in the app** (`EdgeGlint`, Netfox 0.26.0): top right and bottom left, white, as in the app, but a glow held just inside the edge rather than the app's 1.5-point ring (user, 2026-09-29, choosing findergit.app's version: *"interno e sfumato"*): inset shadows on a layer 3 px in, a tight core and a wide bloom per corner, reach 104 px, still under 60% of the shortest card side here (236 px at 1440, 1024 and 390). A `Reveal` wrapper has no radius of its own, so a card inside one passes `radius`, and the wrapper must BE the card's box: the mock window's wrapper was full width with the window `maw={800}` inside, which would have put the light on the container's corners, out in the page.
-- **A screen from the right waits 80 px past its column while armed.** The tour sits in the hero's box, which is `overflow: hidden`, so the page never widens: `scrollWidth == clientWidth` at 390, 1024 and 1440 with two screens armed. Move the tour out of that box and it needs `overflow-x: clip` of its own.
-- **Reduce Motion gets the page as laid out, and a failed script gets it once every entrance at rest has played**; print never matches the `screen` query the poses sit in. Under Reduce Motion the scopes still arm, but nothing is hidden and nothing transitions (measured: 42 armed, 0 hidden, 0 transitions).
-- **An armed item's `getBoundingClientRect` is its starting pose** (0.9 x 0.7 and 48 px down for a card): read layout sizes with `offsetWidth` / `offsetHeight`.
-
-**To see it**, `scripts/shot.mjs` (cross-ported from findergit-website): `--no-wake`, or the page-wide wake scroll fires every one-shot reveal before the first frame; `--rate 0.4` slows the page's animations; `--frames 12 --every 200` for a strip; `--at <fraction>` for a section; `--reduce` for Reduce Motion; `--block` for a page whose scripts never arrive; `--eval` runs after the strip, with `awaitPromise`, so an expression can scroll the page itself and time what happens.
-
-### The fox: a mascot that translates
-
-Asked for on 2026-09-29, *"come fatto per Lancetta, octoscope e findergit, manca una mascotte, un pupazzetto per Netfox"*. Three sketches were shown (an orange chibi fox, this one, a fox in profile); the user picked the night fox, *"è quello che si avvicina di più al logo"*. It is this site's counterpart of lancetta.app's `PanelHint` and findergit.app's `CarouselGuide`, from which the stylesheet and the behaviour are ported.
-
-- **The drawing is the grids in `sprite.ts`**, 22 x 18 cells at 4 px, in the icon's own colouring: navy fur at the edges, orange down the middle of the face, cream muzzle, amber eyes, and the icon's radar as an amber dot on the forehead. `sprite.test.ts` holds its colours to the `--nf-*` tokens, puts the ping on that dot, and checks that the raised arm is a staircase whose every step shares an edge and never touches the head (a diagonal of single cells reads as dots; an arm against the outline merges into it).
-- **Its job is the hero's sentence, demonstrated.** Once the buttons come into view it walks in from the right, stops beside them, hops and pings its forehead radar, then raises a paw and says what a piece of machine speak means: `ESP-8A2F`, `_hap._tcp`, an Amazon device answering on 55442 and 55443, `5432 open`, two MACs answering one `.local` name. A click on it or on its Next pings again and translates the next one, and a screen reader hears each new one from a polite live region around the caption: it used to change only the name of the button it sat in, which not every screen reader announces (CodeRabbit on #82). Next keeps one name, "Next translation", so the region is the only thing that says it. **The translations are public claims**: each was checked against the app's source at 0.28.0 (`translations.ts` says where each comes from), so a release that changes one changes it there.
-- **One character in three places** (`guide.ts`): beside the buttons (`HeroGuide`), in the window's corner and on the footer's Support card (both `ScrollGuide`). The translations go on from wherever it last spoke (`sayNext`), and dismissing it anywhere sends it away from all three.
-- **Every load**, like its siblings; dismissed, it stays away for the life of the page (module state) and hands the keyboard focus to "See what it does". Reduce Motion: it arrives already pointing, no walk, no rings. Nothing of it is in the served HTML, so a page whose scripts never run is unchanged (measured with `--block`).
-- **It comes beside the buttons only where there is room for what it says**; elsewhere the fox in the corner says it (below). It measures the room right of the row of buttons when it sets out, gives the bubble that width (`--nf-guide-room`, at most 260 px), and does not come with less than 200: below about 1230 px of window. A resize that takes the room away sends it off, handing the keyboard focus to "See what it does" if it was on the fox; one that gives the room back, or gives it for the first time to a reader whose window was narrow when the buttons came into view, brings it in again once the resize has settled (400 ms), on a fresh walk whose timers the first one's cannot move on. Both were found by Codex on #82 and driven in Chrome after the fix. Measured on the built page: 306 px of room at 1440, 234 at 1280; no horizontal scroll at 1280, 1440 or 1920 during the walk, because the hero is `overflow: hidden`.
-- **Its feet are the row's bottom edge**, measured to the pixel at 1280, 1440 and 1920. Two things had lifted it, both measured before the fix: the button's default `inline-block` sat on a line box's baseline, 7 px up, and a bubble in the flow, taller than the fox, lifted it by the difference, 25 px. The walker is a block and the bubble hangs off the fox, out of the flow.
-- **It follows the scroll** (`ScrollGuide`), asked for with the phone on 2026-09-29: *"sarebbe bello che si vedesse anche sul mobile"*, *"che seguisse lo scroll della home page e suggerisse anche lo sponsor nel footer"*. Once the buttons are scrolled past it rides in the window's corner (fixed, bottom right, 4 px a cell, 3 on a phone), walks while the page scrolls and stands when it stops; a click on it or its Next says the next translation, in a bubble that folds once the reader scrolls half a window on, and that the fox never takes back: a click in the beat before it opened the hero's sentence itself used to be replaced by the next translation and folded on its timer (Codex, round 1 of #83). Never two at once: it is not in the corner while the fox beside the buttons is on screen, and it walks out when the reader scrolls back up to them. Where the buttons leave no room (a phone, any window under about 1230 px) it comes as soon as they are in view, pings, and opens the first translation itself, which folds once they are scrolled past or after 8 s, because in the corner it covers the page. **A jump straight past the buttons is measured, not observed** (2026-10-01): an IntersectionObserver reports a change in what is visible, and a jump from below the window to above it with no frame in between (an anchor link, a restored scroll, an instant `scrollTo`) is none, so the fox never came. The row is measured once each scroll settles (`STILL_MS`) and acted on only when that disagrees with what the observer last said. Found by the findergit.app session porting this fox, measured there and here with `scrollTo` 3200 at 1440x900; the test for it is red without the fix.
-- **At the footer it stands on the Support card** (drawn into `#sponsors`, which is `position: relative` for it) and says the FAQ's own line, *"Netfox is currently free. If you find it useful, consider sponsoring the project."*, so it makes no new claim. It goes there once 30% of the card is on screen and leaves once none of it is. On the home page the card has 112 px above it instead of 56 (`body:has(.nf-home)` in `MantineFooter.module.css`), because at 56 its bubble covered the Resources column's last link (measured at 1440; nothing covered at 1440, 1024 or 390 since).
-- **Only what the reader asks for is announced.** The corner's bubble opens by itself and moves with the scroll, so it is no live region: it would interrupt a screen reader reading something else. A visually hidden live region, mounted with the fox before anything is said, reads what a click asked for and clears 1.5 s later, so a reader going through the page does not meet it twice. The card's line is plain text. A fox leaving with the keyboard on it hands the focus to a control in view, the last before it on the page if one is; the one before it in the markup is usually a screen away, since the fox rides at any height (Codex, round 1 of #83). Reduce Motion: it arrives standing and never walks (measured: 0 animations running in it while scrolling).
-- **In the docs** (`MascotNote`, registered in `mdx-components.ts`, cross-ported from findergit.app): the sprite beside a bubble on five pages, never all of them (the user: *"la sua presenza nella doc in particolari punti sarebbe carina"*). Welcomes on the docs home and Getting Started, and a tip on Devices (the plain-English identity), Security (the Risk Inspector) and Keyboard Shortcuts (three to start with). A server component: its words are in the served HTML, taken from the page they sit on, and the three shortcuts were checked against the app's own key bindings. The sprite is `aria-hidden`, and it has one CSS hop and is 3 px a cell on a phone.
-  - **Its styles are global (`.nf-note` in `app/global.css`) and it draws the sprite through `SpriteSvg`, which has no stylesheet: here, the CSS modules it reached through `mdx-components.ts` split the site's shared CSS.** With `MascotNote.module.css`, and `Mascot.module.css` through the sprite, every page of the site loaded 6 stylesheets instead of main's 5: Turbopack split the shared CSS chunk in two, one more render-blocking request, measured as about 0.16 s later first paint on a docs page under Lighthouse's throttling. Moving the corner's styles changed nothing; taking the modules off the docs pages brought both the home page and the docs back to 5. It is not a rule of the bundler. findergit.app's own `MascotNote.module.css` also goes through `mdx-components`, and there its rules landed in an existing chunk: 5 stylesheets either way, counted by the FinderGit session the same day. So count the `<link rel="stylesheet">` in the served HTML of `/` and of a docs page after any change that gives a component on those pages a stylesheet, rather than assuming either outcome.
-- **What it costs, measured on #83**: production builds of main and the branch side by side, Lighthouse mobile with devtools throttling, interleaved.
-  - The Devices docs page scores 97-98 on both sides, LCP 1.87-1.88 s, leaving out a 3.7 s outlier that hit each side once.
-  - The home page scores 64 before and 71-72 after, with LCP 9.4-10.8 s on both: that is its 3.4 MB of screenshots, not the fox.
-  - Bytes: +5 KiB on the docs page (2 of it the note's drawing) and +4 KiB on the home page.
-  - At rest for 10 s, scrolled past the hero with the fox standing in the corner, the page costs what main's does: 0.71-0.75 s of tasks, and the same 600 style recalcs from the release-cadence pulse. None of the 11 running animations is the fox's: it only animates while arriving, pinging, or while the page scrolls.
-
-**To see it**: the row sits just below the fold at 1440 x 900 and the fox points about 4 s after the row comes into view, so `scripts/shot.mjs <url> <out> --at 0.09 --frames 2 --every 5000 --no-wake` (the first frame is taken on arrival, before it has set out). `--eval` can click Next by its name: `document.querySelector('[aria-label="Next translation"]').click()` (not by a class fragment: `[class*=next]` matches Nextra's own classes first). The corner fox is `[data-phase][class*="corner"]`, the card's `#sponsors [data-phase]`. Scope any click to it, because the hero's "Next translation" and "Dismiss" are still in the page off screen: an unscoped click scrolled back up to the hero's and sent the corner fox away.
+`components/Mascot`: every behaviour is documented in its headers.
+- **To drive it in `shot.mjs --eval`**: click Next by `[aria-label="Next translation"]`, scoped to the fox you mean (corner: `[data-phase][class*="corner"]`, card: `#sponsors [data-phase]`); an unscoped click hits the hero's off-screen copy, and `[class*=next]` matches Nextra's classes first.
 
 ## Content Guidelines
 
@@ -183,21 +45,12 @@ User-facing pages (`content/*.mdx`, the homepage, release notes hosted at `publi
 - ❌ "Sparkle", "AppKit's NSEvent monitor", framework names — say "the auto-update framework" / "macOS keyboard handling"
 - ✅ User-relevant facts ARE allowed: "free", "no account required", "data never leaves your Mac", "macOS 15.6+ required"
 
-**The macOS floor is 15.6, not 15.** Take it from `MACOSX_DEPLOYMENT_TARGET` in the app's pbxproj (it also drives `sparkle:minimumSystemVersion` in the appcast) — never from FinderGit, whose floor is different. Six places on this site said "macOS 15+" / "macOS 15 (Sequoia)" until 2026-08-05, which told anyone on 15.0–15.5 the app would run when Sparkle would never offer it and the binary would not launch. When the deployment target moves, grep the whole site for the old value rather than fixing the page you happen to be on.
-
 Reasoning: end users care about what the feature does for them, not which vendor or library powers it. Naming the stack also paints us into a corner if we ever swap it — would force rewriting every page.
 
 **Exceptions**:
-- Developer-facing files (commit messages, this `CLAUDE.md`, `CHANGELOG.md`) — name infra freely
+- Developer-facing files (commit messages, this `CLAUDE.md`) — name infra freely
 - "Under the hood" sections at the bottom of release notes — okay to be specific for power users who want to know, but prefer generic phrasing where it doesn't lose information
-- **`SwiftUI` in `BuiltForMacSection` and the Welcome feature grid stays** (decided 2026-08-05). There naming it *is* the claim — a real Mac app rather than an Electron wrapper — and the section exists for exactly that. The test is whether the name carries the message or merely explains an implementation: an auto-reviewer flagged the same word in the FAQ, where it was being used to justify a minimum macOS version and told the reader nothing, and there it was correctly removed. Expect the flag to recur on these two; it has been considered.
-
-## Tooling
-
-- **Formatter**: oxfmt (`.oxfmtrc.json`)
-- **Linter**: oxlint + stylelint
-- **TypeScript**: 6.x
-- **Package Manager**: Yarn 4 (Berry). Do not use npm or pnpm.
+- **`SwiftUI` stays in `BuiltForMacSection` and the Welcome feature grid**: there the name is the claim (a real Mac app, not an Electron wrapper). Elsewhere drop it when it only explains an implementation. Reviewers flag it; it has been considered.
 
 <!-- BEGIN:nextjs-agent-rules -->
 
