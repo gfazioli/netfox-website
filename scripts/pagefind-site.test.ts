@@ -71,6 +71,21 @@ describe('pagefind-site', () => {
     expect(r.stdout).toContain('3 pages');
   });
 
+  it('takes each page from whichever layout holds it, and counts both', () => {
+    const r = run({ 'app/index.html': 'home', [`${ROUTE}/$/docs.html`]: 'docs' });
+    dirs.push(r.dir);
+    expect(r.status).toBe(0);
+    expect([r.site('index.html'), r.site('docs.html')]).toEqual(['home', 'docs']);
+    expect(r.stdout).toContain('1 from .next/server/app, 1 from .next/server/route-cache');
+  });
+
+  it('refuses a route-cache file without the "$" that marks where its path starts', () => {
+    const r = run({ [`${ROUTE}/docs.html`]: 'docs' });
+    dirs.push(r.dir);
+    expect(r.status).not.toBe(0);
+    expect(r.stderr).toContain('no "$" segment');
+  });
+
   it('refuses a page found in both layouts instead of picking one', () => {
     const r = run({ 'app/docs.html': 'old', [`${ROUTE}/$/docs.html`]: 'new' });
     dirs.push(r.dir);
