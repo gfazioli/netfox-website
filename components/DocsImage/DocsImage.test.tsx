@@ -22,8 +22,8 @@ const capture = {
   height: 944,
 };
 
-const COLUMN =
-  '(max-width: 767.98px) calc(100vw - 32px), (max-width: 1279.98px) calc(100vw - 352px), (max-width: 1439.98px) calc(100vw - 608px), 832px';
+/** What a picture of unknown width asks for: the whole column. */
+const COLUMN = docsSizes();
 
 function drawn(props: Parameters<typeof DocsImage>[0]) {
   const { container } = render(<DocsImage {...props} />);
@@ -34,16 +34,16 @@ describe('DocsImage', () => {
   it('draws a Retina capture at its size in points, and asks for that width', () => {
     const img = drawn({ src: capture, alt: 'The menu bar panel' });
     expect(img.style.maxWidth).toBe('min(100%, 406px)');
-    expect(img.dataset.sizes).toBe('(max-width: 438px) calc(100vw - 32px), 406px');
+    expect(img.dataset.sizes).toBe(docsSizes(406));
   });
 
-  it('caps the width it asks for at the column when the capture is wider in points', () => {
+  it('asks for the smaller of the column and the capture in points', () => {
     const img = drawn({
       src: { ...capture, src: '/_next/static/media/screenshot-devices.2a1b3c4d.png', width: 2000 },
       alt: 'Devices',
     });
     expect(img.style.maxWidth).toBe('min(100%, 1000px)');
-    expect(img.dataset.sizes).toBe(COLUMN);
+    expect(img.dataset.sizes).toBe(docsSizes(1000));
   });
 
   it('reads a capture imported as a module the same way', () => {
@@ -69,26 +69,18 @@ describe('DocsImage', () => {
   });
 });
 
-// The column, measured: the viewport less 32px under 768, less 352px under
-// 1280, less 608px above, and never wider than 832px.
+// The column, measured: in rem and em, as Nextra lays it out, so that it
+// moves with the visitor's default font.
 describe('docsSizes', () => {
-  it('follows the column for a picture as wide as it, or wider', () => {
-    expect(docsSizes()).toBe(COLUMN);
-    expect(docsSizes(1000)).toBe(COLUMN);
-  });
-
-  it('gives a picture narrower than the column its own width', () => {
-    expect(docsSizes(282)).toBe('(max-width: 314px) calc(100vw - 32px), 282px');
-    // The 560x500 widgets: narrower than a phone's column from 592, and
-    // wider than the column beside the sidebar up to 912.
-    expect(docsSizes(560)).toBe(
-      '(max-width: 592px) calc(100vw - 32px), (max-width: 767.98px) 560px, (max-width: 912px) calc(100vw - 352px), 560px'
+  it('follows the column for a picture of unknown width', () => {
+    expect(docsSizes()).toBe(
+      '(max-width: 47.99875em) calc(100vw - 2rem), (max-width: 79.99875em) calc(100vw - 22rem), (max-width: 89.99875em) calc(100vw - 38rem), 52rem'
     );
   });
 
-  it('switches from the column to the picture where they cross on a laptop', () => {
-    expect(docsSizes(760)).toBe(
-      '(max-width: 767.98px) calc(100vw - 32px), (max-width: 1112px) calc(100vw - 352px), (max-width: 1279.98px) 760px, (max-width: 1368px) calc(100vw - 608px), 760px'
+  it('asks for the smaller of the column and the picture, in each stretch', () => {
+    expect(docsSizes(380)).toBe(
+      '(max-width: 47.99875em) min(calc(100vw - 2rem), 380px), (max-width: 79.99875em) min(calc(100vw - 22rem), 380px), (max-width: 89.99875em) min(calc(100vw - 38rem), 380px), min(52rem, 380px)'
     );
   });
 });
