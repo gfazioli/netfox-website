@@ -8,10 +8,10 @@ const withBundleAnalyzer = bundleAnalyzer({
 const withNextra = nextra({
   // No `latex`: no page on the site has any math (not one `$` in content/).
   search: {
-    codeblocks: false
+    codeblocks: false,
   },
   contentDirBasePath: '/docs',
-})
+});
 
 export default withNextra(
   withBundleAnalyzer({
@@ -37,4 +37,5 @@ export default withNextra(
         },
       },
     },
-  }));
+  })
+);
