@@ -23,7 +23,7 @@ const capture = {
 };
 
 const COLUMN =
-  '(max-width: 767px) calc(100vw - 32px), (max-width: 1279px) calc(100vw - 352px), (max-width: 1439px) calc(100vw - 608px), 832px';
+  '(max-width: 767.98px) calc(100vw - 32px), (max-width: 1279.98px) calc(100vw - 352px), (max-width: 1439.98px) calc(100vw - 608px), 832px';
 
 function drawn(props: Parameters<typeof DocsImage>[0]) {
   const { container } = render(<DocsImage {...props} />);
@@ -82,13 +82,13 @@ describe('docsSizes', () => {
     // The 560x500 widgets: narrower than a phone's column from 592, and
     // wider than the column beside the sidebar up to 912.
     expect(docsSizes(560)).toBe(
-      '(max-width: 592px) calc(100vw - 32px), (max-width: 767px) 560px, (max-width: 912px) calc(100vw - 352px), 560px'
+      '(max-width: 592px) calc(100vw - 32px), (max-width: 767.98px) 560px, (max-width: 912px) calc(100vw - 352px), 560px'
     );
   });
 
   it('switches from the column to the picture where they cross on a laptop', () => {
     expect(docsSizes(760)).toBe(
-      '(max-width: 767px) calc(100vw - 32px), (max-width: 1112px) calc(100vw - 352px), (max-width: 1279px) 760px, (max-width: 1368px) calc(100vw - 608px), 760px'
+      '(max-width: 767.98px) calc(100vw - 32px), (max-width: 1112px) calc(100vw - 352px), (max-width: 1279.98px) 760px, (max-width: 1368px) calc(100vw - 608px), 760px'
     );
   });
 });
