@@ -282,13 +282,20 @@
   border-radius: rem(4px);
 }
 
+/*
+ * The close button of both bubbles, the hero's (HeroGuide) and the corner's
+ * and card's (ScrollGuide). 24px, the smallest target WCAG 2.2 allows, in the
+ * 20px it always took: the negative margin gives the 4px back, so the
+ * bubble's text keeps its width and its lines.
+ */
 .dismiss {
   display: inline-flex;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: rem(20px);
-  height: rem(20px);
+  width: rem(24px);
+  height: rem(24px);
+  margin: rem(-2px);
   padding: 0;
   border: 0;
   border-radius: rem(6px);
