@@ -11,8 +11,9 @@ export default function manifest(): MetadataRoute.Manifest {
     // "Your Network in Plain English".
     name: config.metadata.title.default,
     short_name: 'Netfox',
-    description:
-      'A native macOS app that monitors your home network — every device, when it joined, and what looks risky, at a glance.',
+    // The page description, for the same reason: this one still described a
+    // home-network monitor after the site had moved to plain English.
+    description: config.metadata.description,
     start_url: '/',
     display: 'standalone',
     background_color: '#1a1b1e',
