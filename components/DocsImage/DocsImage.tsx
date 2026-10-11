@@ -27,16 +27,18 @@ const TOC_FROM = 1280;
  */
 export function docsSizes(points = Infinity): string {
   const clauses: [string | null, string][] = [];
+  // 767.98, not 767: the layout switches at min-width 768, and a viewport of
+  // 767.5 (a zoom, a fractional DPR) is still the phone's.
   const stretch = (until: number, from: number, gutter: number, top: number) => {
     // The picture fills the column until the column is wider than the picture.
     const full = points + gutter;
     if (points <= from - gutter) {
-      clauses.push([`(max-width: ${until - 1}px)`, `${Math.min(points, top)}px`]);
+      clauses.push([`(max-width: ${until - 0.02}px)`, `${Math.min(points, top)}px`]);
     } else if (full < until && points < top) {
       clauses.push([`(max-width: ${full}px)`, `calc(100vw - ${gutter}px)`]);
-      clauses.push([`(max-width: ${until - 1}px)`, `${points}px`]);
+      clauses.push([`(max-width: ${until - 0.02}px)`, `${points}px`]);
     } else {
-      clauses.push([`(max-width: ${until - 1}px)`, `calc(100vw - ${gutter}px)`]);
+      clauses.push([`(max-width: ${until - 0.02}px)`, `calc(100vw - ${gutter}px)`]);
     }
   };
   stretch(SIDEBAR_FROM, 0, PHONE_GUTTER, Infinity);
