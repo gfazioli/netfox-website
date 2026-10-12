@@ -13,16 +13,26 @@ The **Overview** is the landing tool — it's what you see the first time you op
 
 ## At a glance
 
-Four cards across the top. Each is clickable and switches to the relevant tool. The two that track a proportion — Risk posture and Devices — show it as a **ring gauge**, the same reading as the [menu bar popover](/docs/menu-bar):
+Four cards across the top. The two that track a proportion — Risk posture and Devices — show it as a **ring gauge**, the same reading as the [menu bar popover](/docs/menu-bar).
 
-| Card | What it shows | Click target |
-|---|---|---|
-| **Risk posture** | A ring filling to the share of devices flagged high or medium, tinted by severity (green with **OK** only when every device it can reach has been scanned and none is at risk; a dash before that), with the breakdown underneath and the **Run Smart Scan** button | [Security tool](/docs/tools/security) |
-| **Devices** | A ring filling to how many are online out of the total Netfox knows about | [Devices tool](/docs/tools/devices) |
-| **Public IP** | Your network's outward IPv4 + a live chip when a VPN tunnel is active. Inline refresh button | [Devices tool](/docs/tools/devices) |
-| **Alerts inbox** | Count of unread alerts since you last opened the bell | [Devices tool](/docs/tools/devices) |
+Three of them open in place. A click unfolds the card into a panel under its row, card and panel one piece of glass, while the other cards step back; a second click folds it away. The **↗** arrow in the card's corner goes to the tool behind it instead.
 
-On macOS 26 and later the cards are made of glass, each tinted with the colour of the tool it opens: rounded, with no line drawn around them, over soft violet, teal and rose light that shows through the glass — the same light the [menu bar popover](/docs/menu-bar) puts under its cards. As the Overview appears the cards land one after another on a spring, overshoot a little and settle, with a light running along the edges of each; a moment later the rings fill and the figures roll into place, the public IP included. A refresh gives the cards a quick press rather than making them arrive again, and the rings and figures run again, so you can see the numbers being measured again without them ever leaving the screen. With **Reduce Motion** turned on in System Settings they simply appear.
+![The Risk card open on the Overview, over the devices at risk](/screenshot-overview-deck.png)
+
+| Card | What it shows | A click opens | The ↗ arrow goes to |
+|---|---|---|---|
+| **Risk posture** | A ring filling to the share of devices flagged high or medium, tinted by severity (green with **OK** only when every device it can reach has been scanned and none is at risk; a dash before that), with the breakdown underneath and the **Run Smart Scan** button | The devices at risk, high before medium, each with what was found on it | [Security tool](/docs/tools/security) |
+| **Devices** | A ring filling to how many are online out of the total Netfox knows about | The devices online, in the order of the Devices list: this Mac first, then the ones at risk or with an alert | [Devices tool](/docs/tools/devices) |
+| **Public IP** | Your network's outward IPv4 + a live chip when a VPN tunnel is active. Inline refresh button | Nothing: a click goes to the [Devices tool](/docs/tools/devices) | — |
+| **Alerts inbox** | Count of the alerts since you last opened the bell, and the newest of them | The newest alerts, worded as in the inbox, each with how long ago it came | [Devices tool](/docs/tools/devices), with the inbox open |
+
+A panel lists five rows (eight for Devices); past that, an **and N more** row leads to the tool that has them all. A row opens its device in the Devices tool, on the **Ports** tab for a device at risk or an alert about a port. A card with nothing to list — an all-clear Risk card, nobody online, an empty inbox — goes straight to its tool on a click, and shows a › instead of the arrow.
+
+The Overview opens on what needs attention: the Risk card when a device is at risk, otherwise the Alerts card when there are alerts. Until you open or close a card yourself it keeps doing so — a device found at risk while the alerts are open opens the Risk card, the more urgent of the two — and once you have, your choice stands until you leave the Overview.
+
+Made small enough to become a [widget](/docs/getting-started), the Overview keeps the four cards as figures that fill it, and a click on one goes to its tool: a widget promises everything on screen at once, so nothing in it unfolds.
+
+On macOS 26 and later the cards are made of glass, each tinted with the colour of the tool it opens: rounded, with no line drawn around them, over soft violet, teal and rose light that shows through the glass — the same light the [menu bar popover](/docs/menu-bar) puts under its cards. As the Overview appears the cards land one after another on a spring, overshoot a little and settle, with a light running along the edges of each; a moment later the rings fill and the figures roll into place, the public IP included. A refresh gives the cards a quick press rather than making them arrive again, and the rings and figures run again, so you can see the numbers being measured again without them ever leaving the screen. An open card is already in place with its panel, and stays still. With **Reduce Motion** turned on in System Settings they simply appear.
 
 Risk posture leads because it is the one card that asks you to do something. **Run Smart Scan** starts a scan across every untested device on your LAN, and works the same whether you have never scanned or want to re-check everything.
 
@@ -77,6 +87,7 @@ Shown when an Ethernet interface is actually up — on a laptop with nothing plu
 | --- | --- |
 | The negotiated speed | What the link settled on, in orange when it is below what the port can do |
 | **Negotiated 1 Gb/s on a port that does 10 Gb/s** | The warning worth having. Nothing in macOS tells you this happened, and the cause is almost always the cable or the switch — Cat 5e runs 1 Gb/s, and 10 needs Cat 6a and a switch that speaks it |
+| **Top speed unknown** | In grey, where that warning would be when the port's top speed can't be read or trusted. Most often a USB adapter on the Ethernet driver built into macOS, which has no way to ask it: rather than guess, Netfox says so. If the adapter is rated faster than the speed shown, start with the cable and the switch |
 | Full duplex · Flow control | Coloured, because there is a right answer |
 | Auto | Plain, because auto-negotiation is how the link was configured rather than a grade — a hand-pinned link is unusual, not wrong |
 

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Netfox 0.50.0 — Release Notes</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --accent: #f76707;
+    --muted: #6b6b73;
+    --code-bg: #f4f4f5;
+    --border: rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1e;
+      --fg: #ececec;
+      --muted: #9c9ca5;
+      --code-bg: #2c2c2e;
+      --border: rgba(255,255,255,0.14);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 14px/1.55 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+    max-width: 720px;
+  }
+  header.page-header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+  }
+  header.page-header h1 { font-size: 1.7em; margin: 0 0 4px; letter-spacing: -0.02em; }
+  header.page-header .subtitle { color: var(--muted); margin: 0; font-size: 0.92em; }
+  h1, h2, h3, h4 { letter-spacing: -0.01em; margin: 1.5em 0 0.5em; }
+  h1 { font-size: 1.4em; }
+  h2 { font-size: 1.2em; }
+  h3 { font-size: 1em; }
+  a { color: var(--accent); }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 22px 0; }
+  ul, ol { padding-left: 1.4em; }
+  li { margin: 4px 0; }
+  code {
+    font: 0.9em ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  pre {
+    background: var(--code-bg);
+    padding: 12px 14px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88em;
+  }
+  pre code { background: transparent; padding: 0; font-size: 1em; }
+  blockquote {
+    margin: 12px 0;
+    padding-left: 12px;
+    border-left: 3px solid var(--border);
+    color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 0.95em; }
+  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  th { background: var(--code-bg); }
+  img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="page-header">
+  <h1>Netfox 0.50.0</h1>
+  <p class="subtitle">Release notes</p>
+</header>
+<p>Netfox 0.50.0 makes the Overview and the Security page open in place, and keeps watching your network when the window is closed.</p>
+<h2>Overview</h2>
+<ul>
+<li>The Risk, Devices and Alerts cards open in place: a click shows the devices at risk with what was found on each, the devices online, or the latest alerts. The ↗ arrow in a card's corner takes you to the tool, and every row opens its device, on the Ports tab for a device at risk or an alert about a port.</li>
+<li>The Overview opens on what needs attention: the Risk card when a device is at risk, otherwise the Alerts card when there are alerts.</li>
+</ul>
+<h2>Security</h2>
+<ul>
+<li>The counts by severity are now four cards that open in place, the most serious one already open when you arrive. Low-risk devices finally have a list of their own.</li>
+</ul>
+<h2>Always watching</h2>
+<ul>
+<li>Closing the main window no longer stops discovery, alerts, scheduled port scans or the metrics endpoint: Netfox keeps watching from the menu bar until you quit.</li>
+</ul>
+<h2>Privacy</h2>
+<ul>
+<li>Settings → Privacy now names everything the public IP switch stops: the lookup itself and the Link card's check of the route out.</li>
+<li>Forget all devices also wipes the Wi-Fi samples, and every wipe in Privacy works with the main window closed.</li>
+<li>The automatic update switch shows the setting the updater really uses, and the wipe confirmations are translated.</li>
+</ul>
+<h2>Fixes</h2>
+<ul>
+<li>A USB Ethernet adapter on the driver built into macOS no longer gets a "below its top speed" warning: its top speed can't be read, and the Link card says so.</li>
+<li>This Mac no longer shows 127.0.0.1 as its address.</li>
+<li>A device first seen only by its address no longer leaves a stored row that later sessions can't match.</li>
+</ul>
+<h2>Small things</h2>
+<ul>
+<li>The About window is laid out in two columns that fit a 13-inch screen in every language, with icons on its links and a new link to the community on Discord.</li>
+<li>In Demo Mode, This Mac's ports show invented processes, so a screenshot shows who holds a port without showing what runs on your Mac.</li>
+</ul>
+</body>
+</html>

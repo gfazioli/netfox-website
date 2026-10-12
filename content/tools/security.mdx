@@ -61,8 +61,9 @@ When [live inspection](/docs/tools/devices#looking-inside-a-service) has looked 
 Open the **Security** tab in the left sidebar (or press <Kbd>⌘</Kbd> <Kbd>4</Kbd>). You'll see a dashboard summarising the network's posture:
 
 - Header counts ("3 devices need your attention")
-- Severity pills (high / medium / low / untested)
-- One section per severity, with the affected devices
+- Four cards, one per severity (high / medium / low / untested), each with its count and a dot in its colour
+
+A card with devices in it opens in place: a click unfolds it into the list of those devices, card and list one piece of glass, and a second click folds it away. Each row names the device and what was found on it, with its risk badge; an untested device has a **Probe** button of its own, and a click anywhere else on a row opens the device in the Devices tool, on its **Ports** tab. A card with nobody in it is just its zero. The page opens on the most severe card that has devices — high, then medium, then untested — and the low-risk devices, which no list used to show, are one click away.
 
 A device counts as untested when it has never been scanned and Netfox can reach it now; one that is offline, on another network or without an IPv4 address is left out of the counts and never called checked. The blue **Scan All Devices** button kicks off probes across every untested device in parallel. The Security tool is rate-limited under the hood, so it can't flood your router. While a scan is running, the button reads "Scanning…" and devices migrate out of "Untested" into their real severity bucket as their results come in.
 

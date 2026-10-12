@@ -121,13 +121,13 @@ Controls for what Netfox stores about your network, plus the master switch for *
 The **Privacy & Storage** rows each wipe one kind of stored data, with a confirm prompt:
 
 - **Clear port scan history** — drops every cached port-probe result. Risk badges reset to *Untested*.
-- **Clear activity history** — drops the per-device timeline (online/offline, IPv4/hostname changes, …) without touching the device list itself.
+- **Clear activity history** — drops the per-device timeline (online/offline, IPv4/hostname changes, …) and the latency trend behind the Link quality chart, without touching the device list itself.
 - **Clear alert history** — clears the persistent log surfaced by <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>A</Kbd>.
 - **Clear custom tags** — drops every custom name and kind you've assigned via right-click → *Edit Tag*.
 
 Set apart in its own **Reset everything** section:
 
-- **Forget all devices** — the full reset. Wipes *every* store at once — devices, activity, alerts, tags, and port history — so it sits on its own, away from the targeted clears above. Devices on the network rediscover on the next pass, but everything you'd saved about them is gone.
+- **Forget all devices** — the full reset. Wipes *every* store at once — devices, activity and latency, alerts, tags, port history, and the Wi-Fi samples with the networks' hardware addresses — so it sits on its own, away from the targeted clears above. Devices on the network rediscover on the next pass, but everything you'd saved about them is gone.
 
 <Callout type="warning">
 These actions are immediate and irreversible. Netfox keeps no hidden backup — once you confirm, the local store loses those rows for good.
