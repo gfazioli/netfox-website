@@ -388,17 +388,17 @@ Nothing here needs a password, a permission prompt or a helper. Netfox reads wha
 
 ## Context menu
 
-![Context menu on a Devices row](/screenshot-context-menu.png)
-
 Right-click any row in the device list:
 
 | Action | What it does |
 |---|---|
+| **Copy MAC Address**, **Copy IPv4 Address**, **Copy IPv6 Address** | Copies the address to the clipboard; each item appears only when the device has that address |
 | **Probe This Device** | Sends an ICMP echo and refreshes online state immediately |
-| **Probe Ports** | Runs the [Security](/docs/tools/security) port scan against this device only |
+| **Probe Ports** | Runs the [Security](/docs/tools/security) port scan against this device only; **Cancel Port Scan** while one is running |
+| **Refresh All** | Asks every discovery source for a fresh pass, as <Kbd>⌘</Kbd> <Kbd>R</Kbd> does |
 | **Add Tag…** | Opens a sheet to assign a custom name, kind and connection (overrides the name, icon and connection the device shows); **Edit Tag…** once it has one |
-| **Mute Alerts** | Stops the bell from firing for this device. Useful for noisy IoT that re-connects every few minutes |
-| **Reveal in Wi-Fi** | If the device is on Wi-Fi, jumps to the [Wi-Fi](/docs/tools/wifi) tool with the matching network selected |
+| **Remove Tag** | Drops the whole tag (name, kind, connection and mute), so the device shows what the network reports again and its alerts come back |
+| **Mute Alerts** | Stops the bell from firing for this device. Useful for noisy IoT that re-connects every few minutes; **Unmute Alerts** brings it back |
 
 ## Tagging
 
