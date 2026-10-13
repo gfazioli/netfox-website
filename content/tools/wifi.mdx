@@ -105,7 +105,7 @@ It stays quiet when it can't tell you honestly. A channel suggestion needs enoug
 An access point using a wide channel is measured across the whole block it occupies, not just the channel it's named after. An 80 MHz access point on channel 36 is using 36 through 48, so a "quiet" channel inside that range isn't quiet at all — and any suggestion Netfox makes accounts for the width *your* access point would carry there.
 
 ### Network Information
-A table with SSID, BSSID (the AP's radio MAC), **access point manufacturer**, channel, band, channel width, security mode, country code, beacon interval, network type (infrastructure vs ad-hoc), and PHY modes.
+A table with SSID, BSSID (the AP's radio MAC), **access point manufacturer**, channel, band, channel width, security mode, country code, beacon interval, network type (infrastructure vs ad-hoc), and PHY modes. The last three are under **Advanced**. Both sections fold: click a title to hide it, and it stays hidden for every network and after a restart.
 
 ### Export
 A *Export network data* button saves the full network metadata + the current sample buffer as JSON — handy for diffing two scans, sharing a problem report, or feeding the data into another tool.
