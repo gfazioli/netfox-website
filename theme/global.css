@@ -37,12 +37,11 @@ html {
 
   /*
    * The night's surfaces. One token each, so everything that has to dissolve
-   * INTO the page (the marquee's fade, a section's feathered edge, Nextra's
-   * own chrome) names the colour the body is painted with. They are declared
-   * on :root, not on the body: a var() inside a custom property resolves
-   * where it is declared, so a token Nextra reads from html
-   * (`--x-color-nextra-bg: var(--nf-page)`) would keep the root's value
-   * whatever the body said.
+   * INTO the page (a section's feathered edge, Nextra's own chrome) names the
+   * colour the body is painted with. They are declared on :root, not on the
+   * body: a var() inside a custom property resolves where it is declared, so
+   * a token Nextra reads from html (`--x-color-nextra-bg: var(--nf-page)`)
+   * would keep the root's value whatever the body said.
    *
    * - `--nf-page`   #0d1230, deeper than the fur's navy: the page.
    * - `--nf-top`    the navy the home page starts with; its navbar takes it.
@@ -324,10 +323,6 @@ body:has(.nf-home) {
  */
 .mantine-Skeleton-root[data-visible]::after {
   background-color: var(--nf-rule);
-}
-
-* {
-  --marquee-fade-edge-color: var(--nf-page);
 }
 
 body {
