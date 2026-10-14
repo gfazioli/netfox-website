@@ -6,8 +6,11 @@
   there, as its own entrance does (components/Motion). Only a card
   a script has found off screen (`data-armed`, components/Motion/useReveal)
   starts from the router's words alone; as it lands (`data-revealed`) the
-  "before" dims back and the "after" materialises -- fade + slide + un-blur --
-  after the card itself, staggered per card by its `--reveal-delay`.
+  "before" dims back and the "after" materialises -- fade + slide -- after the
+  card itself, staggered per card by its `--reveal-delay`. Opacity and
+  transform only, which the compositor runs: until 2026-10-14 the "after" also
+  came in from a `filter: blur()`, which Chrome ticks on the main thread
+  (components/Motion says the same of the reveals).
 
   This used to hide every "after" in plain CSS until the section's own
   observer added a class, so without the scripts the four reads -- the point
@@ -50,7 +53,6 @@
   .card[data-armed]:not([data-revealed]) .after {
     opacity: 0;
     transform: translateY(10px);
-    filter: blur(3px);
   }
 
   .card[data-revealed] .before {
@@ -60,8 +62,7 @@
   .card[data-revealed] .after {
     transition:
       opacity 0.6s ease,
-      transform 0.6s ease,
-      filter 0.6s ease;
+      transform 0.6s ease;
     /* After the card itself has landed (components/Motion), not with it. */
     transition-delay: calc(var(--reveal-delay, 0ms) + 450ms);
   }
@@ -78,6 +79,5 @@
   from {
     opacity: 0;
     transform: translateY(10px);
-    filter: blur(3px);
   }
 }
