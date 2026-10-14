@@ -43,9 +43,6 @@ function value(block: string, property: string) {
 
 const ENTRANCES = [
   'reveal-fade',
-  'reveal-blur',
-  'reveal-blur-text',
-  'reveal-blur-chip',
   'reveal-morph',
   'reveal-rise',
   'reveal-pop',
@@ -64,6 +61,12 @@ describe('Motion.module.css, the entrance at rest', () => {
   it('fills only backwards, so nothing of it outlives its curve', () => {
     expect(css).not.toMatch(/animation-fill-mode:\s*(both|forwards)/);
     expect(css.match(/animation-fill-mode: backwards;/g)).toHaveLength(2);
+    // The rim light's fill is in its shorthand.
+    const shorthands = [...css.matchAll(/^\s*animation: ([^;\n]+);/gm)].map((match) => match[1]);
+    expect(shorthands.filter((one) => one !== 'none')).toHaveLength(2);
+    for (const one of shorthands) {
+      expect(one).not.toMatch(/\b(both|forwards)\b/);
+    }
   });
 
   it('stops once a script has armed the scope', () => {
@@ -84,18 +87,58 @@ describe('Motion.module.css, the entrance at rest', () => {
     expect(value(body(`@keyframes ${frames} {`), 'transform')).toBe(value(armed, 'transform'));
   });
 
-  it.each([
-    ["'rise'", 'reveal-blur-text'],
-    ["'pop'", 'reveal-blur-chip'],
-  ])('blurs a %s item as much as its armed rule does', (variant, frames) => {
-    const armed = body(`.scope[data-armed]:not([data-revealed]) .item[data-reveal=${variant}],`);
-    expect(value(body(`@keyframes ${frames} {`), 'filter')).toBe(value(armed, 'filter'));
-  });
-
-  it('blurs every other item as much as the armed rule does', () => {
+  it('fades every item in from where the armed rule has it', () => {
     const armed = body('.scope[data-armed]:not([data-revealed]) .item,');
-    expect(value(body('@keyframes reveal-blur {'), 'filter')).toBe(value(armed, 'filter'));
     expect(value(armed, 'opacity')).toBe('0');
     expect(value(body('@keyframes reveal-fade {'), 'opacity')).toBe('0');
+  });
+});
+
+/*
+ * Everything here moves on the compositor, or the page's scroll pays for it.
+ * Chrome runs opacity and the transforms there (and a filter that moves no
+ * pixels, which nothing here needs); a `filter: blur()`, a custom property or
+ * a box-shadow ticks on the main thread, once a frame for each item that
+ * moves: a scroll down the home page ran 54 blurs and 17 rim lights there
+ * (2026-10-14, before this file held it).
+ */
+const COMPOSITED = ['opacity', 'transform', 'translate', 'scale', 'rotate'];
+
+describe('Motion.module.css, on the compositor', () => {
+  const keyframes = [...css.matchAll(/@keyframes ([\w-]+) \{/g)].map((match) => match[1]);
+
+  it.each(keyframes)('@keyframes %s moves only what the compositor runs', (name) => {
+    // A keyframe's own timing function is a descriptor, not a property it moves.
+    const properties = [...body(`@keyframes ${name} {`).matchAll(/([\w-]+):/g)]
+      .map((match) => match[1])
+      .filter((p) => p !== 'animation-timing-function');
+    expect(properties.length).toBeGreaterThan(0);
+    expect(properties.filter((p) => !COMPOSITED.includes(p))).toEqual([]);
+  });
+
+  it('transitions only what the compositor runs', () => {
+    const transitions = [...css.matchAll(/transition(?:-property)?:([^;]+);/g)].map(
+      (match) => match[1]
+    );
+    expect(transitions.length).toBeGreaterThan(0);
+    for (const list of transitions) {
+      // The commas inside cubic-bezier() and calc() are not between transitions.
+      let flat = list;
+      while (/\([^()]*\)/.test(flat)) {
+        flat = flat.replace(/\([^()]*\)/g, '');
+      }
+      const properties = flat.split(',').map((one) => one.trim().split(/\s+/)[0]);
+      expect(properties.filter((p) => !COMPOSITED.includes(p))).toEqual([]);
+    }
+  });
+
+  it('keeps the rim off at rest, and its keyframes start and end dark', () => {
+    const opacities = [...body('@keyframes glint {').matchAll(/opacity: ([\d.]+);/g)].map((match) =>
+      Number(match[1])
+    );
+    expect(opacities[0]).toBe(0);
+    expect(opacities.at(-1)).toBe(0);
+    expect(Math.max(...opacities)).toBe(0.9);
+    expect(value(body(".item[data-reveal='morph']::after {"), 'opacity')).toBe('0');
   });
 });

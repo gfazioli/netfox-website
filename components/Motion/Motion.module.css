@@ -61,26 +61,32 @@
    * The entrance at REST (see the top): the transition's curves, one animation
    * per property, from the pose the armed rules below name. In longhands, so
    * the names are plain identifiers the CSS-module hashing always reaches.
+   *
+   * Opacity and transform only, which the compositor runs (`Motion.css.test.ts`
+   * holds it). It also runs a filter that moves no pixels, but never one that
+   * does: until 2026-10-14 every item also came in from a `filter: blur()`,
+   * and each entrance ticked on the main thread for its whole curve: one
+   * scroll down the home page ran 54 blurs there, these and SolutionSection's.
    */
   .item {
     --reveal-at: calc(var(--reveal-hold) + var(--reveal-delay));
 
     transform-origin: 50% 100%;
-    animation-name: reveal-fade, reveal-blur, reveal-morph;
-    animation-duration: 520ms, 640ms, var(--nf-spring-duration);
-    animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1), ease-out, var(--nf-spring);
+    animation-name: reveal-fade, reveal-morph;
+    animation-duration: 520ms, var(--nf-spring-duration);
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1), var(--nf-spring);
     animation-delay: var(--reveal-at);
     animation-fill-mode: backwards;
   }
 
   .item[data-reveal='rise'] {
-    animation-name: reveal-fade, reveal-blur-text, reveal-rise;
-    animation-duration: 520ms, 560ms, var(--nf-spring-soft-duration);
-    animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1), ease-out, var(--nf-spring-soft);
+    animation-name: reveal-fade, reveal-rise;
+    animation-duration: 520ms, var(--nf-spring-soft-duration);
+    animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1), var(--nf-spring-soft);
   }
 
   .item[data-reveal='pop'] {
-    animation-name: reveal-fade, reveal-blur-chip, reveal-pop;
+    animation-name: reveal-fade, reveal-pop;
   }
 
   /* Armed, then revealed, the scope's script has the item: no entrance of its own. */
@@ -91,16 +97,15 @@
 
   /*
    * The way in. Only a revealed item has a transition, so arming snaps it into
-   * its starting pose instead of animating it there. Opacity and blur settle
-   * quickly and never overshoot; the transform runs on the spring, so the shape
-   * lands, overshoots and settles. That overshoot on a squashed shape is the
-   * morph.
+   * its starting pose instead of animating it there. The opacity settles
+   * quickly and never overshoots; the transform runs on the spring, so the
+   * shape lands, overshoots and settles. That overshoot on a squashed shape is
+   * the morph.
    */
   .scope[data-revealed] .item,
   .scope.item[data-revealed] {
     transition:
       opacity 520ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay),
-      filter 640ms ease-out var(--reveal-delay),
       transform var(--nf-spring-duration) var(--nf-spring) var(--reveal-delay);
   }
 
@@ -108,14 +113,12 @@
   .scope.item[data-reveal='rise'][data-revealed] {
     transition:
       opacity 520ms cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay),
-      filter 560ms ease-out var(--reveal-delay),
       transform var(--nf-spring-soft-duration) var(--nf-spring-soft) var(--reveal-delay);
   }
 
   .scope[data-armed]:not([data-revealed]) .item,
   .scope.item[data-armed]:not([data-revealed]) {
     opacity: 0;
-    filter: blur(12px);
   }
 
   /* A card: squashed and low, it lands and wobbles into shape. */
@@ -127,14 +130,12 @@
   /* Text: a short lift, almost no overshoot, so it stays readable as it lands. */
   .scope[data-armed]:not([data-revealed]) .item[data-reveal='rise'],
   .scope.item[data-reveal='rise'][data-armed]:not([data-revealed]) {
-    filter: blur(8px);
     transform: translate3d(0, 28px, 0) scale(0.98);
   }
 
   /* A chip or a figure: from a point, past its size, back. */
   .scope[data-armed]:not([data-revealed]) .item[data-reveal='pop'],
   .scope.item[data-reveal='pop'][data-armed]:not([data-revealed]) {
-    filter: blur(6px);
     transform: scale(0.4);
   }
 
@@ -148,12 +149,12 @@
    */
   .item[data-reveal='left'] {
     transform-origin: 0% 50%;
-    animation-name: reveal-fade, reveal-blur, reveal-left;
+    animation-name: reveal-fade, reveal-left;
   }
 
   .item[data-reveal='right'] {
     transform-origin: 100% 50%;
-    animation-name: reveal-fade, reveal-blur, reveal-right;
+    animation-name: reveal-fade, reveal-right;
   }
 
   .scope[data-armed]:not([data-revealed]) .item[data-reveal='left'],
@@ -168,12 +169,12 @@
 
   /*
    * The light, as a card lands: its RIM catches it at two opposite corners,
-   * the top right and the bottom left, and the light reaches a little further
-   * along the edges as it fades -- the app's `EdgeGlint` (Netfox 0.26.0),
-   * white at 80% on a 1.5-point stroke. It replaces the band that used to
-   * sweep across each card's face: on a card that read as a diagonal
-   * reflection, and the user asked for the light on the edges only
-   * ("solo sui bordi top-right / bottom-left opposti", on Lancetta first).
+   * the top right and the bottom left, flares and fades -- the app's
+   * `EdgeGlint` (Netfox 0.26.0), white at 80% on a 1.5-point stroke. It
+   * replaces the band that used to sweep across each card's face: on a card
+   * that read as a diagonal reflection, and the user asked for the light on
+   * the edges only ("solo sui bordi top-right / bottom-left opposti", on
+   * Lancetta first).
    * White, as in the app: the cards here are glass on the night, where it
    * reads; on lancetta.app's light page it would vanish, so there it is cyan
    * and magenta.
@@ -185,23 +186,27 @@
    * Two per corner, a tight core and a wide bloom, each offset toward its own
    * corner, so one lights only the top and right edges and the other only the
    * bottom and left. The mask keeps each to its corner and lets it reach along
-   * the edges as it fades. `--glint` runs 0 -> 1 (registered in
-   * theme/global.css so it can be animated); the opacity is its sine, dark at
-   * both ends. The radius comes from the card, or from `--reveal-radius` on a
+   * the edges. The radius comes from the card, or from `--reveal-radius` on a
    * wrapper that has none.
    *
-   * Behind `@supports`, because an engine without `sin()` would find the
-   * opacity invalid at computed-value time, fall back to 1, and leave the
-   * light on for good.
+   * Only its opacity moves, which the compositor runs; at rest, and wherever
+   * nothing runs, it is off. Until 2026-10-14 a registered custom property
+   * drove the opacity and the reach (47 to 104px), and Chrome runs no custom
+   * property on the compositor: each card repainted its shadows and masks on
+   * the main thread every frame of the 900 ms. The reach is held at 75px, where
+   * that curve had it at its brightest.
+   *
+   * Behind `@supports` on the mask, which is what keeps the light in its two
+   * corners: an engine with no mask would light the whole rim, the lit frame
+   * the user turned down. The build serves the guard and the mask with their
+   * `-webkit-` twins as well, so an engine that has only those keeps both.
    */
-  @supports (opacity: sin(0)) {
+  @supports (mask: radial-gradient(#000, transparent)) {
     .item[data-reveal='morph'] {
       position: relative;
     }
 
     .item[data-reveal='morph']::after {
-      --reach: calc(104px * (0.45 + 0.55 * var(--glint)));
-
       position: absolute;
       inset: 3px;
       border-radius: var(--reveal-radius, inherit);
@@ -212,12 +217,12 @@
         inset -6px 6px 24px -6px rgb(255 255 255 / 38%),
         inset 2px -2px 8px -2px rgb(255 255 255 / 80%),
         inset 6px -6px 24px -6px rgb(255 255 255 / 38%);
-      opacity: calc(0.9 * sin(calc(var(--glint) * 180deg)));
+      opacity: 0;
       mask:
-        radial-gradient(circle var(--reach) at 100% 0, #000, rgb(0 0 0 / 0.55) 40%, transparent),
-        radial-gradient(circle var(--reach) at 0 100%, #000, rgb(0 0 0 / 0.55) 40%, transparent);
+        radial-gradient(circle 75px at 100% 0, #000, rgb(0 0 0 / 0.55) 40%, transparent),
+        radial-gradient(circle 75px at 0 100%, #000, rgb(0 0 0 / 0.55) 40%, transparent);
       /* At rest it catches the light as it lands from the first paint. */
-      animation: glint 900ms ease-out calc(var(--reveal-at) + 220ms) both;
+      animation: glint 900ms calc(var(--reveal-at) + 220ms) backwards;
     }
 
     .scope[data-armed]:not([data-revealed]) .item[data-reveal='morph']::after,
@@ -227,18 +232,29 @@
 
     .scope[data-revealed] .item[data-reveal='morph']::after,
     .scope.item[data-reveal='morph'][data-revealed]::after {
-      animation: glint 900ms ease-out calc(var(--reveal-delay) + 220ms) both;
+      animation: glint 900ms calc(var(--reveal-delay) + 220ms) backwards;
     }
   }
 }
 
+/*
+ * The light flares to 0.9 at a third of the run and fades: the curve it always
+ * ran, 0.9 * sin(180deg * ease-out(t)), which these two segments follow within
+ * 0.01 of opacity.
+ */
 @keyframes glint {
-  from {
-    --glint: 0;
+  0% {
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.45, 0.8, 0.7, 1);
   }
 
-  to {
-    --glint: 1;
+  34% {
+    opacity: 0.9;
+    animation-timing-function: cubic-bezier(0.3, 0, 0.65, 1);
+  }
+
+  100% {
+    opacity: 0;
   }
 }
 
@@ -250,24 +266,6 @@
 @keyframes reveal-fade {
   from {
     opacity: 0;
-  }
-}
-
-@keyframes reveal-blur {
-  from {
-    filter: blur(12px);
-  }
-}
-
-@keyframes reveal-blur-text {
-  from {
-    filter: blur(8px);
-  }
-}
-
-@keyframes reveal-blur-chip {
-  from {
-    filter: blur(6px);
   }
 }
 
