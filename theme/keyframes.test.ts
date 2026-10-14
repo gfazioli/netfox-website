@@ -43,9 +43,10 @@ function keyframes(css: string) {
   });
 }
 
+// Comments out first: one that quotes a rule would otherwise be read as one.
 const sheets = stylesheets().map((file) => ({
   where: relative(ROOT, file),
-  css: readFileSync(file, 'utf8'),
+  css: readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//g, ''),
 }));
 
 const blocks = sheets.flatMap(({ where, css }) =>
@@ -62,7 +63,7 @@ const blocks = sheets.flatMap(({ where, css }) =>
  * `filter` transition until 2026-10-14.
  */
 const revealTransitions = sheets.flatMap(({ where, css }) =>
-  [...css.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/([^{};]+)\{([^{}]*)\}/g)]
+  [...css.matchAll(/([^{};]+)\{([^{}]*)\}/g)]
     .filter((rule) => rule[1].includes('[data-revealed]'))
     .flatMap((rule) =>
       [...rule[2].matchAll(/transition(?:-property)?\s*:([^;]+)/g)].map((declaration) => {
@@ -87,8 +88,10 @@ describe('the site’s own animations', () => {
   it.each(blocks.map((block) => [block.where, block.body]))(
     '%s moves only what the compositor runs',
     (_where, body) => {
-      // A keyframe's own timing function is a descriptor, not a property it moves.
-      const properties = [...body.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/([\w-]+)\s*:/g)]
+      // A declaration starts a block or follows one; a colon inside a value
+      // (`url(data:...)`) is not a property. A keyframe's own timing function
+      // is a descriptor, not a property it moves.
+      const properties = [...body.matchAll(/(?:^|[{;])\s*([\w-]+)\s*:/g)]
         .map((match) => match[1])
         .filter((p) => p !== 'animation-timing-function');
       expect(properties.length).toBeGreaterThan(0);
