@@ -43,11 +43,40 @@ function keyframes(css: string) {
   });
 }
 
-const blocks = stylesheets().flatMap((file) =>
-  keyframes(readFileSync(file, 'utf8')).map((block) => ({
-    ...block,
-    where: `${relative(ROOT, file)} @keyframes ${block.name}`,
-  }))
+const sheets = stylesheets().map((file) => ({
+  where: relative(ROOT, file),
+  css: readFileSync(file, 'utf8'),
+}));
+
+const blocks = sheets.flatMap(({ where, css }) =>
+  keyframes(css).map((block) => ({ ...block, where: `${where} @keyframes ${block.name}` }))
+);
+
+/*
+ * Every transition a reveal starts (`[data-revealed]`, set by
+ * components/Motion/useReveal as a scope scrolls into view): each item a
+ * scroll brings in runs it, so it is held to the compositor too. Only these:
+ * a hover's single short transition (a border colour, a shadow) is not paid
+ * by the scroll. Motion.module.css is not the only stylesheet with one, which
+ * is why this walks them all: SolutionSection's "after" came in through a
+ * `filter` transition until 2026-10-14.
+ */
+const revealTransitions = sheets.flatMap(({ where, css }) =>
+  [...css.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/([^{};]+)\{([^{}]*)\}/g)]
+    .filter((rule) => rule[1].includes('[data-revealed]'))
+    .flatMap((rule) =>
+      [...rule[2].matchAll(/transition(?:-property)?\s*:([^;]+)/g)].map((declaration) => {
+        // The commas inside cubic-bezier() and calc() are not between transitions.
+        let flat = declaration[1];
+        while (/\([^()]*\)/.test(flat)) {
+          flat = flat.replace(/\([^()]*\)/g, '');
+        }
+        return [
+          `${where} ${rule[1].trim().replace(/\s+/g, ' ')}`,
+          flat.split(',').map((one) => one.trim().split(/\s+/)[0]),
+        ] as const;
+      })
+    )
 );
 
 describe('the site’s own animations', () => {
@@ -62,6 +91,18 @@ describe('the site’s own animations', () => {
       const properties = [...body.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/([\w-]+)\s*:/g)]
         .map((match) => match[1])
         .filter((p) => p !== 'animation-timing-function');
+      expect(properties.length).toBeGreaterThan(0);
+      expect(properties.filter((p) => !COMPOSITED.includes(p))).toEqual([]);
+    }
+  );
+
+  it('finds the transitions a reveal starts', () => {
+    expect(revealTransitions.length).toBeGreaterThan(3);
+  });
+
+  it.each(revealTransitions)(
+    '%s transitions only what the compositor runs',
+    (_where, properties) => {
       expect(properties.length).toBeGreaterThan(0);
       expect(properties.filter((p) => !COMPOSITED.includes(p))).toEqual([]);
     }
