@@ -27,6 +27,11 @@
   <img src="public/screenshot-overview.png" alt="Netfox Overview" width="820" />
 </p>
 
+<div align="center">
+  <p><img src="https://raw.githubusercontent.com/gfazioli/gfazioli/master/glancecard/netfox-website.svg" width="880" alt="netfox-website at a glance, refreshed daily: commits, releases, stars, issues and pull requests, a year of commit activity, the weekly rhythm, languages, latest commits and releases, contributors" /><br>
+  <sub>Made with <a href="https://github.com/gfazioli/glancecard">glancecard</a> · refreshed daily</sub></p>
+</div>
+
 ## What is Netfox?
 
 Netfox is a native macOS app that gives you a live, honest view of who's on your network. Instead of a vendor router app or a stale ARP table, you get five focused tools sharing the same store — a finding in one shows up everywhere it matters.
