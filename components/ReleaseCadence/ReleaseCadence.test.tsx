@@ -6,6 +6,7 @@ const FRESH = {
   latestDate: 'August 31, 2026',
   total: 47,
   since: 'April 2026',
+  downloads: '2,531',
 } as const;
 
 describe('ReleaseCadence', () => {
@@ -34,8 +35,43 @@ describe('ReleaseCadence', () => {
     // The degraded path: the releases API failed and the strip is running off
     // the config date alone. Printing "0 releases" here would say the app has
     // never shipped.
-    render(<ReleaseCadence cadence={{ ...FRESH, total: null, since: null }} />);
+    render(<ReleaseCadence cadence={{ ...FRESH, total: null, since: null, downloads: null }} />);
     expect(screen.queryByText(/releases since/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/downloads/)).not.toBeInTheDocument();
     expect(screen.getByText('Updated today')).toBeInTheDocument();
+  });
+
+  it('states the downloads beside the release count', () => {
+    render(<ReleaseCadence cadence={FRESH} />);
+    // The figure rolls up like the count, so match the whole line's text.
+    expect(
+      screen.getByText((_, el) => el?.tagName === 'P' && el.textContent === '2,531 downloads')
+    ).toBeInTheDocument();
+  });
+
+  it('puts a separator between two facts and never one with nothing after it', () => {
+    const { unmount } = render(<ReleaseCadence cadence={FRESH} />);
+    expect(screen.getAllByText('·')).toHaveLength(2);
+    unmount();
+
+    render(<ReleaseCadence cadence={{ ...FRESH, downloads: null }} />);
+    expect(screen.getAllByText('·')).toHaveLength(1);
+    expect(screen.getByText(/releases since/)).toBeInTheDocument();
+  });
+
+  it('takes the phone layout only when both figures are there', () => {
+    // Without the downloads the line fits a phone as it always did, so the
+    // strip must keep its layout there: `data-full` is what the phone rules key
+    // on, `facts` is the row they turn into a column, and `separator` what they
+    // hide.
+    const strip = () => screen.getByRole('link', { name: /what's new/i }).closest('.strip');
+    const { unmount } = render(<ReleaseCadence cadence={FRESH} />);
+    expect(strip()).toHaveAttribute('data-full');
+    screen.getAllByText('·').forEach((dot) => expect(dot).toHaveClass('separator'));
+    expect(screen.getByText(/downloads/).parentElement).toHaveClass('facts');
+    unmount();
+
+    render(<ReleaseCadence cadence={{ ...FRESH, downloads: null }} />);
+    expect(strip()).not.toHaveAttribute('data-full');
   });
 });

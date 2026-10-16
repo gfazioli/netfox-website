@@ -20,6 +20,12 @@ export interface ReleaseCadence {
   total: number | null;
   /** Month and year of the FIRST app release, e.g. "April 2026". */
   since: string | null;
+  /**
+   * Every download of the app's disk images, all releases together, already
+   * grouped for reading ("2,531"); null when the live count failed or is
+   * still under `config.releaseCadence.downloadsShownFrom`.
+   */
+  downloads: string | null;
 }
 
 /** Shape of the fields this module reads off the GitHub releases API. */
@@ -29,12 +35,19 @@ export interface ReleaseRecord {
   draft?: boolean;
   created_at?: string | null;
   published_at?: string | null;
+  assets?: readonly ReleaseAsset[] | null;
+}
+
+export interface ReleaseAsset {
+  name?: string | null;
+  download_count?: number | null;
 }
 
 export interface ReleaseSummary {
   total: number;
   firstISO: string;
   latestISO: string;
+  downloads: number;
 }
 
 /**
@@ -106,14 +119,16 @@ export function formatSince(firstISO: string): string | null {
 }
 
 /**
- * Reduce a raw releases payload to a count and its endpoints.
+ * Reduce a raw releases payload to a count, its endpoints and the downloads.
  *
- * Two filters, each of which would otherwise put a wrong number on the
+ * Three filters, each of which would otherwise put a wrong number on the
  * homepage. The releases live on the WEBSITE repo, which also tags its own
  * `v6.x` template releases, so only names carrying the app prefix count (the
  * same rule `/api/github-releases` applies to the release-notes feed). And
  * drafts are excluded: an authenticated read can see unpublished releases, and
- * counting one claims a release that nobody can download.
+ * counting one claims a release that nobody can download. And a release with
+ * no usable date is left out of the count AND of the downloads, so the two
+ * figures printed side by side always describe the same releases.
  *
  * Returns null rather than a zero count, so a payload that matched nothing
  * degrades to "no count" instead of asserting the app has never shipped.
@@ -122,11 +137,14 @@ export function summariseReleases(
   releases: readonly ReleaseRecord[],
   prefix: string
 ): ReleaseSummary | null {
-  const dated = releases
+  const counted = releases
     .filter((r) => typeof r?.name === 'string' && r.name.startsWith(prefix) && r.draft !== true)
-    .map((r) => r.published_at ?? r.created_at)
-    .filter((at): at is string => typeof at === 'string' && !Number.isNaN(Date.parse(at)))
-    .sort((a, b) => Date.parse(a) - Date.parse(b));
+    .map((release) => ({ release, at: release.published_at ?? release.created_at }))
+    .filter(
+      (c): c is { release: ReleaseRecord; at: string } =>
+        typeof c.at === 'string' && !Number.isNaN(Date.parse(c.at))
+    );
+  const dated = counted.map((c) => c.at).sort((a, b) => Date.parse(a) - Date.parse(b));
 
   if (dated.length === 0) {
     return null;
@@ -136,7 +154,52 @@ export function summariseReleases(
     total: dated.length,
     firstISO: dated[0],
     latestISO: dated[dated.length - 1],
+    downloads: counted.reduce((sum, c) => sum + diskImageDownloads(c.release), 0),
   };
+}
+
+/**
+ * Downloads of one release's disk images, as GitHub counts them: every fetch
+ * of the file, by a person, by the auto-updater (an update is a download too)
+ * or by a crawler that followed /download through. That is why the strip says
+ * downloads and nothing more. Only `.dmg` assets count: that is the app, and
+ * anything else a release might carry later (a checksum, symbols) is not.
+ *
+ * A release whose asset list is missing adds nothing. GitHub's releases list
+ * can leave a fresh upload out for most of an hour (51 minutes, the one time
+ * it was measured), and that is the very hour the auto-updater fetches the new
+ * disk image, so the figure can read well short for that while. Short, never
+ * high: it catches up at the next revalidation after the list does. A disk
+ * image deleted and uploaded again starts its count from zero, so the total
+ * can also drop by everything that file had gathered.
+ */
+function diskImageDownloads(release: ReleaseRecord): number {
+  // Anything but an array adds nothing: a throw here would cost the strip its
+  // count and date too, not only this release's downloads.
+  if (!Array.isArray(release.assets)) {
+    return 0;
+  }
+  return release.assets.reduce((sum, asset) => {
+    const count = asset?.download_count;
+    // Case-blind, as /download picks the disk image it serves.
+    if (typeof asset?.name !== 'string' || !asset.name.toLowerCase().endsWith('.dmg')) {
+      return sum;
+    }
+    return typeof count === 'number' && Number.isSafeInteger(count) && count > 0
+      ? sum + count
+      : sum;
+  }, 0);
+}
+
+/**
+ * The downloads figure as the strip prints it, or null below the configured
+ * threshold. Grouped on the server, in English like the rest of the site.
+ */
+export function formatDownloads(
+  downloads: number,
+  shownFrom: number = config.releaseCadence.downloadsShownFrom
+): string | null {
+  return downloads >= shownFrom ? downloads.toLocaleString('en-US') : null;
 }
 
 /** The summary rendered as the strip's strings. */
@@ -146,6 +209,7 @@ export function toCadence(summary: ReleaseSummary, now: Date): ReleaseCadence {
     latestDate: formatReleaseDate(summary.latestISO, summary.latestISO),
     total: summary.total,
     since: formatSince(summary.firstISO),
+    downloads: formatDownloads(summary.downloads),
   };
 }
 
@@ -162,5 +226,6 @@ export function fallbackReleaseCadence(now: Date = new Date()): ReleaseCadence {
     latestDate: formatReleaseDate(iso, iso),
     total: null,
     since: null,
+    downloads: null,
   };
 }

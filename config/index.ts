@@ -77,6 +77,13 @@ export default {
     appReleaseNamePrefix: 'Netfox',
     displayCount: 3,
   },
+  releaseCadence: {
+    // The homepage strip states the app's total downloads only from this
+    // many on: a small number reads as "hardly anyone uses it", which is the
+    // opposite of what the line is there to say. Below it the strip simply
+    // leaves the figure out. Each app site sets its own.
+    downloadsShownFrom: 1000,
+  },
   search: {
     queryKeyword: 'q',
     minQueryLength: 3,

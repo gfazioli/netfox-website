@@ -1,8 +1,10 @@
 import config from '@/config';
 import {
   fallbackReleaseCadence,
+  formatDownloads,
   formatFreshness,
   formatSince,
+  type ReleaseAsset,
   summariseReleases,
   toCadence,
 } from './release-cadence';
@@ -100,6 +102,7 @@ describe('summariseReleases', () => {
       total: 2,
       firstISO: '2026-08-27T08:25:01Z',
       latestISO: '2026-08-28T11:23:59Z',
+      downloads: 0,
     });
   });
 
@@ -160,13 +163,149 @@ describe('summariseReleases', () => {
     ).toBeNull();
     expect(summariseReleases([], prefix)).toBeNull();
   });
+
+  it('adds up the disk images of the app releases only', () => {
+    // The template release and the draft both carry a .dmg here, so a sum
+    // that skipped either filter would come out above 75.
+    const summary = summariseReleases(
+      [
+        {
+          name: 'Netfox 0.52.1',
+          published_at: '2026-10-15T10:00:00Z',
+          assets: [{ name: 'Netfox-0.52.1.dmg', download_count: 43 }],
+        },
+        {
+          name: 'v6.0.7',
+          published_at: '2026-10-14T10:00:00Z',
+          assets: [{ name: 'template.dmg', download_count: 500 }],
+        },
+        {
+          name: 'Netfox 0.53.0',
+          draft: true,
+          created_at: '2026-10-16T10:00:00Z',
+          assets: [{ name: 'Netfox-0.53.0.dmg', download_count: 900 }],
+        },
+        {
+          name: 'Netfox 0.52.0',
+          published_at: '2026-10-14T09:00:00Z',
+          assets: [{ name: 'Netfox-0.52.0.dmg', download_count: 32 }],
+        },
+      ],
+      prefix
+    );
+    expect(summary?.downloads).toBe(75);
+  });
+
+  it('counts the disk image and nothing else a release carries', () => {
+    const summary = summariseReleases(
+      [
+        {
+          name: 'Netfox 0.52.1',
+          published_at: '2026-10-15T10:00:00Z',
+          assets: [
+            { name: 'Netfox-0.52.1.dmg', download_count: 43 },
+            { name: 'Netfox-0.52.1.dmg.sha256', download_count: 7 },
+            { name: 'Netfox-0.52.1.dSYM.zip', download_count: 2 },
+          ],
+        },
+        {
+          // Upper case is still the disk image: /download would serve it.
+          name: 'Netfox 0.52.0',
+          published_at: '2026-10-14T10:00:00Z',
+          assets: [{ name: 'Netfox-0.52.0.DMG', download_count: 5 }],
+        },
+      ],
+      prefix
+    );
+    expect(summary?.downloads).toBe(48);
+  });
+
+  it('adds nothing for a count that is not one, nor for a missing asset list', () => {
+    // A release fresh enough for GitHub's list to leave its upload out has no
+    // `assets` yet; the rest are payloads that must never reach the homepage
+    // as NaN or a negative figure.
+    const summary = summariseReleases(
+      [
+        { name: 'Netfox 0.52.1', published_at: '2026-10-15T10:00:00Z' },
+        {
+          name: 'Netfox 0.52.0',
+          published_at: '2026-10-14T10:00:00Z',
+          assets: [
+            { name: 'Netfox-0.52.0.dmg', download_count: -5 },
+            { name: 'Netfox-0.52.0.dmg', download_count: Number.NaN },
+            { name: 'Netfox-0.52.0.dmg', download_count: 1.5 },
+            { name: 'Netfox-0.52.0.dmg', download_count: null },
+            { name: null, download_count: 9 },
+            { name: 'Netfox-0.52.0.dmg', download_count: 31 },
+          ],
+        },
+        { name: 'Netfox 0.51.0', published_at: '2026-10-14T08:00:00Z', assets: null },
+        {
+          // Not an array at all: it must cost this release its downloads,
+          // never throw and cost the strip its count.
+          name: 'Netfox 0.50.1',
+          published_at: '2026-10-13T08:00:00Z',
+          assets: { name: 'Netfox-0.50.1.dmg' } as unknown as ReleaseAsset[],
+        },
+      ],
+      prefix
+    );
+    expect(summary?.downloads).toBe(31);
+    expect(summary?.total).toBe(4);
+  });
+
+  it('leaves an undated release out of both figures, not just the count', () => {
+    // The strip prints the two side by side, so they have to describe the same
+    // releases: an undated one is not counted, and neither are its downloads.
+    const summary = summariseReleases(
+      [
+        {
+          name: 'Netfox 0.52.1',
+          published_at: '2026-10-15T10:00:00Z',
+          assets: [{ name: 'Netfox-0.52.1.dmg', download_count: 43 }],
+        },
+        {
+          name: 'Netfox 0.52.0',
+          published_at: null,
+          created_at: 'not a date',
+          assets: [{ name: 'Netfox-0.52.0.dmg', download_count: 31 }],
+        },
+      ],
+      prefix
+    );
+    expect(summary?.total).toBe(1);
+    expect(summary?.downloads).toBe(43);
+  });
+});
+
+describe('formatDownloads', () => {
+  it('groups the thousands the way the rest of the site is written', () => {
+    expect(formatDownloads(2531, 1000)).toBe('2,531');
+    expect(formatDownloads(1_204_311, 1000)).toBe('1,204,311');
+  });
+
+  it('states nothing under the threshold, and the threshold itself', () => {
+    expect(formatDownloads(999, 1000)).toBeNull();
+    expect(formatDownloads(1000, 1000)).toBe('1,000');
+  });
+
+  it('reads its threshold from the config when none is given', () => {
+    const from = config.releaseCadence.downloadsShownFrom;
+    expect(formatDownloads(from - 1)).toBeNull();
+    expect(formatDownloads(from)).not.toBeNull();
+  });
 });
 
 describe('toCadence', () => {
-  it('formats the strip is four strings off one summary', () => {
+  it('formats the five fields of the strip off one summary', () => {
     expect(
       toCadence(
-        { total: 42, firstISO: '2026-05-17T11:52:21Z', latestISO: '2026-08-28T11:23:59Z' },
+        {
+          total: 42,
+          firstISO: '2026-05-17T11:52:21Z',
+          latestISO: '2026-08-28T11:23:59Z',
+          downloads: 1932,
+        },
         new Date('2026-08-28T18:00:00Z')
       )
     ).toEqual({
@@ -174,6 +313,7 @@ describe('toCadence', () => {
       latestDate: 'August 28, 2026',
       total: 42,
       since: 'May 2026',
+      downloads: '1,932',
     });
   });
 });
@@ -190,5 +330,6 @@ describe('fallbackReleaseCadence', () => {
   it('offers no count, because an undercount would be a false claim', () => {
     expect(fallbackReleaseCadence(new Date()).total).toBeNull();
     expect(fallbackReleaseCadence(new Date()).since).toBeNull();
+    expect(fallbackReleaseCadence(new Date()).downloads).toBeNull();
   });
 });
