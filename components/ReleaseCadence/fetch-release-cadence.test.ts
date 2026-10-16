@@ -3,10 +3,18 @@ import { fetchReleaseCadence } from './fetch-release-cadence';
 
 const NOW = new Date('2026-08-31T18:00:00Z');
 
-/** One app release, dated `days` before NOW so the ordering is predictable. */
-function release(n: number, days: number) {
+/**
+ * One app release, dated `days` before NOW so the ordering is predictable,
+ * with its disk image downloaded `downloads` times.
+ */
+function release(n: number, days: number, downloads = 0) {
   const at = new Date(NOW.getTime() - days * 86_400_000).toISOString();
-  return { name: `Netfox 0.${n}.0`, tag_name: `v0.${n}.0`, published_at: at };
+  return {
+    name: `Netfox 0.${n}.0`,
+    tag_name: `v0.${n}.0`,
+    published_at: at,
+    assets: [{ name: `Netfox-0.${n}.0.dmg`, download_count: downloads }],
+  };
 }
 
 /** Serves the given pages in order, then empty pages. */
@@ -28,12 +36,16 @@ afterEach(() => {
 
 describe('fetchReleaseCadence', () => {
   it('counts across pages when the last one is short', async () => {
-    const full = Array.from({ length: 100 }, (_, i) => release(i + 100, i + 200));
-    const tail = Array.from({ length: 7 }, (_, i) => release(i, i + 1));
+    // The first page alone reaches the site's downloads threshold, so a sum
+    // that stopped there would still print a figure, just the wrong one.
+    const each = Math.ceil(config.releaseCadence.downloadsShownFrom / 100);
+    const full = Array.from({ length: 100 }, (_, i) => release(i + 100, i + 200, each));
+    const tail = Array.from({ length: 7 }, (_, i) => release(i, i + 1, 5));
     global.fetch = servePages([full, tail]);
 
     const cadence = await fetchReleaseCadence(NOW);
     expect(cadence.total).toBe(107);
+    expect(cadence.downloads).toBe((100 * each + 35).toLocaleString('en-US'));
     expect(global.fetch).toHaveBeenCalledTimes(2);
   });
 
@@ -41,13 +53,16 @@ describe('fetchReleaseCadence', () => {
     // The discriminating case. Five full pages do not prove there is nothing
     // after them, so summarising them would publish 500 as a total when the
     // real number is 500-or-more. Before this was guarded the function returned
-    // exactly that.
-    const full = Array.from({ length: 100 }, (_, i) => release(i, i + 1));
+    // exactly that. The 50 downloads each keep the downloads check honest: with
+    // none, a sum that ignored the cap would come out under the threshold and
+    // read null anyway.
+    const full = Array.from({ length: 100 }, (_, i) => release(i, i + 1, 50));
     global.fetch = servePages([full, full, full, full, full]);
 
     const cadence = await fetchReleaseCadence(NOW);
     expect(cadence.total).toBeNull();
     expect(cadence.since).toBeNull();
+    expect(cadence.downloads).toBeNull();
     // Still a usable strip: the config date stands in.
     expect(cadence.latestDate).toContain('2026');
   });
