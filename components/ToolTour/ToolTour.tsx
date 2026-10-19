@@ -85,7 +85,11 @@ export function ToolTour({ frames }: { frames: TourFrame[] }) {
         padding={0}
         classNames={{ content: classes.lightbox, body: classes.lightboxBody }}
         overlayProps={{ backgroundOpacity: 0.72, blur: 10 }}
-        aria-label={current ? `${current.eyebrow} screenshot` : undefined}
+        // On the element with role="dialog": a plain `aria-label` lands on the
+        // modal's root <div>, where it names nothing.
+        attributes={{
+          content: { 'aria-label': current ? `${current.eyebrow} screenshot` : undefined },
+        }}
       >
         {current && (
           // `data-autofocus` + tabIndex -1: the focus trap otherwise lands on
