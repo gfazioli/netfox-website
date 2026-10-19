@@ -33,12 +33,14 @@ describe('ToolTour', () => {
     await user.click(screen.getByRole('button', { name: 'Enlarge: Wi-Fi' }));
 
     const dialog = await screen.findByRole('dialog');
+    expect(dialog).toHaveAccessibleName('Wi-Fi screenshot');
     expect(within(dialog).getByRole('img')).toHaveAttribute('src', '/b.png');
     expect(within(dialog).getByText('2 / 3')).toBeInTheDocument();
 
     // From the last screen, forward wraps to the first.
     await user.keyboard('{ArrowRight}');
     expect(within(dialog).getByRole('img')).toHaveAttribute('src', '/c.png');
+    expect(dialog).toHaveAccessibleName('Security screenshot');
     await user.keyboard('{ArrowRight}');
     expect(within(dialog).getByRole('img')).toHaveAttribute('src', '/a.png');
     await user.keyboard('{ArrowLeft}');
