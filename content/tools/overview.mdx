@@ -116,8 +116,10 @@ On a Mac holding a cable and a radio at once, the first number is measured **on 
 
 - A link Netfox cannot measure from here produces no row rather than a zero or a fault. A link it measured that stayed silent says so, as a footnote: a router declining to answer on one link is not a broken link.
 - A router that ignores pings is reported as untimeable rather than as a fault — plenty drop them by policy.
-- Packet loss outranks speed. A flaky cable is quick right up until the packet that vanishes.
-- Every figure is a **minimum**, never an average: one delayed reply drags a mean of five readings by a hundred milliseconds and moves the minimum by less than one.
+- Packet loss outranks speed, from one ping in ten lost. A flaky cable is quick right up until the packet that vanishes, while a single ping lost among twenty is the ordinary noise of a radio.
+- Every figure is a **minimum**, never an average: one delayed reply drags a mean by a hundred milliseconds and moves the minimum by less than one.
+
+**The router answers in 3.0 ms, but 24% of the pings came back over 100 ms late — the first hop is stalling.** A minimum has one blind spot: a link that answers fast and then stops. A Wi-Fi that stalls for half a second every few seconds keeps its floor at 3 ms while a quarter of what you send waits. So the card also keeps the last three rounds of pings, twenty each, and counts the replies that came back more than 100 ms after the fastest. From 15% it says the link is stalling, and how much; it waits for two rounds before saying anything, so one late reply never reads as a stall. When the router answers steadily and only the host past it stalls, it says the delay is past the router instead.
 
 <Callout type="info">
 The first hop never leaves your network, so it is measured whether or not Netfox may reach the internet. The comparison past the router uses a public resolver and rides the same **Settings → Privacy** switch as the public-IP lookup — turn it off and the panel reports the first hop alone rather than inventing a comparison.
