@@ -19,11 +19,8 @@ function served(node: ReactNode) {
   );
 }
 
-/**
- * The one badge served from this site: LaunchVault's, since 2026-09-30, when
- * theirs weighed 1.3 MB (`config.directoryBadges` says why it stays).
- */
-const SERVED_HERE: string[] = ['LaunchVault'];
+/** Badges served from this site rather than their directory: none. */
+const SERVED_HERE: string[] = [];
 
 function attr(tag: string, name: string) {
   return tag.match(new RegExp(`\\s${name}="([^"]*)"`))?.[1];
@@ -110,9 +107,8 @@ describe('DirectoryBadges', () => {
 
   it("labels the footer's row and serves its badges", () => {
     const html = served(<ListedOn />);
-    expect(html).toContain('Listed on');
-    expect(anchors(html)).toHaveLength(
-      config.directoryBadges.filter((badge) => badge.placement === 'footer').length
-    );
+    const count = config.directoryBadges.filter((badge) => badge.placement === 'footer').length;
+    expect(html.includes('Listed on')).toBe(count > 0);
+    expect(anchors(html)).toHaveLength(count);
   });
 });
