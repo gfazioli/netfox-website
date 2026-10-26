@@ -83,6 +83,7 @@ The endpoint is read-only — it never accepts commands, only serves the current
 - **Localhost by default.** Exposing it to the LAN is a separate, explicit toggle.
 - **It fails closed.** Exposing the endpoint to the network without a token isn't allowed — Netfox refuses to start it rather than serving your inventory unauthenticated.
 - **Bearer token, kept in the keychain.** Required for a network-reachable endpoint, optional for a localhost-only one. Unauthenticated scrapes get a `401`, and the token is compared in constant time so response timing gives nothing away.
+- **Closed to web pages.** Without a token, the endpoint answers only to `127.0.0.1`, `localhost` or a container's `*.internal` name (such as `host.docker.internal`), so a web page that points its own name at your Mac gets a `403`. To scrape it by any other name, set a token.
 - **No data leaves your Mac on its own.** Prometheus pulls; Netfox never pushes anywhere.
 
 ## Demo Mode and the endpoint
