@@ -6,6 +6,7 @@ import {
   IconBrandMantine,
   IconBrandVercel,
   IconBrandX,
+  IconBrandYoutubeFilled,
   IconCoffee,
   IconHeartFilled,
   IconPlus,
@@ -119,6 +120,14 @@ export const MantineFooter = ({ year }: { year: number }) => {
                   aria-label="Discord"
                 >
                   <IconBrandDiscordFilled size={20} />
+                </ActionIcon>
+                <ActionIcon
+                  variant="subtle"
+                  component="a"
+                  href={config.community.youtube}
+                  aria-label="YouTube"
+                >
+                  <IconBrandYoutubeFilled size={20} />
                 </ActionIcon>
               </Group>
             </Stack>
