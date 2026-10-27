@@ -41,6 +41,8 @@ const structuredData = {
       name: 'Netfox',
       url: BASE,
       logo: `${BASE}/icon-512x512.png`,
+      // The app's own profiles elsewhere, so search can tie them to this site.
+      sameAs: [config.community.youtube],
     },
     {
       '@type': 'WebSite',
