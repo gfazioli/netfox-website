@@ -131,6 +131,9 @@ export default {
     // opened" badge decays from it (`isRecent`): gone two minor releases on,
     // with no one having to remember it.
     discordSince: '0.29.1',
+    // Netfox's own YouTube channel since 2026-10-27: the footer links this,
+    // never the author's personal channel.
+    youtube: 'https://www.youtube.com/@Netfox-app',
   },
   // The directories Netfox is listed on, as badges, in this order
   // (`components/DirectoryBadges`, ported from findergit.app). `placement`

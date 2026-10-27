@@ -36,10 +36,12 @@ describe('MantineFooter publisher line', () => {
 /**
  * Netfox has no newsletter. The footer came from a sibling site's template
  * with a newsletter icon pointing at a page that answered 404; a later
- * cross-port of that template would bring it back.
+ * cross-port of that template would bring it back. The YouTube icon is
+ * Netfox's own channel, never the author's personal one: the URL is pinned
+ * here, not read back from `config`.
  */
 describe('MantineFooter social links', () => {
-  it('offers GitHub, X and Discord, and no newsletter', () => {
+  it("lists the icon row in order, with Netfox's own YouTube channel and no newsletter", () => {
     render(<MantineFooter year={2026} />);
     // The icon row, found through its first icon: the text above it links to
     // Discord too.
@@ -48,7 +50,11 @@ describe('MantineFooter social links', () => {
       within(icons)
         .getAllByRole('link')
         .map((link) => link.getAttribute('aria-label'))
-    ).toEqual(['GitHub', 'X', 'Discord']);
+    ).toEqual(['GitHub', 'X', 'Discord', 'YouTube']);
+    expect(within(icons).getByRole('link', { name: 'YouTube' })).toHaveAttribute(
+      'href',
+      'https://www.youtube.com/@Netfox-app'
+    );
     expect(screen.queryByRole('link', { name: /newsletter/i })).toBeNull();
   });
 });
