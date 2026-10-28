@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"
-  xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"
-  xmlns:dc="http://purl.org/dc/elements/1.1/">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><!-- sparkle-sign-warning:
+IMPORTANT: This file was signed by Sparkle. Any modifications to this file requires re-signing this file with generate_appcast or sign_update! The signed signature will be embedded at the end of this file.
+--><rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
   <channel>
     <title>Netfox</title>
     <link>https://netfox.app/appcast.xml</link>
@@ -15,16 +14,23 @@
     -->
     <!-- release.sh inserts new <item> entries right below this marker -->
 <item>
+            <title>Version 0.52.4</title>
+            <pubDate>Wed, 28 Oct 2026 18:20:53 +0000</pubDate>
+            <sparkle:version>971</sparkle:version>
+            <sparkle:shortVersionString>0.52.4</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
+            <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.52.4.html</sparkle:releaseNotesLink>
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.52.4/Netfox-0.52.4.dmg" sparkle:edSignature="UxnHNDv+DXEgINZGEP45dmU5UTjweGOJZ2XUjsCBmjQQHC6dNkjATvw4tL8jtb+PsP8mr6JipgoL6Ux9AA8jCA==" length="14540147" type="application/octet-stream"></enclosure>
+        </item>
+
+<item>
             <title>Version 0.52.3</title>
             <pubDate>Tue, 27 Oct 2026 08:42:08 +0000</pubDate>
             <sparkle:version>966</sparkle:version>
             <sparkle:shortVersionString>0.52.3</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.52.3.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.52.3/Netfox-0.52.3.dmg"
-                sparkle:edSignature="DF/657gk9qcBJaS50SkReDcWKNE4HxxP1AMg7RTVKd77sdspPM396IPbz3gY6rq+hkKl5JYxZ4BWhSJ5U6GMBA==" length="14538906"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.52.3/Netfox-0.52.3.dmg" sparkle:edSignature="DF/657gk9qcBJaS50SkReDcWKNE4HxxP1AMg7RTVKd77sdspPM396IPbz3gY6rq+hkKl5JYxZ4BWhSJ5U6GMBA==" length="14538906" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -34,10 +40,7 @@
             <sparkle:shortVersionString>0.52.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.52.2.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.52.2/Netfox-0.52.2.dmg"
-                sparkle:edSignature="7Leb5ArBEhpHUEebk8pjWEPgkAq2QyByzM4hRWj4frgCCDiHwGLkgszABmgFz2YYbhXsTvzEhF24vmUz2KCjCQ==" length="14439076"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.52.2/Netfox-0.52.2.dmg" sparkle:edSignature="7Leb5ArBEhpHUEebk8pjWEPgkAq2QyByzM4hRWj4frgCCDiHwGLkgszABmgFz2YYbhXsTvzEhF24vmUz2KCjCQ==" length="14439076" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -47,10 +50,7 @@
             <sparkle:shortVersionString>0.52.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.52.1.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.52.1/Netfox-0.52.1.dmg"
-                sparkle:edSignature="4v00UosbLFxzKqTSNyZ7gMAiD6wJBykUDq5MxzaUxsLENcJjM7FLleoeI9EWCkplliJCibCT2mK4Kai66ah3Cg==" length="13535479"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.52.1/Netfox-0.52.1.dmg" sparkle:edSignature="4v00UosbLFxzKqTSNyZ7gMAiD6wJBykUDq5MxzaUxsLENcJjM7FLleoeI9EWCkplliJCibCT2mK4Kai66ah3Cg==" length="13535479" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -60,10 +60,7 @@
             <sparkle:shortVersionString>0.52.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.52.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.52.0/Netfox-0.52.0.dmg"
-                sparkle:edSignature="fhS4LHP71MUM5yOkHrYn4ddDPpUIhQAcHmk/d038meUdODMA6BGhDTJCFDk2QBYIvAL2CVbhENwaynIYOwfADA==" length="13530240"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.52.0/Netfox-0.52.0.dmg" sparkle:edSignature="fhS4LHP71MUM5yOkHrYn4ddDPpUIhQAcHmk/d038meUdODMA6BGhDTJCFDk2QBYIvAL2CVbhENwaynIYOwfADA==" length="13530240" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -73,10 +70,7 @@
             <sparkle:shortVersionString>0.51.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.51.2.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.51.2/Netfox-0.51.2.dmg"
-                sparkle:edSignature="hJXEaMp0IFZq0Ka1blTo5cPaCcNkAi8Aojbox4EtjBfRg9i3v4p+s4yILyPz717lYhi5PjA8W07/gWNPDuSvBg==" length="13514064"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.51.2/Netfox-0.51.2.dmg" sparkle:edSignature="hJXEaMp0IFZq0Ka1blTo5cPaCcNkAi8Aojbox4EtjBfRg9i3v4p+s4yILyPz717lYhi5PjA8W07/gWNPDuSvBg==" length="13514064" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -86,10 +80,7 @@
             <sparkle:shortVersionString>0.51.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.51.1.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.51.1/Netfox-0.51.1.dmg"
-                sparkle:edSignature="j7PxOUCzlpc+7Kj/QGXiYo0ewSan7N4x5/Eara4fy3XE2j5jE9trTEk1y8zge5+PzM3FSuuVED4UvzD1E4pAAQ==" length="13509207"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.51.1/Netfox-0.51.1.dmg" sparkle:edSignature="j7PxOUCzlpc+7Kj/QGXiYo0ewSan7N4x5/Eara4fy3XE2j5jE9trTEk1y8zge5+PzM3FSuuVED4UvzD1E4pAAQ==" length="13509207" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -99,10 +90,7 @@
             <sparkle:shortVersionString>0.51.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.51.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.51.0/Netfox-0.51.0.dmg"
-                sparkle:edSignature="yg4eHwKqLhwhiUi1sB1iTE+Lpos1cMVsdCeJjEMpg45XYGGhO8Pfijzlsb0/4jssAeruzQsH3he3KSqV1U19Ag==" length="13496638"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.51.0/Netfox-0.51.0.dmg" sparkle:edSignature="yg4eHwKqLhwhiUi1sB1iTE+Lpos1cMVsdCeJjEMpg45XYGGhO8Pfijzlsb0/4jssAeruzQsH3he3KSqV1U19Ag==" length="13496638" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -112,10 +100,7 @@
             <sparkle:shortVersionString>0.50.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.50.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.50.0/Netfox-0.50.0.dmg"
-                sparkle:edSignature="DQdGqe+TxLSpeH+uTXvOczvu9Ki7LQ4rV5i9Us3sPXOa3vBGjtrxCF9Fp+9zrKKyixKYiE5eAGJOkxVY2C8BCA==" length="13419039"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.50.0/Netfox-0.50.0.dmg" sparkle:edSignature="DQdGqe+TxLSpeH+uTXvOczvu9Ki7LQ4rV5i9Us3sPXOa3vBGjtrxCF9Fp+9zrKKyixKYiE5eAGJOkxVY2C8BCA==" length="13419039" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -125,10 +110,7 @@
             <sparkle:shortVersionString>0.29.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.29.1.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.29.1/Netfox-0.29.1.dmg"
-                sparkle:edSignature="xDO0thEcb6l9tlKQKDRC4dSjFnoIG5SPM45oxiywiad3d2tlOITRpqTA78BcQs4GZf6aBslakTETic2ze4VvCw==" length="13042787"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.29.1/Netfox-0.29.1.dmg" sparkle:edSignature="xDO0thEcb6l9tlKQKDRC4dSjFnoIG5SPM45oxiywiad3d2tlOITRpqTA78BcQs4GZf6aBslakTETic2ze4VvCw==" length="13042787" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -138,10 +120,7 @@
             <sparkle:shortVersionString>0.29.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.29.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.29.0/Netfox-0.29.0.dmg"
-                sparkle:edSignature="Z+UkwkbIJ4Ws96leVw1aH5nkhOcvdwEKUf5B+g5PbzXtqu0bJV+Blr7orAymXUa2x6EnmvBm6gPer3nJURHLDQ==" length="13040950"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.29.0/Netfox-0.29.0.dmg" sparkle:edSignature="Z+UkwkbIJ4Ws96leVw1aH5nkhOcvdwEKUf5B+g5PbzXtqu0bJV+Blr7orAymXUa2x6EnmvBm6gPer3nJURHLDQ==" length="13040950" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -151,10 +130,7 @@
             <sparkle:shortVersionString>0.28.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.28.1.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.28.1/Netfox-0.28.1.dmg"
-                sparkle:edSignature="JTbx35YFSVWyKlE3Cq51sibu5jN/2dokvPeP6zJcxILKrnl3FsdhQ6vxY9d5odM008aFlOrYCq3JssHlaf//Bg==" length="12764445"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.28.1/Netfox-0.28.1.dmg" sparkle:edSignature="JTbx35YFSVWyKlE3Cq51sibu5jN/2dokvPeP6zJcxILKrnl3FsdhQ6vxY9d5odM008aFlOrYCq3JssHlaf//Bg==" length="12764445" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -164,10 +140,7 @@
             <sparkle:shortVersionString>0.28.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.28.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.28.0/Netfox-0.28.0.dmg"
-                sparkle:edSignature="Oqy1Y0hWRh3zFeWmWloTeOvBvdRCEFIeDMw0ZvFohuxlYaa8COYKfcuuX2cCO88mlxmZDbF5xKqSDoKJGXeEDA==" length="12758269"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.28.0/Netfox-0.28.0.dmg" sparkle:edSignature="Oqy1Y0hWRh3zFeWmWloTeOvBvdRCEFIeDMw0ZvFohuxlYaa8COYKfcuuX2cCO88mlxmZDbF5xKqSDoKJGXeEDA==" length="12758269" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -177,10 +150,7 @@
             <sparkle:shortVersionString>0.27.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.27.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.27.0/Netfox-0.27.0.dmg"
-                sparkle:edSignature="d3wfA6/DIkfq4xkadllq3dDYUsPQnNnUxkOz0QlMikXaIffVDxkUsdA17tCsM+Ir+lTpmMJkCpxej6gduf8QAg==" length="12518700"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.27.0/Netfox-0.27.0.dmg" sparkle:edSignature="d3wfA6/DIkfq4xkadllq3dDYUsPQnNnUxkOz0QlMikXaIffVDxkUsdA17tCsM+Ir+lTpmMJkCpxej6gduf8QAg==" length="12518700" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -190,10 +160,7 @@
             <sparkle:shortVersionString>0.26.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.26.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.26.0/Netfox-0.26.0.dmg"
-                sparkle:edSignature="tiZ5Vfkl+bkjVvbFXi+F+BuURt+cR7TW/CUzVXYyePlPzCFVOAqkRW+TApwGBOxoaF9NkPeB0QbTGIkW5Tn8AQ==" length="12425772"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.26.0/Netfox-0.26.0.dmg" sparkle:edSignature="tiZ5Vfkl+bkjVvbFXi+F+BuURt+cR7TW/CUzVXYyePlPzCFVOAqkRW+TApwGBOxoaF9NkPeB0QbTGIkW5Tn8AQ==" length="12425772" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -203,10 +170,7 @@
             <sparkle:shortVersionString>0.25.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.25.1.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.25.1/Netfox-0.25.1.dmg"
-                sparkle:edSignature="qh3KvOtiu6mh0eEOFok5h6XUnTDBfEHdkrI4kO2DqkeG9jiUVdVtFGOPJUPMsWWWbvsKIyOiHoIfWH5Nk57/CQ==" length="12348091"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.25.1/Netfox-0.25.1.dmg" sparkle:edSignature="qh3KvOtiu6mh0eEOFok5h6XUnTDBfEHdkrI4kO2DqkeG9jiUVdVtFGOPJUPMsWWWbvsKIyOiHoIfWH5Nk57/CQ==" length="12348091" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -216,10 +180,7 @@
             <sparkle:shortVersionString>0.25.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.25.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.25.0/Netfox-0.25.0.dmg"
-                sparkle:edSignature="tAhlV8FGiw077+mCcwquiSZ81aFJ8464SLgoai+7JgUUAtB5yj2sQpmYCfWdxq9L2MjtzKi1SD2GpLOkR5ORAQ==" length="12300370"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.25.0/Netfox-0.25.0.dmg" sparkle:edSignature="tAhlV8FGiw077+mCcwquiSZ81aFJ8464SLgoai+7JgUUAtB5yj2sQpmYCfWdxq9L2MjtzKi1SD2GpLOkR5ORAQ==" length="12300370" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -229,10 +190,7 @@
             <sparkle:shortVersionString>0.24.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.24.1.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.24.1/Netfox-0.24.1.dmg"
-                sparkle:edSignature="9ZCyswOesVVT/jsDa8vF6h0D1MdrRUnblNmImDCnD9wovpbHFuCYxsXUD3nc1jJv6IM0VnUvLd6pfWQcRvq0AA==" length="12181733"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.24.1/Netfox-0.24.1.dmg" sparkle:edSignature="9ZCyswOesVVT/jsDa8vF6h0D1MdrRUnblNmImDCnD9wovpbHFuCYxsXUD3nc1jJv6IM0VnUvLd6pfWQcRvq0AA==" length="12181733" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -242,10 +200,7 @@
             <sparkle:shortVersionString>0.24.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.24.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.24.0/Netfox-0.24.0.dmg"
-                sparkle:edSignature="tkp3A7WPTs7U4nls2QdHrt5jj6SYoEnKUAKcxmxiXr77lX9fcMOiS8rB/RNeFwYaec2b+YFSSBm4+qvmERyyCg==" length="12113067"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.24.0/Netfox-0.24.0.dmg" sparkle:edSignature="tkp3A7WPTs7U4nls2QdHrt5jj6SYoEnKUAKcxmxiXr77lX9fcMOiS8rB/RNeFwYaec2b+YFSSBm4+qvmERyyCg==" length="12113067" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -255,10 +210,7 @@
             <sparkle:shortVersionString>0.23.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.23.1.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.23.1/Netfox-0.23.1.dmg"
-                sparkle:edSignature="OkG/Wy2mHKFUhs4KmIT1otmtllW+DIuvKluNhfmFWehb/uYsfEZ8pZW+wj0O72OTMvHgIajGTu4XGmoDvBuWBg==" length="11822509"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.23.1/Netfox-0.23.1.dmg" sparkle:edSignature="OkG/Wy2mHKFUhs4KmIT1otmtllW+DIuvKluNhfmFWehb/uYsfEZ8pZW+wj0O72OTMvHgIajGTu4XGmoDvBuWBg==" length="11822509" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -268,10 +220,7 @@
             <sparkle:shortVersionString>0.23.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.23.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.23.0/Netfox-0.23.0.dmg"
-                sparkle:edSignature="Zck+xyXI0igVzNKrSrFBbWFtW4+xUDrdeIr6lKi3M6skctMdQJ5FSz3o0Aq1A34OdwmOFFS0Xm/5bROYiI+tBQ==" length="11804550"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.23.0/Netfox-0.23.0.dmg" sparkle:edSignature="Zck+xyXI0igVzNKrSrFBbWFtW4+xUDrdeIr6lKi3M6skctMdQJ5FSz3o0Aq1A34OdwmOFFS0Xm/5bROYiI+tBQ==" length="11804550" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -281,10 +230,7 @@
             <sparkle:shortVersionString>0.22.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.22.1.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.22.1/Netfox-0.22.1.dmg"
-                sparkle:edSignature="bC4CceMTV0YD3vMH9LB7HC9n8EP8/+Ll6eeU6aRx5pi9zzP0duQMDvNVh4fVacXuAL7MXIiK6im2h6ypmaq4BA==" length="11535916"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.22.1/Netfox-0.22.1.dmg" sparkle:edSignature="bC4CceMTV0YD3vMH9LB7HC9n8EP8/+Ll6eeU6aRx5pi9zzP0duQMDvNVh4fVacXuAL7MXIiK6im2h6ypmaq4BA==" length="11535916" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -294,10 +240,7 @@
             <sparkle:shortVersionString>0.22.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.22.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.22.0/Netfox-0.22.0.dmg"
-                sparkle:edSignature="mG3SMpmGzDyHElcaona2JthWOjx2PwRciUHJDTxmjgRHh4Hboy9ew5ZplI/TVpw07IVkuS1MA9zJIXs1uzPIBQ==" length="11661599"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.22.0/Netfox-0.22.0.dmg" sparkle:edSignature="mG3SMpmGzDyHElcaona2JthWOjx2PwRciUHJDTxmjgRHh4Hboy9ew5ZplI/TVpw07IVkuS1MA9zJIXs1uzPIBQ==" length="11661599" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -307,10 +250,7 @@
             <sparkle:shortVersionString>0.21.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.21.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.21.0/Netfox-0.21.0.dmg"
-                sparkle:edSignature="wNrlUutmaHSGSaleODTHckAk6H9Exw9x5iFSEM+Oa8O7F8vgvymvwH07SfdxYOMpe1C9XxEIhCUAAiWjoMrBDQ==" length="11390186"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.21.0/Netfox-0.21.0.dmg" sparkle:edSignature="wNrlUutmaHSGSaleODTHckAk6H9Exw9x5iFSEM+Oa8O7F8vgvymvwH07SfdxYOMpe1C9XxEIhCUAAiWjoMrBDQ==" length="11390186" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -320,10 +260,7 @@
             <sparkle:shortVersionString>0.20.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.20.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.20.0/Netfox-0.20.0.dmg"
-                sparkle:edSignature="LJY/f0Ih0VtKBNXr4+R2mi6d0iS3zcvnAqS2hNoKelGyLenpEzomM3935iUTR0E7BoAV4qiObV0xRJhODVQ4Bw==" length="11284328"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.20.0/Netfox-0.20.0.dmg" sparkle:edSignature="LJY/f0Ih0VtKBNXr4+R2mi6d0iS3zcvnAqS2hNoKelGyLenpEzomM3935iUTR0E7BoAV4qiObV0xRJhODVQ4Bw==" length="11284328" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -333,10 +270,7 @@
             <sparkle:shortVersionString>0.19.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.19.1.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.19.1/Netfox-0.19.1.dmg"
-                sparkle:edSignature="ERBDldlut2B/ttxMltHRQ91+DDfyxrbg8Ya3K4N8IhOtHy0ZhkqcLhbFAWHpjgFYFnEGfe88kg7ldSB33dxvAw==" length="11124422"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.19.1/Netfox-0.19.1.dmg" sparkle:edSignature="ERBDldlut2B/ttxMltHRQ91+DDfyxrbg8Ya3K4N8IhOtHy0ZhkqcLhbFAWHpjgFYFnEGfe88kg7ldSB33dxvAw==" length="11124422" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -346,10 +280,7 @@
             <sparkle:shortVersionString>0.19.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.19.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.19.0/Netfox-0.19.0.dmg"
-                sparkle:edSignature="ufA2GdjTXNNVgqZSkYLxd0yFNOTLQGRanZZx0ViL38FpoiBu/beAfVxZMx5Hcz0U8PM1tdvW4sBN0cARdNQICw==" length="11064120"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.19.0/Netfox-0.19.0.dmg" sparkle:edSignature="ufA2GdjTXNNVgqZSkYLxd0yFNOTLQGRanZZx0ViL38FpoiBu/beAfVxZMx5Hcz0U8PM1tdvW4sBN0cARdNQICw==" length="11064120" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -359,10 +290,7 @@
             <sparkle:shortVersionString>0.18.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.18.1.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.18.1/Netfox-0.18.1.dmg"
-                sparkle:edSignature="0WG30rxKf4gWSm64llv9YtZtip4KIPex1+jnRrDvzGT5Z0TBWsLj1QeJAR+E/q360AiPRk+jqXTZiVdOYmTpAA==" length="10970984"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.18.1/Netfox-0.18.1.dmg" sparkle:edSignature="0WG30rxKf4gWSm64llv9YtZtip4KIPex1+jnRrDvzGT5Z0TBWsLj1QeJAR+E/q360AiPRk+jqXTZiVdOYmTpAA==" length="10970984" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -372,10 +300,7 @@
             <sparkle:shortVersionString>0.18.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.18.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.18.0/Netfox-0.18.0.dmg"
-                sparkle:edSignature="Sc7KjcHCEP0RsmrAsB2fM9gkRNrG+tD5+XxBn1S4FBIOC09fllzWWIhFftkOz4nmEpbbPJQocCpXDyZRPDCsAg==" length="10954131"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.18.0/Netfox-0.18.0.dmg" sparkle:edSignature="Sc7KjcHCEP0RsmrAsB2fM9gkRNrG+tD5+XxBn1S4FBIOC09fllzWWIhFftkOz4nmEpbbPJQocCpXDyZRPDCsAg==" length="10954131" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -385,10 +310,7 @@
             <sparkle:shortVersionString>0.17.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.17.1.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.17.1/Netfox-0.17.1.dmg"
-                sparkle:edSignature="QeIrFjb5JcWWjY0ZzrEqxfNrSXYIrunoGd9q1c/6wssJMy9CIcW8KlbFqpk5Jhom/G+BO/YU77zbsBGPQuGhBA==" length="10734632"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.17.1/Netfox-0.17.1.dmg" sparkle:edSignature="QeIrFjb5JcWWjY0ZzrEqxfNrSXYIrunoGd9q1c/6wssJMy9CIcW8KlbFqpk5Jhom/G+BO/YU77zbsBGPQuGhBA==" length="10734632" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -398,10 +320,7 @@
             <sparkle:shortVersionString>0.17.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.17.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.17.0/Netfox-0.17.0.dmg"
-                sparkle:edSignature="dkob1BzpKGJEDK5tW3oC66KALNx8LMPbgXdraj+dEqCaebBvvJvH1D1Ou+p7qNBnQKp5jvBoWLjacFsiIHicAA==" length="10702016"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.17.0/Netfox-0.17.0.dmg" sparkle:edSignature="dkob1BzpKGJEDK5tW3oC66KALNx8LMPbgXdraj+dEqCaebBvvJvH1D1Ou+p7qNBnQKp5jvBoWLjacFsiIHicAA==" length="10702016" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -411,10 +330,7 @@
             <sparkle:shortVersionString>0.16.6</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.16.6.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.16.6/Netfox-0.16.6.dmg"
-                sparkle:edSignature="74eqFAgM4MddAqu1Z/Ob+J83tlR0rQ7mo/Jh+50v6pTrnT6FNCQf3XtgZGiyw8Fwceg3aZjC3Wi65sKteSc3Bg==" length="10427302"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.16.6/Netfox-0.16.6.dmg" sparkle:edSignature="74eqFAgM4MddAqu1Z/Ob+J83tlR0rQ7mo/Jh+50v6pTrnT6FNCQf3XtgZGiyw8Fwceg3aZjC3Wi65sKteSc3Bg==" length="10427302" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -424,10 +340,7 @@
             <sparkle:shortVersionString>0.16.5</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.16.5.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.16.5/Netfox-0.16.5.dmg"
-                sparkle:edSignature="Ti8dKflc+qoha5o165dQMREPYxX4y9ZHvEQAQQhF4kk36ZWQnuMVFyYF5/61OO76eTTptEaVSQhZHH0yrKVNCA==" length="10417621"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.16.5/Netfox-0.16.5.dmg" sparkle:edSignature="Ti8dKflc+qoha5o165dQMREPYxX4y9ZHvEQAQQhF4kk36ZWQnuMVFyYF5/61OO76eTTptEaVSQhZHH0yrKVNCA==" length="10417621" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -437,10 +350,7 @@
             <sparkle:shortVersionString>0.16.4</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.16.4.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.16.4/Netfox-0.16.4.dmg"
-                sparkle:edSignature="NDovRRjXlDBDuGwuH3G1Euh2RT+dZ6pBqVIBlYCXNYFH+ZR9KBqDD8rWfLbGyv8VkLpgZG6bhlkbCiMIJOsuBw==" length="10403202"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.16.4/Netfox-0.16.4.dmg" sparkle:edSignature="NDovRRjXlDBDuGwuH3G1Euh2RT+dZ6pBqVIBlYCXNYFH+ZR9KBqDD8rWfLbGyv8VkLpgZG6bhlkbCiMIJOsuBw==" length="10403202" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -450,10 +360,7 @@
             <sparkle:shortVersionString>0.16.3</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.16.3.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.16.3/Netfox-0.16.3.dmg"
-                sparkle:edSignature="KVEbnMq6ey6POm/nEckH6CmpFA1OPYkQU6ueDrlmQiRxGxwkSn9uCb2D/WzH4lrVfzO8Y1tWFa+uNyp9uFBxAw==" length="10395553"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.16.3/Netfox-0.16.3.dmg" sparkle:edSignature="KVEbnMq6ey6POm/nEckH6CmpFA1OPYkQU6ueDrlmQiRxGxwkSn9uCb2D/WzH4lrVfzO8Y1tWFa+uNyp9uFBxAw==" length="10395553" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -463,10 +370,7 @@
             <sparkle:shortVersionString>0.16.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.16.2.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.16.2/Netfox-0.16.2.dmg"
-                sparkle:edSignature="jKRxGIlstOStZfSM4v530LnXtCRxG8qFHwAVAHbrtJVep45ISa4x+xwmqElYET2UPUQuxoCHwkzt5z1eln0xBw==" length="10390124"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.16.2/Netfox-0.16.2.dmg" sparkle:edSignature="jKRxGIlstOStZfSM4v530LnXtCRxG8qFHwAVAHbrtJVep45ISa4x+xwmqElYET2UPUQuxoCHwkzt5z1eln0xBw==" length="10390124" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -476,10 +380,7 @@
             <sparkle:shortVersionString>0.16.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.16.1.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.16.1/Netfox-0.16.1.dmg"
-                sparkle:edSignature="UK4FyuaSDCsDmLHf0FhrYzPgNEtFCIeu8Wmf9Ka3D9YURCLrDzq/AT0SZ9sescBEKiOVR7hVGy8w71pIWbuCBQ==" length="10374309"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.16.1/Netfox-0.16.1.dmg" sparkle:edSignature="UK4FyuaSDCsDmLHf0FhrYzPgNEtFCIeu8Wmf9Ka3D9YURCLrDzq/AT0SZ9sescBEKiOVR7hVGy8w71pIWbuCBQ==" length="10374309" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -489,10 +390,7 @@
             <sparkle:shortVersionString>0.16.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.16.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.16.0/Netfox-0.16.0.dmg"
-                sparkle:edSignature="5c1DM9NFW1pYHgBdTMzCB8xFFtd44UXJgxENbRvzVmcvNtPrJ1x3+TmumDhyCmrulLOkSohNKDGJH8Hthi+5BA==" length="10370355"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.16.0/Netfox-0.16.0.dmg" sparkle:edSignature="5c1DM9NFW1pYHgBdTMzCB8xFFtd44UXJgxENbRvzVmcvNtPrJ1x3+TmumDhyCmrulLOkSohNKDGJH8Hthi+5BA==" length="10370355" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -502,10 +400,7 @@
             <sparkle:shortVersionString>0.15.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.15.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.15.0/Netfox-0.15.0.dmg"
-                sparkle:edSignature="3yx1AE5Ak5P0IgxXhR/er1JhZCOmWxji+YhRdncUoRJdSqvHvQABZnxkXskFf0uKqzF/QWkzKs7RYiEMZxJ5DQ==" length="10216970"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.15.0/Netfox-0.15.0.dmg" sparkle:edSignature="3yx1AE5Ak5P0IgxXhR/er1JhZCOmWxji+YhRdncUoRJdSqvHvQABZnxkXskFf0uKqzF/QWkzKs7RYiEMZxJ5DQ==" length="10216970" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -515,10 +410,7 @@
             <sparkle:shortVersionString>0.14.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.14.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.14.0/Netfox-0.14.0.dmg"
-                sparkle:edSignature="FViaGvWXldEMswsPo0srYJSXkKWHYixQL53oRv0yr9IHz6SNaKeN0c4r5Ia13FwiVotO396fC4HeoQpzZG7gAw==" length="9871547"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.14.0/Netfox-0.14.0.dmg" sparkle:edSignature="FViaGvWXldEMswsPo0srYJSXkKWHYixQL53oRv0yr9IHz6SNaKeN0c4r5Ia13FwiVotO396fC4HeoQpzZG7gAw==" length="9871547" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -528,10 +420,7 @@
             <sparkle:shortVersionString>0.13.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.13.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.13.0/Netfox-0.13.0.dmg"
-                sparkle:edSignature="n7SECSPi8KLMkgpyZ7WMlsKuXBMY0FqyvTIbL38XXnzdEufzMc2LsdLyYSJh6aziN2fbYopLANFTFWhUXSKuCw==" length="9275369"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.13.0/Netfox-0.13.0.dmg" sparkle:edSignature="n7SECSPi8KLMkgpyZ7WMlsKuXBMY0FqyvTIbL38XXnzdEufzMc2LsdLyYSJh6aziN2fbYopLANFTFWhUXSKuCw==" length="9275369" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -541,10 +430,7 @@
             <sparkle:shortVersionString>0.12.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.12.1.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.12.1/Netfox-0.12.1.dmg"
-                sparkle:edSignature="ipMxaha6i/EY57FP66/gbNH+BZXrEAM65t7ZBl1Y7aV5G2sr8tvot/g4xAnCPjDfJ9yjdLKfcQIimnQDcvLLCw==" length="10201902"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.12.1/Netfox-0.12.1.dmg" sparkle:edSignature="ipMxaha6i/EY57FP66/gbNH+BZXrEAM65t7ZBl1Y7aV5G2sr8tvot/g4xAnCPjDfJ9yjdLKfcQIimnQDcvLLCw==" length="10201902" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -554,10 +440,7 @@
             <sparkle:shortVersionString>0.12.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.12.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.12.0/Netfox-0.12.0.dmg"
-                sparkle:edSignature="BSM3mqjegLmycfVcbkzEDXFfQvH8cYe/Q8h4wPkhw4ppacNe+uTcaNyuDBv3tS+t7lB73Ik6icNSXGK0ccVqBw==" length="10171246"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.12.0/Netfox-0.12.0.dmg" sparkle:edSignature="BSM3mqjegLmycfVcbkzEDXFfQvH8cYe/Q8h4wPkhw4ppacNe+uTcaNyuDBv3tS+t7lB73Ik6icNSXGK0ccVqBw==" length="10171246" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -567,10 +450,7 @@
             <sparkle:shortVersionString>0.11.7</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.11.7.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.11.7/Netfox-0.11.7.dmg"
-                sparkle:edSignature="vAf9GVASSyK/3t5QFkM1/UENXPDD0a0RIQzTkui7KbPEIKLpV8wKGNws/GdqDD77aVeCBuzCGAb1XPznEnSmAQ==" length="9644229"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.11.7/Netfox-0.11.7.dmg" sparkle:edSignature="vAf9GVASSyK/3t5QFkM1/UENXPDD0a0RIQzTkui7KbPEIKLpV8wKGNws/GdqDD77aVeCBuzCGAb1XPznEnSmAQ==" length="9644229" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -580,10 +460,7 @@
             <sparkle:shortVersionString>0.11.6</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.11.6.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.11.6/Netfox-0.11.6.dmg"
-                sparkle:edSignature="cG/Os4bep3A/Xp0mnV9NJ/DLf0UuWBmz5WH29uZZ7LpCrdHfWzpyP+mzbjK9nED11pypO8QpDvFrzgaPu3LRCg==" length="9629003"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.11.6/Netfox-0.11.6.dmg" sparkle:edSignature="cG/Os4bep3A/Xp0mnV9NJ/DLf0UuWBmz5WH29uZZ7LpCrdHfWzpyP+mzbjK9nED11pypO8QpDvFrzgaPu3LRCg==" length="9629003" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -593,10 +470,7 @@
             <sparkle:shortVersionString>0.11.5</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.11.5.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.11.5/Netfox-0.11.5.dmg"
-                sparkle:edSignature="KbV4FIQIEnE25Dk4UPsdKEwcVbKTm7ZhDjZ/zFwgGnN9dNkQWoMkNaFJI031q21d6C4yX2BUUIU8bNiTgbWmCQ==" length="9643188"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.11.5/Netfox-0.11.5.dmg" sparkle:edSignature="KbV4FIQIEnE25Dk4UPsdKEwcVbKTm7ZhDjZ/zFwgGnN9dNkQWoMkNaFJI031q21d6C4yX2BUUIU8bNiTgbWmCQ==" length="9643188" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -606,10 +480,7 @@
             <sparkle:shortVersionString>0.11.4</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.11.4.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.11.4/Netfox-0.11.4.dmg"
-                sparkle:edSignature="gYIGWHCij9DzNNVSCJ0gT/buyMX/CUmBzLQ9jjnKX5iycua+m265nL7z8VKoA4wIrJzfQj2ANSxPXo7PAgNaDw==" length="9642755"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.11.4/Netfox-0.11.4.dmg" sparkle:edSignature="gYIGWHCij9DzNNVSCJ0gT/buyMX/CUmBzLQ9jjnKX5iycua+m265nL7z8VKoA4wIrJzfQj2ANSxPXo7PAgNaDw==" length="9642755" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -619,10 +490,7 @@
             <sparkle:shortVersionString>0.11.3</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.11.3.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.11.3/Netfox-0.11.3.dmg"
-                sparkle:edSignature="RJ+AI4qxuEZanG5mm/JUuIdpIxVopNrplr7ZGLwBssHvMD5LzmErnnZ4ObJFsZnN4PU1LvF/nI5/I0FtlLwyAg==" length="9639939"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.11.3/Netfox-0.11.3.dmg" sparkle:edSignature="RJ+AI4qxuEZanG5mm/JUuIdpIxVopNrplr7ZGLwBssHvMD5LzmErnnZ4ObJFsZnN4PU1LvF/nI5/I0FtlLwyAg==" length="9639939" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -632,10 +500,7 @@
             <sparkle:shortVersionString>0.11.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.11.2.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.11.2/Netfox-0.11.2.dmg"
-                sparkle:edSignature="AckY1M5R7KD6/8UOj+U+vnnbhtdQ/Ijar9pqBx7S7D5zomC3Gl2NX7Z/imQgUg9bN7n1fdO1cE5mVL+OHCG5Cw==" length="9638843"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.11.2/Netfox-0.11.2.dmg" sparkle:edSignature="AckY1M5R7KD6/8UOj+U+vnnbhtdQ/Ijar9pqBx7S7D5zomC3Gl2NX7Z/imQgUg9bN7n1fdO1cE5mVL+OHCG5Cw==" length="9638843" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -645,10 +510,7 @@
             <sparkle:shortVersionString>0.11.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.11.1.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.11.1/Netfox-0.11.1.dmg"
-                sparkle:edSignature="CtAHldC/++KEonzxar7Nhwq1849ElEY/ZKir85EthOPe+DXfrMiQvZ0GeNifTpL2Vpq5roOSKF3NWoM8OE5SBw==" length="9546444"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.11.1/Netfox-0.11.1.dmg" sparkle:edSignature="CtAHldC/++KEonzxar7Nhwq1849ElEY/ZKir85EthOPe+DXfrMiQvZ0GeNifTpL2Vpq5roOSKF3NWoM8OE5SBw==" length="9546444" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -658,10 +520,7 @@
             <sparkle:shortVersionString>0.11.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.11.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.11.0/Netfox-0.11.0.dmg"
-                sparkle:edSignature="m0jvk3BVaZJWS/vQG6b2pqSHhbN3CtwVoeKEYfbbgJBMkqS2qMyB0xsuUiYHLo9Iqq6+mGrpNvrwi2rY4rtnCQ==" length="9546814"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.11.0/Netfox-0.11.0.dmg" sparkle:edSignature="m0jvk3BVaZJWS/vQG6b2pqSHhbN3CtwVoeKEYfbbgJBMkqS2qMyB0xsuUiYHLo9Iqq6+mGrpNvrwi2rY4rtnCQ==" length="9546814" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -671,10 +530,7 @@
             <sparkle:shortVersionString>0.10.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.10.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.10.0/Netfox-0.10.0.dmg"
-                sparkle:edSignature="C7B3LgGnToYYGq03dOn/ArB9fXR3+t7lMpkJlM7ip/jKWErTi+uQ5IatsgPrHLIdRSVhRQg15U5LNcWc60r+Cg==" length="9471404"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.10.0/Netfox-0.10.0.dmg" sparkle:edSignature="C7B3LgGnToYYGq03dOn/ArB9fXR3+t7lMpkJlM7ip/jKWErTi+uQ5IatsgPrHLIdRSVhRQg15U5LNcWc60r+Cg==" length="9471404" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -684,10 +540,7 @@
             <sparkle:shortVersionString>0.9.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.9.1.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.9.1/Netfox-0.9.1.dmg"
-                sparkle:edSignature="dqrxjh9h5J8tQKjGTtR0OGzPWZ3QiPk6NUUpg1FMg/bqvuB6TLH2LKPj479k0Z0nEnPl0YLjj2mNz91SAmVjDg==" length="9382245"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.9.1/Netfox-0.9.1.dmg" sparkle:edSignature="dqrxjh9h5J8tQKjGTtR0OGzPWZ3QiPk6NUUpg1FMg/bqvuB6TLH2LKPj479k0Z0nEnPl0YLjj2mNz91SAmVjDg==" length="9382245" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -697,10 +550,7 @@
             <sparkle:shortVersionString>0.9.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.9.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.9.0/Netfox-0.9.0.dmg"
-                sparkle:edSignature="142m5pj1C5r8PJrwZy6mB5TZvJO7ynAvV6L4fi2vL7GPMAKLIL7zB+vpo0sq5DIItqNcME1VGo6k8VbXPIKTAg==" length="9362485"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.9.0/Netfox-0.9.0.dmg" sparkle:edSignature="142m5pj1C5r8PJrwZy6mB5TZvJO7ynAvV6L4fi2vL7GPMAKLIL7zB+vpo0sq5DIItqNcME1VGo6k8VbXPIKTAg==" length="9362485" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -710,10 +560,7 @@
             <sparkle:shortVersionString>0.8.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.8.1.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.8.1/Netfox-0.8.1.dmg"
-                sparkle:edSignature="s5YvQiFI1Fau8a8/Ni7yqRUF9DSq8TehqTyYW3im7sEWhA+agUV3+308MFQpu353fMN7yETAYYeznZO7dp5YAg==" length="8942053"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.8.1/Netfox-0.8.1.dmg" sparkle:edSignature="s5YvQiFI1Fau8a8/Ni7yqRUF9DSq8TehqTyYW3im7sEWhA+agUV3+308MFQpu353fMN7yETAYYeznZO7dp5YAg==" length="8942053" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -723,10 +570,7 @@
             <sparkle:shortVersionString>0.8.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.8.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.8.0/Netfox-0.8.0.dmg"
-                sparkle:edSignature="5b813PdYFjSPUUVlcgRI6SAwqPCJTVLy4hSJUZNFiy0pJ0dfHvP4WtSihaluvDScAix/PxkDwxhxyPPZyMHzCg==" length="8792115"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.8.0/Netfox-0.8.0.dmg" sparkle:edSignature="5b813PdYFjSPUUVlcgRI6SAwqPCJTVLy4hSJUZNFiy0pJ0dfHvP4WtSihaluvDScAix/PxkDwxhxyPPZyMHzCg==" length="8792115" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -736,10 +580,7 @@
             <sparkle:shortVersionString>0.7.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.7.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.7.0/Netfox-0.7.0.dmg"
-                sparkle:edSignature="ZuqR/bExOIWPD+arXImkWq9PrcuT3aSNsp8zWuCx9Z6XhMUNjHYO8jb4z+7JaXr81H3WCYB+toBokZqzxI2GCg==" length="8647782"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.7.0/Netfox-0.7.0.dmg" sparkle:edSignature="ZuqR/bExOIWPD+arXImkWq9PrcuT3aSNsp8zWuCx9Z6XhMUNjHYO8jb4z+7JaXr81H3WCYB+toBokZqzxI2GCg==" length="8647782" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -749,10 +590,7 @@
             <sparkle:shortVersionString>0.6.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.6.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.6.0/Netfox-0.6.0.dmg"
-                sparkle:edSignature="XJirr4Vr3DOMv2MTguUm5SyEkc2eKgJZ3xnDVGzZiFIp6WWJJ9UDA7VTKqVnumJZcWcPT61/GosU4dcme//IBg==" length="8382795"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.6.0/Netfox-0.6.0.dmg" sparkle:edSignature="XJirr4Vr3DOMv2MTguUm5SyEkc2eKgJZ3xnDVGzZiFIp6WWJJ9UDA7VTKqVnumJZcWcPT61/GosU4dcme//IBg==" length="8382795" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -762,10 +600,7 @@
             <sparkle:shortVersionString>0.5.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.5.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.5.0/Netfox-0.5.0.dmg"
-                sparkle:edSignature="zpjHSP+f/NTOeGVhvomT/yEX4R8kfx9NKviYbwUAIn5vf9UNxbYAWqRMcjhH6kcVh/zqi9bI9alcQn538UqhBw==" length="8334196"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.5.0/Netfox-0.5.0.dmg" sparkle:edSignature="zpjHSP+f/NTOeGVhvomT/yEX4R8kfx9NKviYbwUAIn5vf9UNxbYAWqRMcjhH6kcVh/zqi9bI9alcQn538UqhBw==" length="8334196" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -775,10 +610,7 @@
             <sparkle:shortVersionString>0.4.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.4.2.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.4.2/Netfox-0.4.2.dmg"
-                sparkle:edSignature="XcjtqdpE6iom70kX8+mTFIxmhqpKNhOV/M69CmTRgZ/Jn+Qtt2myr28tn6J+PEL0grx8qubaGVMlQTC998F5AQ==" length="7581722"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.4.2/Netfox-0.4.2.dmg" sparkle:edSignature="XcjtqdpE6iom70kX8+mTFIxmhqpKNhOV/M69CmTRgZ/Jn+Qtt2myr28tn6J+PEL0grx8qubaGVMlQTC998F5AQ==" length="7581722" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -788,10 +620,7 @@
             <sparkle:shortVersionString>0.4.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.4.1.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.4.1/Netfox-0.4.1.dmg"
-                sparkle:edSignature="/jjwzDb+Rq7JC5ZulHXIHlrOyb4HU2MqfHpmGMiikPYux2gv7PkWYFP24/+Kv25m4PW8pUU+qL/jFRKUGlPoDQ==" length="7570059"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.4.1/Netfox-0.4.1.dmg" sparkle:edSignature="/jjwzDb+Rq7JC5ZulHXIHlrOyb4HU2MqfHpmGMiikPYux2gv7PkWYFP24/+Kv25m4PW8pUU+qL/jFRKUGlPoDQ==" length="7570059" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -801,10 +630,7 @@
             <sparkle:shortVersionString>0.4.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.4.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.4.0/Netfox-0.4.0.dmg"
-                sparkle:edSignature="4PQ/DfB2SDr7y9tko6MTxqBdE713OoQizDeKtq+yw26ZPWsRzXQffx4zCTAO4XlE2kKDffjrD9l02AjPITCoDw==" length="7569697"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.4.0/Netfox-0.4.0.dmg" sparkle:edSignature="4PQ/DfB2SDr7y9tko6MTxqBdE713OoQizDeKtq+yw26ZPWsRzXQffx4zCTAO4XlE2kKDffjrD9l02AjPITCoDw==" length="7569697" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -814,10 +640,7 @@
             <sparkle:shortVersionString>0.3.4</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.3.4.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.3.4/Netfox-0.3.4.dmg"
-                sparkle:edSignature="pnU/DCBp9msXKSQZ3YAggCfjFaKevAfSy30zxnOt/YQ42WnaK/+qu0RjhupKckoTdVhkxE3qc5rKJPoG2GbjCA==" length="7482552"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.3.4/Netfox-0.3.4.dmg" sparkle:edSignature="pnU/DCBp9msXKSQZ3YAggCfjFaKevAfSy30zxnOt/YQ42WnaK/+qu0RjhupKckoTdVhkxE3qc5rKJPoG2GbjCA==" length="7482552" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -827,10 +650,7 @@
             <sparkle:shortVersionString>0.3.3</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.3.3.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.3.3/Netfox-0.3.3.dmg"
-                sparkle:edSignature="3y5CZ6bmzeK4bPY8kqTuvbUkJbFagQeRaLCGuElKW1ezwcycG0mU93YbZ02fwc4bHSWUB0Oa+5YCzzqTX7ntAw==" length="7462455"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.3.3/Netfox-0.3.3.dmg" sparkle:edSignature="3y5CZ6bmzeK4bPY8kqTuvbUkJbFagQeRaLCGuElKW1ezwcycG0mU93YbZ02fwc4bHSWUB0Oa+5YCzzqTX7ntAw==" length="7462455" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -840,10 +660,7 @@
             <sparkle:shortVersionString>0.3.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.3.2.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.3.2/Netfox-0.3.2.dmg"
-                sparkle:edSignature="9XuctVuN+PFTpJZy1TdnM+K8vB2UVobXH+FV6ZgpllpS+cwynV59qpNpniwGsi4YTiW+s52dJJ1gzzLcTsZ9Cw==" length="7423482"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.3.2/Netfox-0.3.2.dmg" sparkle:edSignature="9XuctVuN+PFTpJZy1TdnM+K8vB2UVobXH+FV6ZgpllpS+cwynV59qpNpniwGsi4YTiW+s52dJJ1gzzLcTsZ9Cw==" length="7423482" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -853,10 +670,7 @@
             <sparkle:shortVersionString>0.3.1</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.3.1.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.3.1/Netfox-0.3.1.dmg"
-                sparkle:edSignature="lq3HecmsxHzq5dvnNycSY/FgUsz7abbNjvk2AkiM/eDMj7LDRhIFdutuY+K1bVDEzgEsi0chJU8DDhkR0rUxBw==" length="7412523"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.3.1/Netfox-0.3.1.dmg" sparkle:edSignature="lq3HecmsxHzq5dvnNycSY/FgUsz7abbNjvk2AkiM/eDMj7LDRhIFdutuY+K1bVDEzgEsi0chJU8DDhkR0rUxBw==" length="7412523" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -866,10 +680,7 @@
             <sparkle:shortVersionString>0.3.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.3.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.3.0/Netfox-0.3.0.dmg"
-                sparkle:edSignature="MSsnmhQ4Q37P6DUuzjSs0/wUxJRl4bHM2vOg7qzt1c2UzMISW/r4l7fP5GOgkszYVlkR1tX0g5THghNkD402Cw==" length="7379792"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.3.0/Netfox-0.3.0.dmg" sparkle:edSignature="MSsnmhQ4Q37P6DUuzjSs0/wUxJRl4bHM2vOg7qzt1c2UzMISW/r4l7fP5GOgkszYVlkR1tX0g5THghNkD402Cw==" length="7379792" type="application/octet-stream"></enclosure>
         </item>
 
 <item>
@@ -879,10 +690,7 @@
             <sparkle:shortVersionString>0.2.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
             <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.2.0.html</sparkle:releaseNotesLink>
-            <enclosure
-                url="https://github.com/gfazioli/netfox-website/releases/download/v0.2.0/Netfox-0.2.0.dmg"
-                sparkle:edSignature="be03/yXQMWunHrGsEwloTT6Z55O+TukfVNRi4jeOgJfT/s0eOZ2DvpH1W1q9fOExnkxN9rAx4LqISBbxwDa2Cw==" length="5939960"
-                type="application/octet-stream" />
+            <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.2.0/Netfox-0.2.0.dmg" sparkle:edSignature="be03/yXQMWunHrGsEwloTT6Z55O+TukfVNRi4jeOgJfT/s0eOZ2DvpH1W1q9fOExnkxN9rAx4LqISBbxwDa2Cw==" length="5939960" type="application/octet-stream"></enclosure>
         </item>
 
     <item>
@@ -892,10 +700,10 @@
       <sparkle:shortVersionString>0.1.1</sparkle:shortVersionString>
       <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
       <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.1.1.html</sparkle:releaseNotesLink>
-      <enclosure
-        url="https://github.com/gfazioli/netfox-website/releases/download/v0.1.1/Netfox-0.1.1.dmg"
-        sparkle:edSignature="OS7LRNsC9Sur9/02/OIvPmMeJfR0Brv/m6c1EfA+vVhK23hPtwKsY4UhCQT3VQiF69JdcH0AHfG/juncBwPwAw==" length="5099952"
-        type="application/octet-stream" />
+      <enclosure url="https://github.com/gfazioli/netfox-website/releases/download/v0.1.1/Netfox-0.1.1.dmg" sparkle:edSignature="OS7LRNsC9Sur9/02/OIvPmMeJfR0Brv/m6c1EfA+vVhK23hPtwKsY4UhCQT3VQiF69JdcH0AHfG/juncBwPwAw==" length="5099952" type="application/octet-stream"></enclosure>
     </item>
   </channel>
-</rss>
+</rss><!-- sparkle-signatures:
+edSignature: VCFzttB+BRAaVf0yut7sUPO8oATzD1FxZANQl0+ZtFN1ayjHu1/PbTngOGThPZGkI6TfL/oMwG1UHeeQAUZmBA==
+length: 51445
+-->
