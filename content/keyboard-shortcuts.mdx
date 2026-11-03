@@ -44,7 +44,7 @@ On macOS 27 you can also pull a tool's view down to refresh it, as in Mail. What
 ## Search
 
 <ShortcutsTable shortcuts={[
-  { keys: ['⌘', 'F'], action: 'Focus the toolbar search field (in the Devices and Wi-Fi tools)' },
+  { keys: ['⌘', 'F'], action: 'Edit → Search: focus the toolbar search field in the Devices and Wi-Fi tools (in Settings, its search field)' },
 ]} />
 
 ## Application
@@ -65,11 +65,25 @@ Closing the main window (<Kbd>⌘</Kbd> <Kbd>W</Kbd>) doesn't quit Netfox — th
   { keys: ['⌘', '?'], action: 'Open the live online docs in your default browser (replaces the macOS default Help menu, which has no docs to surface)' },
 ]} />
 
+## Settings window
+
+Opened with <Kbd>⌘</Kbd> <Kbd>,</Kbd>. The arrows at the top go back and forward through the panes you opened, as in System Settings.
+
+<ShortcutsTable shortcuts={[
+  { keys: ['⌘', '['], action: 'Back — the pane you were on before this one (View → Back)' },
+  { keys: ['⌘', ']'], action: 'Forward — the pane you came back from (View → Forward)' },
+  { keys: ['⌘', 'F'], action: 'Search the settings by name (Edit → Search)' },
+]} />
+
 ## Release Notes window
 
 Opened from **Help → Release Notes…**, or from **Learn More…** on the card that appears after an update.
 
 <ShortcutsTable shortcuts={[
-  { keys: ['⌘', '['], action: 'Back — the release you were reading before this one' },
-  { keys: ['⌘', ']'], action: 'Forward — the release you came back from' },
+  { keys: ['⌘', '['], action: 'Back — the release you were reading before this one (View → Back)' },
+  { keys: ['⌘', ']'], action: 'Forward — the release you came back from (View → Forward)' },
 ]} />
+
+<Callout type="info">
+The menus show each shortcut in your keyboard layout's own keys: on an Italian keyboard **Back** reads <Kbd>⌘</Kbd> <Kbd>ò</Kbd> and **Forward** <Kbd>⌘</Kbd> <Kbd>à</Kbd>.
+</Callout>
