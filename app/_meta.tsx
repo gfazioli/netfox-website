@@ -6,6 +6,10 @@ export default {
   index: {
     display: 'hidden',
   },
+  // The Goodies shop pages (app/goodies): reached from their own links only.
+  goodies: {
+    display: 'hidden',
+  },
   // The home page's feature grid. A root-relative href, so it works from a
   // docs page too; `#features` alone would look for the anchor there.
   features: {
