@@ -52,6 +52,13 @@ describe('goodiesShop', () => {
   it('reads the asset suffix, case-insensitively', () => {
     expect(goodiesShop({ ...full, GOODIES_ASSET_SUFFIX: '.DMG' })?.assetSuffix).toBe('.dmg');
   });
+
+  it('trims a value pasted with a newline, and treats a blank one as missing', () => {
+    expect(goodiesShop({ ...full, GOODIES_GITHUB_TOKEN: ' github-token\n' })?.githubToken).toBe(
+      'github-token'
+    );
+    expect(goodiesShop({ ...full, STRIPE_SECRET_KEY: ' \n' })).toBeNull();
+  });
 });
 
 describe('isSessionId', () => {
