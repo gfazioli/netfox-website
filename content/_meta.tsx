@@ -32,5 +32,6 @@ export default {
   roadmap: nav(IconRoute, 'Roadmap', 'pink'),
   // Reached from the footer's last line on every page, never from the sidebar.
   legal: { display: 'hidden', theme: { pagination: false } },
+  terms: { display: 'hidden', theme: { pagination: false } },
   privacy: { display: 'hidden', theme: { pagination: false } },
 };
