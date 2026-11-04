@@ -30,11 +30,14 @@ export interface GoodiesShop {
 }
 
 export function goodiesShop(env: NodeJS.ProcessEnv = process.env): GoodiesShop | null {
-  const paymentLinkUrl = env.GOODIES_PAYMENT_LINK_URL;
-  const paymentLinkId = env.GOODIES_PAYMENT_LINK_ID;
-  const releasesRepo = env.GOODIES_RELEASES_REPO;
-  const githubToken = env.GOODIES_GITHUB_TOKEN;
-  const stripeKey = env.STRIPE_SECRET_KEY;
+  // Trimmed: a value pasted into the Vercel dashboard can carry a newline, and
+  // a newline in a token makes `fetch` reject the Authorization header.
+  const read = (key: string) => env[key]?.trim() || undefined;
+  const paymentLinkUrl = read('GOODIES_PAYMENT_LINK_URL');
+  const paymentLinkId = read('GOODIES_PAYMENT_LINK_ID');
+  const releasesRepo = read('GOODIES_RELEASES_REPO');
+  const githubToken = read('GOODIES_GITHUB_TOKEN');
+  const stripeKey = read('STRIPE_SECRET_KEY');
   if (!paymentLinkUrl || !paymentLinkId || !releasesRepo || !githubToken || !stripeKey) {
     return null;
   }
@@ -44,11 +47,21 @@ export function goodiesShop(env: NodeJS.ProcessEnv = process.env): GoodiesShop |
     releasesRepo,
     githubToken,
     stripeKey,
-    assetSuffix: (env.GOODIES_ASSET_SUFFIX || '.zip').toLowerCase(),
+    assetSuffix: (read('GOODIES_ASSET_SUFFIX') || '.zip').toLowerCase(),
   };
 }
 
 const FETCH_TIMEOUT_MS = 10_000;
+
+/**
+ * Every failure is logged with its step and status, and never with a token:
+ * the buyer only sees "retry shortly", so the function log is the one place
+ * that says which of Stripe, the release lookup or the asset redirect failed.
+ */
+function warn(step: string, detail: unknown) {
+  const text = detail instanceof Error ? `${detail.name}: ${detail.message}` : String(detail);
+  console.warn(`[goodies] ${step} failed: ${text}`);
+}
 
 /** A Checkout Session id, checked before it goes into a Stripe URL path. */
 const SESSION_ID = /^cs_(test|live)_[A-Za-z0-9]{1,256}$/;
@@ -85,6 +98,7 @@ export async function checkSession(shop: GoodiesShop, sessionId: string): Promis
       return 'unpaid';
     }
     if (!response.ok) {
+      warn('session check', `HTTP ${response.status}`);
       return 'unavailable';
     }
     const session = await response.json();
@@ -93,7 +107,8 @@ export async function checkSession(shop: GoodiesShop, sessionId: string): Promis
       session?.payment_link === shop.paymentLinkId
       ? 'paid'
       : 'unpaid';
-  } catch {
+  } catch (error) {
+    warn('session check', error);
     return 'unavailable';
   }
 }
@@ -122,6 +137,7 @@ export async function packDownloadUrl(shop: GoodiesShop): Promise<string | null>
       signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
     });
     if (!release.ok) {
+      warn('latest release lookup', `HTTP ${release.status}`);
       return null;
     }
     const { assets } = await release.json();
@@ -132,6 +148,7 @@ export async function packDownloadUrl(shop: GoodiesShop): Promise<string | null>
         )
       : undefined;
     if (typeof pack?.id !== 'number') {
+      warn('asset lookup', `no asset ending in ${shop.assetSuffix}`);
       return null;
     }
     const asset = await fetch(`${api}/releases/assets/${pack.id}`, {
@@ -141,10 +158,13 @@ export async function packDownloadUrl(shop: GoodiesShop): Promise<string | null>
       signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
     });
     const location = asset.headers.get('location');
-    return asset.status >= 300 && asset.status < 400 && location?.startsWith('https://')
-      ? location
-      : null;
-  } catch {
+    if (asset.status >= 300 && asset.status < 400 && location?.startsWith('https://')) {
+      return location;
+    }
+    warn('asset redirect', `HTTP ${asset.status}`);
+    return null;
+  } catch (error) {
+    warn('download lookup', error);
     return null;
   }
 }
