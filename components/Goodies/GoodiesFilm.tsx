@@ -4,6 +4,9 @@ import { useEffect, useRef } from 'react';
 import { useReducedMotion } from '@mantine/hooks';
 import classes from './Goodies.module.css';
 
+/** How much of the film must be on screen for it to play. */
+const VISIBLE = 0.25;
+
 /**
  * The pack's 30-second film, an exact loop, muted (it has no sound).
  *
@@ -32,7 +35,9 @@ export function GoodiesFilm() {
     }
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        // `threshold` decides when this runs, not `isIntersecting`: a sliver on screen is still
+        // "intersecting" as the film leaves, so the ratio decides.
+        if (entry.isIntersecting && entry.intersectionRatio >= VISIBLE) {
           // A browser that refuses (low-power mode) leaves the poster and the controls.
           video.play().catch(() => {
             video.controls = true;
@@ -41,7 +46,7 @@ export function GoodiesFilm() {
           video.pause();
         }
       },
-      { threshold: 0.25 }
+      { threshold: VISIBLE }
     );
     observer.observe(video);
     return () => observer.disconnect();
