@@ -22,6 +22,10 @@ The Next.js site for Netfox at https://netfox.app: landing page, docs, release n
 
 - **Baseline** (production build, Lighthouse mobile, devtools throttling): home perf 96-97, LCP 1.87-1.90 s, 644 KiB; docs 99, 622 KiB; SEO 100.
 
+### Newsletter
+
+The release newsletter is Netfox's Substack (`config.community.newsletter`, `netfoxapp.substack.com`: `netfox.substack.com` is someone else's); nothing on the site collects an address. Ported from lancetta-website#113 with its later fixes: a prompt that opens once after 1200px of scroll and is remembered (`NewsletterSignup/NewsletterModal.tsx`), its dialog loaded only on open (`PromptDialog.tsx`: five traps in its header, all read in Chrome), a footer band and icon, a Community menu entry, and the corner fox waiting while the prompt is open. `scripts/shot.mjs` stores the prompt as dismissed; `--prompt` leaves it as a first visit gets it.
+
 ### Motion
 
 `components/Motion`: nothing waits on a script to be seen. Read the headers of `useReveal.ts` and `Motion.module.css` before touching a pose; `Motion.css.test.ts` holds the shape. To fake scripts that never arrive (`scripts/shot.mjs --block`), block the JS only, never the whole chunks folder: the CSS is served from it too, and the page comes back unstyled rather than broken.

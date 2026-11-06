@@ -9,7 +9,7 @@
  *                                            [--click "<selector>" ...] [--between 1500]
  *                                            [--rate 0.1]
  *                                            [--frames 12 --every 250] [--no-wake]
- *                                            [--reduce] [--block "<url pattern>" ...]
+ *                                            [--reduce] [--prompt] [--block "<url pattern>" ...]
  *
  * With no `--at` it writes ONE full-page `<prefix>.png`. With `--at` it writes
  * one VIEWPORT capture per fraction of the scrollable height:
@@ -71,6 +71,10 @@
  * `--reduce` emulates Reduce Motion (`prefers-reduced-motion: reduce`): the
  * page is then simply there.
  *
+ * The newsletter prompt is stored as already dismissed, because it opens once
+ * the page has scrolled 1200px, over every section below the hero, dimmed and
+ * blurred behind its overlay. `--prompt` leaves it as a first visit gets it.
+ *
  * `--block "<pattern>"` refuses every request whose URL matches, repeatable.
  * A pattern must match the WHOLE URL (its fragment aside), `*` stands for any
  * run of characters and everything else is literal:
@@ -104,6 +108,8 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+/** `NewsletterModal`'s flag (`DISMISSED_KEY`), which it stores as the JSON `true`. */
+const PROMPT_KEY = 'netfox-newsletter-prompt-dismissed';
 
 const [url, prefix, ...rest] = process.argv.slice(2);
 
@@ -144,6 +150,7 @@ const frames = Number(flag('--frames') ?? 0);
 const every = Number(flag('--every') ?? 200);
 const wake = !rest.includes('--no-wake');
 const reduce = rest.includes('--reduce');
+const prompt = rest.includes('--prompt');
 const blocked = [...new Set(flags('--block'))];
 if (blocked.some((pattern) => !pattern || pattern.startsWith('--'))) {
   console.error('--block needs a URL pattern after it');
@@ -303,6 +310,16 @@ try {
     },
     sessionId
   );
+
+  if (!prompt) {
+    await send(
+      'Page.addScriptToEvaluateOnNewDocument',
+      {
+        source: `try { localStorage.setItem(${JSON.stringify(PROMPT_KEY)}, 'true'); } catch (e) {}`,
+      },
+      sessionId
+    );
+  }
 
   // `--block`: Chrome pauses the requests the patterns name, by its own glob
   // (where `?` would be a one-character wildcard, so it is escaped), and this

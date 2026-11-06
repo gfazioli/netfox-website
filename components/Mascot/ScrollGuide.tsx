@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { IconX } from '@tabler/icons-react';
 import { useReducedMotion } from '@mantine/hooks';
+import { PROMPT_OPEN_ATTRIBUTE } from '@/components/NewsletterSignup/prompt-open';
 import { dismissGuide, guideMemory, onGuideDismissed, sayNext } from './guide';
 import { DELAY_MS, MIN_BUBBLE_PX, roomBeside, SNIFF_MS } from './HeroGuide';
 import { Mascot } from './Mascot';
@@ -54,11 +55,14 @@ interface Seen {
   heroRoom: boolean;
   /** Enough of the Support card is on screen. */
   card: boolean;
+  /** The newsletter prompt is open over the page. */
+  covered: boolean;
 }
 
 /** Where the fox belongs, from what the page last said. */
 function placeFor(page: Seen): Place {
-  if (guideMemory.dismissed || !page.ready) {
+  // Under the newsletter prompt's overlay a walk is an entrance nobody sees.
+  if (guideMemory.dismissed || !page.ready || page.covered) {
     return 'none';
   }
   if (page.card) {
@@ -143,6 +147,7 @@ export function ScrollGuide() {
     rowVisible: false,
     heroRoom: true,
     card: false,
+    covered: false,
   });
   const timers = useRef(new Set<number>());
 
@@ -280,6 +285,23 @@ export function ScrollGuide() {
       cancelTimers();
     };
   }, [sync, cancelTimers]);
+
+  // The newsletter prompt: while it is open the fox is nowhere, and it comes
+  // back to wherever it belongs once the prompt has gone.
+  useEffect(() => {
+    const root = document.documentElement;
+    const page = seen.current;
+    page.covered = root.hasAttribute(PROMPT_OPEN_ATTRIBUTE);
+    const prompt = new MutationObserver(() => {
+      const covered = root.hasAttribute(PROMPT_OPEN_ATTRIBUTE);
+      if (covered !== page.covered) {
+        page.covered = covered;
+        sync();
+      }
+    });
+    prompt.observe(root, { attributes: true, attributeFilter: [PROMPT_OPEN_ATTRIBUTE] });
+    return () => prompt.disconnect();
+  }, [sync]);
 
   // The hero's row of buttons: whether the reader has reached it, whether it
   // is on screen, and whether the fox beside it has room to stand there.
