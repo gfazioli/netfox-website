@@ -10,6 +10,7 @@ import {
   IconCoffee,
   IconGift,
   IconHeartFilled,
+  IconMailHeart,
   IconPlus,
 } from '@tabler/icons-react';
 import {
@@ -26,6 +27,7 @@ import {
 import { ListedOn } from '@/components/DirectoryBadges/DirectoryBadges';
 import { discordLinkProps } from '@/components/Discord/discord';
 import { Logo } from '@/components/Logo/Logo';
+import { NewsletterSignup } from '@/components/NewsletterSignup/NewsletterSignup';
 import { ShareButtons } from '@/components/ShareButtons/ShareButtons';
 import config from '@/config';
 import { AnimateBadge } from './AnimateBadge';
@@ -73,7 +75,10 @@ export const MantineFooter = ({ year }: { year: number }) => {
   return (
     <footer className={classes.contentFooter}>
       <Container className={classes.footer} size="lg">
-        <Grid grow>
+        {/* The newsletter leads, and space separates it from the columns: no rule. */}
+        <NewsletterSignup />
+
+        <Grid grow mt={48}>
           <Grid.Col span={{ base: 12, sm: 4 }}>
             <Stack gap="sm">
               <Logo size={44} />
@@ -129,6 +134,14 @@ export const MantineFooter = ({ year }: { year: number }) => {
                   aria-label="YouTube"
                 >
                   <IconBrandYoutubeFilled size={20} />
+                </ActionIcon>
+                <ActionIcon
+                  variant="subtle"
+                  component="a"
+                  href={config.community.newsletter}
+                  aria-label="Newsletter"
+                >
+                  <IconMailHeart size={20} />
                 </ActionIcon>
               </Group>
             </Stack>

@@ -1,3 +1,4 @@
+import { PROMPT_OPEN_ATTRIBUTE } from '@/components/NewsletterSignup/prompt-open';
 import { act, fireEvent, render, screen } from '@/test-utils';
 import { dismissGuide, guideMemory } from './guide';
 import { DELAY_MS, SNIFF_MS } from './HeroGuide';
@@ -58,6 +59,7 @@ describe('ScrollGuide', () => {
   });
 
   afterEach(() => {
+    document.documentElement.removeAttribute(PROMPT_OPEN_ATTRIBUTE);
     delete (globalThis as { IntersectionObserver?: unknown }).IntersectionObserver;
     delete (document.documentElement as { clientWidth?: number }).clientWidth;
     jest.useRealTimers();
@@ -295,6 +297,33 @@ describe('ScrollGuide', () => {
     inTheCorner();
     act(() => dismissGuide());
     wait(LEAVE_MS);
+    expect(corner()).toBeNull();
+  });
+
+  it('is nowhere while the newsletter prompt is open, and comes back once it has gone', async () => {
+    inTheCorner();
+    // A MutationObserver reports on a microtask, which fake timers do not run.
+    await act(async () => {
+      document.documentElement.setAttribute(PROMPT_OPEN_ATTRIBUTE, 'open');
+    });
+    expect(corner()).toHaveAttribute('data-phase', 'leaving');
+    wait(LEAVE_MS);
+    expect(corner()).toBeNull();
+    wait(10_000);
+    expect(corner()).toBeNull();
+
+    await act(async () => {
+      document.documentElement.removeAttribute(PROMPT_OPEN_ATTRIBUTE);
+    });
+    expect(corner()).toHaveAttribute('data-phase', 'arriving');
+  });
+
+  it('does not set out while the prompt is open when the page is ready', () => {
+    document.documentElement.setAttribute(PROMPT_OPEN_ATTRIBUTE, 'open');
+    render(<Page />);
+    wait(DELAY_MS);
+    rowPassed();
+    wait(10_000);
     expect(corner()).toBeNull();
   });
 

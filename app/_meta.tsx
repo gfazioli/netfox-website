@@ -43,6 +43,10 @@ export default {
         ),
         href: config.community.discord,
       },
+      newsletter: {
+        title: 'Newsletter',
+        href: config.community.newsletter,
+      },
       blog: {
         title: 'Blog',
         href: 'https://undolog.com/',

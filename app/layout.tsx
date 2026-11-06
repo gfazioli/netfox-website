@@ -16,6 +16,7 @@ import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from '@mantine/c
 // !! End of important imports !!
 
 import { MantineFooter, MantineNavBar, StructuredData } from '@/components';
+import { NewsletterModal } from '@/components/NewsletterSignup/NewsletterModal';
 import config from '@/config';
 import { theme } from '../theme';
 
@@ -92,6 +93,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           >
             {children}
           </Layout>
+          <NewsletterModal />
         </MantineProvider>
         <SiteAnalytics />
       </body>

@@ -131,6 +131,11 @@ export default {
     // opened" badge decays from it (`isRecent`): gone two minor releases on,
     // with no one having to remember it.
     discordSince: '0.29.1',
+    // The release newsletter, on Substack as "Netfox" (the subdomain is
+    // netfoxapp: netfox.substack.com belongs to someone else). The subscribe
+    // form is Substack's, so nothing on this site collects an address. The
+    // footer band, its icon, the prompt and the Support menu all link here.
+    newsletter: 'https://netfoxapp.substack.com',
     // Netfox's own YouTube channel since 2026-10-27: the footer links this,
     // never the author's personal channel.
     youtube: 'https://www.youtube.com/@Netfox-app',
