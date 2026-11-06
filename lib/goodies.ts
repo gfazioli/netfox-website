@@ -279,6 +279,12 @@ export async function packLicence(shop: GoodiesShop): Promise<string | null> {
   const options = (h: Record<string, string>) => ({ headers: h, ...uncached() });
   try {
     const release = await fetch(`${api}/releases/latest`, options(headers));
+    // Only a release that does not exist yet (404) falls back to the default branch: after a
+    // failed lookup the branch may hold terms no buyer has downloaded.
+    if (!release.ok && release.status !== 404) {
+      warn('licence release lookup', `HTTP ${release.status}`);
+      return null;
+    }
     const tag = release.ok ? (await release.json())?.tag_name : undefined;
     for (const ref of typeof tag === 'string' ? [tag, ''] : ['']) {
       const query = ref ? `?ref=${encodeURIComponent(ref)}` : '';

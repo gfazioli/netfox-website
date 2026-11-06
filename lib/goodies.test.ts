@@ -289,6 +289,28 @@ describe('packLicence', () => {
     await expect(packLicence(SHOP)).resolves.toBe('FROM MAIN');
   });
 
+  it('falls back while no release exists yet', async () => {
+    global.fetch = jest.fn(async (url: string) =>
+      url.endsWith('/releases/latest')
+        ? json(404, {})
+        : raw(url)
+          ? new Response('FROM MAIN', { status: 200 })
+          : json(404, {})
+    ) as unknown as typeof fetch;
+
+    await expect(packLicence(SHOP)).resolves.toBe('FROM MAIN');
+  });
+
+  it('never shows the default branch after a failed release lookup', async () => {
+    global.fetch = jest.fn(async (url: string) =>
+      url.endsWith('/releases/latest')
+        ? json(502, {})
+        : new Response('UNRELEASED TERMS', { status: 200 })
+    ) as unknown as typeof fetch;
+
+    await expect(packLicence(SHOP)).resolves.toBeNull();
+  });
+
   it('gives nothing when GitHub fails', async () => {
     global.fetch = jest.fn(async () => json(500, {})) as unknown as typeof fetch;
     await expect(packLicence(SHOP)).resolves.toBeNull();
