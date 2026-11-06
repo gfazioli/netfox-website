@@ -38,7 +38,7 @@ export const STILL_MS = 160;
  */
 export const CARD_RATIO = 0.3;
 
-/** What it says on the Support card: the FAQ's own words, so no new claim. */
+/** What it says on the Support card: the opening of the FAQ's answer, so no new claim. */
 export const SPONSOR_LINE =
   'Netfox is currently free. If you find it useful, consider sponsoring the project.';
 

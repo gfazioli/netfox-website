@@ -243,19 +243,13 @@ export const MantineFooter = ({ year }: { year: number }) => {
               >
                 Buy me a coffee
               </Button>
-              {/* The pack sold on this site: same tab, and dark ink on the
-                  orange for the coffee button's reason. */}
+              {/* The theme's orange carries dark text by itself (autoContrast),
+                  as on the shop's own Buy button. */}
               <Button
                 component="a"
                 href="/goodies"
-                variant="filled"
-                color="orange"
                 leftSection={<IconGift size={16} />}
                 radius="xl"
-                styles={{
-                  label: { color: '#3b1500' },
-                  section: { color: '#3b1500' },
-                }}
               >
                 Netfox Goodies
               </Button>

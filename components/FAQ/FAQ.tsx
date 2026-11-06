@@ -8,6 +8,7 @@ import {
   IconShieldLock,
   type Icon,
 } from '@tabler/icons-react';
+import Link from 'next/link';
 import { Accordion, Anchor, Text } from '@mantine/core';
 import { discordLinkProps } from '@/components/Discord/discord';
 import classes from './FAQ.module.css';
@@ -158,7 +159,7 @@ export function FAQ() {
                   sponsoring the project
                 </Anchor>{' '}
                 or getting the{' '}
-                <Anchor href="/goodies" size="sm">
+                <Anchor component={Link} href="/goodies" prefetch={false} size="sm">
                   Netfox Goodies
                 </Anchor>
                 , a small paid pack of screen savers, wallpapers and emoji.
