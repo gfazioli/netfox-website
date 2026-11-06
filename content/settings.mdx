@@ -7,15 +7,15 @@ import { Callout } from 'nextra/components';
 
 # Settings
 
-Open Settings with <Kbd>⌘</Kbd> <Kbd>,</Kbd> or from the menu **Netfox → Settings**.
+Open Settings with <Kbd>⌘</Kbd> <Kbd>,</Kbd> or from the menu **Netfox → Settings…**.
 
 Pick a pane in the sidebar, or type in its search field (<Kbd>⌘</Kbd> <Kbd>F</Kbd>) to jump straight to a setting. The arrows at the top go back and forward through the panes you opened, as in System Settings, with the name of the pane beside them; <Kbd>⌘</Kbd> <Kbd>[</Kbd> and <Kbd>⌘</Kbd> <Kbd>]</Kbd> do the same, from **View → Back** and **View → Forward**.
 
 <Callout type="info">
-Every time you reopen the window it lands on the **General** tab. Mid-session moves between tabs don't persist on close — predictable open state, no surprise jumps.
+Every time you reopen the window it lands on the **General** pane. Mid-session moves between panes don't persist on close — predictable open state, no surprise jumps.
 </Callout>
 
-The window is tabbed in this order: **General · Alerts · Security · Privacy · Integrations · Advanced · Updates · About**. Every toggle takes effect immediately unless explicitly noted otherwise.
+The sidebar lists the panes in three groups: **General · Notch · Updates**, then **Alerts · Security · Privacy**, then **Integrations · Advanced**. **Notch** is there only on a Mac with a notch, and **About** opens from the Netfox entry at the top of the sidebar. Every toggle takes effect immediately unless explicitly noted otherwise.
 
 Each setting carries a small coloured icon for quick scanning, and an **ⓘ** button that opens a popover with the full explanation — so the panels stay uncluttered while every detail stays one click away:
 
@@ -27,7 +27,7 @@ Each setting carries a small coloured icon for quick scanning, and an **ⓘ** bu
 
 ### Appearance
 
-- **Menu bar icon** — *Monochrome / Full Color*. *Monochrome* (default) is a fox-silhouette glyph that adapts to light and dark menu bars like the system's own status icons; *Full Color* keeps the colour fox. Applies instantly — see [Menu Bar](/docs/menu-bar#pick-your-icon). (Netfox itself is always dark — there's no light/dark theme to choose.)
+- **Menu bar icon** — *Monochrome / Full Color*. *Full Color* (default) keeps the colour fox; *Monochrome* is a fox-silhouette glyph that adapts to light and dark menu bars like the system's own status icons. Applies instantly — see [Menu Bar](/docs/menu-bar#pick-your-icon). (Netfox itself is always dark — there's no light/dark theme to choose.)
 
 ### Login
 
@@ -60,11 +60,11 @@ Netfox can raise six kinds of alert. Each one has its own toggle so you can mute
 
 ### Risky arrival
 
-- **Notify on risky-host arrival** — when a device first seen in the last 48 hours finishes a port scan with a high-risk verdict (Telnet exposed, a database open to the LAN, FTP), Netfox raises an alert: the new-device alert tells you someone joined, this one that the someone has a service worth checking. Off by default.
+- **Notify when a risky new device arrives** — when a device first seen in the last 48 hours finishes a port scan with a high-risk verdict (Telnet exposed, a database open to the LAN, FTP), Netfox raises an alert: the new-device alert tells you someone joined, this one that the someone has a service worth checking. Off by default.
 
 ### Port-state changes
 
-- **Notify when a port opens** — fires when a port that was previously closed or filtered comes back as open on a device you've already seen. Both the scheduled port probe and the manual one-shot *Probe Ports* feed this check.
+- **Notify when a new port opens on a known device** — fires when a port that was previously closed or filtered comes back as open on a device you've already seen. Both the scheduled port probe and the manual one-shot *Probe Ports* feed this check.
 - **Off by default**: a port that read *filtered* only because its device was asleep counts too, so a device first probed while asleep alerts once for every service it runs when it wakes. Opt in once your devices have been probed awake.
 - **Include this Mac** — your own Mac is exempt from the other alert types (new-device, returning, risky arrival), but for port-open alerts it's included by default via this toggle: an unexpected listener on your own machine is worth knowing about. Flip it off if you run local dev servers that open and close ports all day. The device [History](/docs/tools/devices#port-state-changes) records port changes on this Mac either way.
 
@@ -74,11 +74,11 @@ Netfox can raise six kinds of alert. Each one has its own toggle so you can mute
 - It reports only listeners bound to the loopback address. Those are the ones the network probe structurally cannot reach — it hits this Mac over its LAN address, and a loopback-only socket has none — so nothing else in Netfox would find them. It also reports only listeners every process of which is yours, because one you cannot act on is noise.
 - It waits **fifteen minutes from the moment the process was orphaned**, not from when the server started. Closing a terminal on a server you have been using all afternoon does not fire it; walking away from one does.
 - One alert per listener rather than one per check. A listener you deal with and then abandon again is announced again — that is a new event, not a repeat.
-- **Off by default**: it reads local process state once a minute, which is a thing to opt into rather than discover. See [Local Services](/docs/tools/devices#local-services) for the list it draws on, and the *Kill* action for freeing the port once you are looking at it.
+- **Off by default**: it reads local process state once a minute, which is a thing to opt into rather than discover. See [Local Services](/docs/tools/devices#local-services--whats-listening-on-your-own-mac) for the list it draws on, and the *Kill* action for freeing the port once you are looking at it.
 
 ### New service
 
-- **Notify on new service** — fires when a service shows up on a device that didn't have it before. Lower-noise than the raw port-open alert because it groups by service identity rather than port number.
+- **Notify when a new service is identified** — fires when a service shows up on a device that didn't have it before. Lower-noise than the raw port-open alert because it groups by service identity rather than port number.
 
 ### System notifications
 
@@ -96,7 +96,7 @@ Controls for the **Security** tool's auto-probe loop. The manual *Scan All Devic
 
 ### Custom ports
 
-- **Extra ports** — a free-text list of TCP ports every scan checks on top of the built-in catalog. Entries are separated by commas or new lines, each a port number with an optional label after `=` (e.g. `9281 = Next.js dev`). Invalid entries are ignored; a live caption shows which ports registered. Changes apply from the next scan. See [Security → Custom ports](/docs/tools/security#custom-ports).
+- **Extra ports** — TCP ports every scan checks on top of the built-in catalog. Each row is a port number and an optional description; **Add Port** adds a row and the **−** button removes one. A row without a valid port (1–65535) is flagged and skipped, and a live caption shows which ports registered. Changes apply from the next scan. See [Security → Custom ports](/docs/tools/security#custom-ports).
 
 ![Settings Security tab](/screenshot-settings-security.png)
 
@@ -106,17 +106,17 @@ See [Security](/docs/tools/security) for what the scan actually checks and how t
 
 ![Settings Privacy tab](/screenshot-settings-privacy.png)
 
-Controls for what Netfox stores about your network, plus the master switch for **Demo Mode**.
+Controls for what Netfox asks on your behalf, and for what it stores about your network.
 
-### Demo Mode
+### Public IP discovery
 
-- **Demo Mode** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>D</Kbd>) — masks identifying information in the UI so screenshots and screen-shares are safe to publish. Device names collapse to `Computer #1`/`Phone #2`/…, MAC addresses lose the last three octets (the OUI vendor prefix survives), IPv6 loses everything past the first hextet, and Wi-Fi SSIDs become `Network #N`.
-- **Render-only.** The underlying device, port, and alert stores are untouched — flip Demo Mode off and the real values reappear instantly. No data is rewritten.
-- Toggleable in-app with <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>D</Kbd>.
+- **Detect public IP** — on by default. Netfox asks a public service for the address your network shows the internet, and while the Overview's link panel is on screen it times the route past your router every 15 seconds. Off, both stop. See [Privacy](/docs/privacy) for exactly what is contacted.
 
 ### Service identification
 
 - **Look up service info on open ports** — when on, Netfox reads what a service announces about itself on a device's open web (HTTP/HTTPS) and SSH ports and names the product behind it — a router's SSH shell, an HP printer, a NAS. See [the Service inspector](/docs/tools/devices#service-inspector). It only reads what a service volunteers on connect — no login attempt, nothing intrusive — and stays off until you switch it on.
+- **Inspect services on demand** — adds an **Inspect service** action to a port's detail that reads what a non-web service announces on connect; for Redis and PostgreSQL, which stay silent until spoken to, it sends one harmless hello. It never logs in or sends a credential. Off by default. See [Looking inside a service](/docs/tools/devices#looking-inside-a-service).
+- **Inspect automatically during scans** — runs that same peek on the open services a scan finds, so an exposed database with no password is flagged as soon as it is seen. Needs **Inspect services on demand**; off by default.
 
 ### Storage
 
@@ -149,12 +149,18 @@ The Advanced tab consolidates every power-user knob. Visiting the tab is itself 
 
 ### Application
 
-- **Advanced mode** — surfaces denser UI in the main window: MAC address in the sidebar secondary line, **Engine ID** copyable row in the detail Identity section, ISO 8601 absolute timestamps instead of "2 seconds ago" in the Activity section. Off by default; nothing breaks when off. Also toggleable from **View → Advanced Mode** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>M</Kbd>).
+- **Advanced mode** — surfaces denser UI in the main window: MAC address in the sidebar secondary line, **Engine ID** copyable row in the detail Identity section, ISO 8601 for the date in the Activity section's timestamps. Off by default; nothing breaks when off. Also toggleable from **View → Advanced Mode** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>M</Kbd>).
+
+### Demo Mode
+
+- **Demo mode (screenshot-safe)** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>D</Kbd>, also **View → Demo Mode**) — masks identifying information in the UI so screenshots and screen-shares are safe to publish. Device names collapse to `Computer #1`/`Phone #2`/…, MAC addresses lose the last three octets (the OUI vendor prefix survives), IPv6 loses everything past the first hextet, and Wi-Fi SSIDs become `Network #N`.
+- **Render-only.** The underlying device, port, and alert stores are untouched — flip Demo Mode off and the real values reappear instantly. No data is rewritten.
+- **Include sample data when masking** — fills the Ports tab, the risk badges and the alert inbox with invented results, so a screenshot looks like a scanned network without scanning yours. Only while Demo Mode is on; nothing is stored. Off by default.
 
 ### Discovery — Offline detection
 
 - **Offline threshold** — slider from 60 to 900 seconds (default 5 min). How long a device that's only visible via the system ARP cache can stay silent before being marked offline. Affects printers, NAS, and dumb IoT that don't advertise via Bonjour.
-- **Authoritative threshold** — slider from 30 to 600 seconds (default 3 min). How long a Bonjour-visible device can go silent before being marked offline. Tighter than the ARP fallback because Bonjour can confirm liveness directly.
+- **Authoritative threshold** — slider from 330 to 600 seconds (default 6 min). How long a device confirmed live by an active check (Bonjour or a ping) can go silent before being marked offline. It stays above the 5-minute ping cycle, so a device that only answers pings isn't marked offline between two of them.
 
 <Callout>
 Threshold changes take effect on the **next app launch** — the lifecycle pass and anti-thrash rule both fix their windows at engine construction.

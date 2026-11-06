@@ -29,7 +29,7 @@ Each tool reads from the same shared device store, so a finding in one shows up 
 
 - **Multi-source discovery** — Bonjour / mDNS, the system ARP cache, SSDP and active ICMP probing run together. Apple devices, dumb IoT, quiet hosts, smart-TVs — all in the same list
 - **Per-device history** — first seen, last seen, every transition (online ↔ offline, IPv4 learned/changed, hostname changed, vendor learned, kind refined) on a timeline that survives across launches
-- **Smart alerts** — fires for **new devices**, **returning devices after a long absence**, **risky arrivals** (a device first seen in the last 48 hours whose port scan comes back high-risk), **new services** opening on a device, and **ports that turn up open** on a device you already know. Inbox + persistent history (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>A</Kbd>) + per-device mute + native macOS notifications
+- **Smart alerts** — fires for **new devices**, **returning devices after a long absence**, **risky arrivals** (a device first seen in the last 48 hours whose port scan comes back high-risk), **new services** opening on a device, **ports that turn up open** on a device you already know, and **a server left running on this Mac**. Inbox + persistent history (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>A</Kbd>) + per-device mute + native macOS notifications
 - **Security checks** — TCP port probes against the well-known home-security set (SSH, Telnet, RDP, VNC, SMB, HTTP/HTTPS, MQTT, MySQL/PostgreSQL/Redis/MongoDB, common dev servers, …) plus [your own custom ports](/docs/tools/security#custom-ports) with the labels you give them. Open services get a plain-English Risk Inspector with what each finding means and what to do about it
 - **Menu bar at a glance** — a popover with devices online, risk level, public IP and VPN, active alerts, and a live chart of your Mac's traffic. Closing the main window keeps Netfox running there
 - **Wi-Fi visibility** — live RSSI / noise / SNR per network, channel + band, security mode, signal history chart for the selected AP, and a one-click jump to the devices on the currently-connected network
@@ -39,18 +39,18 @@ Each tool reads from the same shared device store, so a finding in one shows up 
 - **Demo Mode** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>D</Kbd>) — one-keystroke privacy mask for screenshots and demos: device names collapse to `Computer #1`, MACs lose their last three octets, IPv6 loses everything past the first hextet, Wi-Fi SSIDs become `Network #N`. Render-only — the underlying store is untouched
 - **Local Services** — what your own Mac is listening on, asked of the system instead of probed over the network. That distinction matters: a dev server bound to loopback genuinely refuses connections from anywhere else, so a network check calls it closed — accurately, and uselessly. Grouped into *only on this Mac* and *reachable from the network*, each row naming the process behind the port — and where your `/etc/hosts` gives the address a name, `3000` reads as `shop.local:3000`
 - **This Mac, pinned** — the Mac running Netfox is always at the top of the Devices list, with its current Wi-Fi/Ethernet badge
-- **Advanced Mode** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>M</Kbd>) — opt-in denser UI: MAC in the sidebar, Engine ID + absolute timestamps in the detail panel
+- **Advanced Mode** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>M</Kbd>) — opt-in denser UI: MAC in the sidebar, Engine ID + ISO 8601 timestamps in the detail panel
 - **Prometheus metrics endpoint** — an opt-in `/metrics` endpoint exposes open ports, device presence, last-seen times, throughput, and alert counts in the [Prometheus](https://prometheus.io) format, so homelab users can scrape it and chart it in Grafana. Off by default, localhost-bound, optional token — see [Integrations](/docs/integrations)
-- **Tabbed Settings** — General · Alerts · Security · Privacy · Integrations · Advanced · Updates · About
+- **Settings with a sidebar** — General · Notch (on a Mac with a notch) · Updates · Alerts · Security · Privacy · Integrations · Advanced, and About from the top
 - **No account, no cloud, no telemetry** — every observation lives on your Mac
 - **Speaks your language** 🇬🇧 🇮🇹 🇫🇷 🇩🇪 🇪🇸 🇵🇹 🇳🇱 — fully localized into English, Italian, French, German, Spanish, Portuguese, and Dutch; Netfox follows your Mac's system language automatically, nothing to configure
 - **Universal binary** — runs on Apple Silicon and Intel Macs; macOS picks the right slice at launch
-- **Auto-updates** — built in, signed; the app checks for new versions automatically and prompts you when one is available
+- **Auto-updates** — built in, signed; once you allow background checks (the app asks once) it prompts you when a new version is available
 
 ## Requirements
 
 - macOS 15.6 (Sequoia) or later
 - A local network — Wi-Fi, Ethernet, or anything macOS reports as an interface with a subnet
-- For the Wi-Fi tool, macOS requires Location permission to expose SSID details — Netfox asks once the first time you open the tool
+- For the Wi-Fi tool, macOS requires Location permission to expose SSID details — the first time you open the tool, Netfox points you to the Location Services switch in System Settings
 
 See [Getting Started](/docs/getting-started) for the first-launch walkthrough, [Security](/docs/tools/security) for what the Security tool checks and why, [Settings](/docs/settings) for the full preferences reference, [Keyboard Shortcuts](/docs/keyboard-shortcuts) for the (small) keyboard surface, and [Roadmap](/docs/roadmap) for what's coming next.

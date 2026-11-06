@@ -14,10 +14,10 @@ The **Wi-Fi** tool shows every wireless network the Mac's radio can currently se
 ## Location permission
 
 <Callout type="warning">
-The first time you open the Wi-Fi tool, macOS prompts for **Location permission**. SSID details (network names, BSSIDs, encryption modes) are gated behind that permission at the system level — without it, the system returns empty network names and the tool can't render anything useful.
+The first time you open the Wi-Fi tool, it asks for **Location access**: **Grant Access** takes you to the Location Services switch in System Settings. SSID details (network names, BSSIDs, encryption modes) are gated behind that permission at the system level — without it, the system returns empty network names and the tool can't render anything useful.
 </Callout>
 
-Netfox uses location *only* to read the Wi-Fi neighbour list. It never reads your coordinates, so it has none to store or send. What it does keep, on your Mac and for 7 days, is the signal of each access point it saw, by hardware address (BSSID). It stops requesting the permission once granted. If you decline, the Wi-Fi tool shows a one-click *Open Location Settings* button and waits; flip the toggle and the scan starts immediately.
+Netfox uses location *only* to read the Wi-Fi neighbour list. It never reads your coordinates, so it has none to store or send. What it does keep, on your Mac and for 7 days, is the signal of each access point it saw, by hardware address (BSSID). It stops requesting the permission once granted. If access is off, the Wi-Fi tool shows a one-click *Open Location Settings* button and waits; flip the toggle and the scan starts immediately.
 
 ## The network list
 
@@ -39,8 +39,8 @@ Sorting is configurable from the bottom of the list: signal strength (default), 
 
 The toolbar carries the same controls as Devices:
 
-- **Filter** — the funnel button. Its menu narrows the list to **only your band** (the band of the network you're on), **Known** networks, or networks with **No password**: open ones, and Enhanced Open ones, which need no password yet still encrypt the traffic (their lock stays green). While a filter is on, the funnel is filled and names it.
-- **Search** (<Kbd>⌘</Kbd> <Kbd>F</Kbd>) — finds a network by name, BSSID, the maker of its access point, or its security. Type `fast` to see every network whose name starts with Fastweb; type a maker's name to pick out a hidden network.
+- **Filter** — the funnel button. Its menu narrows the list to **Only 5 GHz** or whichever band the network you're on uses (offered while you are on one), **Known** networks, or networks with **No password**: open ones, and Enhanced Open ones, which need no password yet still encrypt the traffic (their lock stays green). While a filter is on, the funnel is filled and names it.
+- **Search** (<Kbd>⌘</Kbd> <Kbd>F</Kbd>) — finds a network by name, BSSID, the maker of its access point, or its security. Type `fast` to see every network whose name contains it, Fastweb's included; type a maker's name to pick out a hidden network.
 - **Scan now** — scans immediately, as <Kbd>⌘</Kbd> <Kbd>R</Kbd> does while Wi-Fi is in front.
 
 When a filter or a search narrows the list, the count at its foot says what it's out of — `11 of 21 networks` — so a short list never passes for a quiet neighbourhood.
@@ -55,7 +55,7 @@ Select a network and choose **Join…** at the top of its details, or right-clic
 
 - it names the network your Mac will **leave** to join this one;
 - on an **open** network it says what that means: anything you send over it can be read by others nearby, unless the app or website encrypts it itself;
-- it asks for the **password**. Netfox hands it to macOS for this one join and never keeps it. A network in your Mac's known networks still needs it typed here: Netfox doesn't read the one macOS saved, while the Wi-Fi menu in the menu bar can use it;
+- on a network that needs one, it asks for the **password**. Netfox hands it to macOS for this one join and never keeps it. A network in your Mac's known networks still needs it typed here: Netfox doesn't read the one macOS saved, while the Wi-Fi menu in the menu bar can use it;
 - if your Mac is set to require an administrator password to change networks, it says macOS may ask for one.
 
 ![The join sheet over the Wi-Fi tool: the network your Mac will leave, and the password field](/screenshot-wifi-join.png)
@@ -92,7 +92,7 @@ For the network you're connected to, the panel answers that in a sentence rather
 
 Beside the sentence are the three numbers behind it: how many networks share your spectrum, how many are **close enough in strength to compete** for airtime, and your SNR.
 
-The middle one is the one that decides the verdict, and it is not the same as the first. An access point 25 dB below yours overlaps your spectrum on paper but does not raise the channel's energy enough to hold you off — so counting it would call a good link crowded. Netfox counts a neighbour as competing when it is within 15 dB of your own signal, a figure measured against a real dense environment rather than picked: on a network with 33 access points visible at 5 GHz and a median of −85 dBm against a −58 dBm link, the count sat flat at 2 up to 15 dB and jumped to 11 by 25 dB.
+The middle one decides most verdicts, and it is not the same as the first: three competing neighbours make the channel busy, and so does a single overlapping network stronger than yours. An access point 25 dB below yours overlaps your spectrum on paper but does not raise the channel's energy enough to hold you off — so counting it would call a good link crowded. Netfox counts a neighbour as competing when it is within 15 dB of your own signal, a figure measured against a real dense environment rather than picked: on a network with 33 access points visible at 5 GHz and a median of −85 dBm against a −58 dBm link, the count sat flat at 2 up to 15 dB and jumped to 11 by 25 dB.
 
 When a materially quieter channel exists, Netfox names it.
 
@@ -111,7 +111,7 @@ A table with SSID, BSSID (the AP's radio MAC), **access point manufacturer**, ch
 A *Export network data* button saves the full network metadata + the current sample buffer as JSON — handy for diffing two scans, sharing a problem report, or feeding the data into another tool.
 
 ### Cross-link to Devices
-When the selected network is the one you're currently connected to, an extra **View devices on this network** button appears at the bottom — one click jumps to the [Devices](/docs/tools/devices) tool with that subnet filtered.
+When the selected network is the one you're currently connected to, an extra **View Devices** button appears at the bottom — one click jumps to the [Devices](/docs/tools/devices) tool, which lists that network's devices.
 
 ## Reading a hidden network
 

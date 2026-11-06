@@ -34,7 +34,7 @@ Made small enough to become a [widget](/docs/getting-started), the Overview keep
 
 On macOS 26 and later the cards are made of glass, each tinted with the colour of the tool it opens: rounded, with no line drawn around them, over soft violet, teal and rose light that shows through the glass — the same light the [menu bar popover](/docs/menu-bar) puts under its cards. As the Overview appears the cards land one after another on a spring, overshoot a little and settle, with a light running along the edges of each; a moment later the rings fill and the figures roll into place, the public IP included. A refresh gives the cards a quick press rather than making them arrive again, and the rings and figures run again, so you can see the numbers being measured again without them ever leaving the screen. An open card is already in place with its panel, and stays still. With **Reduce Motion** turned on in System Settings they simply appear.
 
-Risk posture leads because it is the one card that asks you to do something. **Run Smart Scan** starts a scan across every untested device on your LAN, and works the same whether you have never scanned or want to re-check everything.
+Risk posture leads because it is the one card that asks you to do something. **Run Smart Scan** takes you to the [Security](/docs/tools/security) tool, where **Scan All Devices** probes every untested device on your LAN and, once all of them have been probed, **Rescan All Devices** checks everything again.
 
 <Callout type="info">
 Until v0.18.0 this number appeared twice — once in a banner across the top of the screen and again in the card below it, in two sizes a hundred points apart. The banner is gone and its button came down into the card.
@@ -63,7 +63,8 @@ Below the KPI cards sits a **Network** panel: the settings your network hands ou
 | **Router** | Where traffic leaves for the internet |
 | **DNS** | The name servers the network tells its clients to use |
 | **Domain** | The domain appended to bare names — it often names the internet provider or the router's maker |
-| **DHCP server** | The device handing out addresses, and how long yours lasts |
+| **DHCP server** | The device handing out addresses |
+| **Lease** | How long your address lasts |
 
 These are the things you would otherwise go looking for in a router admin page, and they're the same for every device on the network — which is exactly why they live here once, rather than being repeated on all forty device panels.
 
@@ -100,7 +101,7 @@ Shown when an Ethernet interface is actually up — on a laptop with nothing plu
 | The generation and the rate | Wi-Fi 7 at 1.2 Gb/s, say |
 | Band · width · channel | Only when the radio is associated. A radio that is switched off has no band, so those are left out rather than filled in with "Unknown" |
 | **39 dB of headroom — signal −58 dBm against −97 dBm of noise** | How much room you have, not just how strong the signal is |
-| **Steady at 1.2 Gb/s across two samples 2s apart** | The rate is what the link is doing now, not a property of it. Netfox takes two samples and says whether it held, rose or fell — during development it moved by half a gigabit in two seconds, on the same network, in the same room |
+| **Steady at 1.2 Gb/s over the last 2s.** | The rate is what the link is doing now, not a property of it. Netfox takes two samples and says whether it held, rose or fell — during development it moved by half a gigabit in two seconds, on the same network, in the same room |
 
 ### Whether anything is being dropped
 
@@ -129,8 +130,8 @@ The first hop never leaves your network, so it is measured whether or not Netfox
 
 ![Devices with Demo Mode active](/screenshot-demo-mode.png)
 
-If you ever screenshot or screen-share the Overview, flip on **Demo Mode** with <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>D</Kbd> first. Device names, MACs, IPv6, Wi-Fi SSIDs, and the public IP placeholder all collapse to generic labels — no real values leak into the recording. See [Settings → Privacy](/docs/settings#privacy) for the full mask reference.
+If you ever screenshot or screen-share the Overview, flip on **Demo Mode** with <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>D</Kbd> first. Device names, MACs, IPv6, Wi-Fi SSIDs, and the public IP placeholder all collapse to generic labels — no real values leak into the recording. See [Settings → Demo Mode](/docs/settings#demo-mode) for the full mask reference.
 
 ## Roadmap teaser
 
-A small footer card at the bottom of the Overview links to the public [Roadmap](/docs/roadmap), which lays out the modules still ahead. A module that has shipped leaves that list — it answers *what is not built yet*, not *what happened*.
+A small footer card at the bottom of the Overview names the modules still ahead, and its **View** button opens the [Optimization](/docs/tools/optimization) tool, which links to the public [Roadmap](/docs/roadmap). A module that has shipped leaves that list — it answers *what is not built yet*, not *what happened*.

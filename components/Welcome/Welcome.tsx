@@ -96,7 +96,7 @@ const tourFrames: TourFrame[] = [
     alt: 'Netfox — the Wi-Fi tool: every network in range with its security, channel and signal, and a live signal chart for the selected one',
     eyebrow: 'Wi-Fi',
     title: 'Every network in range, and how yours is holding up.',
-    body: 'Every network your Mac can hear, its security graded by colour, its channel and band, and a live signal history for each one. Pick one to join it from there, and when yours is struggling and a network your Mac already knows is clearly stronger where you are, Netfox says so. A hidden network still tells you who made the access point. Location is asked for once, because macOS keeps network names behind it, and is used for nothing else.',
+    body: 'Every network your Mac can hear, its security graded by colour, its channel and band, and a live signal history for each one. Pick one to join it from there, and when yours is struggling and a network your Mac already knows is clearly stronger where you are, Netfox says so. A hidden network still tells you who made the access point. Location access is needed once, because macOS keeps network names behind it, and is used for nothing else.',
     href: '/docs/tools/wifi',
     linkLabel: 'How the Wi-Fi tool reads',
   },
@@ -124,7 +124,7 @@ const tourFrames: TourFrame[] = [
     title: 'What looks wrong, and why it matters.',
     body: 'A quick check of every device you can reach, against the ports that matter at home: remote access, file sharing, databases, smart-home control, and the dev server you forgot was open to the LAN. Every finding comes in plain English, and every device it has checked earns a risk badge. Plain TCP connections, no root, and never anything outside your network.',
     figures: [
-      { value: '6', label: 'families of port, from SSH to Redis' },
+      { value: '7', label: 'families of port, from SSH to Redis' },
       { value: 'LAN only', label: 'it refuses to probe anything outside' },
     ],
     href: '/docs/tools/security',
@@ -189,9 +189,9 @@ const features = [
   },
   {
     icon: IconBell,
-    title: 'Five Kinds of Alert',
+    title: 'Six Kinds of Alert',
     description:
-      'New device, returning after long absence, risky arrival, port opened, new service. Inbox + persistent log + per-device mute.',
+      'New device, returning after long absence, risky arrival, port opened, new service, a server left running on this Mac. Inbox + persistent log + per-device mute.',
     accent: 'var(--mantine-color-yellow-5)',
     href: '/docs/settings#alerts',
   },
@@ -208,7 +208,7 @@ const features = [
     icon: IconDeviceDesktop,
     title: 'Native macOS',
     description:
-      'Built in SwiftUI for macOS 15.6+. Follows your system appearance and language — localized in 7 languages 🇬🇧 🇮🇹 🇫🇷 🇩🇪 🇪🇸 🇵🇹 🇳🇱. Universal binary.',
+      'Built in SwiftUI for macOS 15.6+. Dark by design, follows your system language — localized in 7 languages 🇬🇧 🇮🇹 🇫🇷 🇩🇪 🇪🇸 🇵🇹 🇳🇱. Universal binary.',
     accent: 'var(--mantine-color-grape-5)',
     href: '/docs/getting-started',
   },

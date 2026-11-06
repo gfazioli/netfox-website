@@ -25,7 +25,8 @@ For every device on your home network, Netfox can probe a short list of well-kno
 | File sharing | FTP, SMB, AFP, NFS |
 | Web & IoT control | HTTP, HTTPS, MQTT, Home Assistant |
 | Discovery | NetBIOS, mDNS, SSDP |
-| Streaming & media | AirPlay, Plex, Transmission |
+| Streaming & media | AirPlay, Google Cast, Plex, Transmission, SIP |
+| Printing | IPP, JetDirect |
 | Developer & database | MySQL, PostgreSQL, Redis, MongoDB, and common dev servers (Node/Next.js, Vite, Angular, Django, Jupyter) |
 
 The dev-server ports are there so you can catch a framework server you left running and reachable across your LAN. Unlike the database ports, they don't raise a risk finding on their own — a dev server turning up won't push a device into a higher risk badge. And when a service lives on a port the catalog doesn't know, you can add it yourself — see [Custom ports](#custom-ports) below.
@@ -43,14 +44,14 @@ Probes are quick TCP connections (no packet sniffing, no root access). They only
 Once a device has been probed, it earns a coloured badge:
 
 - 🟢 **Low risk** — nothing obviously dangerous open
-- 🟡 **Medium risk** — at least one finding worth knowing about (an HTTP-only admin page, a slightly outdated service)
-- 🔴 **High risk** — something you should fix soon (Telnet wide open, a database port reachable from the LAN, a remote-access service without TLS)
+- 🟡 **Medium risk** — at least one finding worth knowing about (an HTTP-only admin page, Remote Desktop listening)
+- 🔴 **High risk** — something you should fix soon (Telnet or plain-text FTP open, a database port reachable from the LAN)
 
 Click the badge to open the **Risk Inspector** — a plain-English explanation of every finding, including which port it's on and what to do about it. No security jargon.
 
 ![Risk Inspector explaining an HTTP-without-HTTPS finding](/screenshot-risk-inspector.png)
 
-When [live inspection](/docs/tools/devices#looking-inside-a-service) has looked inside a flagged service, the finding gets sharper still. A database port isn't just "open" — Netfox tells you whether it actually answered **with no password**, turning a generic warning into a confirmed exposure. Leave **Inspect automatically during scans** on (Settings → Privacy) and that check runs as part of the sweep, so a wide-open database is flagged the moment it's seen.
+When [live inspection](/docs/tools/devices#looking-inside-a-service) has looked inside a flagged service, the finding gets sharper still. A database port isn't just "open" — Netfox tells you whether it actually answered **with no password**, turning a generic warning into a confirmed exposure. Turn on **Inspect services on demand** and then **Inspect automatically during scans** (Settings → Privacy, both off by default) and that check runs as part of the sweep, so a wide-open database is flagged the moment it's seen.
 
 ![A Redis database flagged High risk — open on the LAN with no password](/screenshot-inspector-exposed-db.png)
 
@@ -74,12 +75,12 @@ On macOS 27, pulling the Security page down does exactly what the blue button do
 You can also probe a single device:
 
 - Click **Probe** next to any untested row
-- Or right-click any device in Overview → **Probe Ports**
+- Or right-click any device in Devices → **Probe Ports**
 - Or press <Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>P</Kbd> with a device selected
 
 ## Full scan
 
-The catalog walk above checks a curated set of well-known ports — fast and quiet, the right default. When you want to go deeper on **one** device, open its **Ports** tab in Overview and use **Full Scan**:
+The catalog walk above checks a curated set of well-known ports — fast and quiet, the right default. When you want to go deeper on **one** device, open its **Ports** tab in Devices and use **Full Scan**:
 
 - **Well-known ports (1–1024)** — the IANA system range, where almost every interesting service lives
 - **All ports (1–65535)** — the exhaustive sweep
@@ -95,7 +96,7 @@ The **By Device** / **By Service** toggle at the top flips the dashboard between
 
 ![Security, grouped by service](/screenshot-security-services.png)
 
-Click any risk row in the Security dashboard to jump straight to that device's **Ports** tab in Overview. Every port that triggered a finding has its risk symbol painted next to it — you can spot the troublesome port at a glance instead of cross-referencing the Risk Inspector.
+Click any risk row in the Security dashboard to jump straight to that device's **Ports** tab in Devices. Every port that triggered a finding has its risk symbol painted next to it — you can spot the troublesome port at a glance instead of cross-referencing the Risk Inspector.
 
 ## Scheduled scans
 
@@ -128,7 +129,7 @@ Everything stays on your Mac:
 
 - Probes only fire against devices on your own LAN (verified twice — once by the UI, once by the engine).
 - No data leaves your computer. Netfox doesn't ship findings to a cloud service.
-- **Demo Mode** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>D</Kbd>) masks device names, MAC addresses, IPv6, and Wi-Fi SSIDs so you can take screenshots without exposing your setup. Findings stay visible — only the identifying labels around them are masked. See [Settings → Privacy](/docs/settings#privacy) for the full mask reference.
+- **Demo Mode** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>D</Kbd>) masks device names, MAC addresses, IPv6, and Wi-Fi SSIDs so you can take screenshots without exposing your setup. Findings stay visible — only the identifying labels around them are masked. See [Settings → Demo Mode](/docs/settings#demo-mode) for the full mask reference.
 - Probe history lives in a local store alongside the device history. **Settings → Privacy** has a *Clear port scan history* button if you ever want to wipe the slate.
 
 ## Why these checks, not others

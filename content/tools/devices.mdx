@@ -71,8 +71,8 @@ On macOS 27 you can pull the list down to refresh it, the same as <Kbd>⌘</Kbd>
 
 ### Search and filter
 - The **search box**, pinned to the toolbar's trailing edge, filters by name (the one you gave it in a tag, the one it announces, its local name, or the name a Cast device gives itself), vendor, IPv4, IPv6, or MAC. Matches narrow the list live.
-- The **status filter pill** scopes the list to *All / Online / Offline* without clearing the search. Your choice sticks — across switching tools and across restarts — so a list you've scoped to *Online* stays that way. The search box deliberately doesn't persist: a forgotten search term hides devices with nothing on screen to explain why.
-- The **range control** scopes the list to a block of addresses. Set it to `192.168.1.1`–`192.168.1.2` and the list shows those two devices and nothing else: a range says which part of the network you care about, not only which part to ask. Sweeping sets it; **Filter only** sets it without the probe, for when you want the narrower list rather than a fresh look at it. While a range is active the control itself states it and offers to dismiss it, and the footer reads *2 in range — 33 on the network*. Naming that second number is the point, because a filter you have forgotten looks exactly like a network that has lost thirty devices. Like the search box, and unlike the status pill, it doesn't survive a restart.
+- The **status filter**, a three-way switch, scopes the list to *All / Online / Offline* without clearing the search. Your choice sticks — across switching tools and across restarts — so a list you've scoped to *Online* stays that way. The search box deliberately doesn't persist: a forgotten search term hides devices with nothing on screen to explain why.
+- The **range control** scopes the list to a block of addresses. Set it to `192.168.1.1`–`192.168.1.2` and the list shows those two devices and nothing else: a range says which part of the network you care about, not only which part to ask. Sweeping sets it; **Filter only** sets it without the probe, for when you want the narrower list rather than a fresh look at it. While a range is active the control itself states it and offers to dismiss it, and the footer reads *2 in range · 33 on the network*. Naming that second number is the point, because a filter you have forgotten looks exactly like a network that has lost thirty devices. Like the search box, and unlike the status filter, it doesn't survive a restart.
 
 ![Searching the device list](/screenshot-device-search.png)
 
@@ -83,7 +83,7 @@ A scan finishing in the background used to be able to push a detail panel in fro
 The other half of that rule is the one that matters once you are filtering. Ask for a specific device — from the search box, from an alert, from the History window — and Netfox shows it to you even when the current scope would hide it, relaxing whatever stands in the way rather than silently doing nothing. An explicit request outranks a filter you set earlier and have stopped thinking about.
 
 ### Bell badge
-The bell in the toolbar carries a count of unread alerts. Click to open the inbox; click *Done* to mark them read and reset the badge to zero. The persistent **Alert History** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>A</Kbd>) keeps every alert ever raised, even after you've cleared the inbox.
+The bell in the toolbar carries a count of unread alerts. Click to open the inbox; click *Done* to mark them read and reset the badge to zero. The persistent **Alert History** (<Kbd>⌘</Kbd> <Kbd>⇧</Kbd> <Kbd>A</Kbd>) keeps the last 90 days of alerts, even after you've cleared the inbox.
 
 ![Netfox alerts](/screenshot-alert-history.png)
 
@@ -92,20 +92,20 @@ The bell in the toolbar carries a count of unread alerts. Click to open the inbo
 Selecting any device opens a panel of sections, each covering one thing you might want to know. On the General tab every section folds: click its title to hide it, and it stays hidden on every device and after a restart, so a narrow window keeps to what you read.
 
 ### Identity
-MAC address, device kind (computer / phone / speaker / tablet / TV / printer / router / …), manufacturer, and the **Model** the device announces about itself. The **Services** row lists, in plain English, what the device offers on the network — AirPlay, file sharing, IPP printing, SSH, a web service, and so on — gathered from what each device advertises.
+MAC address, device kind (computer / phone / speaker / tablet / TV / printer / router / …), vendor, and the **Model** the device announces about itself. The **Services** row lists, in plain English, what the device offers on the network — AirPlay, file sharing, IPP printing, SSH, a web service, and so on — gathered from what each device advertises.
 
 0.17.0 widened that list after measuring what a real network answers for, and one of the additions fixes a blind spot rather than adding a nicety: HomeKit accessories advertise the Accessory Protocol, which Netfox was not looking for, so they were arriving as **Unknown** while the label existed and was unreachable. Screen sharing, scanning (both the modern and older spellings that multifunction printers use), Matter and Spotify Connect are recognised too.
 
-**Model** is the one identity signal on the network that isn't inferred. Where *Kind* and *Manufacturer* are worked out from the device's behaviour and its address, many devices state their model outright — `AppleTV5,3`, `Mac14,15`, `BRAVIA 4K GB ATV3` — and Netfox trusts that over everything else when deciding what a device is. It's what stops an Apple TV named "Living Room" from being filed as a phone: the name gives nothing away, and the services it speaks are the same ones a HomePod and a Mac use, but the model is unambiguous. Not everything publishes one; when nothing does, Netfox falls back to the services and the name as before.
+**Model** is the one identity signal on the network that isn't inferred. Where *Kind* and *Vendor* are worked out from the device's behaviour and its address, many devices state their model outright — `AppleTV5,3`, `Mac14,15`, `BRAVIA 4K GB ATV3` — and Netfox trusts that over everything else when deciding what a device is. It's what stops an Apple TV named "Living Room" from being filed as a phone: the name gives nothing away, and the services it speaks are the same ones a HomePod and a Mac use, but the model is unambiguous. Not everything publishes one; when nothing does, Netfox falls back to the services and the name as before.
 
 **System** says which operating system a device runs, read from the same record it states its Model in — so Apple hardware only, and only when the device answers. A sleeping device publishes nothing, and most rows simply never grow one.
 
 What the device actually states is an internal build number rather than the version you see in System Settings, so Netfox shows a name only where it can translate that number with certainty. Where it cannot, **the row is absent rather than showing a number that looks like a version and is not one**. That honesty has a cost worth knowing about: when a new macOS ships, its build number is one Netfox has not learned yet, so the row quietly disappears for Macs that have updated — which is why there is now a check that asks the Mac Netfox is running on whether it can name its own system, turning the next gap into something visible instead of a row that is silently not there.
 
-**Manufacturer** comes from the registered block a MAC address belongs to, matched against the full public IEEE registry — around 53,000 assignments, so nearly every real device resolves. Where it doesn't, the reason is usually not a gap:
+**Vendor** comes from the registered block a MAC address belongs to, matched against the full public IEEE registry — around 53,000 assignments, so nearly every real device resolves. Where it doesn't, the reason is usually not a gap:
 
 - **"Private address"** means the device invented its address rather than using the one burned into its hardware. Phones and laptops increasingly do this per network, for privacy. There is no manufacturer to look up — that's the complete answer, not a missing one.
-- A blank Manufacturer means the address *is* a hardware address but its block isn't in the registry. That's rare, and mildly interesting in itself.
+- A blank Vendor means the address *is* a hardware address but its block isn't in the registry. That's rare, and mildly interesting in itself.
 
 Netfox composes these into a one-line **plain-English identity** — *vendor · kind · services*, e.g. "Apple · Speaker · AirPlay". A device with no friendly name now **leads with that identity** in the list and the detail header (e.g. "Netgear · Router · Web service") instead of a bare IP address — the address drops to the subtitle, where it belongs. Devices you've named, that report a hostname, or that answer to a local name keep that name up front.
 
@@ -189,14 +189,14 @@ When the first reply of a burst takes far longer than the ones behind it, Netfox
 Link quality is hidden for **This Mac** — the measurement would be a packet to your own address that never leaves the machine, so it would report a flawless link forever while saying nothing about the network.
 
 ### Activity
-First seen, last seen, current status. Timestamps are relative (*2 minutes ago*) in normal mode and absolute ISO 8601 in Advanced Mode.
+First seen, last seen, current status. Timestamps read *2 minutes ago* followed by the date and time; Advanced Mode writes that date as ISO 8601.
 
 ### Ports
 Open services from the most recent security probe, grouped by category. Each port shows the service name, the port number, and a risk symbol if it triggered a finding. Ports you've added yourself appear under their own **Custom** section, labelled with the names you gave them — see [Security → Custom ports](/docs/tools/security#custom-ports). Empty section if the device has never been probed — use the **Probe Ports** button to run a scan, or run a network-wide scan from the [Security](/docs/tools/security) tool.
 
 ![The Ports tab, grouped by category](/screenshot-device-ports.png)
 
-**The list is the last thing each port said, and it is honest about that.** Readings are kept across relaunches, so on their own they could be days old — a database you stopped since then would still read as open. Opening the tab asks again every port it lists as **open** once that answer is more than a minute old, and a line above the list says how old the list is (**Oldest reading …**). The re-check only records an answer: a port that refuses is marked **Closed**, while one that simply doesn't reply keeps its reading, because a silence is not a close. **Probe Ports** asks everything again, including any port a Full Scan found outside the catalog, and it is the one probe that records a silence over an answer, so a port whose firewall has started dropping gets corrected there. The scheduled probe and **Scan All** keep a port's answer through a silence, because a device asleep during the sweep answers nothing at all.
+**The list is the last thing each port said, and it is honest about that.** Readings are kept across relaunches, so on their own they could be days old — a database you stopped since then would still read as open. Opening the tab asks again every port it lists as **open** once that answer is more than a minute old, and a line above the list says how old the list is (**Oldest reading …**). The re-check only records an answer: a port that refuses is marked **Closed**, while one that simply doesn't reply keeps its reading, because a silence is not a close. **Probe Ports** asks everything again, including any port a Full Scan found outside the catalog, and it is the one probe that records a silence over an answer, so a port whose firewall has started dropping gets corrected there. The scheduled probe and **Scan All Devices** keep a port's answer through a silence, because a device asleep during the sweep answers nothing at all.
 
 A picker above the list narrows it to one state, and each segment carries its count — **All**, **Open**, **Closed**, **Filtered**. The picker and the age line stay in place while the list scrolls under them, so you can switch state from the foot of a long list; in a short window they scroll with the list instead, to leave it room. The counts are worth reading on their own: *Filtered 3* on a device whose other ports answered in the same probe means something is dropping probes for exactly those three ports, which is a finding before you click anything.
 
@@ -219,7 +219,7 @@ The sheet says how the port is managed, whether closing it can be undone, and ei
 
 Where Netfox can't offer the action it says why rather than hiding the button, and the two refusals get different sentences. *Owned by another user* leaves you guessing; *a system service holds it, and below 1024 that needs an administrator* tells you that no amount of clicking will help.
 
-In [Demo Mode](/docs/settings#privacy) with sample data on, the owners on This Mac are invented — `sshd`, `node`, `postgres`, `nginx`, Control Center — so a screenshot shows the line without showing what runs on your Mac. The real owners are never read in that mode, and **Quit** is greyed out, with a note saying why: there is nothing behind the sample to quit.
+In [Demo Mode](/docs/settings#demo-mode) with sample data on, the owners on This Mac are invented — `sshd`, `node`, `postgres`, `nginx`, Control Center — so a screenshot shows the line without showing what runs on your Mac. The real owners are never read in that mode, and **Quit** is greyed out, with a note saying why: there is nothing behind the sample to quit.
 
 ### Recent activity
 The last few transitions — online ↔ offline, IPv4 learned/changed, hostname changed, vendor learned, kind refined, ports opened/closed. *View Full History…* opens the complete timeline.
@@ -275,7 +275,7 @@ From that, Netfox works out the service's **posture** — how safely it's expose
 A database reachable **with no password** is the one you want to catch: right now anyone on your Wi-Fi could read or erase it. That verdict also feeds the [Security](/docs/tools/security) risk report, so an exposed dev database is flagged as soon as it's seen — not only after you go looking.
 
 <Callout type="info">
-Live inspection is **off by default** and strictly read-only — Netfox opens an outgoing connection only when you ask it to (or, with **Inspect automatically during scans**, as part of a scan you started), and never sends a password or a command. It's suppressed entirely in [Demo Mode](/docs/settings#privacy).
+Live inspection is **off by default** and strictly read-only — Netfox opens an outgoing connection only when you ask it to (or, with **Inspect automatically during scans**, as part of a scan you started), and never sends a password or a command. It's suppressed entirely in [Demo Mode](/docs/settings#demo-mode).
 </Callout>
 
 ### Reading a TLS port
@@ -298,7 +298,7 @@ Netfox also flags a certificate that is **not valid yet**, which almost always m
 
 **The connection** says what the two ends actually agreed on:
 
-- **Protocol** — the version of TLS in use, from the current 1.3 down to the versions that were retired years ago.
+- **TLS version** — the version of TLS in use, from the current 1.3 down to the versions that were retired years ago.
 - **Cipher suite** — the exact set of algorithms protecting the session, under its standard name.
 
 Two of those are worth naming as well:
@@ -313,7 +313,7 @@ One line under those two rows keeps them honest: what you see is what that serve
 Netfox reads what it came for and then **deliberately hangs up without completing the connection**. It has what it came for by then, so there is no reason to finish: nothing further is exchanged and no session is established. Reading is not the same as trusting — an expired or self-signed certificate is precisely what this is for, so Netfox looks at what the server presents without judging whether to accept it.
 </Callout>
 
-TLS details are hidden in [Demo Mode](/docs/settings#privacy), for the same reason hostnames are: the name on a certificate is very often the name of the device.
+TLS details are hidden in [Demo Mode](/docs/settings#demo-mode), for the same reason hostnames are: the name on a certificate is very often the name of the device.
 
 ### Reading a file-sharing port
 
@@ -336,7 +336,7 @@ If Netfox cannot settle the SMB 1 question — the device stops answering, somet
 Both questions are the opening line of an ordinary file-sharing conversation, the part that happens before any login. Netfox sends no user name, no password and no share name, and it hangs up on the answer — nothing is mounted and nothing is listed.
 </Callout>
 
-The file-sharing card is hidden in [Demo Mode](/docs/settings#privacy). It never shows a name — but *this machine still answers SMB 1* is a fact about a real device on a real network, which is exactly what Demo Mode is there to keep off a screen.
+The file-sharing card is hidden in [Demo Mode](/docs/settings#demo-mode). It never shows a name — but *this machine still answers SMB 1* is a fact about a real device on a real network, which is exactly what Demo Mode is there to keep off a screen.
 
 ## Local Services — what's listening on your own Mac
 
@@ -385,7 +385,7 @@ A name on a **specific address** is the case that does tell rows apart, so it st
 With several aliases the heading narrows things down; with exactly one it mostly tells you the file exists. Either way it points you at where to look rather than labelling what each service is.
 
 <Callout type="info">
-Nothing here needs a password, a permission prompt or a helper. Netfox reads what the system already knows about your own machine. Your own listeners come back complete; ones belonging to other user accounts or to the system may be partial, which is the cost of not asking for privileges. The whole tab is masked in [Demo Mode](/docs/settings#privacy) — a list of running processes is a software inventory, so process names, IDs and hosts-file names are all hidden before you share a screenshot.
+Nothing here needs a password, a permission prompt or a helper. Netfox reads what the system already knows about your own machine. Your own listeners come back complete; ones belonging to other user accounts or to the system may be partial, which is the cost of not asking for privileges. The whole tab is masked in [Demo Mode](/docs/settings#demo-mode) — a list of running processes is a software inventory, so process names, IDs and hosts-file names are all hidden before you share a screenshot.
 </Callout>
 
 ## Context menu
@@ -409,9 +409,8 @@ Click **Add Tag…** on a device whose hostname is meaningless ("Espressif Inc."
 - A custom name — replaces hostname everywhere in the UI
 - A custom kind — overrides the auto-detected device kind
 - A connection — Ethernet or Wi-Fi, for a device the network cannot tell you about, such as a mesh repeater on a cable; the row then shows the cable or Wi-Fi icon, and the detail's Network section says the same
-- A mute toggle — silences alerts for that device
 
-Tags survive across launches and are masked when [Demo Mode](/docs/settings#privacy) is on. Wipe them from **Settings → Privacy → Clear custom tags** if you ever want a fresh slate.
+Muting is a separate item in the device's context menu, **Mute Alerts**, kept with the tag. Tags survive across launches and are masked when [Demo Mode](/docs/settings#demo-mode) is on. Wipe them from **Settings → Privacy → Clear custom tags** if you ever want a fresh slate.
 
 ## History timeline
 
@@ -421,10 +420,8 @@ The detail panel's **History** tab shows the most recent transitions inline, wit
 
 Click *View Full History…* to open the per-device history sheet:
 
-- Every observation Netfox has ever recorded for that device, newest first
-- Categorised by kind (online/offline transition, hostname change, IP change, vendor change, port opened, closed or stopped answering, …)
-- Filterable by event kind
-- Exportable as JSON for sharing or diffing
+- Every observation from the last 30 days, newest first
+- Each one says what kind it is (online/offline transition, hostname change, IP change, vendor change, port opened, closed or stopped answering, …)
 
 ### Port-state changes
 
@@ -436,7 +433,7 @@ When a probe — manual or scheduled — flips a port between **open** and not-o
 
 ![Devices with Demo Mode active](/screenshot-demo-mode.png)
 
-When [Demo Mode](/docs/settings#privacy) is on:
+When [Demo Mode](/docs/settings#demo-mode) is on:
 - Hostnames, local names, the names Cast devices give themselves and custom tag names collapse to `Computer #1`, `Phone #2`, etc., numbered by device kind; the **Local name** row is hidden, and the search no longer matches it
 - MAC addresses lose the last three octets (vendor OUI survives)
 - IPv6 addresses lose everything past the first hextet
