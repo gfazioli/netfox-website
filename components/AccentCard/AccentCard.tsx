@@ -19,6 +19,11 @@ interface AccentCardStyle extends CSSProperties {
 type AccentCardProps = Omit<PaperProps, 'children'> & {
   /** CSS color for the accent gradient and hover glow. */
   accent: string;
+  /**
+   * A card that opens nothing keeps still on hover: the lift and the glow
+   * would make it look like a link (information never wears a control's face).
+   */
+  still?: boolean;
   children: ReactNode;
 };
 
@@ -30,13 +35,20 @@ type AccentCardProps = Omit<PaperProps, 'children'> & {
  * Defaults: padding `xl`, radius `lg`. Override either via the
  * pass-through `PaperProps`.
  */
-export function AccentCard({ accent, children, className, style, ...paperProps }: AccentCardProps) {
+export function AccentCard({
+  accent,
+  still = false,
+  children,
+  className,
+  style,
+  ...paperProps
+}: AccentCardProps) {
   return (
     <Paper
       {...paperProps}
       p={paperProps.p ?? 'xl'}
       radius={paperProps.radius ?? 'lg'}
-      className={`${classes.card} ${className ?? ''}`.trim()}
+      className={[classes.card, still && classes.still, className].filter(Boolean).join(' ')}
       style={{ ...style, '--card-accent': accent } as AccentCardStyle}
     >
       {children}

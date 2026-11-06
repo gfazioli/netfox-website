@@ -7,8 +7,15 @@
 import {
   checkSession,
   goodiesShop,
+  goodiesIndexable,
+  isLiveShop,
+  isPackKind,
   isSessionId,
   packDownloadUrl,
+  packLicence,
+  paidPurchase,
+  parseLicence,
+  thanksUrl,
   type GoodiesShop,
 } from './goodies';
 
@@ -18,7 +25,6 @@ const SHOP: GoodiesShop = {
   releasesRepo: 'owner/goodies',
   githubToken: 'github-token',
   stripeKey: 'rk_test_key',
-  assetSuffix: '.zip',
 };
 
 const SESSION = 'cs_test_a1B2c3';
@@ -47,10 +53,6 @@ describe('goodiesShop', () => {
     for (const key of Object.keys(full)) {
       expect(goodiesShop({ ...full, [key]: '' })).toBeNull();
     }
-  });
-
-  it('reads the asset suffix, case-insensitively', () => {
-    expect(goodiesShop({ ...full, GOODIES_ASSET_SUFFIX: '.DMG' })?.assetSuffix).toBe('.dmg');
   });
 
   it('trims a value pasted with a newline, and treats a blank one as missing', () => {
@@ -130,28 +132,211 @@ describe('packDownloadUrl', () => {
         : new Response(null, { status: assetStatus, headers: { location: SIGNED } })
     );
   }
+  const RELEASE = [
+    { id: 1, name: 'SHA256SUMS.txt' },
+    { id: 2, name: 'Netfox-Goodies-1.0.DMG' },
+    { id: 3, name: 'Netfox-Goodies-Wallpapers-1.0.zip' },
+  ];
 
-  it('resolves the asset with the configured suffix to its signed URL', async () => {
-    const fetchMock = github([
-      { id: 1, name: 'SHA256SUMS.txt' },
-      { id: 2, name: 'Netfox-Goodies-1.0.ZIP' },
-    ]);
-    global.fetch = fetchMock as unknown as typeof fetch;
+  it('resolves each kind to its own asset, by suffix, as a signed URL', async () => {
+    for (const [kind, id] of [
+      ['mac', 2],
+      ['pictures', 3],
+    ] as const) {
+      const fetchMock = github(RELEASE);
+      global.fetch = fetchMock as unknown as typeof fetch;
 
-    await expect(packDownloadUrl(SHOP)).resolves.toBe(SIGNED);
-    const [assetUrl, init] = fetchMock.mock.calls[1] as unknown as [string, RequestInit];
-    expect(assetUrl).toBe('https://api.github.com/repos/owner/goodies/releases/assets/2');
-    expect(init.redirect).toBe('manual');
+      await expect(packDownloadUrl(SHOP, kind)).resolves.toBe(SIGNED);
+      const [assetUrl, init] = fetchMock.mock.calls[1] as unknown as [string, RequestInit];
+      expect(assetUrl).toBe(`https://api.github.com/repos/owner/goodies/releases/assets/${id}`);
+      expect(init.redirect).toBe('manual');
+    }
   });
 
   it('gives nothing when the release has no such asset or GitHub fails', async () => {
     global.fetch = github([{ id: 1, name: 'NetfoxDrift.dmg' }]) as unknown as typeof fetch;
-    await expect(packDownloadUrl(SHOP)).resolves.toBeNull();
+    await expect(packDownloadUrl(SHOP, 'pictures')).resolves.toBeNull();
 
-    global.fetch = github([{ id: 2, name: 'pack.zip' }], 404) as unknown as typeof fetch;
-    await expect(packDownloadUrl(SHOP)).resolves.toBeNull();
+    global.fetch = github([{ id: 2, name: 'pack.dmg' }], 404) as unknown as typeof fetch;
+    await expect(packDownloadUrl(SHOP, 'mac')).resolves.toBeNull();
 
     global.fetch = jest.fn(async () => json(404, {})) as unknown as typeof fetch;
-    await expect(packDownloadUrl(SHOP)).resolves.toBeNull();
+    await expect(packDownloadUrl(SHOP, 'mac')).resolves.toBeNull();
+  });
+});
+
+describe('isPackKind', () => {
+  it('knows the two files and nothing else', () => {
+    expect(isPackKind('mac')).toBe(true);
+    expect(isPackKind('pictures')).toBe(true);
+    for (const bad of ['', 'zip', 'toString', '__proto__', 1]) {
+      expect(isPackKind(bad)).toBe(false);
+    }
+  });
+});
+
+describe('isLiveShop', () => {
+  it('is live only with a live-mode key', () => {
+    expect(isLiveShop(SHOP)).toBe(false);
+    expect(isLiveShop({ ...SHOP, stripeKey: 'rk_live_abc' })).toBe(true);
+    expect(isLiveShop({ ...SHOP, stripeKey: 'sk_live_abc' })).toBe(true);
+    expect(isLiveShop({ ...SHOP, stripeKey: 'sk_test_live_' })).toBe(false);
+  });
+});
+
+describe('goodiesIndexable', () => {
+  const env = {
+    GOODIES_PAYMENT_LINK_URL: 'https://buy.example.test/goodies',
+    GOODIES_PAYMENT_LINK_ID: 'plink_goodies',
+    GOODIES_RELEASES_REPO: 'owner/goodies',
+    GOODIES_GITHUB_TOKEN: 'github-token',
+    STRIPE_SECRET_KEY: 'rk_live_key',
+  } as unknown as NodeJS.ProcessEnv;
+
+  it('indexes a live shop only', () => {
+    expect(goodiesIndexable(env)).toBe(true);
+    expect(goodiesIndexable({ ...env, STRIPE_SECRET_KEY: 'rk_test_key' })).toBe(false);
+    expect(goodiesIndexable({ ...env, GOODIES_RELEASES_REPO: '' })).toBe(false);
+  });
+});
+
+describe('thanksUrl', () => {
+  it('builds the download page for a session on the given origin', () => {
+    expect(thanksUrl('https://netfox.app', 'cs_live_a1')).toBe(
+      'https://netfox.app/goodies/thanks?session_id=cs_live_a1'
+    );
+  });
+});
+
+describe('paidPurchase', () => {
+  const session = {
+    object: 'checkout.session',
+    id: 'cs_test_a1B2c3',
+    status: 'complete',
+    payment_status: 'paid',
+    payment_link: SHOP.paymentLinkId,
+    customer_details: { email: 'buyer@example.test' },
+  };
+  const event = (type: string, object: unknown = session) => ({ type, data: { object } });
+
+  it('names the buyer of a paid checkout of this link', () => {
+    for (const type of ['checkout.session.completed', 'checkout.session.async_payment_succeeded']) {
+      expect(paidPurchase(SHOP, event(type))).toEqual({
+        sessionId: 'cs_test_a1B2c3',
+        email: 'buyer@example.test',
+      });
+    }
+  });
+
+  it('waits for the money: a completed session still unpaid sends nothing yet', () => {
+    expect(
+      paidPurchase(
+        SHOP,
+        event('checkout.session.completed', { ...session, payment_status: 'unpaid' })
+      )
+    ).toBeNull();
+  });
+
+  it('ignores other links, other events, and sessions without an email', () => {
+    expect(
+      paidPurchase(
+        SHOP,
+        event('checkout.session.completed', { ...session, payment_link: 'plink_coffee' })
+      )
+    ).toBeNull();
+    expect(paidPurchase(SHOP, event('checkout.session.expired'))).toBeNull();
+    expect(paidPurchase(SHOP, event('charge.refunded'))).toBeNull();
+    expect(
+      paidPurchase(
+        SHOP,
+        event('checkout.session.completed', { ...session, customer_details: null })
+      )
+    ).toBeNull();
+    expect(
+      paidPurchase(SHOP, event('checkout.session.completed', { ...session, id: '../x' }))
+    ).toBeNull();
+    expect(paidPurchase(SHOP, null)).toBeNull();
+  });
+});
+
+describe('packLicence', () => {
+  const raw = (url: string, tag?: string) =>
+    url.includes('/contents/pack/License.txt') &&
+    (tag ? url.endsWith(`?ref=${tag}`) : !url.includes('?ref='));
+
+  it('reads the licence of the latest release', async () => {
+    const fetchMock = jest.fn(async (url: string) =>
+      url.endsWith('/releases/latest')
+        ? json(200, { tag_name: 'v0.2.0' })
+        : raw(url, 'v0.2.0')
+          ? new Response('NETFOX GOODIES LICENCE', { status: 200 })
+          : json(500, {})
+    );
+    global.fetch = fetchMock as unknown as typeof fetch;
+
+    await expect(packLicence(SHOP)).resolves.toBe('NETFOX GOODIES LICENCE');
+  });
+
+  it('falls back to the default branch while the latest release has none', async () => {
+    global.fetch = jest.fn(async (url: string) =>
+      url.endsWith('/releases/latest')
+        ? json(200, { tag_name: 'v0.1.0' })
+        : raw(url)
+          ? new Response('FROM MAIN', { status: 200 })
+          : json(404, {})
+    ) as unknown as typeof fetch;
+
+    await expect(packLicence(SHOP)).resolves.toBe('FROM MAIN');
+  });
+
+  it('gives nothing when GitHub fails', async () => {
+    global.fetch = jest.fn(async () => json(500, {})) as unknown as typeof fetch;
+    await expect(packLicence(SHOP)).resolves.toBeNull();
+  });
+});
+
+describe('parseLicence', () => {
+  const TEXT = [
+    'NETFOX GOODIES LICENCE',
+    'Version 1, November 2026',
+    '',
+    'An opening paragraph, wrapped',
+    'over two lines.',
+    '',
+    'WHAT YOU MAY NOT DO',
+    '',
+    '- Sell or share the files. If someone likes them, point',
+    '  them to netfox.app.',
+    '- Train a model on them.',
+    '',
+    'QUESTIONS',
+    '',
+    'hello@undolog.com',
+    '',
+  ].join('\r\n');
+
+  it('reads headings, wrapped paragraphs and wrapped list items', () => {
+    expect(parseLicence(TEXT)).toEqual({
+      version: 'Version 1, November 2026',
+      sections: [
+        {
+          heading: '',
+          blocks: [{ kind: 'paragraph', text: 'An opening paragraph, wrapped over two lines.' }],
+        },
+        {
+          heading: 'WHAT YOU MAY NOT DO',
+          blocks: [
+            {
+              kind: 'list',
+              items: [
+                'Sell or share the files. If someone likes them, point them to netfox.app.',
+                'Train a model on them.',
+              ],
+            },
+          ],
+        },
+        { heading: 'QUESTIONS', blocks: [{ kind: 'paragraph', text: 'hello@undolog.com' }] },
+      ],
+    });
   });
 });

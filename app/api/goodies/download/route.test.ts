@@ -12,25 +12,36 @@ const ENV = {
   GOODIES_GITHUB_TOKEN: 'github-token',
   STRIPE_SECRET_KEY: 'rk_test_key',
 };
-const SIGNED = 'https://files.example.test/pack.zip?sig=abc';
+const SIGNED = 'https://files.example.test/pack?sig=abc';
 const request = (query: string) => new Request(`https://netfox.test/api/goodies/download${query}`);
 
 const originalEnv = { ...process.env };
 const originalFetch = global.fetch;
 
-/** Stripe answers with `session`; GitHub with one `.zip` asset and its redirect. */
+/** Stripe answers with `session`; GitHub with the pack's two assets and their redirects. */
 function serve(session: unknown) {
-  global.fetch = jest.fn(async (url: string) => {
+  const fetchMock = jest.fn(async (url: string) => {
     if (url.startsWith('https://api.stripe.com/')) {
       return new Response(JSON.stringify(session), { status: 200 });
     }
     if (url.endsWith('/releases/latest')) {
-      return new Response(JSON.stringify({ assets: [{ id: 7, name: 'pack.zip' }] }), {
-        status: 200,
-      });
+      return new Response(
+        JSON.stringify({
+          assets: [
+            { id: 7, name: 'pack.dmg' },
+            { id: 8, name: 'pictures.zip' },
+          ],
+        }),
+        { status: 200 }
+      );
     }
-    return new Response(null, { status: 302, headers: { location: SIGNED } });
-  }) as unknown as typeof fetch;
+    return new Response(null, {
+      status: 302,
+      headers: { location: `${SIGNED}&asset=${url.split('/').pop()}` },
+    });
+  });
+  global.fetch = fetchMock as unknown as typeof fetch;
+  return fetchMock;
 }
 
 beforeEach(() => {
@@ -51,9 +62,21 @@ describe('GET /api/goodies/download', () => {
     const response = await GET(request('?session_id=cs_test_abc'));
 
     expect(response.status).toBe(302);
-    expect(response.headers.get('Location')).toBe(SIGNED);
+    expect(response.headers.get('Location')).toBe(`${SIGNED}&asset=7`);
     expect(response.headers.get('Cache-Control')).toBe('private, no-store');
     expect(response.headers.get('Referrer-Policy')).toBe('no-referrer');
+  });
+
+  it('serves the pictures ZIP when asked, and refuses a kind it does not know', async () => {
+    const fetchMock = serve(paid);
+
+    const zip = await GET(request('?session_id=cs_test_abc&kind=pictures'));
+    expect(zip.status).toBe(302);
+    expect(zip.headers.get('Location')).toBe(`${SIGNED}&asset=8`);
+
+    fetchMock.mockClear();
+    expect((await GET(request('?session_id=cs_test_abc&kind=../x'))).status).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it('refuses a session paid through another link', async () => {

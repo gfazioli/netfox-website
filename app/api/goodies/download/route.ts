@@ -1,12 +1,10 @@
-import { checkSession, goodiesShop, packDownloadUrl } from '@/lib/goodies';
-
-// Every answer is about one buyer: never cached anywhere.
-const NO_STORE = { 'Cache-Control': 'private, no-store' };
+import { checkSession, goodiesShop, isPackKind, NO_STORE, packDownloadUrl } from '@/lib/goodies';
 
 /**
- * `/api/goodies/download?session_id=…`: checks with Stripe that the session is
- * a paid checkout of the Goodies link, then redirects to a short-lived URL of
- * the pack. Linked from the thank-you page with a plain `<a>`, never
+ * `/api/goodies/download?session_id=…&kind=mac|pictures`: checks with Stripe
+ * that the session is a paid checkout of the Goodies link, then redirects to a
+ * short-lived URL of the file asked for: the Mac disk image (the default) or
+ * the pictures' ZIP. Linked from the thank-you page with a plain `<a>`, never
  * `next/link`, so no RSC fetch ever follows this redirect (see `/download`).
  *
  * `Referrer-Policy: no-referrer` keeps the session id, which is the buyer's
@@ -18,8 +16,12 @@ export async function GET(request: Request) {
     return new Response('Not found', { status: 404, headers: NO_STORE });
   }
 
-  const sessionId = new URL(request.url).searchParams.get('session_id') ?? '';
-  const check = await checkSession(shop, sessionId);
+  const query = new URL(request.url).searchParams;
+  const kind = query.get('kind') ?? 'mac';
+  if (!isPackKind(kind)) {
+    return Response.json({ error: 'Unknown file' }, { status: 400, headers: NO_STORE });
+  }
+  const check = await checkSession(shop, query.get('session_id') ?? '');
   if (check !== 'paid') {
     return Response.json(
       { error: check === 'unavailable' ? 'Payment check unavailable, retry shortly' : 'Not paid' },
@@ -27,7 +29,7 @@ export async function GET(request: Request) {
     );
   }
 
-  const location = await packDownloadUrl(shop);
+  const location = await packDownloadUrl(shop, kind);
   if (!location) {
     return Response.json(
       { error: 'Download unavailable, retry shortly' },

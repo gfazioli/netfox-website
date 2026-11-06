@@ -13150,6 +13150,7 @@ __metadata:
     next: "npm:16.4.3"
     nextra: "npm:4.6.1"
     nextra-theme-docs: "npm:4.6.1"
+    nodemailer: "npm:^10.3.1"
     oxfmt: "npm:^0.74.0"
     oxlint: "npm:^1.89.0"
     pagefind: "npm:^1.5.2"
@@ -13411,6 +13412,13 @@ __metadata:
   version: 2.0.58
   resolution: "node-releases@npm:2.0.58"
   checksum: 10c0/aeb21a36f273d2294a97bb09d536c8b2c42b56ad309524ff940735d29fc658dd58c29700602ae502ebd16a8fd6ecda31fcec0243bc7480b5bbd991bf9ff113d5
+  languageName: node
+  linkType: hard
+
+"nodemailer@npm:^10.3.1":
+  version: 10.3.1
+  resolution: "nodemailer@npm:10.3.1"
+  checksum: 10c0/a960ba9e7cb8f7135b828fb72bcdfd061bb914c6357578ed6613dd5303e8461710a1151210e95a92542461128e900038dd0794fc27bd74b297bd822013cfe8e8
   languageName: node
   linkType: hard
 
