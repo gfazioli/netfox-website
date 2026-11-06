@@ -20,7 +20,7 @@ The endpoint is **off by default** and bound to **localhost only**. It opens a l
 Open **Settings → Integrations** (<Kbd>⌘</Kbd> <Kbd>,</Kbd>) and switch **Expose a metrics endpoint** on. Four controls:
 
 - **Expose a metrics endpoint** — the master switch. Off by default.
-- **Port** — the TCP port to listen on (default `9090`). A change applies when you press <Kbd>Return</Kbd> or leave the field, while the endpoint is running.
+- **Port** — the TCP port to listen on (default `9090`, between 1024 and 65535). A change applies when you press <Kbd>Return</Kbd> or leave the field, while the endpoint is running.
 - **Allow access from other devices** — off by default, the endpoint binds `127.0.0.1` and only this Mac can scrape it. Turn it on to bind every interface so another host on your LAN — say a Prometheus running on your NAS — can reach it. **This requires an access token**: see below.
 - **Access token** — when set, every scrape must send `Authorization: Bearer <token>` or it gets a `401`. It can be left empty only for a localhost-only bind. The token is kept in your keychain, not in preferences, and the field hides it as you type.
 
@@ -83,7 +83,7 @@ The endpoint is read-only — it never accepts commands, only serves the current
 - **Localhost by default.** Exposing it to the LAN is a separate, explicit toggle.
 - **It fails closed.** Exposing the endpoint to the network without a token isn't allowed — Netfox refuses to start it rather than serving your inventory unauthenticated.
 - **Bearer token, kept in the keychain.** Required for a network-reachable endpoint, optional for a localhost-only one. Unauthenticated scrapes get a `401`, and the token is compared in constant time so response timing gives nothing away.
-- **Closed to web pages.** Without a token, the endpoint answers only to `127.0.0.1`, `localhost` or a container's `*.internal` name (such as `host.docker.internal`), so a web page that points its own name at your Mac gets a `403`. To scrape it by any other name, set a token.
+- **Closed to web pages.** Without a token, the endpoint answers only when it is addressed by an IP address, `localhost` (or a `*.localhost` name) or a container's `*.internal` name (such as `host.docker.internal`), so a web page that points its own name at your Mac gets a `403`. To scrape it by any other name, set a token.
 - **No data leaves your Mac on its own.** Prometheus pulls; Netfox never pushes anywhere.
 
 ## Demo Mode and the endpoint

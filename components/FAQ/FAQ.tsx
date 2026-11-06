@@ -82,7 +82,7 @@ export const faqItems = [
     value: 'updates',
     question: 'How do updates work?',
     answer:
-      'Netfox checks for new releases in the background (every 24 hours by default) and prompts you when one is available. Builds are signed with Apple Developer ID and notarized by Apple, so the update installs without a Gatekeeper detour. You can disable the auto-check or trigger a manual one from Settings → Updates.',
+      'Netfox can check for new releases in the background, every 24 hours, once you allow it: it asks you once, on its second launch. When one is available it prompts you. Builds are signed with Apple Developer ID and notarized by Apple, so the update installs without a Gatekeeper detour. You can disable the auto-check or trigger a manual one from Settings → Updates.',
   },
   {
     value: 'menubar-icon-hidden',

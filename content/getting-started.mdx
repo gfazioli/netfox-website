@@ -40,7 +40,7 @@ Netfox is organised as a left tool sidebar with five entries, mirroring the way 
 | [**Wi-Fi**](/docs/tools/wifi) | Every wireless network your Mac can see, signal history, channel, security |
 | [**Devices**](/docs/tools/devices) | The LAN device list, with a detail panel per device |
 | [**Security**](/docs/tools/security) | Port-probe results + risk badges per reachable device, with a one-click *Scan All Devices* |
-| [**Optimization**](/docs/tools/optimization) | Preview of the module wave still to come (Link, Bandwidth, Speed test) |
+| [**Optimization**](/docs/tools/optimization) | Preview of the modules still to come (Bandwidth monitor, Speed test) |
 
 Switch tools with the sidebar or with <Kbd>⌘</Kbd> <Kbd>1</Kbd> through <Kbd>⌘</Kbd> <Kbd>5</Kbd>. Each tool has its own deep-dive in the docs — click any row above for the full reference.
 
@@ -62,7 +62,7 @@ On a typical home network you'll see most of the picture within 30 seconds.
 
 ### Allowing notifications
 
-The first time Netfox detects a brand-new device, it tries to post a macOS notification banner. macOS will prompt you to grant notification permission — accept it once, and every new-device alert pops up natively even when Netfox is in the background.
+The first time you launch Netfox, macOS asks whether it may show notifications — accept it once, and every new-device alert pops up natively even when Netfox is in the background.
 
 <Callout>
 If you ever miss the prompt, an in-app banner reappears with a one-click link to **System Settings → Notifications → Netfox**. The bell badge in the Devices tool still works without notifications enabled.
@@ -70,11 +70,11 @@ If you ever miss the prompt, an in-app banner reappears with a one-click link to
 
 ### Allowing Wi-Fi network access
 
-The first time you open the **Wi-Fi** tool, macOS prompts for **Location permission** — that's how SSID details are exposed at the system level. Netfox uses location *only* to read the Wi-Fi neighbour list; it doesn't track or store your physical location.
+The first time you open the **Wi-Fi** tool, it asks for **Location access** — that's how SSID details are exposed at the system level. Its **Grant Access** button takes you to **System Settings → Privacy & Security → Location Services**, where you switch Netfox on. Netfox uses location *only* to read the Wi-Fi neighbour list; it doesn't track or store your physical location.
 
 ![Netfox Wi-Fi tool](/screenshot-wifi.png)
 
-If you decline, the Wi-Fi tool shows a one-click *Open Location Settings* button and waits — flip the toggle and the scan starts immediately.
+If access is off, the Wi-Fi tool shows a one-click *Open Location Settings* button and waits — flip the toggle and the scan starts immediately.
 
 ## The Devices tool
 
@@ -129,15 +129,17 @@ This makes Netfox a reasonable thing to park in a corner of the screen next to w
 
 ## Settings
 
-Open Settings with <Kbd>⌘</Kbd> <Kbd>,</Kbd> or from the menu **Netfox → Settings**. Seven tabs:
+Open Settings with <Kbd>⌘</Kbd> <Kbd>,</Kbd> or from the menu **Netfox → Settings…**. The sidebar holds:
 
-- **General** — theme picker (System / Light / Dark), menu bar icon style, Open at Login, support window at launch
-- **Alerts** — toggles for the five alert kinds, plus a link to **System Settings → Notifications**
+- **General** — menu bar icon style, Open at Login, support window at launch
+- **Notch** — the HUD under the notch, on a Mac that has one
+- **Updates** — controls for the auto-update flow (check on launch, scheduled background checks, manual *Check for Updates Now…*)
+- **Alerts** — toggles for the six alert kinds, plus a link to **System Settings → Notifications**
 - **Security** — auto-probe schedule (off by default) and your custom ports list
-- **Privacy** — wipe rows for device history, port history, alerts, tags, plus the Demo Mode master switch
-- **Advanced** — Advanced Mode toggle, offline-detection thresholds for power users
-- **Updates** — controls for the auto-update flow (check on launch, scheduled background checks, manual *Check Now…*)
-- **About** — the full About + Support panel: version, quick links, sponsors, and more apps
+- **Privacy** — public IP discovery, service identification and inspection, plus wipe rows for device history, port history, alerts and tags
+- **Integrations** — the opt-in Prometheus metrics endpoint
+- **Advanced** — Advanced Mode, Demo Mode, offline-detection thresholds for power users
+- **About** — from the Netfox entry at the top: version, quick links, sponsors, and more apps
 
 <Callout type="info">
 Every time you open Settings, the window lands on **General**. Mid-session moves don't persist on close.
