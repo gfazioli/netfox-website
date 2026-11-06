@@ -314,6 +314,21 @@ body:has(.nf-home) {
   background-color: var(--nf-rule);
 }
 
+/*
+ * A Modal's close button declares the light scheme's colours on its own
+ * element (gray-7 icon, gray-0 hover), as the Table and Kbd do: on the night
+ * ground the newsletter prompt sits on, the icon read 2.24:1 and the hover
+ * flashed near-white (Codex, round 1 of #137). The doubled class outranks
+ * the `:where(...)` scheme rule and the hover rule.
+ */
+.mantine-Modal-close.mantine-Modal-close {
+  color: var(--mantine-color-text);
+
+  &:hover {
+    background-color: var(--mantine-color-default-hover);
+  }
+}
+
 body {
   background-color: var(--nf-page);
   color: var(--mantine-color-text);
