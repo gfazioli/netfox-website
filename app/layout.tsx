@@ -8,7 +8,7 @@ import '@gfazioli/mantine-scene/styles.css';
 // Mantine theme overrides (body background, etc.)
 import '@/theme/global.css';
 
-import { Analytics } from '@vercel/analytics/react';
+import { SiteAnalytics } from '@/components/SiteAnalytics/SiteAnalytics';
 import { Layout } from 'nextra-theme-docs';
 import { Banner, Head } from 'nextra/components';
 import { getPageMap } from 'nextra/page-map';
@@ -93,7 +93,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             {children}
           </Layout>
         </MantineProvider>
-        <Analytics />
+        <SiteAnalytics />
       </body>
     </html>
   );
