@@ -27,7 +27,8 @@
     border-color 200ms ease;
 }
 
-.card:hover {
+/* `.still`: a card that opens nothing (AccentCard's `still`) keeps its resting look. */
+.card:not(.still):hover {
   transform: translateY(-2px);
   border-color: color-mix(in srgb, var(--card-accent) 45%, var(--nf-rule));
   box-shadow:

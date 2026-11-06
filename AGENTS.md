@@ -16,6 +16,7 @@ The Next.js site for Netfox at https://netfox.app: landing page, docs, release n
 ### Environment
 
 - `GITHUB_TOKEN` (Vercel, build and runtime): `load-releases.ts` fetches the releases at build time, and `/api/github-releases` (the browser fallback) and `/download` use it at runtime; without it GitHub allows 60 requests an hour.
+- The Netfox Goodies shop (`/goodies`, its licence and thank-you pages, `/api/goodies/*`): `GOODIES_*` and `STRIPE_SECRET_KEY`, listed in the headers of `lib/goodies.ts` and `lib/goodies-mail.ts`. Without them every shop route answers 404; a test-mode key keeps the pages out of search results and the sitemap. The shop's pages are built with the settings they find, so a changed setting needs a redeploy.
 
 ### Performance
 

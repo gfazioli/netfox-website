@@ -1,0 +1,22 @@
+/*
+ * The Goodies shop's own pieces: the film's frame and the wallpaper gallery.
+ * Everything else on its pages is Mantine and the home page's AccentCard.
+ */
+.film {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--mantine-radius-lg);
+  border: 1px solid var(--nf-rule);
+  background: #05070d;
+  box-shadow: 0 24px 64px -24px rgb(0 0 0 / 60%);
+}
+
+.picture {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--mantine-radius-md);
+  border: 1px solid var(--nf-rule);
+}

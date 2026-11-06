@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import { readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import config from '@/config';
+import { goodiesIndexable } from '@/lib/goodies';
 
 // Generated at build time. Enumerates the homepage plus every MDX doc under
 // content/ (served at /docs/* via Nextra's contentDirBasePath). Filesystem
@@ -49,6 +50,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: 'weekly',
     priority: 1,
   });
+
+  // The Goodies shop, once it takes real payments (`goodiesIndexable`): before that
+  // its pages answer 404 in production, or are a test-mode preview.
+  if (goodiesIndexable()) {
+    for (const route of ['/goodies', '/goodies/licence']) {
+      entries.push({ url: `${BASE}${route}`, changeFrequency: 'monthly', priority: 0.7 });
+    }
+  }
 
   return entries;
 }
