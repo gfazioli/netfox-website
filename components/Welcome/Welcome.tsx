@@ -498,17 +498,30 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
               </Text>
             </Reveal>
             <Reveal variant="rise" delay={300}>
-              <Group gap="sm" justify="center" mt={4}>
+              {/*
+                The face at twice its old 38 px, ringed in the quote mark's
+                orange, with the name above the role: at the old size it read
+                as a footnote to the quote rather than its author. `alt=""`:
+                the name is printed right beside it. A circle at any size:
+                radius `xl` (32 px) rounded the old one but squares this one.
+              */}
+              <Group gap="md" justify="center" mt={4} wrap="nowrap">
                 <Avatar
                   src="/chris-messina.jpg"
-                  alt="Chris Messina"
-                  size="md"
-                  radius="xl"
+                  alt=""
+                  size={76}
+                  radius="100%"
+                  style={{ boxShadow: '0 0 0 3px var(--mantine-color-orange-5)' }}
                   imageProps={{ loading: 'lazy', decoding: 'async' }}
                 />
-                <Text c="dimmed" size="sm" fw={600}>
-                  Chris Messina &middot; inventor of the hashtag
-                </Text>
+                <Stack gap={2}>
+                  <Text fw={700} size="lg">
+                    Chris Messina
+                  </Text>
+                  <Text c="dimmed" size="sm" fw={600}>
+                    Inventor of the hashtag
+                  </Text>
+                </Stack>
               </Group>
             </Reveal>
           </Stack>
