@@ -14,6 +14,19 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
     -->
     <!-- release.sh inserts new <item> entries right below this marker -->
 <item>
+            <title>Version 0.54.0</title>
+            <pubDate>Fri, 06 Nov 2026 18:04:37 +0000</pubDate>
+            <sparkle:version>985</sparkle:version>
+            <sparkle:shortVersionString>0.54.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>15.6</sparkle:minimumSystemVersion>
+            <sparkle:releaseNotesLink>https://netfox.app/release-notes/0.54.0.html</sparkle:releaseNotesLink>
+            <enclosure
+                url="https://github.com/gfazioli/netfox-website/releases/download/v0.54.0/Netfox-0.54.0.dmg"
+                sparkle:edSignature="ceb+zF4BJJGZ8YGTn33pcfoWuJhg7nEnmL1/YN2ajUTYCKRV4E9GKTp21jP0VYpeRWiSDjmLKx7d+tGLuOFaBA==" length="14613899"
+                type="application/octet-stream" />
+        </item>
+
+<item>
             <title>Version 0.53.1</title>
             <pubDate>Fri, 06 Nov 2026 10:07:37 +0000</pubDate>
             <sparkle:version>982</sparkle:version>
@@ -730,6 +743,6 @@ IMPORTANT: This file was signed by Sparkle. Any modifications to this file requi
     </item>
   </channel>
 </rss><!-- sparkle-signatures:
-edSignature: QXjF9MPoSPh4dYf2jSt1cqSH9PORDB0x4lUi4LU4kil3E+wO9HUfQo0Y4pa5GFjb6VndJ+3TTOBiO1FQom53Bw==
-length: 52989
+edSignature: syV2h3Irzy8MpshVqDUe34v92MdG7AYhcujLVq2DyNjuO1Rcoryt+aDJ3wHSePZbfVgLjSwIlfS74OtPTouXCw==
+length: 53761
 -->
