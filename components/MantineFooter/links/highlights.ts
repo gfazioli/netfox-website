@@ -10,6 +10,11 @@ export const highlights = [
     href: '/docs/release-notes',
   },
   {
+    key: 'goodies',
+    title: 'Netfox Goodies',
+    href: '/goodies',
+  },
+  {
     key: 'sponsor',
     title: 'Sponsor',
     href: 'https://github.com/sponsors/gfazioli?o=esb',

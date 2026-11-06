@@ -156,8 +156,12 @@ export function FAQ() {
                 Yes, Netfox is currently free. If you find it useful, consider{' '}
                 <Anchor href="https://github.com/sponsors/gfazioli" size="sm">
                   sponsoring the project
+                </Anchor>{' '}
+                or getting the{' '}
+                <Anchor href="/goodies" size="sm">
+                  Netfox Goodies
                 </Anchor>
-                .
+                , a small paid pack of screen savers, wallpapers and emoji.
               </Text>
             ) : item.answer === 'community' ? (
               <Text c="dimmed" size="sm">

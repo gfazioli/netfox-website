@@ -8,6 +8,7 @@ import {
   IconBrandX,
   IconBrandYoutubeFilled,
   IconCoffee,
+  IconGift,
   IconHeartFilled,
   IconPlus,
 } from '@tabler/icons-react';
@@ -241,6 +242,22 @@ export const MantineFooter = ({ year }: { year: number }) => {
                 }}
               >
                 Buy me a coffee
+              </Button>
+              {/* The pack sold on this site: same tab, and dark ink on the
+                  orange for the coffee button's reason. */}
+              <Button
+                component="a"
+                href="/goodies"
+                variant="filled"
+                color="orange"
+                leftSection={<IconGift size={16} />}
+                radius="xl"
+                styles={{
+                  label: { color: '#3b1500' },
+                  section: { color: '#3b1500' },
+                }}
+              >
+                Netfox Goodies
               </Button>
             </Group>
           </div>
