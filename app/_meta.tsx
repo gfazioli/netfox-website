@@ -6,8 +6,7 @@ export default {
   index: {
     display: 'hidden',
   },
-  // The Goodies shop pages (app/goodies): kept out of the docs sidebar, and
-  // reached from the Support menu below, the footer and the FAQ.
+  // The Goodies shop pages (app/goodies): kept out of the docs sidebar.
   goodies: {
     display: 'hidden',
   },
@@ -86,8 +85,7 @@ export default {
         ),
         href: 'https://donate.stripe.com/fZu4gy4Tn3b1dgudGx0co00',
       },
-      // The paid pack sold on this site, so same tab. Not `goodies`: that key
-      // is the hidden page entry above.
+      // Not `goodies`: that key is the hidden page entry above.
       'netfox-goodies': {
         title: (
           <Group component="span" gap={8} wrap="nowrap" align="center">

@@ -25,15 +25,13 @@ export default withNextra(
     images: {
       formats: ['image/avif', 'image/webp'],
     },
-    // The shop's film and pictures in public/goodies were served
-    // `max-age=0, must-revalidate`, so every visit and every range request of
-    // the film asked again. A day fresh, a week stale while it revalidates:
-    // the names carry no hash, so a replaced file still shows within a day.
-    // Files only, by extension: /goodies/thanks and /goodies/licence are pages.
+    // The shop's film and its pictures (public/goodies) carry no hash in their
+    // names: a day fresh, then a week stale while revalidating. Matched by
+    // extension because /goodies/thanks and /goodies/licence are pages.
     async headers() {
       return [
         {
-          source: '/goodies/:asset([^/]+\\.(?:mp4|jpg|png|webp))',
+          source: '/goodies/:asset([^/]+\\.(?:mp4|jpg))',
           headers: [
             {
               key: 'Cache-Control',
