@@ -20,17 +20,12 @@ import { createHash } from 'node:crypto';
 import { track } from '@vercel/analytics/server';
 import { warn, type PackKind } from '@/lib/goodies';
 
-export const PURCHASE_EVENT = 'Goodies purchase';
-export const DOWNLOAD_EVENT = 'Goodies download';
+const PURCHASE_EVENT = 'Goodies purchase';
+const DOWNLOAD_EVENT = 'Goodies download';
 
 /** A buyer as the statistics know them: 12 hex characters of a SHA-256 of the session id. */
 export function buyerTag(sessionId: string): string {
   return createHash('sha256').update(`netfox-goodies:${sessionId}`).digest('hex').slice(0, 12);
-}
-
-/** A download's one property: `<buyer> <version> <file>`, the version without its `v`. */
-export function downloadEntry(sessionId: string, tag: string, kind: PackKind): string {
-  return `${buyerTag(sessionId)} ${tag.replace(/^v/i, '')} ${kind}`;
 }
 
 /**
@@ -68,7 +63,10 @@ export function recordPurchase(request: Request, sessionId: string): Promise<voi
   return record(request, '/goodies', PURCHASE_EVENT, { buyer: buyerTag(sessionId) });
 }
 
-/** A file handed to a paid session, with the release it came from. */
+/**
+ * A file handed to a paid session: its one property is `<buyer> <version> <file>`, the version
+ * without its `v`. A redirect handed out, not a file received: a double click counts twice.
+ */
 export function recordDownload(
   request: Request,
   sessionId: string,
@@ -76,6 +74,6 @@ export function recordDownload(
   kind: PackKind
 ): Promise<void> {
   return record(request, '/goodies/thanks', DOWNLOAD_EVENT, {
-    download: downloadEntry(sessionId, tag, kind),
+    download: `${buyerTag(sessionId)} ${tag.replace(/^v/i, '')} ${kind}`,
   });
 }
