@@ -6,10 +6,8 @@
 import { recordDownload } from '../../../../lib/goodies-events';
 import { GET } from './route';
 
-jest.mock('../../../../lib/goodies-events', () => ({
-  recordDownload: jest.fn(async () => undefined),
-}));
-const recorded = recordDownload as unknown as jest.Mock;
+jest.mock('../../../../lib/goodies-events', () => ({ recordDownload: jest.fn() }));
+const recorded = jest.mocked(recordDownload);
 
 const ENV = {
   GOODIES_PAYMENT_LINK_URL: 'https://buy.example.test/goodies',

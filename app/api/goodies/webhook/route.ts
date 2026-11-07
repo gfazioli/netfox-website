@@ -48,8 +48,7 @@ export async function POST(request: Request) {
   if (!purchase) {
     return answer(200, 'Ignored');
   }
-  // Counted before the email, so a refused email's retry counts the same buyer again: the
-  // statistics count buyers, not events (`lib/goodies-events.ts`).
+  // Before the email: a retried delivery counts its buyer again, and buyers are what is counted.
   await recordPurchase(request, purchase.sessionId);
   const mail = goodiesMail();
   if (!mail) {

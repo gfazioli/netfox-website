@@ -8,10 +8,8 @@ import { recordPurchase } from '../../../../lib/goodies-events';
 import { sendPurchaseEmail } from '../../../../lib/goodies-mail';
 import { POST } from './route';
 
-jest.mock('../../../../lib/goodies-events', () => ({
-  recordPurchase: jest.fn(async () => undefined),
-}));
-const recorded = recordPurchase as unknown as jest.Mock;
+jest.mock('../../../../lib/goodies-events', () => ({ recordPurchase: jest.fn() }));
+const recorded = jest.mocked(recordPurchase);
 
 jest.mock('../../../../lib/goodies-mail', () => ({
   ...jest.requireActual('../../../../lib/goodies-mail'),
