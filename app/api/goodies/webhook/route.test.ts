@@ -4,8 +4,14 @@
  * Route handlers build a real `Response`, which jsdom does not provide.
  */
 import { createHmac } from 'node:crypto';
+import { recordPurchase } from '../../../../lib/goodies-events';
 import { sendPurchaseEmail } from '../../../../lib/goodies-mail';
 import { POST } from './route';
+
+jest.mock('../../../../lib/goodies-events', () => ({
+  recordPurchase: jest.fn(async () => undefined),
+}));
+const recorded = recordPurchase as unknown as jest.Mock;
 
 jest.mock('../../../../lib/goodies-mail', () => ({
   ...jest.requireActual('../../../../lib/goodies-mail'),
@@ -53,6 +59,7 @@ beforeEach(() => {
   Object.assign(process.env, ENV);
   send.mockClear();
   send.mockImplementation(async () => undefined);
+  recorded.mockClear();
   jest.spyOn(console, 'warn').mockImplementation(() => {});
 });
 afterEach(() => {
@@ -70,6 +77,17 @@ describe('POST /api/goodies/webhook', () => {
       'buyer@example.test',
       'https://netfox.test/goodies/thanks?session_id=cs_test_abc',
     ]);
+  });
+
+  it('counts the paid checkout in the statistics, once per delivery, and nothing else', async () => {
+    await POST(post(completed()));
+    expect(recorded).toHaveBeenCalledTimes(1);
+    expect(recorded.mock.calls[0][1]).toBe('cs_test_abc');
+
+    recorded.mockClear();
+    await POST(post({ type: 'customer.created', data: { object: {} } }));
+    await POST(post(completed({ ...SESSION, payment_link: 'plink_coffee' })));
+    expect(recorded).not.toHaveBeenCalled();
   });
 
   it('refuses an unsigned, missigned or stale request, and sends nothing', async () => {

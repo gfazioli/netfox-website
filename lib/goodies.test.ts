@@ -11,7 +11,7 @@ import {
   isLiveShop,
   isPackKind,
   isSessionId,
-  packDownloadUrl,
+  packDownload,
   packLicence,
   paidPurchase,
   parseLicence,
@@ -124,11 +124,11 @@ describe('checkSession', () => {
   });
 });
 
-describe('packDownloadUrl', () => {
+describe('packDownload', () => {
   function github(assets: unknown, assetStatus = 302) {
     return jest.fn(async (url: string) =>
       url.endsWith('/releases/latest')
-        ? json(200, { assets })
+        ? json(200, { tag_name: 'v1.0', assets })
         : new Response(null, { status: assetStatus, headers: { location: SIGNED } })
     );
   }
@@ -138,7 +138,7 @@ describe('packDownloadUrl', () => {
     { id: 3, name: 'Netfox-Goodies-Wallpapers-1.0.zip' },
   ];
 
-  it('resolves each kind to its own asset, by suffix, as a signed URL', async () => {
+  it('resolves each kind to its own asset, by suffix, as a signed URL with its release tag', async () => {
     for (const [kind, id] of [
       ['mac', 2],
       ['pictures', 3],
@@ -146,7 +146,7 @@ describe('packDownloadUrl', () => {
       const fetchMock = github(RELEASE);
       global.fetch = fetchMock as unknown as typeof fetch;
 
-      await expect(packDownloadUrl(SHOP, kind)).resolves.toBe(SIGNED);
+      await expect(packDownload(SHOP, kind)).resolves.toEqual({ url: SIGNED, tag: 'v1.0' });
       const [assetUrl, init] = fetchMock.mock.calls[1] as unknown as [string, RequestInit];
       expect(assetUrl).toBe(`https://api.github.com/repos/owner/goodies/releases/assets/${id}`);
       expect(init.redirect).toBe('manual');
@@ -155,13 +155,23 @@ describe('packDownloadUrl', () => {
 
   it('gives nothing when the release has no such asset or GitHub fails', async () => {
     global.fetch = github([{ id: 1, name: 'NetfoxDrift.dmg' }]) as unknown as typeof fetch;
-    await expect(packDownloadUrl(SHOP, 'pictures')).resolves.toBeNull();
+    await expect(packDownload(SHOP, 'pictures')).resolves.toBeNull();
 
     global.fetch = github([{ id: 2, name: 'pack.dmg' }], 404) as unknown as typeof fetch;
-    await expect(packDownloadUrl(SHOP, 'mac')).resolves.toBeNull();
+    await expect(packDownload(SHOP, 'mac')).resolves.toBeNull();
 
     global.fetch = jest.fn(async () => json(404, {})) as unknown as typeof fetch;
-    await expect(packDownloadUrl(SHOP, 'mac')).resolves.toBeNull();
+    await expect(packDownload(SHOP, 'mac')).resolves.toBeNull();
+  });
+
+  it('still hands out the file when the release answers without a tag', async () => {
+    global.fetch = jest.fn(async (url: string) =>
+      url.endsWith('/releases/latest')
+        ? json(200, { assets: RELEASE })
+        : new Response(null, { status: 302, headers: { location: SIGNED } })
+    ) as unknown as typeof fetch;
+
+    await expect(packDownload(SHOP, 'mac')).resolves.toEqual({ url: SIGNED, tag: 'unknown' });
   });
 });
 
