@@ -44,6 +44,48 @@ function eventHeaders(request: Request, page: string): Record<string, string> {
   return headers;
 }
 
+/** Where Vercel's runtime keeps the request's context, which `track` reads before our headers. */
+const REQUEST_CONTEXT = Symbol.for('@vercel/request-context');
+type ContextHolder = { get?: () => Record<string, unknown> | undefined };
+
+/**
+ * Runs `send` with the request's context minus its URL. `track` takes the
+ * event's page from the context's `url` ahead of the referer we give it, and on
+ * the download route that URL carries the session id. It reads the context
+ * once, synchronously, before its first `await` (`@vercel/analytics` 1.6.1;
+ * `goodies-events.sdk.test.ts` holds it to that), so the swap lasts only that
+ * synchronous stretch, during which no other request can run. Everything else
+ * in the context stays, `waitUntil` included. A holder we cannot swap sends
+ * nothing: an event lost is better than a key sent.
+ */
+function withoutRequestUrl(send: () => Promise<void>): Promise<void> {
+  const holder = (globalThis as Record<symbol, ContextHolder | undefined>)[REQUEST_CONTEXT];
+  const get = holder?.get;
+  if (!holder || typeof get !== 'function') {
+    return send();
+  }
+  const context = get.call(holder);
+  if (!context || !('url' in context)) {
+    return send();
+  }
+  const clean = { ...context };
+  delete clean.url;
+  const swapped = () => clean;
+  try {
+    holder.get = swapped;
+  } catch {
+    // a frozen holder throws here in strict mode; the check below covers a silent refusal too
+  }
+  if (holder.get !== swapped) {
+    return Promise.reject(new Error('the request context cannot be swapped; event not sent'));
+  }
+  try {
+    return send();
+  } finally {
+    holder.get = get;
+  }
+}
+
 /** Never fails the request it counts: a lost event is a smaller loss than a lost sale or download. */
 async function record(
   request: Request,
@@ -52,7 +94,7 @@ async function record(
   data: Record<string, string>
 ): Promise<void> {
   try {
-    await track(event, data, { headers: eventHeaders(request, page) });
+    await withoutRequestUrl(() => track(event, data, { headers: eventHeaders(request, page) }));
   } catch (error) {
     warn('statistics', error);
   }
