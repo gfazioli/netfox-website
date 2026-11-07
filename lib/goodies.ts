@@ -216,16 +216,26 @@ function github(shop: GoodiesShop, accept = 'application/vnd.github+json') {
   };
 }
 
+/** A file of the pack to hand out: its short-lived URL, and the tag of the release it comes from. */
+export interface PackDownload {
+  url: string;
+  tag: string;
+}
+
 /**
  * A short-lived URL of one of the pack's files: the latest release's asset
- * ending in `PACK_FILES[kind]`, as GitHub's signed storage redirect.
+ * ending in `PACK_FILES[kind]`, as GitHub's signed storage redirect, with the
+ * release's tag, which the download's statistics record.
  *
  * The asset endpoint answers a token-bearing request with a 302 to a URL that
  * works without credentials for a few minutes, so the file never passes
  * through this site and the URL is useless once shared late. `latest` skips
  * drafts and pre-releases: a draft is invisible to a read-only token anyway.
  */
-export async function packDownloadUrl(shop: GoodiesShop, kind: PackKind): Promise<string | null> {
+export async function packDownload(
+  shop: GoodiesShop,
+  kind: PackKind
+): Promise<PackDownload | null> {
   const { api, headers } = github(shop);
   const suffix = PACK_FILES[kind];
   try {
@@ -237,7 +247,7 @@ export async function packDownloadUrl(shop: GoodiesShop, kind: PackKind): Promis
       warn('latest release lookup', `HTTP ${release.status}`);
       return null;
     }
-    const { assets } = await release.json();
+    const { assets, tag_name: tag } = await release.json();
     const pack = Array.isArray(assets)
       ? assets.find(
           (a: { name?: unknown }) =>
@@ -255,7 +265,8 @@ export async function packDownloadUrl(shop: GoodiesShop, kind: PackKind): Promis
     });
     const location = asset.headers.get('location');
     if (asset.status >= 300 && asset.status < 400 && location?.startsWith('https://')) {
-      return location;
+      // A release always has a tag; the fallback only keeps a malformed answer from costing the file.
+      return { url: location, tag: typeof tag === 'string' && tag ? tag : 'unknown' };
     }
     warn('asset redirect', `HTTP ${asset.status}`);
     return null;

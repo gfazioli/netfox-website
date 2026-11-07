@@ -6,6 +6,7 @@ import {
   thanksUrl,
   warn,
 } from '@/lib/goodies';
+import { recordPurchase } from '@/lib/goodies-events';
 import { goodiesMail, sendPurchaseEmail } from '@/lib/goodies-mail';
 import { verifyStripeSignature } from '@/lib/stripe-webhook';
 
@@ -47,6 +48,9 @@ export async function POST(request: Request) {
   if (!purchase) {
     return answer(200, 'Ignored');
   }
+  // Counted before the email, so a refused email's retry counts the same buyer again: the
+  // statistics count buyers, not events (`lib/goodies-events.ts`).
+  await recordPurchase(request, purchase.sessionId);
   const mail = goodiesMail();
   if (!mail) {
     warn('purchase email', 'no mail settings, nothing sent');

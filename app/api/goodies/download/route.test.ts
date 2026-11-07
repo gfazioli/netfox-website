@@ -3,7 +3,13 @@
  *
  * Route handlers build a real `Response`, which jsdom does not provide.
  */
+import { recordDownload } from '../../../../lib/goodies-events';
 import { GET } from './route';
+
+jest.mock('../../../../lib/goodies-events', () => ({
+  recordDownload: jest.fn(async () => undefined),
+}));
+const recorded = recordDownload as unknown as jest.Mock;
 
 const ENV = {
   GOODIES_PAYMENT_LINK_URL: 'https://buy.example.test/goodies',
@@ -27,6 +33,7 @@ function serve(session: unknown) {
     if (url.endsWith('/releases/latest')) {
       return new Response(
         JSON.stringify({
+          tag_name: 'v0.2.1',
           assets: [
             { id: 7, name: 'pack.dmg' },
             { id: 8, name: 'pictures.zip' },
@@ -46,6 +53,7 @@ function serve(session: unknown) {
 
 beforeEach(() => {
   Object.assign(process.env, ENV);
+  recorded.mockClear();
 });
 
 afterEach(() => {
@@ -65,6 +73,23 @@ describe('GET /api/goodies/download', () => {
     expect(response.headers.get('Location')).toBe(`${SIGNED}&asset=7`);
     expect(response.headers.get('Cache-Control')).toBe('private, no-store');
     expect(response.headers.get('Referrer-Policy')).toBe('no-referrer');
+  });
+
+  it('counts each file handed out, with its release and kind, and nothing it refuses', async () => {
+    serve(paid);
+
+    await GET(request('?session_id=cs_test_abc'));
+    await GET(request('?session_id=cs_test_abc&kind=pictures'));
+    expect(recorded.mock.calls.map((c) => c.slice(1))).toEqual([
+      ['cs_test_abc', 'v0.2.1', 'mac'],
+      ['cs_test_abc', 'v0.2.1', 'pictures'],
+    ]);
+
+    recorded.mockClear();
+    serve({ ...paid, payment_status: 'unpaid' });
+    await GET(request('?session_id=cs_test_abc'));
+    await GET(request('?session_id=cs_test_abc&kind=../x'));
+    expect(recorded).not.toHaveBeenCalled();
   });
 
   it('serves the pictures ZIP when asked, and refuses a kind it does not know', async () => {
