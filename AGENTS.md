@@ -36,6 +36,10 @@ The release newsletter is Netfox's Substack (`config.community.newsletter`, `net
 `components/Mascot`: every behaviour is documented in its headers.
 - **To drive it in `shot.mjs --eval`**: click Next by `[aria-label="Next translation"]`, scoped to the fox you mean (corner: `[data-phase][class*="corner"]`, card: `#sponsors [data-phase]`); an unscoped click hits the hero's off-screen copy, and `[class*=next]` matches Nextra's classes first.
 
+### Tutorials in the docs
+
+`<Tutorial n={N} />` puts a Netfox Tutorial (the YouTube series, `components/Tutorial/tutorials.ts`) in the docs section that covers it: the poster and a Play pill until clicked, nothing from YouTube before that, a VideoObject in the served HTML. A film is private until its `published` time and an early embed shows "Video unavailable", so each one joins its page on the day it goes out; `Tutorial.test.tsx` fails a page that embeds one sooner. Posters are `public/tutorials/netfox-tutorial-NN.jpg`, 1280x720, through ImageOptim.
+
 ## Content Guidelines
 
 - All website content is in **English**
