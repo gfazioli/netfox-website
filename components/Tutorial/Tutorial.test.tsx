@@ -34,8 +34,8 @@ describe('Tutorial', () => {
     expect(document.activeElement).toBe(frame);
   });
 
-  it("turns the player's captions off once the film plays, listening to that frame only", () => {
-    jest.useFakeTimers();
+  /** The player after a click, with what the page sends it and a way to answer. */
+  function playing() {
     const { container } = render(<Tutorial n={1} />);
     fireEvent.click(screen.getByRole('link', { name: /Play Netfox Tutorial 01/ }));
     const frame = container.querySelector('iframe')!;
@@ -45,31 +45,71 @@ describe('Tutorial', () => {
       act(() => {
         window.dispatchEvent(new MessageEvent('message', { data: JSON.stringify(data), source }));
       });
-
+    const unloads = () => sent().filter((m) => m.func === 'unloadModule');
+    return { sent, hear, unloads };
+  }
+  const PLAYS = { event: 'infoDelivery', info: { playerState: 1 } };
+  const CAPTIONS = { event: 'apiInfoDelivery', info: { namespaces: ['captions'] } };
+  const UNLOAD = {
+    event: 'command',
+    func: 'unloadModule',
+    args: ['captions'],
+    id: 1,
+    channel: 'widget',
+  };
+  const later = (ms: number) =>
     act(() => {
-      jest.advanceTimersByTime(600);
+      jest.advanceTimersByTime(ms);
     });
-    expect(sent().filter((m) => m.event === 'listening').length).toBeGreaterThan(1);
 
-    // Another window saying the film plays is not this player.
-    hear({ event: 'infoDelivery', info: { playerState: 1 } }, window);
-    expect(sent().some((m) => m.func === 'unloadModule')).toBe(false);
+  beforeEach(() => jest.useFakeTimers());
+  afterEach(() => jest.useRealTimers());
 
+  it('knocks until the player answers, then stops', () => {
+    const { sent, hear } = playing();
+    later(600);
+    const knocks = () => sent().filter((m) => m.event === 'listening').length;
+    expect(knocks()).toBeGreaterThan(1);
+    hear({ event: 'onReady', info: null });
+    const answered = knocks();
+    later(1000);
+    expect(knocks()).toBe(answered);
+  });
+
+  it('unloads captions the player loaded before the film played, once it plays, once', () => {
+    const { hear, unloads } = playing();
+    hear(CAPTIONS);
+    expect(unloads()).toEqual([]);
     hear({ event: 'infoDelivery', info: { playerState: 3 } });
-    expect(sent().some((m) => m.func === 'unloadModule')).toBe(false);
-    hear({ event: 'infoDelivery', info: { playerState: 1 } });
-    hear({ event: 'infoDelivery', info: { playerState: 1 } });
-    expect(sent().filter((m) => m.func === 'unloadModule')).toEqual([
-      { event: 'command', func: 'unloadModule', args: ['captions'], id: 1, channel: 'widget' },
-    ]);
+    expect(unloads()).toEqual([]);
+    hear(PLAYS);
+    hear(PLAYS);
+    hear(CAPTIONS);
+    expect(unloads()).toEqual([UNLOAD]);
+  });
 
-    // The player answered: the handshake stops.
-    const knocks = sent().filter((m) => m.event === 'listening').length;
-    act(() => {
-      jest.advanceTimersByTime(1000);
-    });
-    expect(sent().filter((m) => m.event === 'listening').length).toBe(knocks);
-    jest.useRealTimers();
+  it('waits for a captions module that loads just after the film starts', () => {
+    const { hear, unloads } = playing();
+    hear(PLAYS);
+    expect(unloads()).toEqual([]); // nothing to unload yet: it would do nothing
+    later(1500);
+    hear(CAPTIONS);
+    expect(unloads()).toEqual([UNLOAD]);
+  });
+
+  it('leaves captions the viewer turns on later', () => {
+    const { hear, unloads } = playing();
+    hear(PLAYS);
+    later(10_000);
+    hear(CAPTIONS);
+    expect(unloads()).toEqual([]);
+  });
+
+  it('listens to its own frame only', () => {
+    const { hear, unloads } = playing();
+    hear(CAPTIONS, window);
+    hear(PLAYS, window);
+    expect(unloads()).toEqual([]);
   });
 
   it('lets a click with a modifier open YouTube, as the reader asked', () => {

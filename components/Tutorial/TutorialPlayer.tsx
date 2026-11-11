@@ -7,6 +7,13 @@ import { docsSizes } from '@/components/DocsImage/DocsImage';
 /** The player's state for "playing", in its messages. */
 const PLAYING = 1;
 
+/**
+ * How long after the film starts a captions module still counts as loaded by
+ * the player itself. In Dia it was there before the film played (2026-11-11);
+ * this covers a slower load, and a module that comes later is the viewer's.
+ */
+const CAPTIONS_GRACE_MS = 3000;
+
 interface TutorialPlayerProps {
   /** The YouTube video id. */
   id: string;
@@ -36,10 +43,11 @@ interface TutorialPlayerProps {
  * the viewer's own setting, YouTube does not say), so the same line showed
  * twice, one above the other. No embed parameter turns
  * captions off (`cc_load_policy` only forces them on), so once the film is
- * playing the page asks the player to unload its captions, through the
- * player's own message channel (`enablejsapi=1`; the handshake is the
- * `listening` message the IFrame API sends, repeated until the player
- * answers). The viewer's CC button still brings them back. Only messages
+ * playing, and once the player says its captions module is loaded (unloading
+ * one that is not there yet does nothing), the page asks the player to unload
+ * it, once, through the player's own message channel (`enablejsapi=1`; the
+ * handshake is the `listening` message the IFrame API sends, repeated until
+ * the player answers). The viewer's CC button still brings them back. Only messages
  * from this frame's own window are read.
  *
  * Focus moves into the player once it is there, so the keyboard reader who
@@ -65,12 +73,17 @@ export function TutorialPlayer({ id, poster, name }: TutorialPlayerProps) {
       );
     let answered = false;
     let captionsOff = false;
+    let captionsLoaded = false;
+    let playingSince: number | undefined;
     const knock = window.setInterval(() => say({ event: 'listening' }), 250);
     const hear = (event: MessageEvent) => {
       if (event.source !== player.contentWindow || typeof event.data !== 'string') {
         return;
       }
-      let data: { event?: string; info?: { playerState?: number } | null };
+      let data: {
+        event?: string;
+        info?: { playerState?: number; namespaces?: string[] } | null;
+      };
       try {
         data = JSON.parse(event.data);
       } catch {
@@ -80,7 +93,23 @@ export function TutorialPlayer({ id, poster, name }: TutorialPlayerProps) {
         answered = true;
         window.clearInterval(knock);
       }
-      if (!captionsOff && data.event === 'infoDelivery' && data.info?.playerState === PLAYING) {
+      if (captionsOff) {
+        return;
+      }
+      if (
+        data.event === 'infoDelivery' &&
+        data.info?.playerState === PLAYING &&
+        playingSince === undefined
+      ) {
+        playingSince = performance.now();
+      }
+      if (data.event === 'apiInfoDelivery' && data.info?.namespaces?.includes('captions')) {
+        // Loaded on its own, before the film plays or just after it starts: a
+        // module that arrives later is the viewer pressing CC, and stays.
+        captionsLoaded =
+          playingSince === undefined || performance.now() - playingSince < CAPTIONS_GRACE_MS;
+      }
+      if (captionsLoaded && playingSince !== undefined) {
         captionsOff = true;
         say({ event: 'command', func: 'unloadModule', args: ['captions'] });
       }
