@@ -27,6 +27,12 @@ export interface TutorialFilm {
   published: string;
 }
 
+/**
+ * The series' playlist. Its id is complete at 13 characters, shorter than the
+ * 34 most playlists have: this channel's ids are that length, and YouTube's
+ * oEmbed answers this one as "Netfox Tutorials" by Netfox for Mac (checked
+ * 2026-11-11, after a review read it as truncated).
+ */
 export const TUTORIALS_PLAYLIST = 'https://www.youtube.com/playlist?list=PLW8OHY697Uys';
 
 export const TUTORIALS: TutorialFilm[] = [
