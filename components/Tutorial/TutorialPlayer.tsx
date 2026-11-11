@@ -4,6 +4,9 @@ import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import NextImage from 'next/image';
 import { docsSizes } from '@/components/DocsImage/DocsImage';
 
+/** The player's state for "playing", in its messages. */
+const PLAYING = 1;
+
 interface TutorialPlayerProps {
   /** The YouTube video id. */
   id: string;
@@ -27,6 +30,18 @@ interface TutorialPlayerProps {
  * Its words are the image's `alt`, which is the link's name for a screen
  * reader and for the link-text audit; the Play pill says it to the eye.
  *
+ * Its captions start off. The words are already in the picture, burned in,
+ * and YouTube turns its own caption track on by itself for some viewers (it
+ * did in a browser whose language is Italian, 2026-11-11: by language or by
+ * the viewer's own setting, YouTube does not say), so the same line showed
+ * twice, one above the other. No embed parameter turns
+ * captions off (`cc_load_policy` only forces them on), so once the film is
+ * playing the page asks the player to unload its captions, through the
+ * player's own message channel (`enablejsapi=1`; the handshake is the
+ * `listening` message the IFrame API sends, repeated until the player
+ * answers). The viewer's CC button still brings them back. Only messages
+ * from this frame's own window are read.
+ *
  * Focus moves into the player once it is there, so the keyboard reader who
  * pressed Return is not left on a control that has gone. `referrerPolicy`
  * keeps the origin YouTube now requires of an embed (it refuses one without,
@@ -37,9 +52,44 @@ export function TutorialPlayer({ id, poster, name }: TutorialPlayerProps) {
   const frame = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
-    if (playing) {
-      frame.current?.focus();
+    const player = frame.current;
+    if (!playing || !player) {
+      return;
     }
+    player.focus();
+
+    const say = (message: object) =>
+      player.contentWindow?.postMessage(
+        JSON.stringify({ ...message, id: 1, channel: 'widget' }),
+        '*'
+      );
+    let answered = false;
+    let captionsOff = false;
+    const knock = window.setInterval(() => say({ event: 'listening' }), 250);
+    const hear = (event: MessageEvent) => {
+      if (event.source !== player.contentWindow || typeof event.data !== 'string') {
+        return;
+      }
+      let data: { event?: string; info?: { playerState?: number } | null };
+      try {
+        data = JSON.parse(event.data);
+      } catch {
+        return;
+      }
+      if (!answered) {
+        answered = true;
+        window.clearInterval(knock);
+      }
+      if (!captionsOff && data.event === 'infoDelivery' && data.info?.playerState === PLAYING) {
+        captionsOff = true;
+        say({ event: 'command', func: 'unloadModule', args: ['captions'] });
+      }
+    };
+    window.addEventListener('message', hear);
+    return () => {
+      window.clearInterval(knock);
+      window.removeEventListener('message', hear);
+    };
   }, [playing]);
 
   const play = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -55,7 +105,7 @@ export function TutorialPlayer({ id, poster, name }: TutorialPlayerProps) {
       {playing ? (
         <iframe
           ref={frame}
-          src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`}
+          src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}`}
           title={name}
           allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
           allowFullScreen

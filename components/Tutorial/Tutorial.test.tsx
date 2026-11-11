@@ -1,5 +1,6 @@
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
+import { act } from 'react';
 import { fireEvent, render, screen } from '@/test-utils';
 import { Tutorial } from './Tutorial';
 import { clock, isoDuration, TUTORIALS, twoDigits } from './tutorials';
@@ -25,10 +26,50 @@ describe('Tutorial', () => {
     const { container } = render(<Tutorial n={1} />);
     fireEvent.click(screen.getByRole('link', { name: /Play Netfox Tutorial 01/ }));
     const frame = container.querySelector('iframe')!;
-    expect(frame.src).toBe('https://www.youtube-nocookie.com/embed/rGAKkh0wSEk?autoplay=1&rel=0');
+    expect(frame.src).toBe(
+      'https://www.youtube-nocookie.com/embed/rGAKkh0wSEk?autoplay=1&rel=0&enablejsapi=1&origin=http%3A%2F%2Flocalhost'
+    );
     expect(frame.title).toBe('Netfox Tutorial 01: Name unknown devices on your network (1:04)');
     expect(frame).toHaveAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
     expect(document.activeElement).toBe(frame);
+  });
+
+  it("turns the player's captions off once the film plays, listening to that frame only", () => {
+    jest.useFakeTimers();
+    const { container } = render(<Tutorial n={1} />);
+    fireEvent.click(screen.getByRole('link', { name: /Play Netfox Tutorial 01/ }));
+    const frame = container.querySelector('iframe')!;
+    const post = jest.spyOn(frame.contentWindow!, 'postMessage').mockImplementation(() => {});
+    const sent = () => post.mock.calls.map(([m]) => JSON.parse(m as string));
+    const hear = (data: object, source: Window | null = frame.contentWindow) =>
+      act(() => {
+        window.dispatchEvent(new MessageEvent('message', { data: JSON.stringify(data), source }));
+      });
+
+    act(() => {
+      jest.advanceTimersByTime(600);
+    });
+    expect(sent().filter((m) => m.event === 'listening').length).toBeGreaterThan(1);
+
+    // Another window saying the film plays is not this player.
+    hear({ event: 'infoDelivery', info: { playerState: 1 } }, window);
+    expect(sent().some((m) => m.func === 'unloadModule')).toBe(false);
+
+    hear({ event: 'infoDelivery', info: { playerState: 3 } });
+    expect(sent().some((m) => m.func === 'unloadModule')).toBe(false);
+    hear({ event: 'infoDelivery', info: { playerState: 1 } });
+    hear({ event: 'infoDelivery', info: { playerState: 1 } });
+    expect(sent().filter((m) => m.func === 'unloadModule')).toEqual([
+      { event: 'command', func: 'unloadModule', args: ['captions'], id: 1, channel: 'widget' },
+    ]);
+
+    // The player answered: the handshake stops.
+    const knocks = sent().filter((m) => m.event === 'listening').length;
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+    expect(sent().filter((m) => m.event === 'listening').length).toBe(knocks);
+    jest.useRealTimers();
   });
 
   it('lets a click with a modifier open YouTube, as the reader asked', () => {
