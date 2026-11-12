@@ -13,6 +13,55 @@
   box-shadow: 0 24px 64px -24px rgb(0 0 0 / 60%);
 }
 
+.filmFrame {
+  position: relative;
+}
+
+/*
+ * The film's Pause control: the docs tutorials' Play pill (`.nf-tutorial-play`
+ * in app/global.css), its icon alone, on the right of the film's end card. It
+ * acts, so it answers the pointer and the keyboard; its words stay for a screen
+ * reader, off the picture.
+ */
+.filmControl {
+  position: absolute;
+  right: 3%;
+  bottom: 4%;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgb(5 3 20 / 72%);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 18%);
+  color: var(--mantine-color-white);
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.filmControl:hover,
+.filmControl:focus-visible {
+  background: var(--nf-amber);
+  color: var(--nf-night);
+}
+
+.filmControl:focus-visible {
+  outline: 2px solid var(--nf-amber);
+  outline-offset: 2px;
+}
+
+.hiddenLabel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .picture {
   display: block;
   width: 100%;
