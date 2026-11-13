@@ -70,6 +70,9 @@ Each row shows the device's name — your custom tag, the name a [Google Cast de
 On macOS 27 you can pull the list down to refresh it, the same as <Kbd>⌘</Kbd> <Kbd>R</Kbd>. With the list and the detail side by side, click a device and the arrow keys move through the list, with the detail following.
 
 ### Search and filter
+
+<Tutorial n={2} />
+
 - The **search box**, pinned to the toolbar's trailing edge, filters by name (the one you gave it in a tag, the one it announces, its local name, or the name a Cast device gives itself), vendor, IPv4, IPv6, or MAC. Matches narrow the list live.
 - The **status filter**, a three-way switch, scopes the list to *All / Online / Offline* without clearing the search. Your choice sticks — across switching tools and across restarts — so a list you've scoped to *Online* stays that way. The search box deliberately doesn't persist: a forgotten search term hides devices with nothing on screen to explain why.
 - The **range control** scopes the list to a block of addresses. Set it to `192.168.1.1`–`192.168.1.2` and the list shows those two devices and nothing else: a range says which part of the network you care about, not only which part to ask. Sweeping sets it; **Filter only** sets it without the probe, for when you want the narrower list rather than a fresh look at it. While a range is active the control itself states it and offers to dismiss it, and the footer reads *2 in range · 33 on the network*. Naming that second number is the point, because a filter you have forgotten looks exactly like a network that has lost thirty devices. Like the search box, and unlike the status filter, it doesn't survive a restart.
