@@ -370,7 +370,7 @@ It asks first: the request is the polite kind, so a development server can save 
 Where a single listener is held by several processes, all of them are asked, starting with the one that opened the socket. A web server that runs a worker per core is one entry in this list and several processes behind it; asking only the first would leave the others holding the port, and the port would look stuck for no visible reason.
 
 <Callout type="info">
-Some listeners can't be quit from here, and the row says which and why rather than failing when you press it. A service owned by another user or by the system needs privileges Netfox doesn't have and doesn't ask for. The action is also unavailable while Demo Mode is on, since Demo Mode replaces process names with placeholders — a confirmation naming something that isn't the real target would be worse than no button at all.
+Some listeners can't be quit from here, and the row says which and why rather than failing when you press it. A service owned by another user or by the system needs privileges Netfox doesn't have and doesn't ask for. The action is also unavailable while Demo Mode is on, since Demo Mode replaces process names with placeholders — a confirmation naming something that isn't the real target would be worse than no button at all. With sample data on, the listeners are invented, so there is nothing behind them to quit.
 </Callout>
 
 Netfox re-checks the port immediately before sending anything. A row is a snapshot of a moment that has already passed, and process IDs get reused, so what the list showed and what is holding the port right now are not guaranteed to be the same thing.
@@ -388,7 +388,7 @@ A name on a **specific address** is the case that does tell rows apart, so it st
 With several aliases the heading narrows things down; with exactly one it mostly tells you the file exists. Either way it points you at where to look rather than labelling what each service is.
 
 <Callout type="info">
-Nothing here needs a password, a permission prompt or a helper. Netfox reads what the system already knows about your own machine. Your own listeners come back complete; ones belonging to other user accounts or to the system may be partial, which is the cost of not asking for privileges. The whole tab is masked in [Demo Mode](/docs/settings#demo-mode) — a list of running processes is a software inventory, so process names, IDs and hosts-file names are all hidden before you share a screenshot.
+Nothing here needs a password, a permission prompt or a helper. Netfox reads what the system already knows about your own machine. Your own listeners come back complete; ones belonging to other user accounts or to the system may be partial, which is the cost of not asking for privileges. The whole tab is masked in [Demo Mode](/docs/settings#demo-mode) — a list of running processes is a software inventory, so process names, IDs and hosts-file names are all hidden before you share a screenshot. With sample data on, it lists the same invented listeners as the Ports tab instead — `sshd`, `node`, `postgres`, `nginx`, Control Center — and doesn't read your Mac's at all.
 </Callout>
 
 ## Context menu
