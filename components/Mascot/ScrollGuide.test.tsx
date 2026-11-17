@@ -327,6 +327,69 @@ describe('ScrollGuide', () => {
     expect(corner()).toBeNull();
   });
 
+  describe('folding a bubble the keyboard is in', () => {
+    // #129, from vicenda.app's #47: a bubble folded on its own took the
+    // focused Next or Dismiss with it, and the focus dropped to the page. The
+    // fox stays, so the focus goes to it.
+    const focusNext = () =>
+      act(() => screen.getByRole('button', { name: 'Next translation' }).focus());
+    const onFox = () =>
+      expect(document.activeElement).toBe(
+        screen.getByRole('button', { name: 'Show a translation' })
+      );
+
+    /** The hero's sentence, said from the corner where the buttons leave no room. */
+    const heroOpen = () => {
+      windowWidth = 1180;
+      render(<Page />);
+      wait(DELAY_MS);
+      rowOnScreen();
+      wait(CORNER_IN_MS + SNIFF_MS);
+      expect(screen.getByText(first.plain)).toBeInTheDocument();
+    };
+
+    it('on the hero’s timer', () => {
+      heroOpen();
+      focusNext();
+      wait(HERO_FOLD_MS);
+      expect(screen.queryByText(first.plain)).toBeNull();
+      onFox();
+    });
+
+    it('once the buttons are scrolled past', () => {
+      heroOpen();
+      focusNext();
+      rowPassed();
+      expect(screen.queryByText(first.plain)).toBeNull();
+      onFox();
+    });
+
+    it('half a window of scroll after the reader opened it', () => {
+      inTheCorner();
+      // From the top: an earlier test leaves jsdom's scrollY deleted.
+      Object.defineProperty(window, 'scrollY', { configurable: true, value: 0 });
+      fireEvent.click(fox()!);
+      act(() => screen.getByRole('button', { name: 'Dismiss' }).focus());
+      Object.defineProperty(window, 'scrollY', { configurable: true, value: window.innerHeight });
+      act(() => {
+        window.dispatchEvent(new Event('scroll'));
+      });
+      delete (window as { scrollY?: number }).scrollY;
+      expect(screen.queryByText(first.plain)).toBeNull();
+      onFox();
+    });
+
+    it('and, when the prompt sends the fox off too, to the page, not to nothing', async () => {
+      inTheCorner();
+      fireEvent.click(fox()!);
+      focusNext();
+      await act(async () => {
+        document.documentElement.setAttribute(PROMPT_OPEN_ATTRIBUTE, 'open');
+      });
+      expect(document.activeElement).toBe(screen.getByRole('link', { name: 'See what it does' }));
+    });
+  });
+
   it('hands the keyboard focus to a control in view rather than the one before it', () => {
     // Codex, round 1 of #83: the fox rides in the corner at any height of the
     // page, so the control before it in the markup is usually off screen.
