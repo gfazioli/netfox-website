@@ -49,6 +49,8 @@ The `.local`, Cast and Echo questions wait two minutes after launch, and none of
 
 ### Finding devices that never speak
 
+<Tutorial n={3} />
+
 Every provider above waits to be told. Bonjour and SSDP listen for whatever announces itself, the ARP cache holds whatever has already exchanged a packet with something, and the active probe only pings addresses one of the others has already produced. A device that is powered on, silent, and has never talked to this Mac is therefore invisible — not hard to find, but unreachable by construction.
 
 **Find silent devices**, in the range control beside the search box, asks instead of listening. Give it a range of addresses and Netfox sends one echo request to each; whatever answers arrives through the ordinary pipeline, with its identity, its history and its alerts intact.
