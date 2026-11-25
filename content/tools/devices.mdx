@@ -47,6 +47,14 @@ Read-only is not silent. With nothing clicked, the device list sends the followi
 
 The `.local`, Cast and Echo questions wait two minutes after launch, and none of them sends a password or changes a setting. Everything else — port checks, reading a service's banner, live inspection, the Web Viewer — happens only when you ask for it or turn it on. What leaves your network is listed on the [Privacy](/docs/privacy) page.
 
+### When macOS keeps Netfox off your network
+
+macOS asks once whether Netfox may find devices on your local network. If you say no, or switch it off later in **System Settings → Privacy & Security → Local Network**, then Bonjour, SSDP and every port probe go unanswered. The list keeps only what the ping and the system's own ARP cache know.
+
+Netfox says so rather than leaving a list that quietly shrinks. A bar over Devices, and over the Security tool, reads *Local Network access is off*. Its button opens Privacy & Security, one row above Local Network, since macOS gives that pane no direct link. While access is off, a port probe records nothing, rather than marking every port Filtered for a reason that has nothing to do with the device.
+
+Allow Netfox again and the bar goes away by itself and Netfox scans again, with no relaunch. Dismissing the bar hides it in both places, and it comes back if access is switched off again later. Demo Mode never shows it.
+
 ### Finding devices that never speak
 
 <Tutorial n={3} />
@@ -368,6 +376,16 @@ It keeps itself current: while its window is in front the list is read again eve
 **Reachable from the network** — not bound to loopback. Some listen on every network interface, others on this Mac's own address; either way, devices on your Wi-Fi can connect to them, unless the macOS firewall blocks them. That's usually intended, since file sharing, AirPlay and remote access all work this way. It's worth a glance for one you don't recognise, because it accepts connections from the network, not only from you.
 
 Each row is the port, the process holding it, and its process ID. An (i) beside each heading explains the group in plain English if you'd rather not keep the distinction in your head.
+
+### A container's port
+
+If you run containers with Colima, the ports they publish are held on your Mac by Colima's own forwarder, one `ssh` process for all of them, and that is what this list shows. Netfox recognises it. On a row in **Reachable from the network** it says so: the port comes from Colima's VM, where its containers run, and there is a spelling that keeps it to this Mac.
+
+The line most compose examples give, `ports: - "3001:3001"`, publishes the port to every interface, so other devices on your network can reach it. If only this Mac needs it, set the host address to `127.0.0.1`, as in `"127.0.0.1:3001:3001"` (replacing a `0.0.0.0` already there), and the row moves to **Only on this Mac**. That is a suggestion, not a verdict: a home server's container is often meant to be reached from the TV or the phone.
+
+These rows offer no quit. The forwarder carries every port its Colima VM publishes, so quitting it would drop all of them, not the one you meant, and Colima opens it again on its next command anyway. Each Colima profile is a VM of its own, with its own forwarder. Stop the container instead.
+
+Only Colima is recognised for now, because it is the one runtime whose forwarder has been measured. With Docker Desktop, OrbStack or Rancher Desktop the rows show the plain process name until they have been.
 
 ### Freeing a port
 

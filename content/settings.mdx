@@ -75,6 +75,14 @@ Netfox can raise six kinds of alert. Each one has its own toggle so you can mute
 - It reports only listeners bound to the loopback address. Those are the ones the network probe structurally cannot reach — it hits this Mac over its LAN address, and a loopback-only socket has none — so nothing else in Netfox would find them. It also reports only listeners every process of which is yours, because one you cannot act on is noise.
 - It waits **fifteen minutes from the moment the process was orphaned**, not from when the server started. Closing a terminal on a server you have been using all afternoon does not fire it; walking away from one does.
 - One alert per listener rather than one per check. A listener you deal with and then abandon again is announced again — that is a new event, not a repeat.
+- **A server you mean to leave running** looks exactly like one you walked away from. Detaching it on purpose with `nohup`, `disown` or a closed terminal leaves the same process behind. So say it once:
+  - **I meant this one** on its alert;
+  - or **I meant to leave it running** under its row in Local Services. Every listener the alert is timing gets a note there.
+
+  Netfox recognises the server by port and process name, so it stays quiet when you restart the server on the same port. Another program on that port is still reported.
+
+  The servers you said so for are listed under the toggle, each with **Report it again**. One that Netfox never sees for 30 days is dropped from the list, so that a server you no longer run is reported if it comes back.
+- **Started with `nohup`.** A server started with `nohup` ignores the hang-up signal, and Netfox can read that. Its alert says it was started with nohup, so perhaps on purpose, and offers **I meant this one**. It is still reported, because an agent that types `nohup` leaves the same trace as a person.
 - **Off by default**: it reads local process state once a minute, which is a thing to opt into rather than discover. See [Local Services](/docs/tools/devices#local-services--whats-listening-on-your-own-mac) for the list it draws on, and the *Kill* action for freeing the port once you are looking at it.
 
 ### New service
