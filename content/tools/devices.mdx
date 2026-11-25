@@ -92,6 +92,8 @@ The bell in the toolbar carries a count of unread alerts. Click to open the inbo
 
 ![Netfox alerts](/screenshot-alert-history.png)
 
+<Tutorial n={7} />
+
 ## The detail panel
 
 <Tutorial n={4} />
@@ -202,6 +204,8 @@ First seen, last seen, current status. Timestamps read *2 minutes ago* followed 
 Open services from the most recent security probe, grouped by category. Each port shows the service name, the port number, and a risk symbol if it triggered a finding. Ports you've added yourself appear under their own **Custom** section, labelled with the names you gave them — see [Security → Custom ports](/docs/tools/security#custom-ports). Empty section if the device has never been probed — use the **Probe Ports** button to run a scan, or run a network-wide scan from the [Security](/docs/tools/security) tool.
 
 ![The Ports tab, grouped by category](/screenshot-device-ports.png)
+
+<Tutorial n={5} />
 
 **The list is the last thing each port said, and it is honest about that.** Readings are kept across relaunches, so on their own they could be days old — a database you stopped since then would still read as open. Opening the tab asks again every port it lists as **open** once that answer is more than a minute old, and a line above the list says how old the list is (**Oldest reading …**). The re-check only records an answer: a port that refuses is marked **Closed**, while one that simply doesn't reply keeps its reading, because a silence is not a close. **Probe Ports** asks everything again, including any port a Full Scan found outside the catalog, and it is the one probe that records a silence over an answer, so a port whose firewall has started dropping gets corrected there. The scheduled probe and **Scan All Devices** keep a port's answer through a silence, because a device asleep during the sweep answers nothing at all.
 
