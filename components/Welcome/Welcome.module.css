@@ -42,7 +42,7 @@
  * (#158). As a share of the section's height (5% and 65%) they moved while
  * the page was still arriving: Chrome paints the HTML it has, the section is
  * then a third of its height, the low glow stands in the first screen, and
- * the rest of the page takes it 2000 px down. Lighthouse counted 0.45 to 0.6
+ * the rest of the page takes it 2000 px down. Lighthouse counted 0.53 to 0.62
  * of layout shift on a phone on the passes where a paint fell in between. In
  * rem they stay put while the page grows under them.
  *
