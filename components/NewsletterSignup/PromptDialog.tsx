@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { Modal } from '@mantine/core';
+import { GoodiesCallToAction } from './GoodiesCallToAction';
 import { NewsletterCallToAction } from './NewsletterCallToAction';
 import { PROMPT_OPEN_ATTRIBUTE } from './prompt-open';
 
@@ -11,7 +13,10 @@ import { PROMPT_OPEN_ATTRIBUTE } from './prompt-open';
  * with the page, Mantine's Modal (its transition, focus trap and scroll lock)
  * was 18 KiB of script on every page of the site (Lighthouse, local production
  * build, 2026-10-19), for a dialog most visits never open and a visitor who
- * has closed it never sees again.
+ * has closed it does not see again for a day.
+ *
+ * Under the newsletter, the Goodies (`GoodiesCallToAction`), except on the
+ * shop's own pages, where they would point at the page behind the overlay.
  */
 export default function PromptDialog({ onClose }: { onClose: () => void }) {
   // Mounted closed, then opened: a Mantine transition that starts open has
@@ -22,6 +27,14 @@ export default function PromptDialog({ onClose }: { onClose: () => void }) {
   // 0.9). The prompt is mounted at the end of <body> already.
   const [opened, setOpened] = useState(false);
   useEffect(() => setOpened(true), []);
+  // Read as it opens and kept: the link to the shop closes the prompt as it
+  // navigates there, and the Goodies must not vanish while it fades out.
+  const pathname = usePathname();
+  const [inShop] = useState(() => pathname?.startsWith('/goodies') ?? false);
+  const close = () => {
+    setOpened(false);
+    onClose();
+  };
 
   useEffect(() => {
     if (!opened) {
@@ -34,10 +47,7 @@ export default function PromptDialog({ onClose }: { onClose: () => void }) {
   return (
     <Modal
       opened={opened}
-      onClose={() => {
-        setOpened(false);
-        onClose();
-      }}
+      onClose={close}
       withinPortal={false}
       centered
       size="md"
@@ -47,11 +57,18 @@ export default function PromptDialog({ onClose }: { onClose: () => void }) {
       // On the element with role="dialog", which has no title to be named by.
       // A plain `aria-label` lands on the modal's root <div>, where it names
       // nothing (read in Chrome, 2026-10-19).
-      attributes={{ content: { 'aria-label': 'Subscribe to the Netfox newsletter' } }}
+      attributes={{
+        content: {
+          'aria-label': inShop
+            ? 'Subscribe to the Netfox newsletter'
+            : 'The Netfox newsletter and Goodies',
+        },
+      }}
       // The button the focus lands on as it opens: an icon alone names nothing.
       closeButtonProps={{ 'aria-label': 'Close' }}
     >
       <NewsletterCallToAction />
+      {!inShop && <GoodiesCallToAction onNavigate={close} />}
     </Modal>
   );
 }
