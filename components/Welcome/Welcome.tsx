@@ -234,7 +234,7 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
       {/* ─── Hero ─── */}
       <Box
         pos="relative"
-        className="nf-feather nf-home"
+        className={`nf-feather nf-home ${classes.glows}`}
         style={{ overflow: 'hidden', ['--nf-feather-top' as string]: '0px' }}
       >
         {/*
@@ -259,8 +259,23 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
             ]}
             opacity={0.3}
           />
-          <Scene.Glow color="#B3C9FC" size={560} blur={140} opacity={0.45} top="5%" left="-10%" />
-          <Scene.Glow color="#5344A8" size={460} blur={120} opacity={0.2} top="65%" left="85%" />
+          {/* Placed in rem from the section's top, never in %: `.glows` says why. */}
+          <Scene.Glow
+            color="#B3C9FC"
+            size={560}
+            blur={140}
+            opacity={0.45}
+            top="var(--nf-glow-high-top)"
+            left="-10%"
+          />
+          <Scene.Glow
+            color="#5344A8"
+            size={460}
+            blur={120}
+            opacity={0.2}
+            top="var(--nf-glow-low-top)"
+            left="85%"
+          />
           <Scene.DotGrid color="gray" opacity={0.14} spacing={32} />
           {/*
             Wi-Fi pulse — concentric arcs blooming upward from the
