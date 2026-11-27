@@ -36,3 +36,34 @@
     font-size: rem(44px);
   }
 }
+
+/*
+ * Where the hero's two glows stand, from the top of the section, in rem
+ * (#158). As a share of the section's height (5% and 65%) they moved while
+ * the page was still arriving: Chrome paints the HTML it has, the section is
+ * then a third of its height, the low glow stands in the first screen, and
+ * the rest of the page takes it 2000 px down. Lighthouse counted 0.45 to 0.6
+ * of layout shift on a phone on the passes where a paint fell in between. In
+ * rem they stay put while the page grows under them.
+ *
+ * The values are where 5% and 65% of the finished section fell (Chrome,
+ * 2026-11-27): 4460 to 4890 px tall under 48em, 4740 to 5290 px to 62em, and
+ * 3615 to 4025 px from there, where the sections go to two columns. Measured
+ * against the old placement at 13 widths from 360 to 1920px: the high glow
+ * within 17px, the low one within 152px, 216px at 1000px, on blurs of 120px
+ * and more at opacity 0.2 to 0.45.
+ */
+.glows {
+  --nf-glow-high-top: 14.5rem;
+  --nf-glow-low-top: 190rem;
+
+  @media (min-width: $mantine-breakpoint-sm) {
+    --nf-glow-high-top: 15.5rem;
+    --nf-glow-low-top: 202rem;
+  }
+
+  @media (min-width: $mantine-breakpoint-md) {
+    --nf-glow-high-top: 11.5rem;
+    --nf-glow-low-top: 150rem;
+  }
+}
