@@ -108,7 +108,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-/** `NewsletterModal`'s flag (`DISMISSED_KEY`), which it stores as the JSON `true`. */
+/** `NewsletterModal`'s flag (`DISMISSED_KEY`): the time the prompt was closed, in ms. */
 const PROMPT_KEY = 'netfox-newsletter-prompt-dismissed';
 
 const [url, prefix, ...rest] = process.argv.slice(2);
@@ -315,7 +315,7 @@ try {
     await send(
       'Page.addScriptToEvaluateOnNewDocument',
       {
-        source: `try { localStorage.setItem(${JSON.stringify(PROMPT_KEY)}, 'true'); } catch (e) {}`,
+        source: `try { localStorage.setItem(${JSON.stringify(PROMPT_KEY)}, String(Date.now())); } catch (e) {}`,
       },
       sessionId
     );
