@@ -7,10 +7,6 @@ import { clock, isoDuration, TUTORIALS, twoDigits } from './tutorials';
 
 const ROOT = join(__dirname, '..', '..');
 
-// Nextra ships ESM that Jest does not transform; the player takes only
-// `docsSizes` from DocsImage, which does not need it.
-jest.mock('nextra/components', () => ({ ImageZoom: () => null }), { virtual: true });
-
 describe('Tutorial', () => {
   it('shows the poster as a link to the film, and loads nothing from YouTube', () => {
     const { container } = render(<Tutorial n={1} />);
