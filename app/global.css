@@ -231,7 +231,8 @@ article[data-docs-article] :is(h1, h2, h3) {
  * when the pointer or the keyboard is on the poster.
  */
 .nf-tutorial {
-  margin-block: 1.75rem;
+  /* A <figure>: no inline margin, or the browser's 40px a side narrow the player. */
+  margin: 1.75rem 0;
 }
 
 .nf-tutorial-frame {

@@ -264,20 +264,20 @@ html:root[data-mantine-color-scheme='light'] {
  * for the light ones.
  */
 article[data-docs-article] {
-  --mantine-color-teal-light: rgba(4, 64, 46, 1);
-  --mantine-color-teal-light-hover: rgba(6, 89, 64, 1);
+  --mantine-color-teal-light: rgb(4 64 46);
+  --mantine-color-teal-light-hover: rgb(6 89 64);
   --mantine-color-teal-light-color: var(--mantine-color-teal-0);
-  --mantine-color-blue-light: rgba(12, 50, 86, 1);
-  --mantine-color-blue-light-hover: rgba(17, 70, 120, 1);
+  --mantine-color-blue-light: rgb(12 50 86);
+  --mantine-color-blue-light-hover: rgb(17 70 120);
   --mantine-color-blue-light-color: var(--mantine-color-blue-0);
-  --mantine-color-violet-light: rgba(48, 31, 98, 1);
-  --mantine-color-violet-light-hover: rgba(67, 43, 137, 1);
+  --mantine-color-violet-light: rgb(48 31 98);
+  --mantine-color-violet-light-hover: rgb(67 43 137);
   --mantine-color-violet-light-color: var(--mantine-color-violet-0);
-  --mantine-color-yellow-light: rgba(115, 60, 0, 1);
-  --mantine-color-yellow-light-hover: rgba(161, 83, 0, 1);
+  --mantine-color-yellow-light: rgb(115 60 0);
+  --mantine-color-yellow-light-hover: rgb(161 83 0);
   --mantine-color-yellow-light-color: var(--mantine-color-yellow-0);
-  --mantine-color-red-light: rgba(101, 21, 21, 1);
-  --mantine-color-red-light-hover: rgba(141, 29, 29, 1);
+  --mantine-color-red-light: rgb(101 21 21);
+  --mantine-color-red-light-hover: rgb(141 29 29);
   --mantine-color-red-light-color: var(--mantine-color-red-0);
 }
 

@@ -16,7 +16,7 @@ import '@/theme/global.css';
 import './global.css';
 
 import type { Viewport } from 'next';
-import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from '@mantine/core';
+import { Box, ColorSchemeScript, mantineHtmlProps, MantineProvider } from '@mantine/core';
 // !! End of important imports !!
 
 import { MantineFooter, StructuredData } from '@/components';
@@ -93,8 +93,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             siteFooter={footer}
             banner={
               <Banner storageKey={`netfox-release-${config.app.version}`}>
+                {/* One line, clipped: on a phone the description goes, or the
+                    link was cut off after it ("Netfox v0.56.1. See what's
+                    new"). */}
                 <span>
-                  {`Netfox v${config.app.version} — a native network monitor for macOS. `}
+                  {`Netfox v${config.app.version}`}
+                  <Box component="span" visibleFrom="sm">
+                    {' — a native network monitor for macOS'}
+                  </Box>
+                  {'. '}
                   <Link href="/docs/release-notes">See what&apos;s new</Link>
                 </span>
               </Banner>

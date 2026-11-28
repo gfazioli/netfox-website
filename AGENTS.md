@@ -10,7 +10,7 @@ The Next.js site for Netfox at https://netfox.app: landing page, docs, release n
 
 ### Theme
 
-- The site is at night with no switch: Mantine is forced LIGHT and the night is written over it in variables (`theme/global.css`). The comments there say why. Tokens go on `:root`, never on `body`. A piece of the docs engine that reads the scheme itself (its code blocks pick Shiki's light or dark colours from `data-mantine-color-scheme`) is sent to its dark variant there too.
+- The site is at night with no switch: Mantine is forced LIGHT and the night is written over it in variables (`theme/global.css`). The comments there say why. Tokens go on `:root`, never on `body`. `<body data-mantine-color-scheme="dark">` (`app/layout.tsx`) gives every component its own dark rules, which match any ancestor with the attribute: the docs engine's callouts, inline code, code blocks and their Shiki colours, menus and search, which Nextra used to draw dark itself. The variables stay the light scheme's; the callouts' light-variant colours take Mantine's dark values inside `article[data-docs-article]` only, because the home page's badges read the same variables. Check a change there against the home page: its computed colours must not move.
 - A Mantine component can declare light-scheme values on its own element (Table hover, Kbd caps): override them by class, and measure contrast against the ground the text actually sits on.
 
 ### The docs engine
