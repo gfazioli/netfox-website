@@ -334,7 +334,7 @@
 
 /*
  * In the corner of the window. Above the page's sections and below anything
- * that opens over them: Nextra's menu on a phone and Mantine's overlays.
+ * that opens over them: the header's menu sheet on a phone (AppShell, z-index 100) and Mantine's overlays.
  */
 .corner {
   position: fixed;

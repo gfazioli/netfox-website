@@ -3,30 +3,46 @@
 // `node scripts/mantine-css.mjs --write`, which says how they are found.
 import '@/theme/mantine.css';
 // !! The order of these imports is important !!
+// The docs engine's code blocks (CodeHighlight) and search (Spotlight).
+import '@mantine/code-highlight/styles.css';
+import '@mantine/spotlight/styles.css';
 import '@gfazioli/mantine-text-animate/styles.css';
 import '@gfazioli/mantine-scene/styles.css';
 // Mantine theme overrides (body background, etc.)
 import '@/theme/global.css';
+// The site's rules over the engine's shell, in the same render-blocking request
+// as the theme: imported last, after the components, it was a request of its
+// own, one more on every page.
+import './global.css';
 
-import { SiteAnalytics } from '@/components/SiteAnalytics/SiteAnalytics';
-import { Layout } from 'nextra-theme-docs';
-import { Banner, Head } from 'nextra/components';
-import { getPageMap } from 'nextra/page-map';
-import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from '@mantine/core';
+import type { Viewport } from 'next';
+import { Box, ColorSchemeScript, mantineHtmlProps, MantineProvider } from '@mantine/core';
 // !! End of important imports !!
 
-import { MantineFooter, MantineNavBar, StructuredData } from '@/components';
+import { MantineFooter, StructuredData } from '@/components';
+import { Link } from '@/components/Link/Link';
 import { NewsletterModal } from '@/components/NewsletterSignup/NewsletterModal';
+import { Banner } from '@/components/shell/Banner/Banner';
+import { DocsSearch } from '@/components/shell/DocsSearch/DocsSearch';
+import { SiteShell } from '@/components/shell/SiteShell/SiteShell';
+import { SiteAnalytics } from '@/components/SiteAnalytics/SiteAnalytics';
 import config from '@/config';
+import { getDocs } from '@/lib/docs/content';
+import { SIDEBAR_COLLAPSED_SCRIPT } from '@/lib/docs/sidebar';
+import { getTopNav } from '@/lib/docs/top-nav';
 import { theme } from '../theme';
-
-import './global.css';
 
 export const metadata = config.metadata;
 
+// The fox's orange on the browser's own chrome on a phone, as before. (Nextra
+// added two of its own, a light and a dark grey, after it.)
+export const viewport: Viewport = { themeColor: '#f76707' };
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const pageMap = await getPageMap();
-  const { nextraLayout, head } = config;
+  const { tree } = await getDocs();
+  const { head } = config;
+  // One footer under every page, docs included, as on the Nextra site.
+  const footer = <MantineFooter year={new Date().getFullYear()} />;
 
   return (
     // `data-scroll-behavior`: app/global.css makes <html> scroll smoothly (for
@@ -37,7 +53,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     // hero's release count off screen, so it rolls from zeros in front of the
     // reader. With it, Next jumps before any effect reads the scroll.
     <html lang="en" dir="ltr" data-scroll-behavior="smooth" {...mantineHtmlProps}>
-      <Head>
+      <head>
         {/*
           Forced, not defaulted, and forced LIGHT although the site is at
           night: the night is written over Mantine's light scheme in
@@ -53,46 +69,47 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <meta name="theme-color" content="#f76707" />
-        {/* Keep pinch-zoom enabled — `user-scalable=no` is an accessibility/SEO ding. */}
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-      <body>
+        {/* No viewport meta: Next emits `width=device-width, initial-scale=1`, pinch-zoom kept. */}
+        <script dangerouslySetInnerHTML={{ __html: SIDEBAR_COLLAPSED_SCRIPT }} />
+      </head>
+      {/*
+        The night's components. Mantine's variables stay the light scheme's,
+        written over for the night on :root (theme/global.css), but every
+        component's own dark rules (`:where([data-mantine-color-scheme='dark'])
+        .m_…`, after the light ones in Mantine's sheets) match any ancestor with
+        the attribute: on <body> they reach every component, portals included.
+        The docs engine brought ones the night had never been written for:
+        callouts, inline code, code blocks and their Shiki colours, the header's
+        menus, search, the previous/next cards. Nextra drew its own in its dark
+        theme.
+      */}
+      <body data-mantine-color-scheme="dark">
         <StructuredData />
         <MantineProvider theme={theme} forceColorScheme="light">
-          <Layout
+          <SiteShell
+            tree={tree}
+            nav={getTopNav()}
+            docsFooter={footer}
+            siteFooter={footer}
             banner={
               <Banner storageKey={`netfox-release-${config.app.version}`}>
-                {/*
-                  Wrap the banner body in a single span. Nextra's Banner
-                  internally maps over its children; passing two siblings
-                  (the text node + the <a>) triggers React 19's "Each
-                  child should have a unique key" warning surfaced through
-                  the ConfigProvider.
-                */}
+                {/* One line, clipped: on a phone the description goes, or the
+                    link was cut off after it ("Netfox v0.56.1. See what's
+                    new"). */}
                 <span>
-                  Netfox v{config.app.version} — a native network monitor for macOS.{' '}
-                  <a href="/docs/release-notes">See what&apos;s new</a>
+                  {`Netfox v${config.app.version}`}
+                  <Box component="span" visibleFrom="sm">
+                    {' — a native network monitor for macOS'}
+                  </Box>
+                  {'. '}
+                  <Link href="/docs/release-notes">See what&apos;s new</Link>
                 </span>
               </Banner>
             }
-            navbar={<MantineNavBar />}
-            pageMap={pageMap}
-            docsRepositoryBase={nextraLayout.docsRepositoryBase}
-            footer={<MantineFooter year={new Date().getFullYear()} />}
-            sidebar={nextraLayout.sidebar}
-            /*
-              Nextra runs its DARK theme, forced, with no switch: the site is
-              at night (theme/global.css), and its tables, callouts and code
-              blocks then use the variants drawn for a dark ground. Mantine
-              stays forced light above and the night is written over it in
-              variables, which is what every component already reads.
-            */
-            darkMode={false}
-            nextThemes={{ defaultTheme: 'dark', forcedTheme: 'dark' }}
           >
             {children}
-          </Layout>
+          </SiteShell>
+          <DocsSearch />
           <NewsletterModal />
         </MantineProvider>
         <SiteAnalytics />

@@ -70,7 +70,7 @@ Full documentation, screenshots, FAQ and roadmap at **[netfox.app](https://netfo
 
 This repo hosts the **marketing site** and **release downloads** for Netfox. The app source lives in a separate repository.
 
-The site is built with [Next.js 16](https://nextjs.org/), [Mantine 9](https://mantine.dev/) and [Nextra 4](https://nextra.site/).
+The site is built with [Next.js 16](https://nextjs.org/) and [Mantine 9](https://mantine.dev/), on the docs engine of [next-app-mantine-docs-template](https://github.com/gfazioli/next-app-mantine-docs-template).
 
 ### Local development
 

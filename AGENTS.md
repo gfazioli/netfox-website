@@ -10,8 +10,18 @@ The Next.js site for Netfox at https://netfox.app: landing page, docs, release n
 
 ### Theme
 
-- The site is at night with no switch: Mantine is forced LIGHT and the night is written over it in variables (`theme/global.css`); Nextra is forced DARK (`app/layout.tsx`). The comments there say why. Tokens go on `:root`, never on `body`.
+- The site is at night with no switch: Mantine is forced LIGHT and the night is written over it in variables (`theme/global.css`). The comments there say why. Tokens go on `:root`, never on `body`. `<body data-mantine-color-scheme="dark">` (`app/layout.tsx`) gives every component its own dark rules, which match any ancestor with the attribute: the docs engine's callouts, inline code, code blocks and their Shiki colours, menus and search, which Nextra used to draw dark itself. The variables stay the light scheme's; the callouts' light-variant colours take Mantine's dark values inside `article[data-docs-article]` only, because the home page's badges read the same variables. Check a change there against the home page: its computed colours must not move.
 - A Mantine component can declare light-scheme values on its own element (Table hover, Kbd caps): override them by class, and measure contrast against the ground the text actually sits on.
+
+### The docs engine
+
+Since 2026-11-28 the docs run on the engine of `next-app-mantine-docs-template` (`Mantine Extensions/` workspace), not Nextra: `@next/mdx` with the content in `content/` and Nextra's `_meta` format, every piece of the interface a Mantine component. The template's `CLAUDE.md` says how it works. Removing Nextra removed `zod` (its only path) and `nextra-theme-docs`.
+
+- **Copied from the template, byte for byte** (check with `diff -r` against it): `lib/docs/`, `lib/mdx/`, `components/shell/` (all but `DocsFooter`), `components/docs/`, `components/ColorSchemeControl/`, `components/Link/`, `app/docs/[[...slug]]/page.tsx`, `app/not-found.tsx`, `app/api/search/route.server.ts`, and the MDX block of `next.config.mjs`. A fix there goes to the template first, then here and to findergit-website in the same work; never edit them for this site alone.
+- **The site's own**: `mdx-components.tsx` (the engine's elements, plus `Kbd`, `Callout`, `ShortcutsTable`, `MascotNote`, `Tutorial` without an import, and `img` = `DocsImage`), the rest of `next.config.mjs`, `components/MantineNavBar/` (the template's header with Netfox's controls), `MantineFooter` under every page, docs included (`role="contentinfo"`: the shell draws it inside `AppShell.Main`), `config/index.ts` (`docs`, `links`), `app/layout.tsx` (forced light, the release banner), `app/global.css` (the banner, the header, the active sidebar row, the docs' amber headings).
+- **No `<main>` in a page**: the shell's `AppShell.Main` is every page's `main`.
+- **Every Markdown picture is a `/public` path**, imported by the engine's `remark-static-images` and drawn by `DocsImage`: zoomable, a 2x capture at its size in points, with `sizes` for the engine's column (`docsSizes`). A layout change in `components/shell` changes that column: update `STRETCHES` with it.
+- **Release notes** are compiled at build time with `marked` (`load-releases.ts`) and join the table of contents through `data-toc-entry`; the hook's runtime fallback loads the compiler only when the build could not reach GitHub.
 
 ### Environment
 
@@ -34,7 +44,7 @@ The release newsletter is Netfox's Substack (`config.community.newsletter`, `net
 ### The fox
 
 `components/Mascot`: every behaviour is documented in its headers.
-- **To drive it in `shot.mjs --eval`**: click Next by `[aria-label="Next translation"]`, scoped to the fox you mean (corner: `[data-phase][class*="corner"]`, card: `#sponsors [data-phase]`); an unscoped click hits the hero's off-screen copy, and `[class*=next]` matches Nextra's classes first.
+- **To drive it in `shot.mjs --eval`**: click Next by `[aria-label="Next translation"]`, scoped to the fox you mean (corner: `[data-phase][class*="corner"]`, card: `#sponsors [data-phase]`); an unscoped click hits the hero's off-screen copy, and `[class*=next]` can match other classes first.
 
 ### Tutorials in the docs
 

@@ -2,10 +2,9 @@
  * The whole site is at night (user, 2026-09-23: the home page first, then
  * "mi provi sfondo scuro nella docs"). Mantine stays forced to its LIGHT
  * scheme and the night is written over it in variables, which is how the
- * home page was built and what every component already reads; Nextra runs
- * its own DARK theme (app/layout.tsx), so its tables, callouts and code
- * blocks use the variants they were drawn with rather than a light design
- * on a dark ground.
+ * home page was built and what every component already reads. The docs
+ * engine's own pieces that read the scheme itself (its code blocks, through
+ * `data-mantine-color-scheme`) are sent to their dark variants below.
  *
  * `color-scheme: dark` makes native controls and scrollbars dark, and sends
  * every `light-dark()` still in a module to its dark branch.
@@ -37,11 +36,11 @@ html {
 
   /*
    * The night's surfaces. One token each, so everything that has to dissolve
-   * INTO the page (a section's feathered edge, Nextra's own chrome) names the
-   * colour the body is painted with. They are declared on :root, not on the
-   * body: a var() inside a custom property resolves where it is declared, so
-   * a token Nextra reads from html (`--x-color-nextra-bg: var(--nf-page)`)
-   * would keep the root's value whatever the body said.
+   * INTO the page (a section's feathered edge, the header's translucent
+   * layer) names the colour the body is painted with. They are declared on
+   * :root, not on the body: a var() inside a custom property resolves where
+   * it is declared, so a token read from html would keep the root's value
+   * whatever the body said.
    *
    * - `--nf-page`   #0d1230, deeper than the fur's navy: the page.
    * - `--nf-top`    the navy the home page starts with; its navbar takes it.
@@ -257,6 +256,33 @@ html:root[data-mantine-color-scheme='light'] {
 }
 
 /*
+ * The docs' callouts (the engine's Callout, a light-variant Alert, in teal,
+ * blue, violet, yellow or red) on Mantine's dark-scheme values, copied from
+ * its styles.css: the light scheme's are pale tints, and the callout's text,
+ * white on the night (app/layout.tsx), sat on them at about 1.2:1. On the docs
+ * article only: the home page's badges use the same variables and are drawn
+ * for the light ones.
+ */
+article[data-docs-article] {
+  --mantine-color-teal-light: rgb(4 64 46);
+  --mantine-color-teal-light-hover: rgb(6 89 64);
+  --mantine-color-teal-light-color: var(--mantine-color-teal-0);
+  --mantine-color-blue-light: rgb(12 50 86);
+  --mantine-color-blue-light-hover: rgb(17 70 120);
+  --mantine-color-blue-light-color: var(--mantine-color-blue-0);
+  --mantine-color-violet-light: rgb(48 31 98);
+  --mantine-color-violet-light-hover: rgb(67 43 137);
+  --mantine-color-violet-light-color: var(--mantine-color-violet-0);
+  /* Mantine's is rgb(115 60 0): the fox's amber of a link on it measured 4.26:1. */
+  --mantine-color-yellow-light: rgb(100 52 0);
+  --mantine-color-yellow-light-hover: rgb(161 83 0);
+  --mantine-color-yellow-light-color: var(--mantine-color-yellow-0);
+  --mantine-color-red-light: rgb(101 21 21);
+  --mantine-color-red-light-hover: rgb(141 29 29);
+  --mantine-color-red-light-color: var(--mantine-color-red-0);
+}
+
+/*
  * THE HOME PAGE'S OWN GRADIENT: the fox's navy at the top, the fur behind the
  * hero (lifted, so the headline has air), then back down to navy and on to
  * --nf-page, which it reaches at a fixed length and holds. It holds because
@@ -340,20 +366,5 @@ body {
 
   &:hover {
     transform: scale(1.02);
-  }
-}
-
-/*
- * Raise Nextra's desktop-nav cutoff from 768px (md) to 1200px (lg).
- * Between 768 and 1200 the 5 top-level nav items + search + controls
- * don't fit, so we force the hamburger menu to appear earlier.
- */
-@media (max-width: 1199.98px) {
-  .nextra-navbar [class*='max-md:hidden'] {
-    display: none !important;
-  }
-
-  .nextra-hamburger {
-    display: inline-flex !important;
   }
 }

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { SkipNavContent } from 'nextra/components';
 import { fetchReleaseCadence } from '@/components/ReleaseCadence/fetch-release-cadence';
 import { Welcome } from '@/components/Welcome/Welcome';
 import config from '@/config';
@@ -43,15 +42,8 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   const cadence = await fetchReleaseCadence();
 
-  // In a <main>: the docs pages get one from Nextra, the home page had none,
-  // so everything on it sat in no landmark at all (2026-09-29 audit).
-  // SkipNavContent: the skip link's target, which Nextra renders only on docs pages.
-  return (
-    <>
-      <SkipNavContent />
-      <main>
-        <Welcome cadence={cadence} />
-      </main>
-    </>
-  );
+  // No <main> here: the docs engine's shell renders the page inside its
+  // `AppShell.Main`, the skip link's target, on every page. (On Nextra the home
+  // page had none until the 2026-09-29 audit gave it one.)
+  return <Welcome cadence={cadence} />;
 }

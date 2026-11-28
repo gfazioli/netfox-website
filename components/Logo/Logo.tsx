@@ -7,8 +7,8 @@ import { Image } from '@mantine/core';
  * at the size it is drawn it is a few KB of WebP. Lazy unless `eager`, which
  * only the navbar's copy, above the fold, asks for.
  *
- * Decorative, so `alt=""`. In the bar it sits in Nextra's logo link, which
- * its own `aria-label` names "Home page", beside the name written out; in the
+ * Decorative, so `alt=""`. In the bar it sits in the header's home link, which
+ * its own `aria-label` names "Netfox home", beside the name written out; in the
  * footer the paragraph under it opens with the name. An alt saying "Netfox"
  * only repeated it, which is what Lighthouse's image-redundant-alt flags.
  */

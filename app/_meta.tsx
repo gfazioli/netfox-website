@@ -30,10 +30,8 @@ export default {
     title: 'Community',
     type: 'menu',
     items: {
-      // First: the community's home since 2026-10-08. It opens in a new tab,
-      // but with no ↗: Nextra draws that only after a string title, and an
-      // icon makes this one JSX (measured here 2026-10-08: target _blank, no
-      // arrow, while the string-titled Blog below it has one).
+      // First: the community's home since 2026-10-08. External, so it opens
+      // in a new tab, with the header menu's external-link mark.
       discord: {
         title: (
           <Group component="span" gap={8} wrap="nowrap" align="center">
@@ -68,8 +66,7 @@ export default {
     items: {
       // The GitHub Sponsors page itself. This was `#sponsors`, which scrolled
       // to the footer's sponsor card, one step short of the page where
-      // sponsoring happens. External, but with no ↗: Nextra draws it only
-      // after a string title (the Community menu shows the difference).
+      // sponsoring happens.
       sponsor: {
         title: (
           <Group component="span" gap={8} wrap="nowrap" align="center">
@@ -79,7 +76,7 @@ export default {
         ),
         href: 'https://github.com/sponsors/gfazioli',
       },
-      // External donation link; no ↗, for the same reason as the sponsor's.
+      // External donation link.
       coffee: {
         title: (
           <Group component="span" gap={8} wrap="nowrap" align="center">
