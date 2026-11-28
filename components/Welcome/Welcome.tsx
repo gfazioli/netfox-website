@@ -551,7 +551,7 @@ export function Welcome({ cadence = fallbackReleaseCadence() }: { cadence?: Cade
         id="features"
         className={accentClasses.sectionBackdrop}
         py={80}
-        style={{ scrollMarginTop: 64 }}
+        style={{ scrollMarginTop: 'var(--app-shell-header-height, 4rem)' }}
       >
         <Container size="lg" pos="relative" style={{ zIndex: 1 }}>
           <Reveal variant="rise">
