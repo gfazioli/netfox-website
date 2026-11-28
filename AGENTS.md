@@ -25,7 +25,7 @@ The Next.js site for Netfox at https://netfox.app: landing page, docs, release n
 
 ### Newsletter
 
-The release newsletter is Netfox's Substack (`config.community.newsletter`, `netfoxapp.substack.com`: `netfox.substack.com` is someone else's); nothing on the site collects an address. Ported from lancetta-website#113 with its later fixes: a prompt that opens once after 1200px of scroll, with the Goodies under the newsletter (left out on the shop's own pages), and once closed stays closed for 24 hours (`NewsletterSignup/NewsletterModal.tsx`, `prompt-open.ts`), its dialog loaded only on open (`PromptDialog.tsx`: five traps in its header, all read in Chrome), a footer band and icon, a Community menu entry, and the corner fox waiting while the prompt is open. `scripts/shot.mjs` stores the prompt as just closed; `--prompt` leaves it as a first visit gets it.
+The release newsletter is Netfox's Substack (`config.community.newsletter`, `netfoxapp.substack.com`: `netfox.substack.com` is someone else's); nothing on the site collects an address. Ported from lancetta-website#113 with its later fixes: a prompt that opens once after 1200px of scroll, with the Goodies as a promotion above the newsletter (left out on the shop's own pages; `GoodiesCallToAction.module.css` says what moves, once), and once closed stays closed for 24 hours (`NewsletterSignup/NewsletterModal.tsx`, `prompt-open.ts`), its dialog loaded only on open (`PromptDialog.tsx`: five traps in its header, all read in Chrome), a footer band and icon, a Community menu entry, and the corner fox waiting while the prompt is open. `scripts/shot.mjs` stores the prompt as just closed; `--prompt` leaves it as a first visit gets it.
 
 ### Motion
 

@@ -9,9 +9,9 @@ import { closedRecently, DISMISSED_KEY } from './prompt-open';
  * Scroll-triggered newsletter prompt, ported from findergit.app.
  *
  * Once the visitor has scrolled past the hero, a dismissible modal with the
- * shared newsletter CTA, and the Goodies below it, appears: at most once a
- * page load, and not for a day once closed. Closing it stores the time in
- * localStorage, and a visit 24 hours later sees it again
+ * Goodies as a promotion, and the shared newsletter CTA under them, appears:
+ * at most once a page load, and not for a day once closed. Closing it stores
+ * the time in localStorage, and a visit 24 hours later sees it again
  * (`PROMPT_RETURNS_AFTER_MS`). Mounted once globally in the root layout; the
  * dialog itself is loaded only when it opens (`PromptDialog` says why).
  */
