@@ -13,7 +13,7 @@ import { PROMPT_OPEN_ATTRIBUTE } from './prompt-open';
  * with the page, Mantine's Modal (its transition, focus trap and scroll lock)
  * was 18 KiB of script on every page of the site (Lighthouse, local production
  * build, 2026-10-19), for a dialog most visits never open and a visitor who
- * has closed it does not see again for a day.
+ * has closed it does not see again for twelve hours.
  *
  * The Goodies first, as the promotion (`GoodiesCallToAction`), and the
  * newsletter under them, quiet: except on the shop's own pages, where the
