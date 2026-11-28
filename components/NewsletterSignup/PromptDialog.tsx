@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { Modal } from '@mantine/core';
-import { GoodiesCallToAction } from './GoodiesCallToAction';
+import { GOODIES_WASH, GoodiesCallToAction } from './GoodiesCallToAction';
 import { NewsletterCallToAction } from './NewsletterCallToAction';
 import { PROMPT_OPEN_ATTRIBUTE } from './prompt-open';
 
@@ -15,8 +15,10 @@ import { PROMPT_OPEN_ATTRIBUTE } from './prompt-open';
  * build, 2026-10-19), for a dialog most visits never open and a visitor who
  * has closed it does not see again for a day.
  *
- * Under the newsletter, the Goodies (`GoodiesCallToAction`), except on the
- * shop's own pages, where they would point at the page behind the overlay.
+ * The Goodies first, as the promotion (`GoodiesCallToAction`), and the
+ * newsletter under them, quiet: except on the shop's own pages, where the
+ * Goodies would point at the page behind the overlay and the newsletter is
+ * alone, as it is in the footer.
  */
 export default function PromptDialog({ onClose }: { onClose: () => void }) {
   // Mounted closed, then opened: a Mantine transition that starts open has
@@ -66,9 +68,20 @@ export default function PromptDialog({ onClose }: { onClose: () => void }) {
       }}
       // The button the focus lands on as it opens: an icon alone names nothing.
       closeButtonProps={{ 'aria-label': 'Close' }}
+      // The pack's light, on the dialog itself so it reaches the top edge: the
+      // header over it is clear, or its own ground would cut the light off
+      // above the pictures.
+      styles={
+        inShop
+          ? undefined
+          : {
+              content: { backgroundImage: GOODIES_WASH, backgroundRepeat: 'no-repeat' },
+              header: { backgroundColor: 'transparent' },
+            }
+      }
     >
-      <NewsletterCallToAction />
       {!inShop && <GoodiesCallToAction onNavigate={close} />}
+      <NewsletterCallToAction quiet={!inShop} />
     </Modal>
   );
 }
