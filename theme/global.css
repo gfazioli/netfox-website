@@ -273,7 +273,8 @@ article[data-docs-article] {
   --mantine-color-violet-light: rgb(48 31 98);
   --mantine-color-violet-light-hover: rgb(67 43 137);
   --mantine-color-violet-light-color: var(--mantine-color-violet-0);
-  --mantine-color-yellow-light: rgb(115 60 0);
+  /* Mantine's is rgb(115 60 0): the fox's amber of a link on it measured 4.26:1. */
+  --mantine-color-yellow-light: rgb(100 52 0);
   --mantine-color-yellow-light-hover: rgb(161 83 0);
   --mantine-color-yellow-light-color: var(--mantine-color-yellow-0);
   --mantine-color-red-light: rgb(101 21 21);
